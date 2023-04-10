@@ -9,9 +9,14 @@ public class HomeController {
     public String home() {
         return "index";
     }
-
+    
     @RequestMapping("/tecte")
     public String tecte() {
         return "tecteTest";
+    }
+    
+    @RequestMapping("/gwan")
+    public String gwan() {
+        return "gwan";
     }
 }
