@@ -11,6 +11,9 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+# 추가
+.idea/workspace.xml
+.idea/vcs.xml
 
 # AWS User-specific
 .idea/**/aws.xml
