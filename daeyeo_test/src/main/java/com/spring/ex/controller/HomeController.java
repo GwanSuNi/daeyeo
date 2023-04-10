@@ -9,4 +9,8 @@ public class HomeController {
     public String home() {
         return "index";
     }
+    @RequestMapping("/gwan")
+    public String gwan() {
+        return "gwan";
+    }
 }
