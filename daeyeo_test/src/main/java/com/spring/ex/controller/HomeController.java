@@ -14,7 +14,6 @@ public class HomeController {
     public String tecte() {
         return "tecteTest";
     }
-    
     @RequestMapping("/gwan")
     public String gwan() {
         return "gwan";
@@ -23,4 +22,9 @@ public class HomeController {
     public String intae(){
         return "intae";
     }
+    @RequestMapping("/sanghyeon")
+    public String sanghyeon(){
+        return "sanghyeon";
+    }
+
 }
