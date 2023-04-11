@@ -12,5 +12,6 @@
 </head>
 <body>
 <h1> index 아니고 intae 입니당ㅋ</h1>
+<h2> 줄을 추가해봤습니다.</h2>
 </body>
 </html>
