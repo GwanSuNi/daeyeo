@@ -19,4 +19,8 @@ public class HomeController {
     public String gwan() {
         return "gwan";
     }
+    @RequestMapping("/intae")
+    public String intae(){
+        return "intae";
+    }
 }
