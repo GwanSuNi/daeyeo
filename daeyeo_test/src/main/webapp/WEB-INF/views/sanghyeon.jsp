@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>서상현마지막테스트입니다.</title>
+    <title>인태시발롬</title>
 </head>
 <body>
 안냐떼여~서상현입니다.
