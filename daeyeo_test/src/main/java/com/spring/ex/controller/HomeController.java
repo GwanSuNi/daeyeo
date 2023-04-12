@@ -14,7 +14,6 @@ public class HomeController {
     public String tecte() {
         return "tecteTest";
     }
-    
     @RequestMapping("/gwan")
     public String gwan() {
         return "gwan";
