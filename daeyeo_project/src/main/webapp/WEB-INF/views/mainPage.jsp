@@ -6,29 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}" scope="application"/>
 <html>
 <head>
     <title>Daeyeo?Daeyeo!</title>
     <%-- footer 하단에 위치 --%>
-    <style>
-        html, body {
-            height: 100%;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-        }
-
-        .content {
-            flex: 1;
-        }
-
-        body {
-            flex: 1;
-        }
-    </style>
+    <link rel="stylesheet" href="${path}/resources/css/footer_bottom.css" type="text/css">
 </head>
 <body>
 <div class="container">
