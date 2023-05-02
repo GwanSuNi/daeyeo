@@ -22,7 +22,7 @@
 <body>
 <nav class="navBar">
     <div class="navbar_logo">
-        <a class="header_a" href="">대여대여로고</a>
+        <a class="header_a" href="${path}/">대여대여로고</a>
     </div>
 
     <ul class="navbar_menu">
