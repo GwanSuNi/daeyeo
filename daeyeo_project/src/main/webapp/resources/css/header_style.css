@@ -80,6 +80,7 @@ body {
         flex-direction: column;
         align-items: center;
         width: 100%;
+        font-size: 1em;
     }
     .navbar_menu li {
         width: 100%;
