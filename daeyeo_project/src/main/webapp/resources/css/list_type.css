@@ -20,7 +20,9 @@ ul, ol, li {
 }
 
 #rental_list {
-    margin: -10px;
+    margin: -8px;
+    border-top: 1px solid var(--border);
+    padding-top: 1px;
 }
 
 #rental_list > li {
