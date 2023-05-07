@@ -17,4 +17,8 @@ public class HomeController {
     public String loginPage() {
         return "login/member_login";
     }
+    @RequestMapping("/MyPage")
+    public String myPage() {
+        return "myPage/MyPage";
+    }
 }
