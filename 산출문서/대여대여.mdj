@@ -6753,7 +6753,7 @@
 											"top": 301,
 											"width": 250.7841796875,
 											"height": 13,
-											"text": "Rental Object"
+											"text": "Rental_Object"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -7004,28 +7004,13 @@
 													"top": 549,
 													"width": 240.7841796875,
 													"height": 13
-												},
-												{
-													"_type": "ERDColumnView",
-													"_id": "AAAAAAGHR1Q0xdXXSWM=",
-													"_parent": {
-														"$ref": "AAAAAAGHRs/paeWBwls="
-													},
-													"model": {
-														"$ref": "AAAAAAGHR1Q0vdXUvU8="
-													},
-													"font": "Arial;13;0",
-													"left": 765,
-													"top": 564,
-													"width": 240.7841796875,
-													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 760,
 											"top": 319,
 											"width": 250.7841796875,
-											"height": 263
+											"height": 248
 										}
 									],
 									"font": "Arial;13;0",
@@ -7408,7 +7393,7 @@
 											"top": 381,
 											"width": 229.83056640625,
 											"height": 13,
-											"text": "Rental Log"
+											"text": "Rental_Log"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -7648,7 +7633,7 @@
 											"top": 172,
 											"width": 203.85595703125,
 											"height": 13,
-											"text": "Ban Log"
+											"text": "Ban_Log"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -7919,7 +7904,7 @@
 											"top": 533,
 											"width": 209.6259765625,
 											"height": 13,
-											"text": "WantList"
+											"text": "Wish_List"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -8162,7 +8147,7 @@
 											"font": "Arial;13;1",
 											"left": 778,
 											"top": 133,
-											"width": 213.2314453125,
+											"width": 229.138671875,
 											"height": 13,
 											"text": "Review"
 										},
@@ -8188,7 +8173,7 @@
 													"font": "Arial;13;0",
 													"left": 783,
 													"top": 156,
-													"width": 203.2314453125,
+													"width": 219.138671875,
 													"height": 13
 												},
 												{
@@ -8203,7 +8188,7 @@
 													"font": "Arial;13;0",
 													"left": 783,
 													"top": 171,
-													"width": 203.2314453125,
+													"width": 219.138671875,
 													"height": 13
 												},
 												{
@@ -8218,7 +8203,7 @@
 													"font": "Arial;13;0",
 													"left": 783,
 													"top": 186,
-													"width": 203.2314453125,
+													"width": 219.138671875,
 													"height": 13
 												},
 												{
@@ -8233,7 +8218,7 @@
 													"font": "Arial;13;0",
 													"left": 783,
 													"top": 201,
-													"width": 203.2314453125,
+													"width": 219.138671875,
 													"height": 13
 												},
 												{
@@ -8248,21 +8233,21 @@
 													"font": "Arial;13;0",
 													"left": 783,
 													"top": 216,
-													"width": 203.2314453125,
+													"width": 219.138671875,
 													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 778,
 											"top": 151,
-											"width": 213.2314453125,
+											"width": 229.138671875,
 											"height": 83
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 778,
 									"top": 128,
-									"width": 213.2314453125,
+									"width": 229.138671875,
 									"height": 106,
 									"nameLabel": {
 										"$ref": "AAAAAAGHR1R0edXg/5w="
@@ -8663,7 +8648,7 @@
 											"top": 180,
 											"width": 203.85595703125,
 											"height": 13,
-											"text": "User Memo"
+											"text": "User_Memo"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -8842,7 +8827,7 @@
 											"top": 180,
 											"width": 203.85595703125,
 											"height": 13,
-											"text": "Report Log"
+											"text": "Report_Log"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -9212,7 +9197,7 @@
 											"top": 605,
 											"width": 179.2587890625,
 											"height": 13,
-											"text": "Ad Log"
+											"text": "Ad_Log"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -9408,7 +9393,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "Rental Object",
+							"name": "Rental_Object",
 							"ownedElements": [
 								{
 									"_type": "ERDRelationship",
@@ -9531,7 +9516,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHRs/paOV9Ggc="
 									},
-									"name": "index",
+									"name": "objectIndex",
 									"type": "INTEGER",
 									"length": 0,
 									"primaryKey": true
@@ -9564,7 +9549,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHRs/paOV9Ggc="
 									},
-									"name": "name",
+									"name": "objectName",
 									"type": "VARCHAR",
 									"length": "40"
 								},
@@ -9584,7 +9569,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHRs/paOV9Ggc="
 									},
-									"name": "owner",
+									"name": "ownerEmail",
 									"type": "VARCHAR",
 									"length": "40",
 									"foreignKey": true,
@@ -9596,7 +9581,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHRs/paOV9Ggc="
 									},
-									"name": "wantCount",
+									"name": "wishCount",
 									"type": "INTEGER",
 									"length": 0
 								},
@@ -9608,7 +9593,7 @@
 									},
 									"name": "website",
 									"type": "VARCHAR",
-									"length": "40"
+									"length": "255"
 								},
 								{
 									"_type": "ERDColumn",
@@ -9618,7 +9603,7 @@
 									},
 									"name": "target",
 									"type": "VARCHAR",
-									"length": 0
+									"length": "100"
 								},
 								{
 									"_type": "ERDColumn",
@@ -9628,7 +9613,7 @@
 									},
 									"name": "location",
 									"type": "VARCHAR",
-									"length": 0
+									"length": "100"
 								},
 								{
 									"_type": "ERDColumn",
@@ -9689,20 +9674,6 @@
 									"name": "locationInfo",
 									"type": "VARCHAR",
 									"length": "200"
-								},
-								{
-									"_type": "ERDColumn",
-									"_id": "AAAAAAGHR1Q0vdXUvU8=",
-									"_parent": {
-										"$ref": "AAAAAAGHRs/paOV9Ggc="
-									},
-									"name": "review",
-									"type": "INTEGER",
-									"length": 0,
-									"foreignKey": true,
-									"referenceTo": {
-										"$ref": "AAAAAAGHRs/w8eWJtsg="
-									}
 								}
 							]
 						},
@@ -10031,7 +10002,7 @@
 									},
 									"name": "userEmail",
 									"type": "VARCHAR",
-									"length": "20",
+									"length": "40",
 									"primaryKey": true
 								},
 								{
@@ -10050,7 +10021,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHRtHjp+WlPek="
 									},
-									"name": "name",
+									"name": "userName",
 									"type": "VARCHAR",
 									"length": "20"
 								},
@@ -10072,7 +10043,7 @@
 									},
 									"name": "location",
 									"type": "VARCHAR",
-									"length": 0
+									"length": "100"
 								},
 								{
 									"_type": "ERDColumn",
@@ -10082,7 +10053,7 @@
 									},
 									"name": "phoneNum",
 									"type": "VARCHAR",
-									"length": "10"
+									"length": "20"
 								},
 								{
 									"_type": "ERDColumn",
@@ -10092,7 +10063,7 @@
 									},
 									"name": "department",
 									"type": "VARCHAR",
-									"length": 0
+									"length": "100"
 								},
 								{
 									"_type": "ERDColumn",
@@ -10112,7 +10083,7 @@
 									},
 									"name": "userCategory",
 									"type": "VARCHAR",
-									"length": 0
+									"length": "100"
 								},
 								{
 									"_type": "ERDColumn",
@@ -10161,7 +10132,7 @@
 									},
 									"name": "rate",
 									"type": "INTEGER",
-									"length": "5"
+									"length": "6"
 								}
 							]
 						},
@@ -10202,7 +10173,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "Rental Log",
+							"name": "Rental_Log",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -10336,7 +10307,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "Ban Log",
+							"name": "Ban_Log",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -10512,7 +10483,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "WantList",
+							"name": "Wish_List",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -10552,7 +10523,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHR1R0d9Xd8xE="
 									},
-									"name": "index",
+									"name": "reviewIndex",
 									"type": "INTEGER",
 									"length": 0,
 									"primaryKey": true
@@ -10576,7 +10547,7 @@
 									},
 									"name": "writer",
 									"type": "VARCHAR",
-									"length": "20",
+									"length": "40",
 									"foreignKey": true
 								},
 								{
@@ -10744,7 +10715,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "User Memo",
+							"name": "User_Memo",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -10788,7 +10759,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "Report Log",
+							"name": "Report_Log",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -10828,7 +10799,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHRs/a/+VCBd8="
 							},
-							"name": "Ad Log",
+							"name": "Ad_Log",
 							"columns": [
 								{
 									"_type": "ERDColumn",
