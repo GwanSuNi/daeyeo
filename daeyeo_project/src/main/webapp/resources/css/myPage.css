@@ -6,30 +6,39 @@
     width: auto; /* 표의 너비 자동 설정 */
 }
 
+.myPageInform {
+    border: none;
+    margin-top: 10px;
+}
+
+.left_left {
+    border: none;
+    text-align: left;
+}
+
+.core {
+    border: none;
+}
+
 td,
 th {
     border: 1px solid black; /* 셀 경계선 설정 */
     padding: 10px; /* 셀 안쪽 여백 설정 */
     text-align: center; /* 가운데 정렬 */
 }
+
 #modifyInfo {
     background-color: #e9e9e9;
     font-weight: bold;
 }
+
 @media screen and (max-width: 600px) {
     /* 반응형 디자인 */
     .inFormTable {
         margin-left: 0; /* 왼쪽 여백 제거 */
     }
 }
-.container {
-    display: flex;
-    flex-direction: column;
-}
+
 #h2 {
     padding-left: 30px;
-}
-.main, .email , .messge , .passWord , .position{
-    padding-left: 30px;
-    margin-top: 20px;
 }

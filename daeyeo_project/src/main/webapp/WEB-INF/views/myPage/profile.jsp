@@ -12,7 +12,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
     <link rel="stylesheet" type="text/css" href="resources/css/myPage.css?after">
-    <title>Title</title>
+    <title>마이페이지</title>
 </head>
 <body>
 
@@ -30,10 +30,7 @@
                     <td><a href="#"></a>비밀번호 변경</td>
                 </tr>
                 <tr>
-                    <td><a href="#"></a>학교/회사 정보</td>
-                </tr>
-                <tr>
-                    <td><a href="#"></a>계정 연동</td>
+                    <td><a href="#"></a>계정</td>
                 </tr>
                 <tr>
                     <td><a href="#"></a>내가 찜한 목록</td>
@@ -56,45 +53,76 @@
         <!-- flex box 사용하려고 container 로 그룹핑 함 -->
         <div class="container">
             <div id="h2">
-                <h2>정보 수정</h2>
-                <hr />
+                <h2>계정</h2>
+                <hr>
+                <br>
             </div>
 
-            <div class="email">
-                <label> 이메일 </label>
-                <input />
+            <table class="myPageInform">
+                <tr>
+                    <div>
+
+                        <td class="core">
+                            <label> 학교 / 회사 정보 </label>
+                        </td>
+                        <!-- text 값을 left 로 정렬하기 위해서 class 값을 넣어준겁니다-->
+                        <td class="left_left">
+                            <input type="text" name="company" value="Naver" readonly>
+                            <button>변경하기</button>
+                        </td>
+
+                    </div>
+                </tr>
+
+                <tr>
+                    <div>
+
+                        <td class="core">
+                            <label> 계정 연동 </label>
+                        </td>
+
+                        <td class="left_left">
+                            <button>카카오</button>
+                            <button>네이버</button>
+                            <button>위치인증</button>
+                        </td>
+
+                    </div>
+                </tr>
+
+
+                <tr>
+                    <div>
+
+                        <td class="core">
+                            <label> 계정 삭제 </label>
+                        </td>
+
+                        <td class="left_left">
+                            <button>회원탈퇴</button>
+                        </td>
+                    </div>
+                </tr>
+
+            </table>
+
+
+            <div class="company">
+
+
             </div>
 
-            <div class="messge">
-                <label> 상태메시지 </label>
-                <input/>
+            <div class="sns">
+
+
             </div>
 
-            <div class="passWord">
-                <label> 비밀번호 </label>
-                <input/>
-            </div>
-
-            <div class="position">
-                <label> 소속 </label>
-                <input/>
-            </div>
-
-            <div class="main">
-                <label> 나의 위치 </label>
-                <input />
-                <button>위치인증</button>
-            </div>
 
         </div>
-
     </div>
 
-<%-- footer --%>
+    <%-- footer --%>
     <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 </div>
-
-
-
 </body>
 </html>
