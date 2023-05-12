@@ -34,4 +34,9 @@ public class HomeController {
     public String profile() {
         return "myPage/profile";
     }
+
+    @RequestMapping("/guidebook")
+    public String guidebook() {
+        return "guidebook";
+    }
 }

@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="path" value="${pageContext.request.contextPath}" scope="application"/>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental_list.css">
+    <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental/rental_list.css">
     <title>대여 목록</title>
 </head>
 <body>
@@ -46,19 +44,19 @@
                         <select>
                             <option value="1" selected>접수기간 순</option>
                             <option value="2">이용기간 순</option>
-                            <option value="2">지역명 순</option>
-                            <option value="2">장소명 순</option>
+                            <option value="3">지역명 순</option>
+                            <option value="4">장소명 순</option>
                         </select>
                     </label>
-                    <button id="board_type" onmousedown="changeType('board')">
+                    <button id="board_type" onmousedown="changeType('board_type')">
                         <span class="board">보드형</span>
                     </button>
-                    <button id="list_type" class="active" onclick="changeType('list')">
+                    <button id="list_type" class="active" onclick="changeType('list_type')">
                         <span class="list">목록형</span>
                     </button>
                 </div>
             </h3>
-            <iframe id="rental_list" src="list" onload="iHeight(this)" scrolling="no"></iframe>
+            <iframe id="rental_list" src="list_type" onload="iHeight(this)" scrolling="no"></iframe>
             <div class="page_box">
                 <a href="#" class="icon prev_first"></a>
                 <a href="#" class="icon prev"></a>
@@ -87,6 +85,6 @@
 </div>
 <jsp:include page="../includes/footer.jsp"/>
 
-<script src="resources/js/rental.js"></script>
+<script src="${path}/resources/js/rental/rental.js"></script>
 </body>
 </html>

@@ -1,8 +1,4 @@
-:root {
-    --background: #D9D9D9;
-    --daeyeo: #3B71CA;
-    --border: #CACFD3;
-}
+@import '../color.css';
 
 body {
     font-size: 16px;
@@ -19,27 +15,40 @@ ul, ol, li {
     margin: 0;
 }
 
-#rental_list {
-    margin: -8px;
-    border-top: 1px solid var(--border);
-    padding-top: 1px;
+.board {
+    margin: -10px;
 }
 
-#rental_list > li {
-    padding: 15px;
-    border-bottom: 1px solid var(--border);
+.board > li {
+    float: left;
+    width: 33.33%;
 }
 
-#rental_list > li > a {
-    display: flex;
+.board > li > a {
+    display: block;
+    margin: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
 }
 
 .img_box {
-    min-width: 25%;
     height: 255px;
-    border-radius: 10px;
+    border-bottom: 1px solid var(--border);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     position: relative;
     overflow: hidden;
+}
+
+.state {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    background: var(--daeyeo);
+    padding: 5px 10px;
+    color: #FFFFFF;
+    border-radius: 3px;
 }
 
 .img_box img {
@@ -54,41 +63,20 @@ ul, ol, li {
 }
 
 .description {
-    padding-left: 20px;
+    padding: 30px;
 }
 
 .top_box {
-    display: flex;
     margin-bottom: 10px;
 }
 
-.state {
-    background: var(--daeyeo);
-    border-radius: 3px;
-    padding: 5px 10px;
-    color: #FFFFFF;
-    margin-right: 20px;
-}
-
-.category {
-    text-align: center;
-}
-
-.category:after {
-    content: '';
-    display: block;
-    clear: both;
-}
-
-.category li {
+.top_box li {
     float: left;
     padding-right: 20px;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
-.category li:first-child:after {
+.top_box li:first-child:after {
     content: '';
     display: block;
     width: 1px;
@@ -113,7 +101,7 @@ ul, ol, li {
     word-break: break-all;
 }
 
-.obj_info > li {
+.middle_box li {
     margin-bottom: 10px;
     padding-left: 110px;
     position: relative;
@@ -140,31 +128,41 @@ ul, ol, li {
 }
 
 .place {
-    background-image: url("../img/place_icon.png");
+    background-image: url("../../img/rental/place_icon.png");
 }
 
 .price {
-    background-image: url("../img/money_icon.png");
+    background-image: url("../../img/rental/money_icon.png");
 }
 
 .reception_period {
-    background-image: url("../img/calendar_icon.png");
+    background-image: url("../../img/rental/calendar_icon.png");
 }
 
 .use_period {
-    background-image: url("../img/clock_icon.png");
+    background-image: url("../../img/rental/clock_icon.png");
+}
+
+.bottom_box {
+    margin-top: 20px;
+}
+
+.board:after, .top_box:after, .bottom_box:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .reservation {
-    background-image: url("../img/reservation_icon.png");
+    float: right;
 }
 
-.reservation_method li {
+.reservation li {
     float: left;
 }
 
-.reservation_method li img {
-    width: 27px;
+.reservation li img{
+    width: 32px;
     height: auto;
-    margin-right: 10px;
+    margin-left: 10px;
 }
