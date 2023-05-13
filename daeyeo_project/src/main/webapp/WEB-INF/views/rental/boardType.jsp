@@ -5,6 +5,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/board_type.css">
     <title>보드형</title>
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
 <ul class="board">

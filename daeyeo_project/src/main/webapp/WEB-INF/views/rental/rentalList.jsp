@@ -4,7 +4,10 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental_list.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
     <title>대여 목록</title>
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
 <jsp:include page="../includes/header.jsp"/>
@@ -88,5 +91,9 @@
 <jsp:include page="../includes/footer.jsp"/>
 
 <script src="resources/js/rental.js"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
 </html>

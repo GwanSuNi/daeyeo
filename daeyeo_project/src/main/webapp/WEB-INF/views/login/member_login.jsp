@@ -12,6 +12,8 @@
 <head>
     <title>대여대여 로그인</title>
   <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">

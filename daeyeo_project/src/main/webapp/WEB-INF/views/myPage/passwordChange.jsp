@@ -11,8 +11,10 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/myPage.css?after">
+    <link rel="stylesheet" type="text/css" href="${path}/resources/css/myPage.css?after">
     <title>마이페이지</title>
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
 
