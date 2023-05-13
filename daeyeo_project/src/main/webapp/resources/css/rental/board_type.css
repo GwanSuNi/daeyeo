@@ -1,30 +1,19 @@
 @import '../color.css';
 
-body {
-    font-size: 16px;
+.list {
+    display: none;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-ul, ol, li {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.board {
+.rental_list {
     margin: -10px;
 }
 
-.board > li {
+.rental_list > li {
     float: left;
     width: 33.33%;
 }
 
-.board > li > a {
+.rental_list > li > a {
     display: block;
     margin: 10px;
     border: 1px solid var(--border);
@@ -66,17 +55,17 @@ ul, ol, li {
     padding: 30px;
 }
 
-.top_box {
+.category {
     margin-bottom: 10px;
 }
 
-.top_box li {
+.category li {
     float: left;
     padding-right: 20px;
     position: relative;
 }
 
-.top_box li:first-child:after {
+.category li:first-child:after {
     content: '';
     display: block;
     width: 1px;
@@ -101,18 +90,22 @@ ul, ol, li {
     word-break: break-all;
 }
 
-.middle_box li {
+.obj_info > li {
     margin-bottom: 10px;
-    padding-left: 110px;
+    padding-left: 115px;
     position: relative;
 }
 
-.icon {
+.obj_info > li:last-child {
+    margin-bottom: 0;
+}
+
+.rental_list .icon {
     display: block;
+    line-height: normal;
     padding-left: 30px;
     color: var(--daeyeo);
     position: absolute;
-    top: 2px;
     left: 0;
     background-repeat: no-repeat;
     background-position: left center;
@@ -143,26 +136,22 @@ ul, ol, li {
     background-image: url("../../img/rental/clock_icon.png");
 }
 
-.bottom_box {
-    margin-top: 20px;
-}
-
-.board:after, .top_box:after, .bottom_box:after {
-    content: '';
-    display: block;
-    clear: both;
-}
-
 .reservation {
-    float: right;
+    background-image: url("../../img/rental/reservation_icon.png");
 }
 
-.reservation li {
+.reservation_method li {
     float: left;
 }
 
-.reservation li img{
-    width: 32px;
+.reservation_method li img{
+    width: 27px;
     height: auto;
-    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.rental_list:after, .category:after, .obj_info > li:last-child:after {
+    content: '';
+    display: block;
+    clear: both;
 }
