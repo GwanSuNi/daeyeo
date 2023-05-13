@@ -174,7 +174,7 @@ ul, ol, li {
     outline: none;
 }
 
-#board_type, #list_type {
+.type_btn {
     line-height: 44px;
     padding: 0 20px;
     font-size: 15px;
@@ -184,11 +184,11 @@ ul, ol, li {
     cursor: pointer;
 }
 
-#board_type.active, #list_type.active {
+.type_btn.active {
     filter: invert(45%) sepia(15%) saturate(3135%) hue-rotate(184deg) brightness(86%) contrast(87%);
 }
 
-.board, .list {
+.board_type, .list_type {
     display: inline-block;
     padding-left: 30px;
     background-repeat: no-repeat;
@@ -196,18 +196,12 @@ ul, ol, li {
     background-size: 20px auto;
 }
 
-.board {
+.board_type {
     background-image: url("../../img/rental/window_icon.png");
 }
 
-.list {
+.list_type {
     background-image: url("../../img/rental/list_icon.png");
-}
-
-#rental_list {
-    width:100%;
-    min-height:100px;
-    border: none;
 }
 
 .page_box {

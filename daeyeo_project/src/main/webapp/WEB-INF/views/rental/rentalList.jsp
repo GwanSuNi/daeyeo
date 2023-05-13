@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental/rental_list.css">
+    <link rel="stylesheet" type="text/css" id="css" href="${path}/resources/css/rental/list_type.css">
     <title>대여 목록</title>
 </head>
 <body>
@@ -10,7 +11,7 @@
     <div id="contents">
         <div class="category_wrap">
             <div class="category_list">
-                <a href="#" class="item">전체</a>
+                <a href="" class="item">전체</a>
                 <div class="item active">강의실</div>
                 <div class="item">체육관</div>
                 <div class="item">도서관</div>
@@ -48,43 +49,89 @@
                             <option value="4">장소명 순</option>
                         </select>
                     </label>
-                    <button id="board_type" onmousedown="changeType('board_type')">
-                        <span class="board">보드형</span>
+                    <button class="type_btn" onmousedown="changeCSS(this, 'board_type')">
+                        <span class="board_type">보드형</span>
                     </button>
-                    <button id="list_type" class="active" onclick="changeType('list_type')">
-                        <span class="list">목록형</span>
+                    <button class="type_btn active" onclick="changeCSS(this, 'list_type')">
+                        <span class="list_type">목록형</span>
                     </button>
                 </div>
             </h3>
-            <iframe id="rental_list" src="list_type" onload="iHeight(this)" scrolling="no"></iframe>
+            <ul class="rental_list">
+                <li>
+                    <a href="">
+                        <div class="img_box">
+                            <span class="board state">state</span>
+                            <img src="${path}/resources/img/rental/image_icon.png" alt="사진">
+                        </div>
+                        <div class="description">
+                            <div class="top_box">
+                                <div class="list state">대여가능</div>
+                                <ul class="category">
+                                    <li>공간시설</li>
+                                    <li>강의실</li>
+                                </ul>
+                            </div>
+                            <div class="title">title</div>
+                            <ul class="obj_info">
+                                <li>
+                                    <span class="place icon">장소</span>
+                                    <span class="obj">place</span>
+                                </li>
+                                <li>
+                                    <span class="price icon">이용요금</span>
+                                    <span class="obj">price</span>
+                                </li>
+                                <li>
+                                    <span class="reception_period icon">접수기간</span>
+                                    0000.00.00 ~ 0000.00.00
+                                </li>
+                                <li>
+                                    <span class="use_period icon">사용기간</span>
+                                    0000.00.00 ~ 0000.00.00
+                                </li>
+                                <li>
+                                    <span class="reservation icon">예약방법</span>
+                                    <ul class="reservation_method">
+                                        <li><img src="${path}/resources/img/rental/online_icon.png" alt="icon"></li>
+                                        <li><img src="${path}/resources/img/rental/visit_icon.png" alt="icon"></li>
+                                        <li><img src="${path}/resources/img/rental/phone_icon.png" alt="icon"></li>
+                                        <li><img src="${path}/resources/img/rental/site_icon.png" alt="icon"></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </a>
+                </li>
+            </ul>
             <div class="page_box">
-                <a href="#" class="icon prev_first"></a>
-                <a href="#" class="icon prev"></a>
+                <a href="" class="icon prev_first"></a>
+                <a href="" class="icon prev"></a>
                 <ul>
                     <li>
-                        <a href="#" class="active">1</a>
+                        <a href="" class="active">1</a>
                     </li>
                     <li>
-                        <a href="#">2</a>
+                        <a href="">2</a>
                     </li>
                     <li>
-                        <a href="#">3</a>
+                        <a href="">3</a>
                     </li>
                     <li>
-                        <a href="#">4</a>
+                        <a href="">4</a>
                     </li>
                     <li>
-                        <a href="#">5</a>
+                        <a href="">5</a>
                     </li>
                 </ul>
-                <a href="#" class="icon next"></a>
-                <a href="#" class="icon next_last"></a>
+                <a href="" class="icon next"></a>
+                <a href="" class="icon next_last"></a>
             </div>
         </div>
     </div>
 </div>
 <jsp:include page="../includes/footer.jsp"/>
 
-<script src="${path}/resources/js/rental/rental.js"></script>
+<script src="${path}/resources/js/rental/rentalList.js"></script>
 </body>
 </html>
