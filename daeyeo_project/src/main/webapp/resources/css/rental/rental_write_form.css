@@ -1,0 +1,393 @@
+@import '../color.css';
+
+body {
+    font-size: 16px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul, ol, li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th, td {
+    height: 35px;
+    border: 1px solid var(--border);
+    padding: 5px;
+    text-align: center;
+    white-space: normal;
+}
+
+.icon {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px auto;
+}
+
+.btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#container {
+    max-width: 1080px;
+    margin: 50px auto 60px;
+    padding: 0 10px;
+}
+
+.top_container {
+    margin-bottom: 60px;
+}
+
+.top_contents {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.state {
+    background: var(--daeyeo);
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #FFFFFF;
+    margin-right: 15px;
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.5em;
+    font-weight: 1000;
+}
+
+.bot_contents {
+    display: flex;
+}
+
+.left_box {
+    width: 50%;
+    margin-right: 40px;
+}
+
+.img_box {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+
+.img_box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.expand {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba( 255, 255, 255, 0.3 );
+    background-image: url("../../img/rental/expand_icon.png");
+    top: 95%;
+    left: 95%;
+    transform: translate(-100%, -100%);
+    filter: invert(100%);
+}
+
+.calendar {
+    margin-top: 20px;
+}
+
+.month {
+    display: flex;
+    justify-content: center;
+}
+
+.prev_mon, .next_mon {
+    background-size: 18px auto;
+    opacity: 0.3;
+}
+
+.prev_mon {
+    background-image: url("../../img/rental/left_arrow_icon.png");
+}
+
+.next_mon {
+    background-image: url("../../img/rental/left_arrow_icon.png");
+    transform: rotate(180deg);
+}
+
+.pres_mon {
+    font-size: 20px;
+    line-height: 40px;
+    color: #696969;
+    margin: 0 10px;
+}
+
+.num {
+    font-size: 22px;
+    color: #000000;
+}
+
+.cal_tbl {
+    margin-top: 10px;
+    background: var(--background);
+}
+
+.cal_tbl th:first-child, .cal_tbl td:first-child {
+    color: #FF0000;
+}
+
+.cal_tbl th:last-child, .cal_tbl td:last-child {
+    color: #0000FF;
+}
+
+.cal_tbl td {
+    height: 50px;
+    background: #808080;
+}
+
+.cal_tbl td.able {
+    background: #FFFFFF;
+}
+
+.able a span {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    margin: -5px;
+    padding: 5px;
+}
+
+.right_box {
+    width: 60%;
+}
+
+.func_box {
+    margin-bottom: 20px;
+}
+
+.func_box:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.func_box .btn {
+    width: 32px;
+    height: 32px;
+    background-size: 32px auto;
+}
+
+.heart_box {
+    display: flex;
+    float: left;
+    margin-right: 20px;
+}
+
+.heart {
+    background-image: url("../../img/rental/empty_heart_icon.png");
+}
+
+.heart_cnt {
+    line-height: 22px;
+    box-shadow: 1px 1px 3px 1px #808080;
+    border-radius: 15px;
+    padding: 5px  10px;
+    margin-left: 5px;
+}
+
+.rating {
+    float: left;
+    height: 32px;
+}
+
+.rating img {
+    height: 28px;
+}
+
+.func_box .share {
+    float: right;
+    background-image: url("../../img/rental/share_icon.png");
+    background-size: 24px auto;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+}
+
+.func_box .report {
+    float: right;
+    margin-right: 15px;
+    background-image: url("../../img/rental/siren_icon.png");
+}
+
+.description {
+    white-space: normal;
+    word-wrap: break-word;
+    border-radius: 10px;
+    border-style: hidden;
+    box-shadow: 1px 1px 3px 2px var(--border);
+}
+
+.description th, .description td {
+    height: 60px;
+    padding: 10px;
+}
+
+.description th {
+    width: 130px;
+}
+
+.btn_box {
+    display: flex;
+    justify-content: right;
+    margin-top: 30px;
+}
+
+.reservation, .list {
+    background: var(--daeyeo);
+    color: #FFFFFF;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-left: 15px;
+}
+
+.tab_list {
+    display: flex;
+}
+
+.tab_list li {
+    flex: 1;
+}
+
+.tab_list li {
+    display: block;
+    padding: 15px;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 1.2em;
+    background: var(--daeyeo);
+    text-align: center;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.tab_list li:first-child {
+    border-top-left-radius: 20px;
+}
+
+.tab_list li:last-child {
+    border-top-right-radius: 20px;
+}
+
+.tab_list li.active {
+    background: #FFFFFF;
+    color: #000000;
+    border-bottom: 0;
+}
+
+#tab_content {
+    background: #FFFFFF;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border: 1px solid var(--border);
+    border-top: 0;
+    padding: 30px 15px 15px;
+}
+
+.tab_title {
+    display: none;
+}
+
+.tab_title.active {
+    display: block;
+}
+
+.txt {
+    resize: none;
+    width: 100%;
+    min-height: 300px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    background: #FFFFFF;
+    font-size: 14px;
+}
+
+.sub_box {
+    margin-bottom: 40px;
+}
+
+.txt_title {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    font-weight: 1000;
+}
+
+#place_guide .txt {
+    min-height: 50px;
+}
+
+.rate_box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.rate_box > .txt_title {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.rate .btn {
+    width: 32px;
+    height: 32px;
+}
+
+.empty_star {
+    background-image: url("../../img/rental/empty_star_icon.png");
+}
+
+#review_input {
+    min-height: 100px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.post_box {
+    display: flex;
+    justify-content: right;
+}
+
+.post {
+    display: flex;
+    justify-content: right;
+    background: var(--daeyeo);
+    color: #FFFFFF;
+    width: auto;
+    height: auto;
+    padding: 10px 15px;
+    font-size: 16px;
+}
