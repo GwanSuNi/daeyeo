@@ -10,13 +10,8 @@ public class RentalController {
         return "rental/rentalList";
     }
 
-    @RequestMapping("/board")
-    public String board() {
-        return "rental/boardType";
-    }
-
-    @RequestMapping("/list")
-    public String list() {
-        return "rental/listType";
+    @RequestMapping("/rental_write_form")
+    public String rentalWriteForm() {
+        return "rental/rentalWriteForm";
     }
 }

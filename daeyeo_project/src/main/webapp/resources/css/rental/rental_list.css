@@ -1,8 +1,4 @@
-:root {
-    --background: #D9D9D9;
-    --daeyeo: #3B71CA;
-    --border: #CACFD3;
-}
+@import '../color.css';
 
 body {
     font-size: 16px;
@@ -123,31 +119,32 @@ ul, ol, li {
 }
 
 .icon.online {
-    background-image: url("../img/online_icon.png");
+    background-image: url("../../img/rental/online_icon.png");
 }
 
 .icon.visit {
-    background-image: url("../img/visit_icon.png");
+    background-image: url("../../img/rental/visit_icon.png");
 }
 
 .icon.call {
-    background-image: url("../img/phone_icon.png");
+    background-image: url("../../img/rental/phone_icon.png");
 }
 
 .icon.site {
-    background-image: url("../img/site_icon.png");
+    background-image: url("../../img/rental/site_icon.png");
 }
 
 .order_field {
     display: block;
     line-height: 44px;
     margin-bottom: 10px;
-    background-image: url("../img/stack_icon.png");
+    background-image: url("../../img/rental/stack_icon.png");
 }
 
 .emphasis {
     color: #FF0000;
     font-weight: 1000;
+    font-size: 1.2em;
 }
 
 .order_box {
@@ -166,7 +163,7 @@ ul, ol, li {
     border: none;
     appearance: none;
     font-size: 15px;
-    background-image: url("../img/down_arrow_icon.png");
+    background-image: url("../../img/rental/down_arrow_icon.png");
     background-repeat: no-repeat;
     background-position: right;
     background-size: 10px auto;
@@ -177,7 +174,7 @@ ul, ol, li {
     outline: none;
 }
 
-#board_type, #list_type {
+.type_btn {
     line-height: 44px;
     padding: 0 20px;
     font-size: 15px;
@@ -187,11 +184,11 @@ ul, ol, li {
     cursor: pointer;
 }
 
-#board_type.active, #list_type.active {
+.type_btn.active {
     filter: invert(45%) sepia(15%) saturate(3135%) hue-rotate(184deg) brightness(86%) contrast(87%);
 }
 
-.board, .list {
+.board_type, .list_type {
     display: inline-block;
     padding-left: 30px;
     background-repeat: no-repeat;
@@ -199,18 +196,12 @@ ul, ol, li {
     background-size: 20px auto;
 }
 
-.board {
-    background-image: url("../img/window_icon.png");
+.board_type {
+    background-image: url("../../img/rental/window_icon.png");
 }
 
-.list {
-    background-image: url("../img/list_icon.png");
-}
-
-#rental_list {
-    width:100%;
-    min-height:100px;
-    border: none;
+.list_type {
+    background-image: url("../../img/rental/list_icon.png");
 }
 
 .page_box {
@@ -223,7 +214,7 @@ ul, ol, li {
     width: 30px;
     height: 30px;
     line-height: 30px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 20px;
     vertical-align: top;
     margin: 0 2px;
@@ -236,20 +227,20 @@ ul, ol, li {
 }
 
 .prev_first {
-    background-image: url("../img/double_left_arrow_icon.png");
+    background-image: url("../../img/rental/double_left_arrow_icon.png");
 }
 
 .prev {
-    background-image: url("../img/left_arrow_icon.png");
+    background-image: url("../../img/rental/left_arrow_icon.png");
 }
 
 .next {
-    background-image: url("../img/double_left_arrow_icon.png");
+    background-image: url("../../img/rental/double_left_arrow_icon.png");
     transform: rotate(180deg);
 }
 
 .next_last {
-    background-image: url("../img/left_arrow_icon.png");
+    background-image: url("../../img/rental/left_arrow_icon.png");
     transform: rotate(180deg);
 }
 
