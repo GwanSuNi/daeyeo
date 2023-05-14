@@ -20,18 +20,4 @@ public class HomeController {
         return "login/member_login";
     }
 
-    @RequestMapping("/myPage")
-    public String myPage() {
-        return "myPage/myPage";
-    }
-
-    @RequestMapping("/passwordChange")
-    public String passwordChange() {
-        return "myPage/passwordChange";
-    }
-
-    @RequestMapping("/profile")
-    public String profile() {
-        return "myPage/profile";
-    }
 }
