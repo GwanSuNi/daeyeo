@@ -22,11 +22,11 @@
     <%@ include file="/WEB-INF/views/includes/header.jsp" %>
     <div class="main_content">
 
-        <div class="parentContainer">
+        <div class="TableParentContainer">
 
             <div class="h2_container">
                 <div id="h2">
-                    <h2>비밀번호 변경</h2>
+                    <h2>예약 기록</h2>
                     <hr>
                     <br>
                 </div>
@@ -59,55 +59,46 @@
                     </tr>
                 </table>
             </div>
-            <div class="childContainer">
-                <table>
+
+            <div class="TableChildContainer">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 기존 비밀번호 입력 </label>
-                            </td>
-
-                            <!-- text 값을 left 로 정렬하기 위해서 class 값을 넣어준겁니다-->
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                            </td>
-
-                        </div>
+                        <th>objectName</th>
+                        <th>price</th>
+                        <th>website</th>
+                        <th>representNum</th>
+                        <th>locationInfo</th>
+                        <th>startDuration</th>
+                        <th>endDuration</th>
+                        <th>예약 취소</th>
                     </tr>
-
+                    </thead>
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 새로운 비밀번호 입력 </label>
-                            </td>
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                            </td>
-
-                        </div>
+                        <td>경민 401호 강의실</td>
+                        <td>무료</td>
+                        <td>www.kyungmin.ac.kr/</td>
+                        <td>학과사무실)010-****-****</td>
+                        <td>경기도 의정부시 서부로 545</td>
+                        <td>2023-05-15</td>
+                        <td>2023-05-20</td>
+                        <td>
+                            <button class="cancel-reservation-btn" onclick="cancelReservation(1)">예약 취소</button>
+                        </td>
                     </tr>
-
-
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 새로운 비밀번호 재입력 </label>
-                            </td>
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                                <button> 변경하기</button>
-                            </td>
-                        </div>
+                        <td>경민 운동장</td>
+                        <td>10000원</td>
+                        <td>www.kyungmin.ac.kr/</td>
+                        <td>관리자)010-****-****</td>
+                        <td>경기도 의정부시 서부로 545</td>
+                        <td>2023-06-01</td>
+                        <td>2023-06-10</td>
+                        <td>
+                            <button class="cancel-reservation-btn" onclick="cancelReservation(1)">예약 취소</button>
+                        </td>
                     </tr>
-
                 </table>
-
             </div>
         </div>
     </div>

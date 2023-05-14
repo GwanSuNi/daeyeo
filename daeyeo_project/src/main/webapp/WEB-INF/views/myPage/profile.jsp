@@ -11,7 +11,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
-    <link rel="stylesheet" type="text/css" href="${path}/resources/css/myPage.css?after">
+    <link rel="stylesheet" type="text/css" href="${path}/resources/css/mypage/myPage.css?after">
     <title>마이페이지</title>
     <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
     <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
@@ -34,28 +34,28 @@
 
             <!-- 왼쪽 표 -->
             <div class="divInform">
-                <table>
-                    <th>정보 수정</th>
+                <table class="informTable">
+                    <th id="modifyInfo">정보 수정</th>
                     <tr>
-                        <td><a href="#"></a>비밀번호 변경</td>
+                        <td><a href="passwordChange">비밀번호 변경</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>계정</td>
+                        <td><a href="profile">계정</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>내가 찜한 목록</td>
+                        <td><a href="myWishList">내가 찜한 목록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>예약 기록</td>
+                        <td><a href="reservation">예약 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 등록</td>
+                        <td><a href="rental_write_form">대여 등록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 관리</td>
+                        <td><a href="rental_manage">대여 관리</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 기록</td>
+                        <td><a href="rental_log">대여 기록</a></td>
                     </tr>
                 </table>
             </div>
@@ -85,9 +85,9 @@
                             </td>
 
                             <td class="left_left">
-                                <button class="btn"><img src="${path}/resources/img/kakao-talk.png"></button>
-                                <button class="btn"><img src="${path}/resources/img/naver-logo.png"></button>
-                                <button class="btn"><img src="${path}/resources/img/google_32.png"></button>
+                                <button class="btn"><img src="${path}/resources/img/kakao-talk.png" alt="카카오"></button>
+                                <button class="btn"><img src="${path}/resources/img/naver-logo.png" alt="네이버"></button>
+                                <button class="btn"><img src="${path}/resources/img/google_32.png" alt="구글"></button>
                             </td>
 
                         </div>

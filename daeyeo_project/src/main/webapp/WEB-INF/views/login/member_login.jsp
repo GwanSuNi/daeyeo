@@ -16,9 +16,9 @@
     <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="body_container">
     <%@ include file="/WEB-INF/views/includes/header.jsp" %>
-    <div class="content">
+    <div class="main_content">
 
     </div>
     <%-- footer --%>

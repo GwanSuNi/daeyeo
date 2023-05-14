@@ -6,12 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>r,
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
-    <link rel="stylesheet" type="text/css" href="${path}/resources/css/myPage.css?after">
+    <link rel="stylesheet" type="text/css" href="${path}/resources/css/mypage/myPage.css?after">
     <title>마이페이지</title>
     <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
     <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
@@ -20,49 +20,47 @@
 
 <div class="body_container">
     <%@ include file="/WEB-INF/views/includes/header.jsp" %>
-    <div class="content">
+    <div class="main_content">
 
         <div class="parentContainer">
 
             <div class="h2_container">
                 <div id="h2">
-                    <h2>정보 수정</h2>
+                    <h2>나의 정보</h2>
                     <hr>
+                    <br>
                 </div>
             </div>
-
 
             <!-- 왼쪽 표 -->
             <div class="divInform">
                 <table class="informTable">
                     <th id="modifyInfo">정보 수정</th>
                     <tr>
-                        <td><a href="passwordChange.jsp"></a>비밀번호 변경</td>
+                        <td><a href="passwordChange">비밀번호 변경</a></td>
                     </tr>
                     <tr>
-                        <td><a href="profile.jsp"></a>계정</td>
+                        <td><a href="profile">계정</a></td>
                     </tr>
                     <tr>
-                        <td><a href="my_wish_list.jsp"></a>내가 찜한 목록</td>
+                        <td><a href="myWishList">내가 찜한 목록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>예약 기록</td>
+                        <td><a href="reservation">예약 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 등록</td>
+                        <td><a href="rental_write_form">대여 등록</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 관리</td>
+                        <td><a href="rental_manage">대여 관리</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#"></a>대여 기록</td>
+                        <td><a href="rental_log">대여 기록</a></td>
                     </tr>
                 </table>
             </div>
-
             <div class="childContainer">
-
-                <table class="myPageInform">
+                <table>
                     <tr>
                         <td class="core">
                             <label> 이메일 </label>
@@ -129,10 +127,8 @@
         </div>
     </div>
 
-
     <%-- footer --%>
     <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 </div>
-
 </body>
 </html>

@@ -18,7 +18,7 @@
 <body>
 <div class="body_container">
     <%@ include file="includes/header.jsp" %>
-    <div class="content">
+    <div class="main_content">
         <h3>본문 내용</h3>
         ad<br>
         ad<br>

@@ -4,7 +4,6 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental_list.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
     <title>대여 목록</title>
     <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
     <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
