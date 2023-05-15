@@ -4,6 +4,8 @@
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental/rental_list.css">
     <link rel="stylesheet" type="text/css" id="css" href="${path}/resources/css/rental/list_type.css">
     <title>대여 목록</title>
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
 <jsp:include page="../includes/header.jsp"/>
@@ -132,6 +134,6 @@
 </div>
 <jsp:include page="../includes/footer.jsp"/>
 
-<script src="${path}/resources/js/rental/rentalList.js"></script>
+<script src="resources/js/rental.js"></script>
 </body>
 </html>
