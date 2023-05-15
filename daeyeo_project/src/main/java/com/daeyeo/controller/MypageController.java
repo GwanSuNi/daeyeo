@@ -3,12 +3,10 @@ package com.daeyeo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping
-
 @Controller
-
+@RequestMapping("/myPage")
 public class MypageController {
-    @RequestMapping("/myPage")
+    @RequestMapping("")
     public String myPage() {
         return "myPage/myPage";
     }
@@ -28,7 +26,7 @@ public class MypageController {
         return "myPage/my_wish_list";
     }
 
-    @RequestMapping("reservation")
+    @RequestMapping("/reservation")
     public String reservation() {
         return "myPage/reservation";
     }
