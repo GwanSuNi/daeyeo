@@ -10,10 +10,6 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="${path}/resources/css/footer_style.css" type="text/css">
-    <%-- fonts.google --%>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 <footer>
 <hr style="margin: 0">
