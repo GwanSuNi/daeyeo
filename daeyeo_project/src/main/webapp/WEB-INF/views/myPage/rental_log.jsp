@@ -22,11 +22,11 @@
     <%@ include file="/WEB-INF/views/includes/header.jsp" %>
     <div class="main_content">
 
-        <div class="parentContainer">
+        <div class="TableParentContainer">
 
             <div class="h2_container">
                 <div id="h2">
-                    <h2>비밀번호 변경</h2>
+                    <h2>대여 기록</h2>
                     <hr>
                     <br>
                 </div>
@@ -59,55 +59,39 @@
                     </tr>
                 </table>
             </div>
-            <div class="childContainer">
-                <table>
+
+            <div class="TableChildContainer">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 기존 비밀번호 입력 </label>
-                            </td>
-
-                            <!-- text 값을 left 로 정렬하기 위해서 class 값을 넣어준겁니다-->
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                            </td>
-
-                        </div>
+                        <th>rentalId</th>
+                        <th>targetObject</th>
+                        <th>targetUser</th>
+                        <th>startDuration</th>
+                        <th>endDuration</th>
+                        <th>price</th>
+                        <th>rentalDate</th>
                     </tr>
-
+                    </thead>
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 새로운 비밀번호 입력 </label>
-                            </td>
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                            </td>
-
-                        </div>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>dlsxo</td>
+                        <td>2023-05-15</td>
+                        <td>2023-05-20</td>
+                        <td>무료</td>
+                        <td>2023-05-14</td>
                     </tr>
-
-
                     <tr>
-                        <div>
-
-                            <td class="core">
-                                <label> 새로운 비밀번호 재입력 </label>
-                            </td>
-
-                            <td class="left_left">
-                                <input type="password" name="password">
-                                <button> 변경하기</button>
-                            </td>
-                        </div>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>user2@example.com</td>
+                        <td>2023-06-01</td>
+                        <td>2023-06-10</td>
+                        <td>10000원</td>
+                        <td>2023-05-30</td>
                     </tr>
-
                 </table>
-
             </div>
         </div>
     </div>

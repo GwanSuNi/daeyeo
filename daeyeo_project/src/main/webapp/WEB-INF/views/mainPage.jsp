@@ -11,13 +11,14 @@
 <html>
 <head>
     <title>Daeyeo?Daeyeo!</title>
-    <%-- footer 하단에 위치 --%>
     <link rel="stylesheet" href="${path}/resources/css/footer_bottom.css" type="text/css">
+    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
+    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="body_container">
     <%@ include file="includes/header.jsp" %>
-    <div class="content">
+    <div class="main_content">
         <h3>본문 내용</h3>
         <a href="login">로그인</a>
         ad<br>
