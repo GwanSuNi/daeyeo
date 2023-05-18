@@ -20,6 +20,7 @@
     <%@ include file="includes/header.jsp" %>
     <div class="main_content">
         <h3>본문 내용</h3>
+        <a href="login">로그인</a>
         ad<br>
         ad<br>
         ad<br>
