@@ -10,6 +10,9 @@ html, body {
 
 .main_content{
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 body {
