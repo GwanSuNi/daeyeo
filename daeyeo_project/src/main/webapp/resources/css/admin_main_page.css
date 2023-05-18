@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.layout{
+    display: flex;
+    justify-content: space-evenly;
+    height: 100vh;
+}
+.left-menu{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex: 2;
+}
+.main_button_class{
+    width: 100px;
+    height: 50px;
+}
