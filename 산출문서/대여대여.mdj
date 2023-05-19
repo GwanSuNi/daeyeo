@@ -7990,13 +7990,28 @@
 													"top": 571,
 													"width": 209.71875,
 													"height": 13
+												},
+												{
+													"_type": "ERDColumnView",
+													"_id": "AAAAAAGIFB83b2IlkSU=",
+													"_parent": {
+														"$ref": "AAAAAAGHR0U0jdVHoIA="
+													},
+													"model": {
+														"$ref": "AAAAAAGIFB83XmIiOGs="
+													},
+													"font": "Arial;13;0",
+													"left": 486,
+													"top": 586,
+													"width": 209.71875,
+													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 481,
 											"top": 551,
 											"width": 219.71875,
-											"height": 38
+											"height": 53
 										}
 									],
 									"font": "Arial;13;0",
@@ -10857,6 +10872,16 @@
 									"type": "INTEGER",
 									"length": 0,
 									"foreignKey": true
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGIFB83XmIiOGs=",
+									"_parent": {
+										"$ref": "AAAAAAGHR0U0i9VDMpA="
+									},
+									"name": "wishedDate",
+									"type": "DATETIME",
+									"length": 0
 								}
 							]
 						},
