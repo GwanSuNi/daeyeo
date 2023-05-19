@@ -16,8 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <%-- 햄버거버튼 이벤트 --%>
-    <script src="resources/js/header.js" defer></script>
+
 </head>
 <body>
 <nav class="navBar">
@@ -42,5 +41,7 @@
         <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
     </ul>
 </nav>
+<%-- 햄버거버튼 이벤트 --%>
+<script src="${path}/resources/js/header.js"></script>
 </body>
 </html>
