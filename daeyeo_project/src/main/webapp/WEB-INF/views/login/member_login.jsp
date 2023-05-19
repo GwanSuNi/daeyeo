@@ -11,7 +11,6 @@
 <html>
 <head>
     <title>대여대여 로그인</title>
-    <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/login_style.css">
 
     <!-- Custom fonts for this template-->
@@ -20,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="${path}/resources/css/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
 </head>
 <body>
 <div class="body_container">
@@ -57,9 +57,7 @@
         <%--                </fieldset>--%>
         <%--            </form>--%>
         <div class="row justify-content-center">
-
             <div class="col-xl-10 col-lg-12 col-md-9">
-
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
@@ -93,25 +91,23 @@
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with KakaoTalk
-                                        </a>
+<%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
+<%--                                            <i class="fab fa-facebook-f fa-fw"></i> Login with KakaoTalk--%>
+<%--                                        </a>--%>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">비밀번호 찾기</a>
+                                        <a class="small" href="login/findPw">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">회원가입</a>
+                                        <a class="small" href="login/register">회원가입</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
         <%--                </div>--%>
         <div class="dum_area">
