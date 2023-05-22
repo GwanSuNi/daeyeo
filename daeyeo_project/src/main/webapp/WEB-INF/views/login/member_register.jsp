@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                   id="exampleInputEmail"
+                                                   id="floatingInput"
                                                    placeholder="이메일 입력">
                                         </div>
                                         <div class="form-group row">
@@ -108,7 +108,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="login/findPw">비밀번호 찾기</a>
+                                        <a class="small" href="../login/findPw">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="../login">계정이 있으시다면? 로그인하기</a>
