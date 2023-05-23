@@ -35,5 +35,6 @@ public class UserServiceClient {
         UserEntity user1 = new UserEntity();
         user1.setUserName("helloWorld!");
         userService.insertUser(user1);
+        container.close();
     }
 }
