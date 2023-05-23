@@ -4,13 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/rental")
 public class RentalController {
-    @RequestMapping("/rental_list")
+    @RequestMapping("/list")
     public String rentalList() {
         return "rental/rentalList";
     }
 
-    @RequestMapping("/rental_write_form")
+    @RequestMapping("/writeForm")
     public String rentalWriteForm() {
         return "rental/rentalWriteForm";
     }

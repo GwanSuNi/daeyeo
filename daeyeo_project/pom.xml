@@ -7,6 +7,7 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <springframework.version>5.2.5.RELEASE</springframework.version>
   </properties>
   <version>1.0-SNAPSHOT</version>
   <name>daeyeo_project Maven Webapp</name>
@@ -18,11 +19,28 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- 스프링 프레임워크 라이브러리 -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>5.3.18</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+    <!-- JSP, Servlet, JSTL -->
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
@@ -38,25 +56,67 @@
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
+    <!-- Tomcat -->
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-core</artifactId>
       <version>10.1.2</version>
     </dependency>
+    <!-- https://github.com/spring-projects/spring-framework/issues/24422 이 에러 때문에 버전 올림 -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>5.0.2.RELEASE</version>
+      <version>5.2.5.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-jdbc</artifactId>
       <version>8.5.27</version>
     </dependency>
+    <!-- mysql 커넥터, hibernate-core -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.45</version>
+      <version>8.0.33</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.3.20.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-hikaricp</artifactId>
+      <version>5.3.20.Final</version>
+    </dependency>
+    <!-- 롬북 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+    </dependency>
+<!--hibernate-core 5.2.12 사용 시, xml bind가 안되는 문제를 해결하기 위해 추가했으나-->
+<!--5.3.20.Final 버전으로 업그레이드 하니 없어도 작동함-->
+<!--    <dependency>-->
+<!--      <groupId>javax.xml.bind</groupId>-->
+<!--      <artifactId>jaxb-api</artifactId>-->
+<!--      <version>2.3.1</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <version>2.2.5.RELEASE</version>
+    </dependency>
+    <!-- AspectJ 라이브러리 -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.5</version>
     </dependency>
   </dependencies>
   <build>

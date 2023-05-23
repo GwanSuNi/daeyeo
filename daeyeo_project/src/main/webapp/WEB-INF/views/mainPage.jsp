@@ -12,8 +12,8 @@
 <head>
     <title>Daeyeo?Daeyeo!</title>
     <link rel="stylesheet" href="${path}/resources/css/footer_bottom.css" type="text/css">
-    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">
-    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>
+<%--    <link rel="stylesheet" href="${path}/resources/webjars/css/bootstrap.min.css">--%>
+<%--    <script src="${path}/resources/webjars/js/bootstrap.min.js"></script>--%>
 </head>
 <body>
 <div class="body_container">

@@ -13,4 +13,7 @@ public class LoginController {
 
     @RequestMapping("/register")
     public String register() {return "login/member_register";}
+
+    @RequestMapping("/findPw")
+    public String findPw() {return "login/member_forgotPw";}
 }

@@ -7019,20 +7019,35 @@
 													"top": 572,
 													"width": 240.7841796875,
 													"height": 13
+												},
+												{
+													"_type": "ERDColumnView",
+													"_id": "AAAAAAGIMpu62AilnTg=",
+													"_parent": {
+														"$ref": "AAAAAAGHRs/paeWBwls="
+													},
+													"model": {
+														"$ref": "AAAAAAGIMpu6yAiiW3s="
+													},
+													"font": "Arial;13;0",
+													"left": 765,
+													"top": 587,
+													"width": 240.7841796875,
+													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 760,
 											"top": 327,
 											"width": 250.7841796875,
-											"height": 263
+											"height": 278
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 760,
 									"top": 304,
 									"width": 250.7841796875,
-									"height": 286,
+									"height": 301,
 									"nameLabel": {
 										"$ref": "AAAAAAGHRs/paeWAzvA="
 									},
@@ -7990,13 +8005,28 @@
 													"top": 571,
 													"width": 209.71875,
 													"height": 13
+												},
+												{
+													"_type": "ERDColumnView",
+													"_id": "AAAAAAGIFB83b2IlkSU=",
+													"_parent": {
+														"$ref": "AAAAAAGHR0U0jdVHoIA="
+													},
+													"model": {
+														"$ref": "AAAAAAGIFB83XmIiOGs="
+													},
+													"font": "Arial;13;0",
+													"left": 486,
+													"top": 586,
+													"width": 209.71875,
+													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 481,
 											"top": 551,
 											"width": 219.71875,
-											"height": 38
+											"height": 53
 										}
 									],
 									"font": "Arial;13;0",
@@ -10043,6 +10073,16 @@
 									"name": "objectImage",
 									"type": "BLOB",
 									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGIMpu6yAiiW3s=",
+									"_parent": {
+										"$ref": "AAAAAAGHRs/paOV9Ggc="
+									},
+									"name": "visitCount",
+									"type": "INTEGER",
+									"length": 0
 								}
 							]
 						},
@@ -10857,6 +10897,16 @@
 									"type": "INTEGER",
 									"length": 0,
 									"foreignKey": true
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGIFB83XmIiOGs=",
+									"_parent": {
+										"$ref": "AAAAAAGHR0U0i9VDMpA="
+									},
+									"name": "wishedDate",
+									"type": "DATETIME",
+									"length": 0
 								}
 							]
 						},
