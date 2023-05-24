@@ -4,6 +4,13 @@
     grid-template-columns: auto auto auto auto auto;
 }
 
+.my_content {
+    margin: 40px;
+    display: flow-root;
+    justify-content: flex-start;
+}
+
+
 .childContainer {
     grid-column: 3 / span 3;
 }
@@ -29,9 +36,8 @@
 }
 
 .divInform {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    height: 100%;
+    margin-right: inherit;
+    float: left;
 }
 
 
@@ -56,7 +62,7 @@
 td,
 th {
     border: 1px solid black; /* 셀 경계선 설정 */
-    padding: 10px; /* 셀 안쪽 여백 설정 */
+    padding: 20px; /* 셀 안쪽 여백 설정 */
     text-align: center; /* 가운데 정렬 */
 }
 

@@ -11,16 +11,6 @@ public class MypageController {
         return "myPage/myPage";
     }
 
-    @RequestMapping("/passwordChange")
-    public String passwordChange() {
-        return "myPage/passwordChange";
-    }
-
-    @RequestMapping("/profile")
-    public String profile() {
-        return "myPage/profile";
-    }
-
     @RequestMapping("/myWishList")
     public String myWishList() {
         return "myPage/my_wish_list";
@@ -40,4 +30,6 @@ public class MypageController {
     public String rental_manage() {
         return "myPage/rental_manage";
     }
+    @RequestMapping("/member_manage")
+    public String member_manage() { return "myPage/member_manage";}
 }
