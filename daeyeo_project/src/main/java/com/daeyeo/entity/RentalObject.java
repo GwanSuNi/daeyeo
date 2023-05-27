@@ -23,17 +23,18 @@ public class RentalObject {
     //    @Column(length = 40)
 //    //외래키
 //    private String ownerEmail;
-    @OneToMany
-    @JoinColumn(name="objectIndex")
-    private Set<WishList> wishLists = new HashSet<>();
 
-    @OneToMany
+//    @OneToMany
+//    @JoinColumn(name="objectIndex")
+//    private Set<WishList> wishLists = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="targetObject")
     private Set<RentalLog> rentalLogs = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name="reviewIndex")
-    private Set<Review> review = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="objectIndex")
+    private Set<Review> reviews = new HashSet<>();
 
     @Column(length = 40)
     private String objectName;

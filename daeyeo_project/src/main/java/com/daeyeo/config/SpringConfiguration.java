@@ -33,7 +33,7 @@ public class SpringConfiguration {
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test?useSSL=False");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/DaeyeoProject?useSSL=False");
         dataSource.setUsername("root");
         dataSource.setPassword("0870");
         dataSource.setMaximumPoolSize(11);
@@ -55,7 +55,7 @@ public class SpringConfiguration {
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.id.new_generator_mappings", "true");
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 
         factoryBean.setJpaPropertyMap(properties);
         return factoryBean;

@@ -9,8 +9,8 @@ import java.time.LocalDate;
 @Data
 @Table(name="Ban_Log")
 public class BanLog {
-    private boolean flag;
-    private String reason;
+//    private boolean flag;
+    private String banReason;
     private LocalDate duration;
-    private LocalDate date;
+    private LocalDate banDate;
 }

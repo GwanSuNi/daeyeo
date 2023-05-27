@@ -13,7 +13,7 @@ public class SubCategory {
     @Id
     private String scId;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "scId")
     private Set<RentalObject> rentalObjects = new HashSet<>();
 }

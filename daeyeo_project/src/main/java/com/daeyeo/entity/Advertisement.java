@@ -11,9 +11,6 @@ import java.time.LocalDate;
 public class Advertisement {
     @Column(name = "adId")
     private int adId;
-    @Column(length = 40)
-    private String ownerEmail;
-    @Column(length = 40)
     private String adCompany;
     private LocalDate duration;
     private int price;

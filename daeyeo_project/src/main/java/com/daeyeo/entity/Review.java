@@ -12,8 +12,6 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reviewIndex;
     //외래키
-    private int objectIndex;
-    //외래키
     @Column(length = 40)
     private String writer;
     private LocalDateTime writeDate;
