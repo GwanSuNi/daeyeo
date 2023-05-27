@@ -1,0 +1,86 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xmlns:context="http://www.springframework.org/schema/context"-->
+<!--       xmlns:aop="http://www.springframework.org/schema/aop"-->
+<!--       xmlns:tx="http://www.springframework.org/schema/tx"-->
+<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+<!--       http://www.springframework.org/schema/beans/spring-beans.xsd-->
+<!--       http://www.springframework.org/schema/context-->
+<!--       https://www.springframework.org/schema/context/spring-context.xsd-->
+<!--       http://www.springframework.org/schema/aop-->
+<!--       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd-->
+<!--       http://www.springframework.org/schema/tx-->
+<!--       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">-->
+
+<!--    &lt;!&ndash; 컴포넌트 스캔 설정 &ndash;&gt;-->
+<!--    <context:component-scan base-package="com.daeyeo"/>-->
+
+<!--    &lt;!&ndash; Entitiy Manager Factory &ndash;&gt;-->
+<!--    <bean id="entityManagerFactory"-->
+<!--          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--        <property name="packagesToScan" value="com.daeyeo.entity"/>-->
+<!--        &lt;!&ndash; JPA 구현체 &ndash;&gt;-->
+<!--        <property name="jpaVendorAdapter">-->
+<!--            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+<!--                <property name="database" value="MYSQL"/>-->
+<!--                <property name="showSql" value="true"/>-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--        <property name="jpaProperties">-->
+<!--            <props>-->
+<!--                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
+<!--                <prop key="hibernate.format_sql">true</prop>-->
+<!--                <prop key="hibernate.hbm2ddl.auto">update</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 데이터소스 빈 (커넥션 풀 미사용) &ndash;&gt;-->
+<!--&lt;!&ndash;    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="url" value="jdbc:mysql://localhost:3306/test?useSSL=False"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="username" value="root"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="password" value="0870"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    </bean>&ndash;&gt;-->
+<!--    &lt;!&ndash;    CREATE TABLE `testTable` (&ndash;&gt;-->
+<!--    &lt;!&ndash;    `id` int NOT NULL AUTO_INCREMENT,&ndash;&gt;-->
+<!--    &lt;!&ndash;    `userName` varchar(20) DEFAULT NULL,&ndash;&gt;-->
+<!--    &lt;!&ndash;    PRIMARY KEY (`id`)&ndash;&gt;-->
+<!--    &lt;!&ndash;    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;&ndash;&gt;-->
+<!--    &lt;!&ndash; Hikari CP 설정 &ndash;&gt;-->
+<!--    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">-->
+<!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />-->
+<!--        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?useSSL=False" />-->
+<!--        <property name="username" value="root" />-->
+<!--        <property name="password" value="0870" />-->
+<!--        <property name="maximumPoolSize" value="10" />-->
+<!--        <property name="minimumIdle" value="10"/>-->
+<!--        <property name="connectionTimeout" value="1000"/>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; Transaction Manager 지금 안쓰고 있음 &ndash;&gt;-->
+<!--    <bean id="transactionManager"-->
+<!--          class="org.springframework.orm.jpa.JpaTransactionManager">-->
+<!--        <property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; AOP를 사용한 TransactionManager &ndash;&gt;-->
+<!--    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+<!--        <property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; Transaction Advice 설정 &ndash;&gt;-->
+<!--    <tx:advice id="txAdvice" transaction-manager="txManager">-->
+<!--        <tx:attributes>-->
+<!--            <tx:method name="*" rollback-for="Exception"/>-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
+
+<!--    &lt;!&ndash; Transaction AOP 설정 &ndash;&gt;-->
+<!--    <aop:config>-->
+<!--        <aop:pointcut id="txPointcut" expression="execution(* com.daeyeo.service..*Service.*(..))"/>-->
+<!--        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>-->
+<!--    </aop:config>-->
+<!--</beans>-->
