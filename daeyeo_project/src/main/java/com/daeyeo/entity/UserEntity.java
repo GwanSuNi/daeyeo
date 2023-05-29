@@ -27,6 +27,9 @@ import java.util.Set;
         )}
 )
 public class UserEntity {
+    public UserEntity(String userEmail) {
+        this.userEmail = userEmail;
+    }
     @Id
     private String userEmail;
     private String userPw;
@@ -65,15 +68,15 @@ public class UserEntity {
     @JoinColumn(name="targetUser")
     private Set<RentalLog> rentalLogs = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer")
     private Set<Review> reviews = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name ="Advertisement",
-            joinColumns = @JoinColumn(name ="ownerEmail")
+            joinColumns = @JoinColumn(name ="adOwnerEmail")
     )
-    @Column(name = "adId")
+    @Column(name = "advertisement")
     private Set<Advertisement> advertisement = new HashSet<>();
 }
