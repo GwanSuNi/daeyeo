@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
+    <!-- BootStrap CSS File -->
+    <link href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${path}/resources/css/assets/css/style.css" rel="stylesheet">
+    <!-- CSS File -->
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/guidebook.css">
     <title>이용안내</title>
 </head>
@@ -11,20 +15,18 @@
         <div class="content_title">자주 묻는 질문</div>
         <div class="content">
             <div class="search_field">
-                <label class="select">
-                    <select>
-                        <option value="1" selected>전체</option>
-                        <option value="2">제목</option>
-                        <option value="2">내용</option>
-                    </select>
-                </label>
+                <select class="form-select">
+                    <option value="1" selected>전체</option>
+                    <option value="2">제목</option>
+                    <option value="2">내용</option>
+                </select>
                 <label class="search">
                     <input type="text" placeholder="검색어를 입력하세요.">
                 </label>
-                <input type="button" class="search_btn" value="검색">
+                <a href="" class="search_btn">검색</a>
             </div>
             <div class="list_wrap">
-                <h4 class="total icon">총 <span class="emphasis">10</span> 건</h4>
+                <h5 class="total icon">총 <span class="emphasis">10</span> 건</h5>
                 <ul class="list">
                     <li class="item">
                         <div class="collapsible" onclick="toggleActive(this)">
@@ -60,29 +62,31 @@
                         </div>
                     </li>
                 </ul>
-                <div class="page">
-                    <a href="" class="icon prev_first"></a>
-                    <a href="" class="icon prev"></a>
-                    <ul>
-                        <li>
-                            <a href="" class="active">1</a>
-                        </li>
-                        <li>
-                            <a href="">2</a>
-                        </li>
-                        <li>
-                            <a href="">3</a>
-                        </li>
-                        <li>
-                            <a href="">4</a>
-                        </li>
-                        <li>
-                            <a href="">5</a>
-                        </li>
-                    </ul>
-                    <a href="" class="icon next"></a>
-                    <a href="" class="icon next_last"></a>
-                </div>
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="">
+                            <img src="${path}/resources/img/rental/double_left_arrow_icon.png" alt="<<">
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="">
+                            <img src="${path}/resources/img/rental/left_arrow_icon.png" alt="<">
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="">1</a></li>
+                    <li class="page-item"><a class="page-link" href="">2</a></li>
+                    <li class="page-item"><a class="page-link" href="">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="">
+                            <img src="${path}/resources/img/rental/left_arrow_icon.png" alt=">">
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="">
+                            <img src="${path}/resources/img/rental/double_left_arrow_icon.png" alt=">>">
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
