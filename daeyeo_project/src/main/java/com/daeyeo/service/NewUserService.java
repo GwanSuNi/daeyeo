@@ -22,7 +22,8 @@ public class NewUserService {
 
     // ==================== 메모 관련 메서드 시작 ====================
     // 유저 엔티티를 통해 유저 메모를 추가하는 메서드
-    public void insertUserMemo(UserEntity user, String content) {
+    public void insertUserMemo(String email, String content) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
         UserMemo newMemo = new UserMemo(content);
         user.addMemoToUser(newMemo);
         this.insertUser(user);
@@ -36,13 +37,13 @@ public class NewUserService {
 
     // 인덱스로 유저의 메모를 하나 찾는 메서드
     public UserMemo findUserMemo(String email, int memoId) {
-        Set<UserMemo> memos = findUserByEmail(email).getUserMemo();
+        Set<UserMemo> memos = userRepository.findByUserEmail(email).get().getUserMemo();
         return memos.stream().filter(UserMemo -> UserMemo.getMemoId() == memoId).findFirst().get();
     }
 
     // 유저 이메일을 통해 유저 메모를 수정하는 메서드
     public void updateUserMemo(String email, int memoId, String newContent) {
-        UserEntity user = this.findUserByEmail(email);
+        UserEntity user = userRepository.findByUserEmail(email).get();
         Set<UserMemo> memos = user.getUserMemo(); // 해당 유저 메모 셋 가져오기
         // TODO: 메모 ID에 해당하는 값이 없을 경우 조건 추가
         // 검색한 memoId와 같은 메모 삭제
@@ -56,14 +57,14 @@ public class NewUserService {
 
     // 유저 이메일을 통해 유저 메모를 삭제
     public void deleteUserMemo(String email, int memoId) {
-        Set<UserMemo> memos = findUserByEmail(email).getUserMemo();
+        Set<UserMemo> memos = userRepository.findByUserEmail(email).get().getUserMemo();
         UserMemo memo = findUserMemo(email, memoId);
         memos.remove(memo);
     }
 
     // 유저 이메일을 통해 유저 메모 전부 삭제
     public void deleteAllUserMemos(String email) {
-        UserEntity user = findUserByEmail(email);
+        UserEntity user = userRepository.findByUserEmail(email).get();
         Set<UserMemo> memos = new HashSet<>();
         user.setUserMemo(memos);
     }
@@ -78,7 +79,8 @@ public class NewUserService {
 
     // 광고 추가 요청이 발생했을 때 Controller에서 사용
     // 광고 추가할 유저를 미리 찾아서, 광고 값들과 함께 넣어주시면 됩니다.
-    public void insertNewAd(UserEntity user, String adCompany, LocalDate duration, int price, String adImage, String adLocation) {
+    public void insertNewAd(String email, String adCompany, LocalDate duration, int price, String adImage, String adLocation) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
         Advertisement newAd = new Advertisement(adCompany, duration, price, adImage, adLocation);
         user.getAdvertisement().add(newAd); // getAdvertisement() 가 set 이라 가져와서 다시 추가해줌
         // 추가한걸 다시 대입해줌 그래서 add(newAd)가 들어간거임
@@ -87,7 +89,8 @@ public class NewUserService {
     }
 
     // 광고 검색하는 메소드
-    public Optional<Advertisement> findAd(UserEntity user, int adId) {
+    public Optional<Advertisement> findAd(String email, int adId) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
         Set<Advertisement> advertisements = user.getAdvertisement();
         Optional<Advertisement> foundAdvertisement = advertisements.stream()
                 .filter(advertisement -> advertisement.getAdId() == (adId))
@@ -96,8 +99,9 @@ public class NewUserService {
     }
 
     // 광고 빼는 메소드
-    public void deleteAd(UserEntity user, int adId) {
-        Optional<Advertisement> targetAd = this.findAd(user, adId);
+    public void deleteAd(String email, int adId) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
+        Optional<Advertisement> targetAd = this.findAd(email, adId);
         if (targetAd.isPresent()) {
             Set<Advertisement> advertisements = user.getAdvertisement();
             advertisements.remove(targetAd.get());
@@ -115,17 +119,18 @@ public class NewUserService {
         userRepository.flush();
     }
 
-    //
-    public List<UserEntity> getUserEntityList(UserEntity userEntity) {
-        userRepository.flush();
+    // 직접 접근 안하고 이렇게 써야되나?
+    public List<UserEntity> getUserEntityList() {
         return (List<UserEntity>) userRepository.findAll();
     }
 
-    public List<UserEntity> getUsersByName(UserEntity userEntity) {
-        return (List<UserEntity>) userRepository.findByUserName(userEntity.getUserName());
+    // 필요한가?
+    public List<UserEntity> getUsersByName(String name) {
+        return (List<UserEntity>) userRepository.findByUserName(name);
     }
 
     // 원래 List로 받아오는거였으나 어차피 PK 값으로 조회하는 것이기 때문에 단일 엔티티만 반환하기로 변경
+    // 필요한가?
     // TODO: 없을 시에 할 작업
     public UserEntity findUserByEmail(String email) {
         return userRepository.findByUserEmail(email).get();
