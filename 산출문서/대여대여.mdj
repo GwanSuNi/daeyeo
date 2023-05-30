@@ -7834,7 +7834,7 @@
 											"font": "Arial;13;1",
 											"left": 24,
 											"top": 613,
-											"width": 216.84326171875,
+											"width": 225.5205078125,
 											"height": 13,
 											"text": "Advertisement"
 										},
@@ -7860,7 +7860,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 636,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7875,7 +7875,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 651,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7890,7 +7890,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 666,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7905,7 +7905,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 681,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7920,7 +7920,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 696,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7935,7 +7935,7 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 711,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												},
 												{
@@ -7950,21 +7950,21 @@
 													"font": "Arial;13;0",
 													"left": 29,
 													"top": 726,
-													"width": 206.84326171875,
+													"width": 215.5205078125,
 													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 24,
 											"top": 631,
-											"width": 216.84326171875,
+											"width": 225.5205078125,
 											"height": 113
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 24,
 									"top": 608,
-									"width": 216.84326171875,
+									"width": 225.5205078125,
 									"height": 136,
 									"nameLabel": {
 										"$ref": "AAAAAAGHR0BOpdTtjkI="
@@ -10974,7 +10974,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGHR0BOpdTqhhI="
 									},
-									"name": "ownerEmail",
+									"name": "adOwnerEmail",
 									"type": "VARCHAR",
 									"length": "40",
 									"foreignKey": true,
