@@ -22,4 +22,8 @@ public class HomeController {
         return "error/" + statusCode;
     }
 
+    @GetMapping("/guidebook")
+    public String guidebook() {
+        return "guidebook";
+    }
 }
