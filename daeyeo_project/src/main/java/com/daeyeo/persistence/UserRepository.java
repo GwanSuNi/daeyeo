@@ -9,11 +9,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<UserEntity, String> {
     List<UserEntity> findByUserName(String name);
 
-    List<UserEntity> findByUserEmail(String email);
+    Optional<UserEntity> findByUserEmail(String email);
 
     void flush();
 
