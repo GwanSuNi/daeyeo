@@ -5,12 +5,15 @@ import com.daeyeo.entity.*;
 import com.daeyeo.service.NewUserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.persistence.TypedQuery;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * @author gwansuni
+ * <p>
+ * 주석 처리돼 있는 코드들은 모두 테스트를 위한 코드들이므로
+ * 각자 테스트를 해보고 싶을 때 해당 블럭을 주석 해제 후 실행해보세요
+ *
+ */
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
@@ -59,9 +62,21 @@ public class TestClient {
 //        System.out.println("가져오기");
 //        System.out.println(service.getAllCategories());
 
+// ==================== 메모 관련 메서드 시작 ====================
         NewUserService userService = (NewUserService) container.getBean("uService");
         // 값 넣기 전 검증
-        UserEntity a = userService.getUsersByEmail(new UserEntity("ex@ex.com")).get(0);
+        UserEntity a = userService.findUserByEmail("ex@ex.com");
+
+//        userService.insertUserMemo(a, "테스트 해볼게용");
+//        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
+//        userService.deleteUserMemo("ex@ex.com", 1);
+//        System.out.println(userService.findUserMemo("ex@ex.com", 2));
+//        userService.deleteAllUserMemos("ex@ex.com");
+        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
+        for (UserMemo memo : memos) {
+            System.out.println(memo);
+        }
+// ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();
 
@@ -80,9 +95,11 @@ public class TestClient {
         // 광고 찾는 과정
 //        System.out.println("!!! 찾은거 !!! " + userService.findAd(a,4).get()); // Optional이라 get(0)했지만 실제론 검증해야함
         // 광고 빼는 과정
-            userService.deleteAd(a,4);
+//            userService.deleteAd(a,4);
         // 값 들어갔는 지 검증
-        System.out.println(a.getAdvertisement());
+//        System.out.println(a.getAdvertisement());
+
+
 //        String jpql = "UPDATE UserEntity " +
 //                "SET memoDate = (SELECT memoDate from UserMemo where userEmail = :email)";
 //        String jpql1 = "select NEW com.daeyeo.entity.UserMemo from ";
