@@ -3,16 +3,15 @@ package com.daeyeo.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
+//@DynamicUpdate
 @Table(name = "User")
 @NoArgsConstructor
 @SecondaryTables({
@@ -27,6 +26,9 @@ import java.util.Set;
         )}
 )
 public class UserEntity {
+    public UserEntity(String userEmail) {
+        this.userEmail = userEmail;
+    }
     @Id
     private String userEmail;
     private String userPw;
@@ -38,8 +40,16 @@ public class UserEntity {
     private String userCategory;
 
     private LocalDateTime registDate;
-    @Embedded
-    private UserMemo userMemo;
+
+    // Embedded 였는데 수정
+    @ElementCollection (fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "User_Memo",
+            joinColumns = @JoinColumn(name ="userEmail")
+    )
+    @Column(name = "userMemo")
+//    @OrderColumn(name = "memoId")
+    private Set<UserMemo> userMemo;
     @Embedded
     private ReportLog reportLog;
     @Embedded
@@ -65,15 +75,19 @@ public class UserEntity {
     @JoinColumn(name="targetUser")
     private Set<RentalLog> rentalLogs = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer")
     private Set<Review> reviews = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name ="Advertisement",
-            joinColumns = @JoinColumn(name ="ownerEmail")
+            joinColumns = @JoinColumn(name ="adOwnerEmail")
     )
-    @Column(name = "adId")
+    @Column(name = "advertisement")
     private Set<Advertisement> advertisement = new HashSet<>();
+
+    public void addMemoToUser(UserMemo memo) {
+        this.getUserMemo().add(memo);
+    }
 }
