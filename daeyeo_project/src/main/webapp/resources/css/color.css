@@ -2,4 +2,8 @@
     --background: #D9D9D9;
     --daeyeo: #3B71CA;
     --border: #CACFD3;
+    --basic-gray: #6C757D;
+    --hover-daeyeo: #4F8BE8;
+    --light-background: #F5F5F5;
+    --input-focus: rgba(58, 176, 195, .5);
 }
