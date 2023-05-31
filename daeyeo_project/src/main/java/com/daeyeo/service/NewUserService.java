@@ -1,6 +1,7 @@
 package com.daeyeo.service;
 
 import com.daeyeo.entity.Advertisement;
+import com.daeyeo.entity.ReportLog;
 import com.daeyeo.entity.UserEntity;
 import com.daeyeo.entity.UserMemo;
 import com.daeyeo.persistence.UserRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -71,6 +73,25 @@ public class NewUserService {
 
     // ==================== 메모 관련 메서드 끝 ====================
 
+    // ==================== Report Log 관련 메서드 시작 ====================
+
+    // 해당 유저의 모든 리폿 로그 조회
+    public Set<ReportLog> getAllReportsByEmail(String email) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
+        return user.getReportLog();
+    }
+
+    // 해당 유저에게 리폿을 추가하는 메서드
+    public void insertReportLog(String email) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
+        ReportLog newReport = new ReportLog(email, LocalDateTime.now());
+        Set<ReportLog> reports = user.getReportLog();
+        reports.add(newReport);
+        user.setReportLog(reports);
+    }
+
+    // ==================== Report Log 관련 메서드 끝 ====================
+
     // ==================== 광고 관련 메서드 시작 ====================
     // 이메일을 통해 광고 컬렉션 받아오는 메서드
     public Set<Advertisement> getAdvertisement(String email) {
@@ -92,10 +113,9 @@ public class NewUserService {
     public Optional<Advertisement> findAd(String email, int adId) {
         UserEntity user = userRepository.findByUserEmail(email).get();
         Set<Advertisement> advertisements = user.getAdvertisement();
-        Optional<Advertisement> foundAdvertisement = advertisements.stream()
+        return advertisements.stream()
                 .filter(advertisement -> advertisement.getAdId() == (adId))
                 .findFirst();
-        return foundAdvertisement;
     }
 
     // 광고 빼는 메소드
