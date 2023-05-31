@@ -2,10 +2,10 @@ package com.daeyeo.client;
 
 import com.daeyeo.config.SpringConfiguration;
 import com.daeyeo.entity.*;
+import com.daeyeo.persistence.CustomUserRepositoryImpl;
+import com.daeyeo.persistence.UserRepository;
 import com.daeyeo.service.NewUserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.Set;
 
 /**
  * @author gwansuni
@@ -65,17 +65,22 @@ public class TestClient {
 // ==================== 메모 관련 메서드 시작 ====================
         NewUserService userService = (NewUserService) container.getBean("uService");
         // 값 넣기 전 검증
-        UserEntity a = userService.findUserByEmail("ex@ex.com");
+//        UserEntity a = userService.findUserByEmail("ex@ex.com");
 
-//        userService.insertUserMemo(a, "테스트 해볼게용");
+        userService.insertUserMemo("ex@ex.com", "테스트 해볼게용");
 //        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
 //        userService.deleteUserMemo("ex@ex.com", 1);
 //        System.out.println(userService.findUserMemo("ex@ex.com", 2));
-//        userService.deleteAllUserMemos("ex@ex.com");
-        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
-        for (UserMemo memo : memos) {
-            System.out.println(memo);
-        }
+////        userService.deleteAllUserMemos("ex@ex.com");
+//        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
+//        for (UserMemo memo : memos) {
+//            System.out.println(memo);
+//        }
+        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        UserEntity user = userRepository.customFindMethod("ex@ex.com");
+//        System.out.println(user);
+        int a = userRepository.memoCountByEmail("ex@ex.com");
+        System.out.println(a);
 // ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();
