@@ -2,6 +2,7 @@ package com.daeyeo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.catalina.User;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "rentalLogs")
 @Table(name = "Rental_Object")
 public class RentalObject {
 
@@ -31,6 +33,12 @@ public class RentalObject {
     @JoinColumn(name = "scId")
     private SubCategory subCategory;
 
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    private Set<RentalLog> rentalLogs = new HashSet<>();
+    public void addRentalLog(RentalLog rentalLog){
+        this.getRentalLogs().add(rentalLog);
+    }
+
 
 
 //    @Column(length = 20)
@@ -44,10 +52,6 @@ public class RentalObject {
 //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="targetObject")
-    private Set<RentalLog> rentalLogs = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="objectIndex")

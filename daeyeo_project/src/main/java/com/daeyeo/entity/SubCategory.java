@@ -21,10 +21,7 @@ public class SubCategory {
             mappedBy = "subCategory")
     private Set<RentalObject> rentalObjects = new HashSet<>();
 
-
-
     public void addRentalObject(RentalObject rentalObject){
         this.getRentalObjects().add(rentalObject);
     }
-
 }

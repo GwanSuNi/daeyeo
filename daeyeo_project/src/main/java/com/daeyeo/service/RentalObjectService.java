@@ -27,8 +27,8 @@ public class RentalObjectService {
         return subCategory.orElse(null);
     }
 
-    public UserEntity findEntityById(String id) {
-        Optional<UserEntity> userEntity = userRepository.findByUserEmail(id);
+    public UserEntity findEntityById(String email) {
+        Optional<UserEntity> userEntity = userRepository.findByUserEmail(email);
         return userEntity.orElse(null);
     }
     public void insertRentalObject(RentalObject rentalObject , SubCategory subCategory , UserEntity userEntity){

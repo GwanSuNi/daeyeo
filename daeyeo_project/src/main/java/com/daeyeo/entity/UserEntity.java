@@ -14,7 +14,7 @@ import java.util.*;
 @Data
 //@DynamicUpdate
 @Table(name = "User")
-@EqualsAndHashCode(exclude = "rentalObjects")
+@EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs"})
 @NoArgsConstructor
 @SecondaryTables({
         @SecondaryTable(name = "Report_Log",
@@ -60,10 +60,15 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL, mappedBy = "userEntity")
     private Set<RentalObject> rentalObjects = new HashSet<>();
-
     public void addRentalObject(RentalObject rentalObject){
         this.getRentalObjects().add(rentalObject);
     }
+
+
+    @OneToMany (fetch = FetchType.EAGER , cascade = CascadeType.ALL, mappedBy = "userEntity")
+    private Set<RentalLog> rentalLogs = new HashSet<>();
+    public void addRentalLog(RentalLog rentalLog) { this.getRentalLogs().add(rentalLog);  }
+
 
 
 
@@ -76,9 +81,8 @@ public class UserEntity {
     @Column(name = "wishedDate")
     private Map<String, String> wishLists = new HashMap();
 
-    @OneToMany (fetch = FetchType.EAGER)
-    @JoinColumn(name="targetUser")
-    private Set<RentalLog> rentalLogs = new HashSet<>();
+
+
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer")

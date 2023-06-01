@@ -2,8 +2,12 @@ package com.daeyeo.client;
 
 import com.daeyeo.config.SpringConfiguration;
 import com.daeyeo.entity.*;
+import com.daeyeo.persistence.CustomRentalLogRepository;
+import com.daeyeo.persistence.RentalLogRepository;
+import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.service.MainCategoryService;
 import com.daeyeo.service.NewUserService;
+import com.daeyeo.service.RentalLogService;
 import com.daeyeo.service.RentalObjectService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -21,57 +25,55 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
 
+        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
 
-        RentalObjectService rentalObjectService = (RentalObjectService)container.getBean("rentalObjectService");
+//        RentalLogRepository rentalLogRepository = (RentalLogRepository) container.getBean("rentalLogRepository");
+//        rentalLogRepository.customFindRentalLogByEmail("test@test.com");
 
-        SubCategory subCategory = rentalObjectService.findSubCategoryByScId("scIdTest");
-        // 찾음
-        System.out.println("1");
-        UserEntity userEntity = rentalObjectService.findEntityById("test@test.com");
-        // 찾음
-//        String email = userEntity.getUserEmail();
-//        UserEntity muckbur = new UserEntity();
-//        muckbur.setUserEmail(email);
-        System.out.println("객체 생성!");
-        RentalObject rentalObject = new RentalObject();
-        rentalObject.setSubCategory(subCategory);
-        rentalObject.setUserEntity(userEntity);
-        rentalObject.setObjectIndex(1);
-        rentalObject.setObjectName("내가");
-        rentalObject.setPrice(100);
-        rentalObject.setWishCount(100);
-        rentalObject.setWebsite("해냈어");
-        rentalObject.setTarget("관형아!!");
-        rentalObject.setStartDuration(LocalDate.now());
-        rentalObject.setEndDuration(LocalDate.now());
-        rentalObject.setReceiptDuration(LocalDateTime.now());
-        rentalObject.setCapacity(100);
-        rentalObject.setRepresentNum(100);
-        rentalObject.setUserInfo("test1");
-        rentalObject.setObjectImage("test1");
-        System.out.println("0");
-        System.out.println("1");
-//        userEntity.addRentalObject(rentalObject);
-//        subCategory.addRentalObject(rentalObject);
-//        System.out.println("2");
-//        System.out.println("3");
-//        System.out.println("4");
-//        rentalObjectService.insertEntityUser(userEntity);
-//        rentalObjectService.insertSubCategory(subCategory);
-//        rentalObjectService.insertRentalObject(rentalObject);
-        rentalObjectService.insertRentalObject(rentalObject,subCategory,userEntity);
-
-        System.out.println("5");
-        System.out.println("6");
-
-
+//        RentalObjectService rentalObjectService = (RentalObjectService)container.getBean("rentalObjectService");
+////
+//        SubCategory subCategory = rentalObjectService.findSubCategoryByScId("scIdTest");
+//        // 찾음
+//        System.out.println("1");
+//        UserEntity userEntity = rentalObjectService.findEntityById("test@test.com");
+//        // 찾음
+////        String email = userEntity.getUserEmail();
+////        UserEntity muckbur = new UserEntity();
+////        muckbur.setUserEmail(email);
+//        System.out.println("객체 생성!");
+//        RentalObject rentalObject = new RentalObject();
+//        rentalObject.setSubCategory(subCategory);
+//        rentalObject.setUserEntity(userEntity);
+//        rentalObject.setObjectIndex(1);
+//        rentalObject.setObjectName("test");
+//        rentalObject.setPrice(100);
+//        rentalObject.setWishCount(100);
+//        rentalObject.setWebsite("test");
+//        rentalObject.setTarget("test");
+//        rentalObject.setStartDuration(LocalDate.now());
+//        rentalObject.setEndDuration(LocalDate.now());
+//        rentalObject.setReceiptDuration(LocalDateTime.now());
+//        rentalObject.setCapacity(100);
+//        rentalObject.setRepresentNum(100);
+//        rentalObject.setUserInfo("test");
+//        rentalObject.setObjectImage("test");
 //
+//         //여기까지
+////        userEntity.addRentalObject(rentalObject);
+////        subCategory.addRentalObject(rentalObject);
+////        rentalObjectService.insertEntityUser(userEntity);
+////        rentalObjectService.insertSubCategory(subCategory);
+////        rentalObjectService.insertRentalObject(rentalObject);
+//        rentalObjectService.insertRentalObject(rentalObject,subCategory,userEntity);
+
+
 //        MainCategoryService mainCategoryService = (MainCategoryService)container.getBean("mainCategoryService");
 //        SubCategory subCategory = new SubCategory();
-//        subCategory.setScId("scIdTest2");
+//        subCategory.setScId("scIdTest");
 //        MainCategory mainCategory = new MainCategory();
-//        mainCategory.setMcId("mcIdTest2");
+//        mainCategory.setMcId("mcIdTest");
 //        mainCategory.addSubCategory(subCategory);
 //        mainCategoryService.insertSubCategory(subCategory);
 //        mainCategoryService.insertMainCategory(mainCategory);
