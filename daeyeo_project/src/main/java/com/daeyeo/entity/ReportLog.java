@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "Report_Log")
 public class ReportLog {
+
     @Column(length = 100)
     private String reportReason;
     private LocalDate reportDate;

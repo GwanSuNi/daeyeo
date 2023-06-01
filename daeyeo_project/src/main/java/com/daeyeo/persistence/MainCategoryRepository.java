@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface MainCategoryRepository  extends JpaRepository<MainCategory, String> {
 //    void insertCategory(MainCategory mainCategory);
+Optional<MainCategory> findByMcId(String mcId);
+
 }

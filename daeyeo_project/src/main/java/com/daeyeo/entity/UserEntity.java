@@ -2,6 +2,7 @@ package com.daeyeo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,11 +14,9 @@ import java.util.*;
 @Data
 //@DynamicUpdate
 @Table(name = "User")
+@EqualsAndHashCode(exclude = "rentalObjects")
 @NoArgsConstructor
 @SecondaryTables({
-        @SecondaryTable(name = "User_Memo",
-                pkJoinColumns = @PrimaryKeyJoinColumn(name = "userEmail", referencedColumnName = "userEmail")
-        ),
         @SecondaryTable(name = "Report_Log",
                 pkJoinColumns = @PrimaryKeyJoinColumn(name = "userEmail", referencedColumnName = "userEmail")
         ),
@@ -58,9 +57,15 @@ public class UserEntity {
     private int commissionSum;
     private int rate;
     private boolean quitFlag;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="ownerEmail")
+
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL, mappedBy = "userEntity")
     private Set<RentalObject> rentalObjects = new HashSet<>();
+
+    public void addRentalObject(RentalObject rentalObject){
+        this.getRentalObjects().add(rentalObject);
+    }
+
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(

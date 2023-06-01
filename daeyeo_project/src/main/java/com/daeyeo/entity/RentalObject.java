@@ -1,6 +1,9 @@
 package com.daeyeo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,11 +13,25 @@ import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Rental_Object")
 public class RentalObject {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int objectIndex;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerEmail")
+    // 이건 우리가 외래키로 설정한 값을 넣어야함 즉 Rental_Object 설정 이름을 넣어야함
+    private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "scId")
+    private SubCategory subCategory;
+
+
 
 //    @Column(length = 20)
 //    //외래키

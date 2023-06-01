@@ -2,9 +2,13 @@ package com.daeyeo.client;
 
 import com.daeyeo.config.SpringConfiguration;
 import com.daeyeo.entity.*;
+import com.daeyeo.service.MainCategoryService;
 import com.daeyeo.service.NewUserService;
+import com.daeyeo.service.RentalObjectService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -17,6 +21,81 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+
+
+        RentalObjectService rentalObjectService = (RentalObjectService)container.getBean("rentalObjectService");
+
+        SubCategory subCategory = rentalObjectService.findSubCategoryByScId("scIdTest");
+        // 찾음
+        System.out.println("1");
+        UserEntity userEntity = rentalObjectService.findEntityById("test@test.com");
+        // 찾음
+//        String email = userEntity.getUserEmail();
+//        UserEntity muckbur = new UserEntity();
+//        muckbur.setUserEmail(email);
+        System.out.println("객체 생성!");
+        RentalObject rentalObject = new RentalObject();
+        rentalObject.setSubCategory(subCategory);
+        rentalObject.setUserEntity(userEntity);
+        rentalObject.setObjectIndex(1);
+        rentalObject.setObjectName("내가");
+        rentalObject.setPrice(100);
+        rentalObject.setWishCount(100);
+        rentalObject.setWebsite("해냈어");
+        rentalObject.setTarget("관형아!!");
+        rentalObject.setStartDuration(LocalDate.now());
+        rentalObject.setEndDuration(LocalDate.now());
+        rentalObject.setReceiptDuration(LocalDateTime.now());
+        rentalObject.setCapacity(100);
+        rentalObject.setRepresentNum(100);
+        rentalObject.setUserInfo("test1");
+        rentalObject.setObjectImage("test1");
+        System.out.println("0");
+        System.out.println("1");
+//        userEntity.addRentalObject(rentalObject);
+//        subCategory.addRentalObject(rentalObject);
+//        System.out.println("2");
+//        System.out.println("3");
+//        System.out.println("4");
+//        rentalObjectService.insertEntityUser(userEntity);
+//        rentalObjectService.insertSubCategory(subCategory);
+//        rentalObjectService.insertRentalObject(rentalObject);
+        rentalObjectService.insertRentalObject(rentalObject,subCategory,userEntity);
+
+        System.out.println("5");
+        System.out.println("6");
+
+
+//
+//        MainCategoryService mainCategoryService = (MainCategoryService)container.getBean("mainCategoryService");
+//        SubCategory subCategory = new SubCategory();
+//        subCategory.setScId("scIdTest2");
+//        MainCategory mainCategory = new MainCategory();
+//        mainCategory.setMcId("mcIdTest2");
+//        mainCategory.addSubCategory(subCategory);
+//        mainCategoryService.insertSubCategory(subCategory);
+//        mainCategoryService.insertMainCategory(mainCategory);
+
+
+
+
+//        MainCategoryService mainCategoryService = (MainCategoryService)container.getBean("mainCategoryService");
+//
+//        SubCategory subCategory = new SubCategory();
+//        subCategory.setScId("먼저찾고넣기");
+//        System.out.println("1");
+//        mainCategoryService.insertSubCategory(subCategory);
+//        // 안됨 mainCategoryService.flushData();
+//
+//        // sc값이 있으면 값이 안들어가고 걍 잘 들어감
+//        System.out.println("2");
+//        MainCategory mainCategory1 = mainCategoryService.findMainCategoryByMcID("mcIdTest");
+//        System.out.println("3");
+//        mainCategory1.addSubCategory(subCategory);
+//
+//
+//        System.out.println("4");
+//        mainCategoryService.insertMainCategory(mainCategory1);
 
 
 //        NewUserService userService = (NewUserService) container.getBean("uService");
@@ -63,19 +142,19 @@ public class TestClient {
 //        System.out.println(service.getAllCategories());
 
 // ==================== 메모 관련 메서드 시작 ====================
-        NewUserService userService = (NewUserService) container.getBean("uService");
+//        NewUserService userService = (NewUserService) container.getBean("uService");
         // 값 넣기 전 검증
-        UserEntity a = userService.findUserByEmail("ex@ex.com");
+//        UserEntity a = userService.findUserByEmail("ex@ex.com");
 
 //        userService.insertUserMemo(a, "테스트 해볼게용");
 //        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
 //        userService.deleteUserMemo("ex@ex.com", 1);
 //        System.out.println(userService.findUserMemo("ex@ex.com", 2));
 //        userService.deleteAllUserMemos("ex@ex.com");
-        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
-        for (UserMemo memo : memos) {
-            System.out.println(memo);
-        }
+//        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
+//        for (UserMemo memo : memos) {
+//            System.out.println(memo);
+//        }
 // ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();
