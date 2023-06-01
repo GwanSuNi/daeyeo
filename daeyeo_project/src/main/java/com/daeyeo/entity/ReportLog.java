@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Embeddable
 @Data
 @NoArgsConstructor
@@ -17,5 +19,5 @@ public class ReportLog {
 
     @Column(length = 100)
     private String reportReason;
-    private LocalDate reportDate;
+    private LocalDateTime reportDate;
 }

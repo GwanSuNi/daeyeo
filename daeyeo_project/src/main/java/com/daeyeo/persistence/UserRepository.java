@@ -1,17 +1,14 @@
 package com.daeyeo.persistence;
 
 import com.daeyeo.entity.UserEntity;
-import com.daeyeo.entity.UserMemo;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<UserEntity, String> {
+@Repository
+public interface UserRepository extends CrudRepository<UserEntity, String>, CustomUserRepository {
     List<UserEntity> findByUserName(String name);
 
     Optional<UserEntity> findByUserEmail(String email);

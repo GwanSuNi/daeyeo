@@ -6,6 +6,8 @@ import com.daeyeo.persistence.CustomRentalLogRepository;
 import com.daeyeo.persistence.RentalLogRepository;
 import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.service.MainCategoryService;
+import com.daeyeo.persistence.CustomUserRepositoryImpl;
+import com.daeyeo.persistence.UserRepository;
 import com.daeyeo.service.NewUserService;
 import com.daeyeo.service.RentalLogService;
 import com.daeyeo.service.RentalObjectService;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+
 
 /**
  * @author gwansuni
@@ -148,15 +151,21 @@ public class TestClient {
         // 값 넣기 전 검증
 //        UserEntity a = userService.findUserByEmail("ex@ex.com");
 
-//        userService.insertUserMemo(a, "테스트 해볼게용");
+        userService.insertUserMemo("ex@ex.com", "테스트 해볼게용");
 //        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
 //        userService.deleteUserMemo("ex@ex.com", 1);
 //        System.out.println(userService.findUserMemo("ex@ex.com", 2));
 //        userService.deleteAllUserMemos("ex@ex.com");
+////        userService.deleteAllUserMemos("ex@ex.com");
 //        Set<UserMemo> memos = userService.getMemos("ex@ex.com");
 //        for (UserMemo memo : memos) {
 //            System.out.println(memo);
 //        }
+        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        UserEntity user = userRepository.customFindMethod("ex@ex.com");
+//        System.out.println(user);
+        int a = userRepository.memoCountByEmail("ex@ex.com");
+        System.out.println(a);
 // ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();

@@ -11,8 +11,8 @@ public class RentalController {
         return "rental/rentalList";
     }
 
-    @RequestMapping("/writeForm")
+    @RequestMapping("/write")
     public String rentalWriteForm() {
-        return "rental/rentalWriteForm";
+        return "rental/rentalWrite";
     }
 }

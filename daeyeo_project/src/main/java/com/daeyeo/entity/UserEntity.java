@@ -49,8 +49,12 @@ public class UserEntity {
     @Column(name = "userMemo")
 //    @OrderColumn(name = "memoId")
     private Set<UserMemo> userMemo;
-    @Embedded
-    private ReportLog reportLog;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable (
+            name = "Report_Log",
+            joinColumns = @JoinColumn(name = "userEmail")
+    )
+    private Set<ReportLog> reportLog;
     @Embedded
     private BanLog banLog;
     private int paySum;
