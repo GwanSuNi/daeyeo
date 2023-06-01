@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service("categoryService")
+@Service("mainCategoryService")
 @Transactional
 public class MainCategoryService {
     @Autowired
@@ -29,6 +29,10 @@ public class MainCategoryService {
         System.out.println("service : " + subCategory);
     }
 
+    public MainCategory findMainCategoryByMcID(String mcId){
+        Optional<MainCategory> mainCategory = mainCategoryRepository.findByMcId(mcId);
+        return mainCategory.orElse(null);
+    }
     public Optional<MainCategory> getCategory(String mcId) {
         return mainCategoryRepository.findById(mcId);
     }

@@ -1,6 +1,10 @@
 package com.daeyeo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,11 +14,32 @@ import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "rentalLogs")
 @Table(name = "Rental_Object")
 public class RentalObject {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int objectIndex;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerEmail")
+    // 이건 우리가 외래키로 설정한 값을 넣어야함 즉 Rental_Object 설정 이름을 넣어야함
+    private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "scId")
+    private SubCategory subCategory;
+
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    private Set<RentalLog> rentalLogs = new HashSet<>();
+    public void addRentalLog(RentalLog rentalLog){
+        this.getRentalLogs().add(rentalLog);
+    }
+
+
 
 //    @Column(length = 20)
 //    //외래키
@@ -27,10 +52,6 @@ public class RentalObject {
 //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="targetObject")
-    private Set<RentalLog> rentalLogs = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="objectIndex")
