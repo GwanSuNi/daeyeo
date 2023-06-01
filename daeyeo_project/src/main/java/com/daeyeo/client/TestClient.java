@@ -151,7 +151,7 @@ public class TestClient {
         // 값 넣기 전 검증
 //        UserEntity a = userService.findUserByEmail("ex@ex.com");
 
-        userService.insertUserMemo("ex@ex.com", "테스트 해볼게용");
+//        userService.insertUserMemo("ex@ex.com", "테스트 해볼게용");
 //        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
 //        userService.deleteUserMemo("ex@ex.com", 1);
 //        System.out.println(userService.findUserMemo("ex@ex.com", 2));
