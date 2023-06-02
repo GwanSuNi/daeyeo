@@ -12,6 +12,11 @@
 </head>
 <body>
 <h3>This is TEST JSP PAGE</h3>
+${user.userName}
+${user.userEmail}
+${user.registDate}
+${user.phoneNum}
+${user.userMemo}
 <hr>
 Hello World!
 </body>
