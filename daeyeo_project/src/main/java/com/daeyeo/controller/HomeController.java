@@ -26,4 +26,9 @@ public class HomeController {
     public String guidebook() {
         return "guidebook";
     }
+
+    @GetMapping("/txtEditor")
+    public String txtEditor() {
+        return "txtEditor";
+    }
 }
