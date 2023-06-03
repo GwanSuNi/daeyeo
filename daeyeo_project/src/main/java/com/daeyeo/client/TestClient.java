@@ -24,6 +24,12 @@ public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 
+        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");
+//        useInfoService.insertUseInfo("질문2", "답변2");
+//        System.out.println(useInfoService.getAllUseInfos());
+//        System.out.println(useInfoService.countUseInfos());
+
+
         NewUserService userService = (NewUserService) container.getBean("uService");
         BanLogService banLogService = (BanLogService) container.getBean("banLogService");
 
@@ -37,11 +43,11 @@ public class TestClient {
 //        System.out.println(adService.getAdvertisement("ex@ex.com"));
 
 
-        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
 //        userRepository.getLastBanLogByEmail("test@test.com");
 //        banLogService.setBanFlag("test@test.com", false);
 //        banLogService.getLastBanLogByEmail("test@test.com");
-        System.out.println(banLogService.isUserCanLogin("test@test.com", LocalDateTime.of(2022,2, 1,0,0,0)));
+//        System.out.println(banLogService.isUserCanLogin("test@test.com", LocalDateTime.of(2022,2, 1,0,0,0)));
 //        userService.setBanFlag("ex@ex.com", false);
 //        System.out.println(userService.getAllBanLogsByEmail("ex@ex.com"));
 //        System.out.println(userService.findUserByEmail("ex@ex.com"));
