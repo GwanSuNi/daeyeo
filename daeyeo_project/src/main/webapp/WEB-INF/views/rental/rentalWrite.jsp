@@ -7,7 +7,7 @@
     <!-- CSS File -->
     <link href="${path}/resources/css/rental/rental_write.css" rel="stylesheet">
 
-    <title>대여 양식</title>
+    <title>대여 글</title>
 </head>
 <body>
 <div class="wrapper">
@@ -22,7 +22,6 @@
                 <div class="bot_contents">
                     <div class="left_box">
                         <div class="img_box">
-                            <%--                            <img src="${path}/resources/img/rental/airplane.jfif" alt="사진">--%>
                             <!-- Slides only carousel -->
                             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">

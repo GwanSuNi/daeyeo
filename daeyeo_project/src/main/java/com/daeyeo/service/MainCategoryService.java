@@ -16,9 +16,9 @@ import java.util.Optional;
 @Transactional
 public class MainCategoryService {
     @Autowired
-    MainCategoryRepository mainCategoryRepository;
+    private MainCategoryRepository mainCategoryRepository;
     @Autowired
-    SubCategoryRepository subCategoryRepository;
+    private SubCategoryRepository subCategoryRepository;
 
     public void insertMainCategory(MainCategory mainCategory) {
         mainCategoryRepository.save(mainCategory);
@@ -44,4 +44,5 @@ public class MainCategoryService {
     public void flushData() {
         mainCategoryRepository.flush();
     };
+
 }

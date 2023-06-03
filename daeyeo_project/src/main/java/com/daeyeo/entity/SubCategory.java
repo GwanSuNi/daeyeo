@@ -17,7 +17,7 @@ public class SubCategory {
     @Id
     private String scId;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
             mappedBy = "subCategory")
     private Set<RentalObject> rentalObjects = new HashSet<>();
 
