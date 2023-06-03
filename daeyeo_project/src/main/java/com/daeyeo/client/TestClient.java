@@ -5,16 +5,14 @@ import com.daeyeo.entity.*;
 import com.daeyeo.persistence.CustomRentalLogRepository;
 import com.daeyeo.persistence.RentalLogRepository;
 import com.daeyeo.persistence.RentalObjectRepository;
-import com.daeyeo.service.MainCategoryService;
+import com.daeyeo.service.*;
 import com.daeyeo.persistence.CustomUserRepositoryImpl;
 import com.daeyeo.persistence.UserRepository;
-import com.daeyeo.service.NewUserService;
-import com.daeyeo.service.RentalLogService;
-import com.daeyeo.service.RentalObjectService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -28,9 +26,37 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
 
-        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
+        NewUserService userService = (NewUserService) container.getBean("uService");
+        BanLogService banLogService = (BanLogService) container.getBean("banLogService");
+
+//        banLogService.insertBanLog("test@test.com", "ListTest1", LocalDateTime.now());
+//        banLogService.getLastBanLogByEmail("test@test.com");
+
+//        System.out.println(banLogService.getAllBanLogsByEmail("test@test.com"));
+
+//        AdService adService = (AdService) container.getBean("adService");
+//        adService.insertNewAd("ex@ex.com", "티하우스", LocalDate.of(2023,07,01), 5_000, "광고 이미지", "메인페이지");
+//        System.out.println(adService.getAdvertisement("ex@ex.com"));
+
+
+        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        userRepository.getLastBanLogByEmail("test@test.com");
+//        banLogService.setBanFlag("test@test.com", false);
+//        banLogService.getLastBanLogByEmail("test@test.com");
+        System.out.println(banLogService.isUserCanLogin("test@test.com", LocalDateTime.of(2022,2, 1,0,0,0)));
+//        userService.setBanFlag("ex@ex.com", false);
+//        System.out.println(userService.getAllBanLogsByEmail("ex@ex.com"));
+//        System.out.println(userService.findUserByEmail("ex@ex.com"));
+
+//        List<BanLog> banLogs = userService.getAllBanLogsByEmail("ex@ex.com");
+//        for (BanLog banLog : banLogs) {
+//            System.out.println(banLog);
+//        }
+
+//        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
+
+//        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
 
 //        RentalLogRepository rentalLogRepository = (RentalLogRepository) container.getBean("rentalLogRepository");
 //        rentalLogRepository.customFindRentalLogByEmail("test@test.com");
@@ -161,11 +187,11 @@ public class TestClient {
 //        for (UserMemo memo : memos) {
 //            System.out.println(memo);
 //        }
-        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
 //        UserEntity user = userRepository.customFindMethod("ex@ex.com");
 //        System.out.println(user);
-        int a = userRepository.memoCountByEmail("ex@ex.com");
-        System.out.println(a);
+//        int a = userRepository.memoCountByEmail("ex@ex.com");
+//        System.out.println(a);
 // ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();
