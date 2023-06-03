@@ -12,7 +12,12 @@ public class RentalController {
     }
 
     @RequestMapping("/write")
-    public String rentalWriteForm() {
+    public String rentalWrite() {
         return "rental/rentalWrite";
+    }
+
+    @RequestMapping("/form")
+    public String rentalRegistrationForm() {
+        return "rental/rentalRegistrationForm";
     }
 }
