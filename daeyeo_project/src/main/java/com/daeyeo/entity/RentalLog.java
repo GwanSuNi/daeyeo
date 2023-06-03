@@ -23,16 +23,17 @@ public class RentalLog {
     @ManyToOne
     @JoinColumn(name = "targetObject")
     private RentalObject rentalObject;
-
     @ManyToOne
     @JoinColumn(name = "targetUser")
     private UserEntity userEntity;
+
     private LocalDate startDuration;
     private LocalDate endDuration;
     private int price;
     private LocalDateTime rentalDate;
 
-    public RentalLog (UserEntity user, RentalObject rentalObject ,LocalDate startDate, LocalDate endDate, int price){
+    public RentalLog (UserEntity user, RentalObject rentalObject ,
+                      LocalDate startDate, LocalDate endDate, int price){
         this.userEntity = user;
         this.rentalObject = rentalObject;
         this.startDuration = startDate;

@@ -2,15 +2,9 @@ package com.daeyeo.client;
 
 import com.daeyeo.config.SpringConfiguration;
 import com.daeyeo.entity.*;
-import com.daeyeo.persistence.CustomRentalLogRepository;
-import com.daeyeo.persistence.RentalLogRepository;
-import com.daeyeo.persistence.RentalObjectRepository;
-import com.daeyeo.service.MainCategoryService;
-import com.daeyeo.persistence.CustomUserRepositoryImpl;
-import com.daeyeo.persistence.UserRepository;
-import com.daeyeo.service.NewUserService;
-import com.daeyeo.service.RentalLogService;
-import com.daeyeo.service.RentalObjectService;
+import com.daeyeo.persistence.*;
+import com.daeyeo.service.*;
+import net.bytebuddy.asm.Advice;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
@@ -28,9 +22,51 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
+//          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
+        // 완료 -rentalObject CRUD 테스트 다함
+//        rentalObjectService.insertRentalObject("test@test.com","scIdTest","test마지막입니다.",0,"0",
+//                  "test1",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),0,0,
+//                  "test1","test1","test마지막입니다.");
+        // 완료
+//        rentalObjectService.deleteRentalObject(9,"scIdTest","test@test.com");
+        // 완료
+//        rentalObjectService.findRentalObject()
+//          rentalObjectService.updateRentalObject(5,"scIdTest","test@test.com",
+//                                                    "테스트업데이트",123,"테스트업데이트"
+//                                                    ,"테스트업데이트",LocalDate.now(),LocalDate.now(),
+//                                                    LocalDateTime.now(),123,123,
+//                                            "테스트업데이트","테스트업데이트","테스트업데이트");
+        // 완료
 
-        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
+        // 미완료 -rentalLog CRUD 테스트 80% 완료
+//        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
+        // 완료
+//        rentalLogService.insertRentalLog(5,"test@test.com",LocalDate.now(),
+//                                                                    LocalDate.now(),123456);
+        // 완료
+//        rentalLogService.deleteRentalLog(9,5,"test@test.com");
+        // 검증중..
+//        rentalLogService.updateRentalLog(8,5,"test@test.com", LocalDate.now() , LocalDate.now() ,123456,LocalDateTime.now());
+
+        // Review CRUD 테스트 완료
+//          ReviewService reviewService = (ReviewService) container.getBean("reviewService");
+        // 완료
+//          reviewService.insertReview("test@test.com",5,"테스트리뷰last");
+        // 완료
+//          reviewService.deleteReview(4,5,"test@test.com");
+        // delete 되면 완료 review는 굳이 업데이트 할 필요가 없음 == 배민도 안함
+//          reviewService.findReview(1,5,"test@test.com");
+        /*===============양방향 관계 CRUD테스트====================== */
+
+
+//        rentalLogService.findByRentalId(8);
+//        rentalLogService.findRentalLog(8,"test@test.com",5);
+//        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
+// 성공
+//        System.out.println(review);
+
+
+//        rentalLogService.findRentalLog(8,"test@test.com",5);
 
 //        RentalLogRepository rentalLogRepository = (RentalLogRepository) container.getBean("rentalLogRepository");
 //        rentalLogRepository.customFindRentalLogByEmail("test@test.com");
@@ -161,11 +197,11 @@ public class TestClient {
 //        for (UserMemo memo : memos) {
 //            System.out.println(memo);
 //        }
-        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
 //        UserEntity user = userRepository.customFindMethod("ex@ex.com");
 //        System.out.println(user);
-        int a = userRepository.memoCountByEmail("ex@ex.com");
-        System.out.println(a);
+//        int a = userRepository.memoCountByEmail("ex@ex.com");
+//        System.out.println(a);
 // ==================== 메모 관련 메서드 끝  ====================
 
         // BanLog banLog = new BanLog();
