@@ -1,8 +1,6 @@
 package com.daeyeo.service;
 
-import com.daeyeo.entity.RentalLog;
-import com.daeyeo.entity.RentalObject;
-import com.daeyeo.entity.UserEntity;
+import com.daeyeo.entity.*;
 import com.daeyeo.persistence.RentalLogRepository;
 import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.persistence.UserRepository;
@@ -11,33 +9,76 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service("rentalLogService")
 @Transactional
 public class RentalLogService {
     @Autowired
-    RentalObjectRepository rentalObjectRepository;
+    private RentalObjectRepository rentalObjectRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    RentalLogRepository rentalLogRepository;
+    private RentalLogRepository rentalLogRepository;
 
-    public void insertRentalLog(String userEmail, int objectIndex, LocalDate startDate, LocalDate endDate, int price) {
-        System.out.println("service1");
-        UserEntity user = userRepository.findByUserEmail(userEmail).get();
-        System.out.println("service2");
-        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(objectIndex).get();
-        System.out.println("service3");
-
-        RentalLog rentalLog = new RentalLog(user,rentalObject ,startDate, endDate, price);
-        System.out.println("service4");
-        user.addRentalLog(rentalLog);
+    /**
+     * 렌탈로그 만드는 메서드
+     * @author 서상현
+     * @param targetObject RentalObject에서 갖고온 외래키 값
+     * @param targetUser User에서 갖고온 외래키 값
+     */
+    public void insertRentalLog(int targetObject, String targetUser, LocalDate startDate, LocalDate endDate, int price) {
+        UserEntity userEntity = userRepository.findByUserEmail(targetUser).get();
+        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).get();
+        RentalLog rentalLog = new RentalLog(userEntity,rentalObject ,startDate, endDate, price);
+        userEntity.addRentalLog(rentalLog);
         rentalObject.addRentalLog(rentalLog);
         rentalLogRepository.save(rentalLog);
     }
-//     public void insert
+
+    /**
+     * 렌탈로그 찾아오는거 delete 로 검증함 나머지 내용은 같음
+     */
+    public void findRentalLog(int rentalId, int targetObject, String targetUser) {
+        UserEntity userEntity = userRepository.findByUserEmail(targetUser).get();
+        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).get();
+        Optional<RentalLog> rentalLogs= rentalLogRepository.findByRentalIdAndUserEntityAndRentalObject(rentalId,userEntity,rentalObject);
+    }
+
+    public void deleteRentalLog(int rentalId, int targetObject , String targetUser){
+        UserEntity userEntity = userRepository.findByUserEmail(targetUser).get();
+        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).get();
+        Optional<RentalLog> rentalLogs= rentalLogRepository.findByRentalIdAndUserEntityAndRentalObject(rentalId,userEntity,rentalObject);
+        rentalLogRepository.delete(rentalLogs.get());
+    }
+//    TODO 업데이트가 되긴하는데 굳이 있을 필요 없을거같아서 일단 보류 업데이트는 되긴 하는데 기본키 값 검증이 아직 안들어가있음
+    public void updateRentalLog(int targetObject , String targetUser , LocalDate startDuration
+                               , LocalDate endDuration , int price , LocalDateTime rentalDate){
+        UserEntity userEntity = userRepository.findByUserEmail(targetUser).get();
+        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).get();
+
+        RentalLog changeRentalLog = new RentalLog();
+        changeRentalLog.setUserEntity(userEntity);
+        changeRentalLog.setRentalObject(rentalObject);
+        changeRentalLog.setStartDuration(startDuration);
+        changeRentalLog.setEndDuration(endDuration);
+        changeRentalLog.setPrice(price);
+        changeRentalLog.setRentalDate(rentalDate);
+        rentalLogRepository.save(changeRentalLog);
+    }
+
+    public void findByRentalId(int rentalId){
+        Optional<RentalLog> rentalLog = rentalLogRepository.findByRentalId(rentalId);
+        // System.out.println(); 이거 찍으려고하면 갑자기 순환참조일어나서 지들끼리 서로 계속부름
+    }
+
+
+//    public void updateRentalLog(int rentalId , ){
+//
+//    }
 
     public List<RentalLog> findRentalLogByEmail(String email) {
         UserEntity user = userRepository.findByUserEmail(email).get();
