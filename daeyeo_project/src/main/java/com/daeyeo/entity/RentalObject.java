@@ -1,9 +1,6 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.catalina.User;
 
 import javax.persistence.*;
@@ -16,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "rentalLogs")
+@EqualsAndHashCode(exclude = {"rentalLogs","reviews"})
 @Table(name = "Rental_Object")
 public class RentalObject {
 
@@ -33,13 +30,37 @@ public class RentalObject {
     @JoinColumn(name = "scId")
     private SubCategory subCategory;
 
-    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL , mappedBy = "rentalObject")
     private Set<RentalLog> rentalLogs = new HashSet<>();
     public void addRentalLog(RentalLog rentalLog){
         this.getRentalLogs().add(rentalLog);
     }
 
+    public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
+                         String website , String target , LocalDate startDuration , LocalDate endDuration
+            , LocalDateTime receiptDuration , int capacity , int representNum , String userInfo , String locationInfo
+            ,String objectImage ){
+        this.userEntity=user;
+        this.subCategory=subCategory;
+        this.objectName = objectName;
+        this.price=price;
+        this.website=website;
+        this.target=target;
+        this.startDuration=startDuration;
+        this.endDuration=endDuration;
+        this.receiptDuration=receiptDuration;
+        this.capacity=capacity;
+        this.representNum=representNum;
+        this.userInfo=userInfo;
+        this.locationInfo=locationInfo;
+        this.objectImage=objectImage;
+    }
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    private Set<Review> reviews = new HashSet<>();
+    public void addReview(Review review){
+        this.getReviews().add(review);
+    }
 
 //    @Column(length = 20)
 //    //외래키
@@ -52,11 +73,6 @@ public class RentalObject {
 //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="objectIndex")
-    private Set<Review> reviews = new HashSet<>();
-
     @Column(length = 40)
     private String objectName;
     private int price;
@@ -78,6 +94,8 @@ public class RentalObject {
     @Column(length = 200)
     private String locationInfo;
     private String objectImage; //BLOB임
+    private int visitCount;
+
 }
 
 
