@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -55,8 +56,16 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "userEmail")
     )
     private Set<ReportLog> reportLog;
-    @Embedded
-    private BanLog banLog;
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(
+//            name = "Ban_Log",
+//            joinColumns = @JoinColumn(name = "userEmail")
+//    )
+//    @OrderColumn(name = "banId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userEmail")
+    @OrderColumn(name = "banId")
+    private List<BanLog> banLog; // TODO: List로 변환
     private int paySum;
     private int commissionSum;
     private int rate;

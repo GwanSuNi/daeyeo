@@ -6,4 +6,6 @@ public interface CustomUserRepository {
     UserEntity customFindMethod(String email);
 
     int memoCountByEmail(String email);
+
+    int lastBanLogByEmail(String email);
 }
