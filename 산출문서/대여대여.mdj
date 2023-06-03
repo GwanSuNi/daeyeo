@@ -7706,7 +7706,7 @@
 											"font": "Arial;13;1",
 											"left": 464,
 											"top": 173,
-											"width": 211.7841796875,
+											"width": 212.51416015625,
 											"height": 13,
 											"text": "Ban_Log"
 										},
@@ -7722,6 +7722,21 @@
 											"subViews": [
 												{
 													"_type": "ERDColumnView",
+													"_id": "AAAAAAGIgBunUgmKUYY=",
+													"_parent": {
+														"$ref": "AAAAAAGHRy9mFdQz9sg="
+													},
+													"model": {
+														"$ref": "AAAAAAGIgBunSQmHc7Y="
+													},
+													"font": "Arial;13;0",
+													"left": 469,
+													"top": 196,
+													"width": 202.51416015625,
+													"height": 13
+												},
+												{
+													"_type": "ERDColumnView",
 													"_id": "AAAAAAGHRzAfsdRATPg=",
 													"_parent": {
 														"$ref": "AAAAAAGHRy9mFdQz9sg="
@@ -7731,8 +7746,8 @@
 													},
 													"font": "Arial;13;0",
 													"left": 469,
-													"top": 196,
-													"width": 201.7841796875,
+													"top": 211,
+													"width": 202.51416015625,
 													"height": 13
 												},
 												{
@@ -7746,8 +7761,8 @@
 													},
 													"font": "Arial;13;0",
 													"left": 469,
-													"top": 211,
-													"width": 201.7841796875,
+													"top": 226,
+													"width": 202.51416015625,
 													"height": 13
 												},
 												{
@@ -7761,8 +7776,8 @@
 													},
 													"font": "Arial;13;0",
 													"left": 469,
-													"top": 226,
-													"width": 201.7841796875,
+													"top": 241,
+													"width": 202.51416015625,
 													"height": 13
 												},
 												{
@@ -7776,8 +7791,8 @@
 													},
 													"font": "Arial;13;0",
 													"left": 469,
-													"top": 241,
-													"width": 201.7841796875,
+													"top": 256,
+													"width": 202.51416015625,
 													"height": 13
 												},
 												{
@@ -7791,23 +7806,23 @@
 													},
 													"font": "Arial;13;0",
 													"left": 469,
-													"top": 256,
-													"width": 201.7841796875,
+													"top": 271,
+													"width": 202.51416015625,
 													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 464,
 											"top": 191,
-											"width": 211.7841796875,
-											"height": 83
+											"width": 212.51416015625,
+											"height": 98
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 464,
 									"top": 168,
-									"width": 211.7841796875,
-									"height": 106,
+									"width": 212.51416015625,
+									"height": 121,
 									"nameLabel": {
 										"$ref": "AAAAAAGHRy9mFdQyQUc="
 									},
@@ -8588,7 +8603,7 @@
 											},
 											"font": "Arial;13;1",
 											"left": 16,
-											"top": 180,
+											"top": 173,
 											"width": 208.90869140625,
 											"height": 13,
 											"text": "User_Memo"
@@ -8614,7 +8629,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 21,
-													"top": 203,
+													"top": 196,
 													"width": 198.90869140625,
 													"height": 13
 												},
@@ -8629,7 +8644,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 21,
-													"top": 218,
+													"top": 211,
 													"width": 198.90869140625,
 													"height": 13
 												},
@@ -8644,7 +8659,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 21,
-													"top": 233,
+													"top": 226,
 													"width": 198.90869140625,
 													"height": 13
 												},
@@ -8659,21 +8674,21 @@
 													},
 													"font": "Arial;13;0",
 													"left": 21,
-													"top": 248,
+													"top": 241,
 													"width": 198.90869140625,
 													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 16,
-											"top": 198,
+											"top": 191,
 											"width": 208.90869140625,
 											"height": 68
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 16,
-									"top": 175,
+									"top": 168,
 									"width": 208.90869140625,
 									"height": 91,
 									"nameLabel": {
@@ -8702,7 +8717,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 89,
-											"top": 277,
+											"top": 274,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 15,
@@ -8736,7 +8751,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 89,
-											"top": 284,
+											"top": 277,
 											"height": 13,
 											"alpha": -0.5235987755982988,
 											"distance": 30,
@@ -8753,7 +8768,7 @@
 										"$ref": "AAAAAAGHRtHjqOWnuXY="
 									},
 									"lineStyle": 2,
-									"points": "104:304;104:265",
+									"points": "104:304;104:258",
 									"nameLabel": {
 										"$ref": "AAAAAAGHZmE0ONHlW6U="
 									},
@@ -9025,7 +9040,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 537,
-											"top": 292,
+											"top": 307,
 											"height": 13,
 											"alpha": -0.5235987755982988,
 											"distance": 30,
@@ -9042,7 +9057,7 @@
 										"$ref": "AAAAAAGHRtHjqOWnuXY="
 									},
 									"lineStyle": 2,
-									"points": "415:320;552:320;552:273",
+									"points": "415:320;552:320;552:288",
 									"nameLabel": {
 										"$ref": "AAAAAAGHZnIT/NNSznw="
 									},
@@ -10878,6 +10893,17 @@
 							},
 							"name": "Ban_Log",
 							"columns": [
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGIgBunSQmHc7Y=",
+									"_parent": {
+										"$ref": "AAAAAAGHRy9mFNQvLec="
+									},
+									"name": "banId",
+									"type": "INTEGER",
+									"length": 0,
+									"primaryKey": true
+								},
 								{
 									"_type": "ERDColumn",
 									"_id": "AAAAAAGHRzAfntQ9Vxs=",
