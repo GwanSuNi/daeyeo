@@ -9,6 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -22,6 +23,37 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+
+        NewUserService userService = (NewUserService) container.getBean("uService");
+        BanLogService banLogService = (BanLogService) container.getBean("banLogService");
+
+//        banLogService.insertBanLog("test@test.com", "ListTest1", LocalDateTime.now());
+//        banLogService.getLastBanLogByEmail("test@test.com");
+
+//        System.out.println(banLogService.getAllBanLogsByEmail("test@test.com"));
+
+//        AdService adService = (AdService) container.getBean("adService");
+//        adService.insertNewAd("ex@ex.com", "티하우스", LocalDate.of(2023,07,01), 5_000, "광고 이미지", "메인페이지");
+//        System.out.println(adService.getAdvertisement("ex@ex.com"));
+
+
+        UserRepository userRepository = (UserRepository) container.getBean("userRepository");
+//        userRepository.getLastBanLogByEmail("test@test.com");
+//        banLogService.setBanFlag("test@test.com", false);
+//        banLogService.getLastBanLogByEmail("test@test.com");
+        System.out.println(banLogService.isUserCanLogin("test@test.com", LocalDateTime.of(2022,2, 1,0,0,0)));
+//        userService.setBanFlag("ex@ex.com", false);
+//        System.out.println(userService.getAllBanLogsByEmail("ex@ex.com"));
+//        System.out.println(userService.findUserByEmail("ex@ex.com"));
+
+//        List<BanLog> banLogs = userService.getAllBanLogsByEmail("ex@ex.com");
+//        for (BanLog banLog : banLogs) {
+//            System.out.println(banLog);
+//        }
+
+//        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
+
+//        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
 //          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
         // 완료 -rentalObject CRUD 테스트 다함
 //        rentalObjectService.insertRentalObject("test@test.com","scIdTest","test마지막입니다.",0,"0",
