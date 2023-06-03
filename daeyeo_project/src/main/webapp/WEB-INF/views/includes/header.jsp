@@ -25,9 +25,9 @@
     </div>
 
     <ul class="navbar_menu">
-        <li><a class="header_a" href="">공간시설</a></li>
-        <li><a class="header_a" href="">개인대여</a></li>
-        <li><a class="header_a" href="">이용안내</a></li>
+        <li><a class="header_a" href="${path}/rental/list">공간시설</a></li>
+        <li><a class="header_a" href="${path}/error/404">개인대여</a></li>
+        <li><a class="header_a" href="${path}/guidebook">이용안내</a></li>
     </ul>
 
     <div class="dum_navbar_links">
