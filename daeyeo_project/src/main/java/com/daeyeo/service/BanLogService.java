@@ -30,8 +30,8 @@ public class BanLogService {
      * @param duration
      *
      */
-    public void insertBanLog(UserEntity user, String reason, LocalDateTime duration) {
-//        UserEntity user = userRepository.findByUserEmail(email).get();
+    public void insertBanLog(String email, String reason, LocalDateTime duration) {
+        UserEntity user = userRepository.findByUserEmail(email).get();
         // 밴 로그 생성
         BanLog newBanLog = new BanLog(true, reason, duration);
 //        newBanLog.setUserEntity(user);
