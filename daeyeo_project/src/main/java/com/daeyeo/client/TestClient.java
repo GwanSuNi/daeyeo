@@ -177,6 +177,7 @@ public class TestClient {
 
 
         NewUserService userService = (NewUserService) container.getBean("uService");
+        banLogService.insertBanLog("ax@ax.com", "그냥", LocalDateTime.now());
 //        UserEntity newUser  = new UserEntity();
 //        newUser.setUserEmail("ax@ax.com");
 //        newUser.setUserPw("12345");
@@ -190,7 +191,7 @@ public class TestClient {
 //        newBanLog.setDuration(LocalDateTime.of(1970, 1, 1, 0, 0, 0));
 //        newUser.addBanLog(newBanLog);
 //        userService.insertUser(newUser);
-        System.out.println(banLogService.isUserCanLogin("ax@ax.com", LocalDateTime.now()));
+//        System.out.println(banLogService.isUserCanLogin("ax@ax.com", LocalDateTime.now()));
 //        List<UserEntity> userEntityList = userService.getUserEntityList(new UserEntity());
 //        System.out.println("찍업보기");
 //        System.out.println(userEntityList.get(0).toString());
