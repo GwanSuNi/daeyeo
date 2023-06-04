@@ -5,6 +5,13 @@
   Time: 2:36 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+  Created by IntelliJ IDEA.
+  User: seosanghyeon
+  Date: 2023/05/15
+  Time: 2:36 PM
+  To change this template use File | Settings | File Templates.
+--%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -169,20 +176,19 @@
     </ul>
 </aside>
 
-
-<!-- End Sidebar-->
 <!-- End Sidebar-->
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>회원별 정보</h1>
+        <h1>전체 게시물 정보</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">회원관리</a></li>
-                <li class="breadcrumb-item active">회원 테이블</li>
+                <li class="breadcrumb-item"><a href="index.html">컨텐츠 관리</a></li>
+                <li class="breadcrumb-item active">전체 게시물</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
+    <!-- End Page Title -->
 
     <section class="section">
         <div class="row">
@@ -190,130 +196,62 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
+                        <h5 class="card-title">게시물 정보 테이블</h5>
                         <p></p>
                         <!-- Table with stripped rows -->
-                        <table class="table datatable" >
+                        <table class="table datatable">
                             <thead>
                             <tr>
                                 <th scope="col">index</th>
-                                <th scope="col">회원유형</th>
-                                <th scope="col">회원이름</th>
-                                <th scope="col">생년월일</th>
-                                <th scope="col">번호</th>
-                                <th scope="col">가입일</th>
-                                <th scope="col">대여 글 횟수</th>
-                                <th scope="col">예약 횟수</th>
-                                <th scope="col">대여 횟수</th>
-                                <th scope="col">이용 후기</th>
-                                <th scope="col">누적 결제 금액</th>
-                                <th scope="col">누적 수수료</th>
-                                <th scope="col">회원 별점</th>
-                                <th scope="col">정지 여부</th>
-                                <th scope="col">메모</th>
+                                <th scope="col">삭제하기</th>
+                                <th scope="col">제목</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">위치</th>
+                                <th scope="col">작성시각</th>
+                                <th scope="col">좋아요</th>
+                                <th scope="col">조회수</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>골드</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">서상현</button></td>
-                                <td>000612</td>         <!-- 생년 월일 -->
-                                <td>01099481901</td>         <!-- 번호 -->
-                                <td>20220612</td>         <!-- 가입일 -->
-                                <td>1회</td>         <!-- 대여 글 횟수 -->
-                                <td>2회</td>         <!-- 예약 횟수 -->
-                                <td>3회</td>         <!-- 대여 횟수 -->
-                                <td>4개</td>         <!-- 이용 후기 -->
-                                <td>4030</td>         <!-- 누적 결제 금액 -->
-                                <td>300</td>         <!-- 누적 수수료 -->
-                                <td>4.3</td>         <!-- 회원 별점 -->
-                                <td>true</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
+                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                <td>401호강의실..</td>           <!-- 회원 유형 -->
+                                <td>서상현</td>       <!-- 작성자 -->
+                                <td>효행관</td>         <!-- 위치 -->
+                                <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
+                                <td>33</td>         <!-- 좋아요 -->
+                                <td>132</td>        <!-- 조회수 -->
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
-                                <td>실버</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">유관형</button></td>
-                                <td>000423</td>         <!-- 생년 월일 -->
-                                <td>01082440870</td>         <!-- 번호 -->
-                                <td>20220423</td>         <!-- 가입일 -->
-                                <td>3회</td>         <!-- 대여 글 횟수 -->
-                                <td>4회</td>         <!-- 예약 횟수 -->
-                                <td>5회</td>         <!-- 대여 횟수 -->
-                                <td>6개</td>         <!-- 이용 후기 -->
-                                <td>2030</td>         <!-- 누적 결제 금액 -->
-                                <td>600</td>         <!-- 누적 수수료 -->
-                                <td>2.3</td>         <!-- 회원 별점 -->
-                                <td>false</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
+                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                <td>401호강의실..</td>           <!-- 회원 유형 -->
+                                <td>서상현</td>      <!-- 작성자 -->
+                                <td>효행관</td>          <!-- 위치 -->
+                                <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
+                                <td>33</td>         <!-- 좋아요 -->
+                                <td>132</td>         <!-- 조회수 -->
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
-                                <td>브론즈</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">류인태</button></td>
-                                <td>000104</td>         <!-- 생년 월일 -->
-                                <td>01075248997</td>         <!-- 번호 -->
-                                <td>20220104</td>         <!-- 가입일 -->
-                                <td>2회</td>         <!-- 대여 글 횟수 -->
-                                <td>4회</td>         <!-- 예약 횟수 -->
-                                <td>1회</td>         <!-- 대여 횟수 -->
-                                <td>3개</td>         <!-- 이용 후기 -->
-                                <td>6974</td>         <!-- 누적 결제 금액 -->
-                                <td>600</td>         <!-- 누적 수수료 -->
-                                <td>4.1</td>         <!-- 회원 별점 -->
-                                <td>true</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
+                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                <td>401호강의실..</td>   <!-- 제목 -->
+                                <td>서상현</td>          <!-- 작성자 -->
+                                <td>효행관</td>         <!-- 위치 -->
+                                <td>2023년5월23일07시23분</td> <!-- 작성시각 -->
+                                <td>33</td>         <!-- 좋아요 -->
+                                <td>132</td>         <!-- 조회수 -->
                             </tr>
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
-
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 </main><!-- End #main -->
-<div class="modal fade" id="seosanghyeon" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">서상현님의 회원정보</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table datatable" >
-                    <thead>
-                    <tr>
-                        <th scope="col">index</th>
-                        <th scope="col">날짜</th>
-                        <th scope="col">대여 성사 수</th>
-                        <th scope="col">매출액</th>
-                        <th scope="col">방문자</th>
-                        <th scope="col">가입자</th>
-                        <th scope="col">후기 개수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>2022년 5월 8일</td> <!-- 날짜 -->
-                        <td>8회</td>            <!-- 대여 성사 수 -->
-                        <td>3000원</td>         <!-- 매출액 -->
-                        <td>9명</td>         <!-- 방문자 -->
-                        <td>1명</td>         <!-- 가입자 -->
-                        <td>4개</td>         <!-- 후기 개수 -->
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 </body>
 <!-- Vendor JS Files -->
 <script src="${path}/resources/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
