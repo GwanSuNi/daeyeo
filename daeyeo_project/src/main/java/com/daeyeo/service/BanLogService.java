@@ -30,11 +30,11 @@ public class BanLogService {
      * @param duration
      *
      */
-    public void insertBanLog(String email, String reason, LocalDateTime duration) {
-        UserEntity user = userRepository.findByUserEmail(email).get();
+    public void insertBanLog(UserEntity user, String reason, LocalDateTime duration) {
+//        UserEntity user = userRepository.findByUserEmail(email).get();
         // 밴 로그 생성
         BanLog newBanLog = new BanLog(true, reason, duration);
-        newBanLog.setUserEntity(user);
+//        newBanLog.setUserEntity(user);
 //        newBanLog.setFlag(true);
 //        newBanLog.setBanReason(reason);
 //        newBanLog.setDuration(duration);
@@ -99,7 +99,7 @@ public class BanLogService {
         LocalDateTime banEndDate = banLog.getDuration();
         boolean isBaned = banLog.isFlag(); // flag가 true면 Ban이라는 뜻이기 때문에 반전해서 사용
         if (now.isAfter(banEndDate)) {
-            return false;
+            return true;
         } else {
             return !isBaned;
         }

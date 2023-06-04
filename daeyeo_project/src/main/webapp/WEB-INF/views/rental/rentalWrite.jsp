@@ -7,7 +7,7 @@
     <!-- CSS File -->
     <link href="${path}/resources/css/rental/rental_write.css" rel="stylesheet">
 
-    <title>대여 글</title>
+    <title>대여글 작성 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">

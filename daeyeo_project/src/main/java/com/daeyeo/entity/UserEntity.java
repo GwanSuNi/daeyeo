@@ -10,7 +10,7 @@ import java.util.*;
 
 @Entity
 @Data
-@ToString(exclude = {"banLog"})
+@ToString(exclude = {"banLogs"})
 //@DynamicUpdate
 @Table(name = "User")
 @EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs", "banLogs", "reviews"})
@@ -31,7 +31,7 @@ public class UserEntity {
     private String userName;
     private String statusMsg;
     @Embedded
-    private Address location;
+    private Address address; //TODO: location 컬럼 보류
     private String phoneNum;
     private String department;
     private String userCategory;
@@ -61,10 +61,11 @@ public class UserEntity {
 //    @OrderColumn(name = "banId")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
     @OrderColumn(name = "banId")
-    private List<BanLog> banLogs = new ArrayList<>(); // TODO: List로 변환
+    private List<BanLog> banLogs = new ArrayList<>();
 
     public void addBanLog(BanLog banLog) {
         this.getBanLogs().add(banLog);
+        banLog.addUserEntity(this);
     }
 
     private int paySum;

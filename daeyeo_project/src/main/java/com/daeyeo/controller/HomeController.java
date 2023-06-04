@@ -2,6 +2,7 @@ package com.daeyeo.controller;
 
 import com.daeyeo.entity.UserEntity;
 import com.daeyeo.service.NewUserService;
+import com.daeyeo.service.UseInfoService;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @Autowired
     NewUserService userService;
+    @Autowired
+    UseInfoService useInfoService;
+
     @RequestMapping("/")
     public String home() {
         return "mainPage";
@@ -32,7 +36,9 @@ public class HomeController {
     }
 
     @GetMapping("/guidebook")
-    public String guidebook() {
+    public String guidebook(Model model) {
+        model.addAttribute("useInfos", useInfoService.getAllUseInfos());
+        model.addAttribute("totalCount", useInfoService.countUseInfos());
         return "guidebook";
     }
 
