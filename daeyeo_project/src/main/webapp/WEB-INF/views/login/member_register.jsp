@@ -58,7 +58,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
                                     </div>
-                                    <form action="/register" method="post" class="user">
+                                    <form action="/login/register" method="post" class="user">
                                         <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
                                             <input type="text" name="userName" class="form-control form-control-user"

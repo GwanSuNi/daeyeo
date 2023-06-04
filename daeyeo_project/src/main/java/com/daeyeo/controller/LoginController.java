@@ -9,14 +9,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.security.Principal;
 
+@Controller
 @AllArgsConstructor
 public class LoginController {
     @Autowired
@@ -62,33 +64,39 @@ public class LoginController {
 
         return "redirect:/";
     }
+//    @GetMapping("/index")
+//    public String index(@AuthenticationPrincipal Principal principal, Model model) {
+//        model.addAttribute("username", principal.getName());
+//        return "index";
+//    }
 
-    @GetMapping("/login_process")
-    public String processLogin(@RequestParam("userEmail") String userEmail,
-                               @RequestParam("userPw") String userPw,
-                               HttpServletRequest request, Model model) {
-        System.out.println("login_process 가 실행됨");
-        try {
-            request.login(userEmail, userPw); // 로그인 시도
-        } catch (ServletException e) {
-            model.addAttribute("errorMessage", "Login Error: Check Your Account");
-            return "login/member_login";    
-        }
+//    @GetMapping("/login_process")
+//    public String processLogin(@RequestParam("userEmail") String userEmail,
+//                               @RequestParam("userPw") String userPw,
+//                               HttpServletRequest request, Model model) {
+//        System.out.println("login_process 가 실행됨");
+//        try {
+//            request.login(userEmail, userPw); // 로그인 시도
+//        } catch (ServletException e) {
+//            model.addAttribute("errorMessage", "Login Error: Check Your Account");
+//            return "login/member_login";
+//        }
+//
+//        return "redirect:/"; // 로그인 성공 후 리다이렉트할 페이지 (예: 홈페이지)
+//    }
 
-        return "redirect:/"; // 로그인 성공 후 리다이렉트할 페이지 (예: 홈페이지)
-    }
-
-    @PostMapping("/login2")
-    public String login(@ModelAttribute UserDTO userDTO, HttpSession session) {
-        UserDTO loginResult = userService.login(userDTO);
-        if (loginResult != null) {
-            // 로그인 성공
-            System.out.println("로그인 성공");
-            session.setAttribute("loginEmail", loginResult.getUserEmail());
-//            session.setMaxInactiveInterval();
-            return "redirect:/";
-        } else {
-            return "redirect:/error/403";
-        }
-    }
+//    @GetMapping("/login_process")
+//    public String login(@ModelAttribute UserDTO userDTO, HttpSession session) {
+//        System.out.println("loing2 가 실행되긴 함");
+//        UserDTO loginResult = userService.login(userDTO);
+//        if (loginResult != null) {
+//            // 로그인 성공
+//            System.out.println("로그인 성공");
+//            session.setAttribute("loginEmail", loginResult.getUserEmail());
+////            session.setMaxInactiveInterval();
+//            return "redirect:/";
+//        } else {
+//            return "redirect:/error/403";
+//        }
+//    }
 }

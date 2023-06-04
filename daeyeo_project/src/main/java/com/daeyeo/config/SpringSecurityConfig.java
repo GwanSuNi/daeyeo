@@ -39,16 +39,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter { // 2
     protected void configure(HttpSecurity http) throws Exception { // http 관련 인증 설정이 가능
         http
                 .authorizeRequests() // 접근에 대한 인증 설정시작
-                .antMatchers("/login", "/signup").permitAll() // 누구나 접근 허용
+                .antMatchers("/login", "/register").permitAll() // 누구나 접근 허용
                 .antMatchers("/").hasRole("USER") // USER, ADMIN만 접근 가능
                 .antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
                 .anyRequest().authenticated() // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근 가능
                 .and()
                 .formLogin() // 로그인에 관한 설정 시작
                     .loginPage("/login") // 로그인 페이지 링크
-                    .loginProcessingUrl("/login2")
-                    .defaultSuccessUrl("/")
-                    .permitAll() // 임시로 허용
+                    .loginProcessingUrl("/login")
+                  .usernameParameter("userEmail") // 이메일 입력란 이름 설정
+                  .passwordParameter("userPw") // 비밀번호 입력란 이름 설정
                 .and()
                 .logout() // 로그아웃에 관한 설정 시작
                     .logoutSuccessUrl("/login") // 로그아웃 성공시 리다이렉트 주소

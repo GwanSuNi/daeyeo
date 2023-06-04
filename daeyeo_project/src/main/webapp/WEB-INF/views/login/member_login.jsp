@@ -84,7 +84,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     </div>
-                                    <form action="/login2" method="post" class="user">
+                                    <form action="/login" method="post" class="user">
                                         <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
                                             <input type="text" name="userEmail"
@@ -106,10 +106,7 @@
                                                 <input type="submit" value="로그인2"
                                                        class="btn btn-primary btn-user btn-block">
                                             </div>
-                                            <div>
-                                                <input type="hidden" name="${_csrf.parameterName}"
-                                                       value="${_csrf.token}">
-                                            </div>
+
                                             <hr>
                                             <a href="index.html" class="btn btn-google btn-user btn-block">
                                                 <i class="fab fa-google fa-fw"></i> Login with Google
@@ -117,6 +114,10 @@
                                             <%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
                                             <%--                                            <i class="fab fa-facebook-f fa-fw"></i> Login with KakaoTalk--%>
                                             <%--                                        </a>--%>
+                                            <div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                       value="${_csrf.token}">
+                                            </div>
                                     </form>
                                     <hr>
                                     <div class="text-center">
