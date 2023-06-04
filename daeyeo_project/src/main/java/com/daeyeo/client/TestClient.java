@@ -29,8 +29,7 @@ public class TestClient {
 //        System.out.println(useInfoService.getAllUseInfos());
 //        System.out.println(useInfoService.countUseInfos());
 
-
-        NewUserService userService = (NewUserService) container.getBean("uService");
+//        NewUserService userService = (NewUserService) container.getBean("uService");
         BanLogService banLogService = (BanLogService) container.getBean("banLogService");
 
 //        banLogService.insertBanLog("test@test.com", "ListTest1", LocalDateTime.now());
@@ -177,14 +176,21 @@ public class TestClient {
 //        mainCategoryService.insertMainCategory(mainCategory1);
 
 
-//        NewUserService userService = (NewUserService) container.getBean("uService");
+        NewUserService userService = (NewUserService) container.getBean("uService");
 //        UserEntity newUser  = new UserEntity();
-//        newUser.setUserEmail("test@test.com");
-//        newUser.setUserPw("1234");
-//        newUser.setUserName("Hello World");
-//        newUser.setPhoneNum("010-1234-5678");
+//        newUser.setUserEmail("ax@ax.com");
+//        newUser.setUserPw("12345");
+//        newUser.setUserName("Bye World");
+//        newUser.setPhoneNum("010-4321-8765");
+//        newUser.setQuitFlag(false);
+//        newUser.setAddress(new Address(1));
+//        BanLog newBanLog = new BanLog();
+//        newBanLog.setFlag(false);  // flag 필드에 값을 지정해줍니다.
+//        newBanLog.setBanReason("register");
+//        newBanLog.setDuration(LocalDateTime.of(1970, 1, 1, 0, 0, 0));
+//        newUser.addBanLog(newBanLog);
 //        userService.insertUser(newUser);
-
+        System.out.println(banLogService.isUserCanLogin("ax@ax.com", LocalDateTime.now()));
 //        List<UserEntity> userEntityList = userService.getUserEntityList(new UserEntity());
 //        System.out.println("찍업보기");
 //        System.out.println(userEntityList.get(0).toString());
