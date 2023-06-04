@@ -1,0 +1,27 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"/>-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xmlns:security="http://www.springframework.org/schema/security"-->
+<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+<!--       http://www.springframework.org/schema/beans/spring-beans.xsd-->
+<!--       http://www.springframework.org/schema/security-->
+<!--       http://www.springframework.org/schema/security/spring-security.xsd">-->
+
+<!--    &lt;!&ndash; Spring Security 설정 추가 &ndash;&gt;-->
+<!--    <security:http auto-config="true" use-expressions="true">    &lt;!&ndash; 추가됨 &ndash;&gt;-->
+<!--        <security:intercept-url pattern="/login/all" access="permitAll"/>-->
+<!--        <security:intercept-url pattern="/login/user" access="hasRole('ROLE_MEMBER')"/>-->
+<!--        <security:intercept-url pattern="/login/admin" access="hasRole('ROLE_ADMIN')"/>&lt;!&ndash; 추가된 부분 &ndash;&gt;-->
+<!--        <security:form-login login-page="/login"/>-->
+<!--        <security:access-denied-handler error-page="/403"/>    &lt;!&ndash; 추가됨 &ndash;&gt;-->
+<!--    </security:http>-->
+<!--    <security:authentication-manager>-->
+<!--        &lt;!&ndash; 추가된 부분 &ndash;&gt;-->
+<!--        <security:authentication-provider>-->
+<!--            <security:user-service>-->
+<!--                <security:user name="user" password="{noop}user" authorities="ROLE_MEMBER"/>-->
+<!--                &lt;!&ndash; 추가된 부분 admin 관리자가 두 가지의 권한을 가지는 것&ndash;&gt;-->
+<!--                <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>-->
+<!--            </security:user-service>-->
+<!--        </security:authentication-provider>-->
+<!--    </security:authentication-manager>-->
