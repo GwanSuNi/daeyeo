@@ -58,7 +58,7 @@ public class TestClient {
 //          reviewService.findReview(1,5,"test@test.com");
         /*===============양방향 관계 CRUD테스트====================== */
 
-
+//
 //        rentalLogService.findByRentalId(8);
 //        rentalLogService.findRentalLog(8,"test@test.com",5);
 //        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
@@ -139,13 +139,20 @@ public class TestClient {
 //        mainCategoryService.insertMainCategory(mainCategory1);
 
 
-//        NewUserService userService = (NewUserService) container.getBean("uService");
-//        UserEntity newUser  = new UserEntity();
-//        newUser.setUserEmail("test@test.com");
-//        newUser.setUserPw("1234");
-//        newUser.setUserName("Hello World");
-//        newUser.setPhoneNum("010-1234-5678");
-//        userService.insertUser(newUser);
+        NewUserService userService = (NewUserService) container.getBean("uService");
+        UserEntity newUser  = new UserEntity();
+        newUser.setUserEmail("test@test.com1");
+        newUser.setUserPw("1234");
+        newUser.setUserName("Hello World");
+        newUser.setPhoneNum("010-1234-5678");
+//        newUser.setDepartment("회사원");
+//        newUser.setUserCategory("골드회원");
+//        newUser.setRegistDate(LocalDateTime.now());
+//        newUser.setPaySum(3000);
+//        newUser.setCommissionSum(2000);
+//        newUser.setRate(1000);
+//        newUser.setQuitFlag(true);
+        userService.insertUser(newUser);
 
 //        List<UserEntity> userEntityList = userService.getUserEntityList(new UserEntity());
 //        System.out.println("찍업보기");

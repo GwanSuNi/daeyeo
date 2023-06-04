@@ -1,15 +1,22 @@
 <%--
   Created by IntelliJ IDEA.
   User: seosanghyeon
-  Date: 2023/05/15
-  Time: 2:37 PM
+  Date: 2023/06/03
+  Time: 6:48 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%--
   Created by IntelliJ IDEA.
   User: seosanghyeon
-  Date: 2023/05/10
-  Time: 11:54 PM
+  Date: 2023/05/15
+  Time: 2:36 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: seosanghyeon
+  Date: 2023/05/15
+  Time: 2:36 PM
   To change this template use File | Settings | File Templates.
 --%>
 
@@ -171,125 +178,88 @@
                 </li>
             </ul>
         </li>
+
         <!-- End Ad Nav -->
     </ul>
 </aside>
+
 <!-- End Sidebar-->
 
-<main id="main" class="main">
-    <div class="pagetitle">
-        <h1>광고관리</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">광고관리</a></li>
-                <li class="breadcrumb-item active">광고 수익 전체 통계</li>
-            </ol>
-        </nav>
-    </div>
-    <!-- End Page Title -->
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>전체 후기정보</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">컨텐츠 관리</a></li>
+                    <li class="breadcrumb-item active">후기 관리</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
 
-    <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">광고 수익 테이블</h5>
-                        <p></p>
-                        <!-- Table with stripped rows -->
-                        <table class="data datatable">
-                            <thead>
-                            <tr>
-                                <th scope="col">index</th>
-                                <th scope="col">회사</th>
-                                <th scope="col">회사담당자</th>
-                                <th scope="col">담당자번호</th>
-                                <th scope="col">광고기간</th>
-                                <th scope="col">광고위치</th>
-                                <th scope="col">광고가격</th>
-                                <th scope="col">광고이미지</th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#samsung">삼성</button></td>
-                                <td>서상현</td>       <!-- 작성자 -->
-                                <td>01099481901</td>         <!-- 위치 -->
-                                <td>2022년5월~2022년6월</td>       <!-- 작성시각 -->
-                                <td>상단</td>         <!-- 좋아요 -->
-                                <td>보여지는횟수당10원</td>        <!-- 조회수 -->
-                                <td>이미지임</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#samsung">현대</button></td>
-                                <td>유관형</td>       <!-- 작성자 -->
-                                <td>01094181921</td>         <!-- 위치 -->
-                                <td>2022년3월~2022년9월</td>       <!-- 작성시각 -->
-                                <td>상단</td>         <!-- 좋아요 -->
-                                <td>보여지는횟수당50원</td>        <!-- 조회수 -->
-                                <td>이미지임</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#samsung">카카오</button></td>
-                                <td>박윤우</td>       <!-- 작성자 -->
-                                <td>01014281011</td>         <!-- 위치 -->
-                                <td>2022년5월~2022년10월</td>       <!-- 작성시각 -->
-                                <td>하단</td>         <!-- 좋아요 -->
-                                <td>보여지는횟수당30원</td>        <!-- 조회수 -->
-                                <td>이미지임</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- End Table with stripped rows -->
-
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">회원 후기 테이블</h5>
+                            <p></p>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">index</th>
+                                    <th scope="col">삭제하기</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">작성자</th>
+                                    <th scope="col">위치</th>
+                                    <th scope="col">작성시각</th>
+                                    <th scope="col">좋아요</th>
+                                    <th scope="col">조회수</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                    <td>401호강의실..</td>           <!-- 회원 유형 -->
+                                    <td>서상현</td>       <!-- 작성자 -->
+                                    <td>효행관</td>         <!-- 위치 -->
+                                    <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
+                                    <td>33</td>         <!-- 좋아요 -->
+                                    <td>132</td>        <!-- 조회수 -->
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                    <td>401호강의실..</td>           <!-- 회원 유형 -->
+                                    <td>서상현</td>      <!-- 작성자 -->
+                                    <td>효행관</td>          <!-- 위치 -->
+                                    <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
+                                    <td>33</td>         <!-- 좋아요 -->
+                                    <td>132</td>         <!-- 조회수 -->
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                    <td>401호강의실..</td>   <!-- 제목 -->
+                                    <td>서상현</td>          <!-- 작성자 -->
+                                    <td>효행관</td>         <!-- 위치 -->
+                                    <td>2023년5월23일07시23분</td> <!-- 작성시각 -->
+                                    <td>33</td>         <!-- 좋아요 -->
+                                    <td>132</td>         <!-- 조회수 -->
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
+                        </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-    </section>
-</main>
-<!-- End #main -->
+        </section>
 
-<div class="modal fade" id="samsung" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">삼성회사 정보</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table datatable">
-                    <thead>
-                    <tr>
-                        <th scope="col">index</th>
-                        <th scope="col">광고요청내용</th>
-                        <th scope="col">보여진횟수</th>
-                        <th scope="col">클릭횟수</th>
-                        <th scope="col">수익</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>여행할때여기어때</td> <!-- 날짜 -->
-                        <td>1230회</td>            <!-- 대여 성사 수 -->
-                        <td>2341회</td>         <!-- 매출액 -->
-                        <td>1400000원</td>         <!-- 방문자 -->
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+    </main><!-- End #main -->
 
-
-
-</main>
 </body>
 <!-- Vendor JS Files -->
 <script src="${path}/resources/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -305,4 +275,3 @@
 <script src="${path}/resources/css/assets/js/main.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>
-
