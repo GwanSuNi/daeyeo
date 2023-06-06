@@ -1,5 +1,6 @@
 package com.daeyeo.service;
 
+import com.daeyeo.entity.Address;
 import com.daeyeo.entity.RentalObject;
 import com.daeyeo.entity.SubCategory;
 import com.daeyeo.entity.UserEntity;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -33,6 +35,11 @@ public class RentalObjectService {
         Optional<UserEntity> userEntity = userRepository.findByUserEmail(email);
         return userEntity.orElse(null);
     }
+    public List<RentalObject> findAll(){
+        return rentalObjectRepository.findAll();
+    }
+
+
 
     /**
      * @auther 서상현
@@ -44,14 +51,15 @@ public class RentalObjectService {
     public void insertRentalObject(String ownerEmail , String scId, String objectName, int price,
                                      String website , String target , LocalDate startDuration ,
                                    LocalDate endDuration, LocalDateTime receiptDuration , int capacity ,
-                                   int representNum , String userInfo , String locationInfo, String objectImage){
+                                   int representNum , String userInfo , String locationInfo, String objectImage
+                                        ,Address address){
          UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
          SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
 
          RentalObject rentalObject = new RentalObject(userEntity, subCategory , objectName, price ,website,
                  target,startDuration,endDuration,receiptDuration,capacity,representNum,userInfo,locationInfo,
                  objectImage);
-
+        rentalObject.setAddress(address);
         userEntity.addRentalObject(rentalObject);
         subCategory.addRentalObject(rentalObject);
         rentalObjectRepository.save(rentalObject);
