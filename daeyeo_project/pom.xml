@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.daeyeo</groupId>
   <artifactId>daeyeo_project</artifactId>
@@ -100,13 +100,13 @@
       <artifactId>lombok</artifactId>
       <version>1.18.24</version>
     </dependency>
-<!--hibernate-core 5.2.12 사용 시, xml bind가 안되는 문제를 해결하기 위해 추가했으나-->
-<!--5.3.20.Final 버전으로 업그레이드 하니 없어도 작동함-->
-<!--    <dependency>-->
-<!--      <groupId>javax.xml.bind</groupId>-->
-<!--      <artifactId>jaxb-api</artifactId>-->
-<!--      <version>2.3.1</version>-->
-<!--    </dependency>-->
+    <!--hibernate-core 5.2.12 사용 시, xml bind가 안되는 문제를 해결하기 위해 추가했으나-->
+    <!--5.3.20.Final 버전으로 업그레이드 하니 없어도 작동함-->
+    <!--    <dependency>-->
+    <!--      <groupId>javax.xml.bind</groupId>-->
+    <!--      <artifactId>jaxb-api</artifactId>-->
+    <!--      <version>2.3.1</version>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-jpa</artifactId>
@@ -122,6 +122,28 @@
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>1.9.5</version>
+    </dependency>
+    <!-- 스프링 Security 보안 라이브러리 -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>5.5.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>5.5.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>5.5.3</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>5.5.3</version>
     </dependency>
   </dependencies>
   <build>

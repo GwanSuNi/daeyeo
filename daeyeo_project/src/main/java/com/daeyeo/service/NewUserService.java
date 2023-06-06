@@ -1,7 +1,12 @@
 package com.daeyeo.service;
 
+<<<<<<< HEAD
 import com.daeyeo.entity.*;
 import com.daeyeo.persistence.CustomUserRepositoryImpl;
+=======
+import com.daeyeo.entity.UserEntity;
+import com.daeyeo.entity.*;
+>>>>>>> loginThaiThai
 import com.daeyeo.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +21,7 @@ import java.util.Set;
 
 @Service("uService")
 @Transactional
-public class NewUserService {
+public class NewUserService{
     @Autowired
     private UserRepository userRepository;
     // ==================== 유저 관련 메서드 시작 ====================
@@ -42,6 +47,14 @@ public class NewUserService {
     public UserEntity findUserByEmail(String email) {
         return userRepository.findByUserEmail(email).get();
     }
+
+    public void validateDuplicateMember(UserEntity user) {
+        Optional<UserEntity> findUser = userRepository.findByUserEmail(user.getUserEmail());
+        if (findUser.isPresent()) {
+            throw new IllegalStateException("이미 가입된 회원입니다.");
+        }
+    }
+}
 // ==================== 유저 관련 메서드 끝 ====================
 
 
@@ -54,4 +67,3 @@ public class NewUserService {
 //        query.setParameter("email", "ex@ex.com");
 //        int resultList = query.executeUpdate();
 //    }
-}
