@@ -70,7 +70,7 @@ public class UserEntity {
 
     private int paySum;
     private int commissionSum;
-    private int rate;
+    private float rate;
     private boolean quitFlag;
 
     @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL, mappedBy = "userEntity")
@@ -95,7 +95,7 @@ public class UserEntity {
     )
     @MapKeyColumn(name = "objectIndex")
     @Column(name = "wishedDate")
-    private Map<String, String> wishLists = new HashMap();
+    private Map<Integer, LocalDateTime> wishLists = new HashMap();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(

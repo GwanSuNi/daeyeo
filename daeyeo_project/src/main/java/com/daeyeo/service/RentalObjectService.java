@@ -38,13 +38,13 @@ public class RentalObjectService {
      * @auther 서상현
      * RentalObject를 만드는 메서드입니다. 기본키는 AutoIncrement를 적용해서 매개변수로 값을 넣어주지않았고 ,
      * 외래키는 양방향 관계로 인해 값을 둘다 넣어줘야하기때문에 userEmail과 scId를 넣었습니다
-     * @param userEmail UserEntity에서 갖고온 외래키입니다
+     * @param ownerEmail UserEntity에서 갖고온 외래키입니다
      * @param scId Sub Category에서 갖고온 외래키입니다.
      */
     public void insertRentalObject(String ownerEmail , String scId, String objectName, int price,
                                      String website , String target , LocalDate startDuration ,
                                    LocalDate endDuration, LocalDateTime receiptDuration , int capacity ,
-                                   int representNum , String userInfo , String locationInfo, String objectImage){
+                                   String representNum , String userInfo , String locationInfo, byte[] objectImage){
          UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
          SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
 
@@ -89,8 +89,8 @@ public class RentalObjectService {
      */
     public void updateRentalObject(int objectIndex , String scId , String ownerEmail ,String objectName , int price,
                                             String website ,String target, LocalDate startDuration, LocalDate endDuration,
-                                                LocalDateTime receiptDuration , int capacity , int representNum , String userInfo,
-                                           String locationInfo , String objectImage) {
+                                                LocalDateTime receiptDuration , int capacity , String representNum , String userInfo,
+                                           String locationInfo , byte[] objectImage) {
         RentalObject changeRentalObject = new RentalObject();
         Optional<RentalObject> oldRentalObject = rentalObjectRepository.findByObjectIndex(objectIndex);
         if(oldRentalObject!=null){
