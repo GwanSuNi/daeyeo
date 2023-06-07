@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<jsp:useBean id="loginForm" class="com.daeyeo.config.LoginForm" scope="request" />
 <html>
 <head>
     <title>대여대여 로그인</title>
@@ -15,11 +16,27 @@
 
     <!-- Custom fonts for this template-->
     <link href="${path}/resources/css/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="${path}/resources/css/assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/footer_bottom.css">
+    <style>
+        .error {
+            color: #bd2130;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 로그인 실패시 에러 메시지 출력
+        $(document).ready(function () {
+            var errorMessage = "${errorMessage}";
+            if (errorMessage != null && errorMessage !== "") {
+                alert(errorMessage);
+            }
+        });
+    </script>
 </head>
 <body>
 <div class="body_container">
@@ -68,14 +85,19 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form action="/login.do" object="${loginForm}" method="post" class="user">
+                                        <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="text" name="userEmail"
+                                                   class="form-control form-control-user"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
+                                                   value="<%= loginForm.getuserEmail() %>"
                                                    placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" name="userPw"
+                                                   class="form-control form-control-user"
+                                                   value="<%= loginForm.getuserPw()%>"
                                                    id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         <div class="form-group">
@@ -83,21 +105,26 @@
                                                 <input type="checkbox" class="custom-control-input"
                                                        id="customCheck">아이디 저장</label>
                                             </div>
-                                        </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            로그인
-                                        </a>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-<%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
-<%--                                            <i class="fab fa-facebook-f fa-fw"></i> Login with KakaoTalk--%>
-<%--                                        </a>--%>
+                                            <div>
+                                                <input type="submit" value="로그인2"
+                                                       class="btn btn-primary btn-user btn-block">
+                                            </div>
+
+                                            <hr>
+                                            <a href="index.html" class="btn btn-google btn-user btn-block">
+                                                <i class="fab fa-google fa-fw"></i> Login with Google
+                                            </a>
+                                            <%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
+                                            <%--                                            <i class="fab fa-facebook-f fa-fw"></i> Login with KakaoTalk--%>
+                                            <%--                                        </a>--%>
+                                            <div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                       value="${_csrf.token}">
+                                            </div>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="login/findPw">비밀번호 찾기</a>
+                                        <a class="small" href="login/forgotPw">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="login/register">회원가입</a>
