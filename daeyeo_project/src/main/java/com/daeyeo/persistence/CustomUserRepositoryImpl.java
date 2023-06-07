@@ -26,6 +26,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 .getSingleResult();
     }
 
+    //TODO: Service에서 호출하도록 구조화
     /**
      * 해당 유저의 메모가 몇 개인지 구하는 메서드
      * @param email

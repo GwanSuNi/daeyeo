@@ -5,6 +5,9 @@
   Time: 오전 11:54
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="org.apache.catalina.User" %>
+<%@ page import="com.daeyeo.entity.RentalObject" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -96,7 +99,7 @@
                         <div class="card-body">
                             <h5 class="card-title">내가 대여한 목록</h5>
                             <!-- Table with stripped rows -->
-                            <table class="table table-striped table-hover">
+                            <table class ="table table-striped table-hover">
                                 <thead class="table-dark">
                                 <tr>
                                     <th>rentalId</th>
@@ -108,24 +111,17 @@
                                     <th>rentalDate</th>
                                 </tr>
                                 </thead>
+                                <c:forEach varStatus="index" var="log" items="${rentalLog}">
                                 <tr>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>dlsxo</td>
-                                    <td>2023-05-15</td>
-                                    <td>2023-05-20</td>
-                                    <td>무료</td>
-                                    <td>2023-05-14</td>
+                                <td>${index.count}</td>
+                                <td>${log.rentalId}</td>
+                                <td>${log.userEntity.userEmail}</td>
+                                <td>${log.startDuration}</td>
+                                <td>${log.endDuration}</td>
+                                <td>${log.price}</td>
+                                <td>${log.rentalDate}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>4</td>
-                                    <td>user2@example.com</td>
-                                    <td>2023-06-01</td>
-                                    <td>2023-06-10</td>
-                                    <td>10000원</td>
-                                    <td>2023-05-30</td>
-                                </tr>
+                                </c:forEach>
                             </table>
                             <!-- End Table with stripped rows -->
 

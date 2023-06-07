@@ -7,7 +7,7 @@
     <!-- CSS File -->
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental/rental_list.css">
 
-    <title>Hello, world!</title>
+    <title>공간시설 대여 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">

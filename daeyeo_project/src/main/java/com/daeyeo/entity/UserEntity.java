@@ -5,15 +5,15 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
 @Data
-@ToString(exclude = {"banLog"})
+@ToString(exclude = {"banLogs"})
 //@DynamicUpdate
 @Table(name = "User")
-@EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs", "banLogs", "reviews"})
+@EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs", "banLogs", "reviews","wishLists"})
 @NoArgsConstructor
 @SecondaryTables({
         @SecondaryTable(name = "Report_Log",
@@ -31,12 +31,12 @@ public class UserEntity {
     private String userName;
     private String statusMsg;
     @Embedded
-    private Address location;
+    private Address address; //TODO: location 컬럼 보류
     private String phoneNum;
     private String department;
     private String userCategory;
 
-    private LocalDateTime registDate;
+    private LocalDate registDate;
 
     // Embedded 였는데 수정
     @ElementCollection(fetch = FetchType.EAGER)
@@ -61,10 +61,11 @@ public class UserEntity {
 //    @OrderColumn(name = "banId")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
     @OrderColumn(name = "banId")
-    private List<BanLog> banLogs = new ArrayList<>(); // TODO: List로 변환
+    private List<BanLog> banLogs = new ArrayList<>();
 
     public void addBanLog(BanLog banLog) {
         this.getBanLogs().add(banLog);
+        banLog.addUserEntity(this);
     }
 
     private int paySum;
@@ -87,14 +88,18 @@ public class UserEntity {
     private Set<Review> reviews = new HashSet<>();
     public void addReview(Review review){this.getReviews().add(review);}
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "Wish_List",
-            joinColumns = @JoinColumn(name = "userEmail")
-    )
-    @MapKeyColumn(name = "objectIndex")
-    @Column(name = "wishedDate")
-    private Map<String, String> wishLists = new HashMap();
+    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL ,mappedBy = "userEntity")
+    private Set<WishList> wishLists = new HashSet<>();
+    public void addWishList(WishList wishList){
+        this.getWishLists().add(wishList);
+    }
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(
+//            name = "Wish_List",
+//            joinColumns = @JoinColumn(name = "userEmail")
+//    )
+//    @OrderColumn(name = "wishIndex")
+//    private List<WishList> wishLists = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(

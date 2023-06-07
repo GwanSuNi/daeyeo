@@ -1,4 +1,6 @@
-<%--
+<%@ page import="org.apache.catalina.User" %>
+<%@ page import="com.daeyeo.entity.RentalObject" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: seosanghyeon
   Date: 2023/05/10
@@ -17,7 +19,8 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -127,7 +130,8 @@
         <!-- Start Statistics Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
@@ -195,7 +199,7 @@
 
                         <!-- Start Table with stripped rows -->
 
-                        <table class="table datatable" >
+                        <table class="table datatable">
                             <thead>
                             <tr>
                                 <th scope="col">index</th>
@@ -208,16 +212,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">${rentalObject.objectIndex}</th>
-                                <td>${rentalObject.objectName}</td> <!-- 날짜 -->
-                                <td>${rentalObject.price}</td>            <!-- 대여 성사 수 -->
-                                <td>${subCategory.scId}</td>         <!-- 매출액 -->
-                                <td></td>            <!-- 방문자 -->
-                                <td></td>            <!-- 가입자 -->
-                                <td></td>
-                                {{/rentalObject}}<!-- 후기 개수 -->
-                            </tr>
+                                  <%--                                <% for (String date : dateList) { %>--%>
+                                <%--                                <% String[] splitDate = date.split(","); %>--%>
+                                <%--                                <% List<RentalObject> rentalObjectList = (List<RentalObject>) request.getAttribute("rentalObject");%>--%>
+                                <%--                                <% for (RentalObject rentalObject : rentalObjectList) {%>--%>
+                                <%--                                <th scope="row"><%= rentalObject.getObjectName()%></th>--%>
+                                <%--                                <td><%= rentalObject.getPrice()%></td> <!-- 날짜 -->--%>
+                                <%--                                <td><%= rentalObject.getWishCount()%></td>            <!-- 대여 성사 수 -->--%>
+                                <%--                                <td><%= rentalObject.getWebsite()%></td>         <!-- 매출액 -->--%>
+                                <%--                                <td><%= rentalObject.getTarget()%></td>            <!-- 방문자 -->--%>
+                                <%--                                <td><%=rentalObject.getCapacity()%></td>            <!-- 가입자 -->--%>
+                                <%--                                <td><%=rentalObject.getLocationInfo()%></td>--%>
+                                <%--                                        <% } %><!-- 후기 개수 -->--%>
+                                <%--                                <td>${paysum}</td>--%>
+                                <c:forEach varStatus="index" var="rental" items="${rentalObject}">
+                                    <tr>
+                                        <td>${index.count}</td>
+                                        <td>${rental.receiptDuration}</td>
+                                        <td>${rental.price}</td> <!-- 집계 -->
+                                        <td>${rental.price}</td>
+                                        <td>${rental.visitCount}</td>
+                                        <td>${rental.price}</td>
+                                        <td>${rental.price}</td>
+                                    </tr>
+                                </c:forEach>
+<%--                                <td>${rental.userEntity.registDate}</td>--%>
+<%--                                <td>${rental.reviews.size()}</td>--%>
+
                             </tbody>
                         </table>
 
@@ -256,5 +277,6 @@
 
 <!-- Template Main JS File -->
 <script src="${path}/resources/css/assets/js/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>
