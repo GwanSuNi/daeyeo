@@ -9,7 +9,7 @@
     <!-- CSS File -->
     <link href="${path}/resources/css/rental/rental_registration_form.css" rel="stylesheet">
 
-    <title>대여 등록 양식</title>
+    <title>대여 등록 양식 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">

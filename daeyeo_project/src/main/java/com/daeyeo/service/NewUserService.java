@@ -7,23 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service("uService")
 @Transactional
 public class NewUserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EntityManager entityManager;
     // ==================== 유저 관련 메서드 시작 ====================
     // User 엔티티 persist 해주는 메서드
     public void insertUser(UserEntity userEntity) {
+//        entityManager.detach(userEntity);
         userRepository.save(userEntity);
-        userRepository.flush();
+//        userRepository.flush();
     }
 
     // 직접 접근 안하고 이렇게 써야되나?
@@ -54,4 +58,38 @@ public class NewUserService {
 //        query.setParameter("email", "ex@ex.com");
 //        int resultList = query.executeUpdate();
 //    }
+
+//    public Date getOldestRegistDate() {
+//        String minRegistDate = userRepository.getOldestRegistDate();
+//        minRegistDate = (Date) entityManager.createQuery(minDateQuery).getSingleResult();
+//        return
+//    }
+      public int findByPaySum(){
+            int paySum = userRepository.findByPaySum();
+        return paySum;
+    }
+
+      public Date getOldesRegistDate(){
+        Date minRegistDate = userRepository.findByRegistDate();
+        return minRegistDate;
+    }
+    public List<String> createDateList(Date minRegistDate) {
+        List<String> dateList = new ArrayList<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년MM월dd일");
+
+        Calendar start = Calendar.getInstance();
+        start.setTime(minRegistDate);
+        Calendar end = Calendar.getInstance();
+
+        while (!start.after(end)) {
+            dateList.add(dateFormat.format(start.getTime()));
+            start.add(Calendar.DATE, 1);
+        }
+        return dateList;
+    }
+
+    public List<UserEntity> findAll(){
+        return userRepository.findAll();
+    }
 }

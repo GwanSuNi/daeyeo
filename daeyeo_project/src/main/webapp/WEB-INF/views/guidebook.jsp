@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <!-- BootStrap CSS File -->
@@ -26,41 +27,21 @@
                 <a href="" class="search_btn">검색</a>
             </div>
             <div class="list_wrap">
-                <h5 class="total icon">총 <span class="emphasis">10</span> 건</h5>
+                <h5 class="total icon">총 <span class="emphasis">${totalCount}</span> 건</h5>
                 <ul class="list">
-                    <li class="item">
-                        <div class="collapsible" onclick="toggleActive(this)">
-                            <div class="question"><span>Q</span></div>
-                            <textarea class="item_title" oninput="resizeHeight(this)" disabled>질문-ㅁ나어뢰ㅏㄴㅁㅇ러ㅗㄴ모렁ㄴ몰농ㄹ망ㄴ러ㅗ미나어론
-                                미ㅏㅗ리ㅏㄴ머ㅗ링나모리ㅏ너ㅗ라놀ㄴㅇㄹㄴㅁㅇㄹㄴㅁㅇㄻㄴㅇㄹㄴㅇㄴㅇㄹㄹㄴㅇㄹ</textarea>
-                            <div class="clps_icon"></div>
-                        </div>
-                        <div class="item_content">
-                            <div class="answer"><span>A</span></div>
-                            <textarea class="item_txar" oninput="resizeHeight(this)" disabled>내용-ㅇ
-                            ㅇ
-                            ㅇ
-                            ㅇ
-                            ㅇ
-                            ㅇ
-                            ㅇ
-                            d
-                            d
-                            d
-                            d</textarea>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="collapsible" onclick="toggleActive(this)">
-                            <div class="question"><span>Q</span></div>
-                            <textarea class="item_title" oninput="resizeHeight(this)" disabled>질문</textarea>
-                            <div class="clps_icon"></div>
-                        </div>
-                        <div class="item_content">
-                            <div class="answer"><span>A</span></div>
-                            <textarea class="item_txar" oninput="resizeHeight(this)" disabled>내용</textarea>
-                        </div>
-                    </li>
+                    <c:forEach var="item" items="${useInfos}">
+                        <li class="item">
+                            <div class="collapsible" onclick="toggleActive(this)">
+                                <div class="question"><span>Q</span></div>
+                                <textarea class="item_title" oninput="resizeHeight(this)" disabled>${item.question}</textarea>
+                                <div class="clps_icon"></div>
+                            </div>
+                            <div class="item_content">
+                                <div class="answer"><span>A</span></div>
+                                <textarea class="item_txar" oninput="resizeHeight(this)" disabled>${item.answer}</textarea>
+                            </div>
+                        </li>
+                    </c:forEach>
                 </ul>
                 <ul class="pagination">
                     <li class="page-item disabled">

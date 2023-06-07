@@ -95,6 +95,9 @@ public class RentalObject {
     private String locationInfo;
     private String objectImage; //BLOB임
     private int visitCount;
+    @Embedded
+    private Address address;
+
 
 }
 
