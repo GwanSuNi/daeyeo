@@ -54,6 +54,13 @@ public class LoginController {
         session.setAttribute("loginUser", loginUser);
         return "redirect:/";
     }
+    public UserEntity getLoggedInUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (UserEntity) session.getAttribute("loginUser");
+        }
+        return null;
+    }
 
 //    @RequestMapping("/register")
 //    public String register() {return "login/member_register";}
