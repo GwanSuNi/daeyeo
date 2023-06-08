@@ -95,7 +95,7 @@ public class RentalObject {
     @Column(length = 200)
     private String locationInfo;
     @Column(name = "objectImage", columnDefinition = "BLOB")
-    private byte[] objectImage; //BLOB임
+    private String objectImage; //BLOB임
     private int visitCount;
     @Embedded
     private Address address;
