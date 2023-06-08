@@ -28,11 +28,17 @@ public class MainCategoryService {
         subCategoryRepository.save(subCategory);
         System.out.println("service : " + subCategory);
     }
-
+    public MainCategory updateMainCategory(String mcId){
+        MainCategory oldMainCategory = mainCategoryRepository.findByMcId(mcId).get();
+        MainCategory mainCategory = new MainCategory("newMcId");
+        mainCategory = oldMainCategory;
+        return mainCategory;
+    }
     public MainCategory findMainCategoryByMcID(String mcId){
         Optional<MainCategory> mainCategory = mainCategoryRepository.findByMcId(mcId);
         return mainCategory.orElse(null);
     }
+
     public Optional<MainCategory> getCategory(String mcId) {
         return mainCategoryRepository.findById(mcId);
     }

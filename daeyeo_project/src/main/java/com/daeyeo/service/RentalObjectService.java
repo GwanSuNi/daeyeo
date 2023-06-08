@@ -51,7 +51,8 @@ public class RentalObjectService {
     public void insertRentalObject(String ownerEmail , String scId, String objectName, int price,
                                      String website , String target , LocalDate startDuration ,
                                    LocalDate endDuration, LocalDateTime receiptDuration , int capacity ,
-                                   String representNum , String userInfo , String locationInfo, byte[] objectImage){
+                                   String representNum , String userInfo , String locationInfo, String objectImage
+                                        ,Address address){
          UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
          SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
 
@@ -97,7 +98,7 @@ public class RentalObjectService {
     public void updateRentalObject(int objectIndex , String scId , String ownerEmail ,String objectName , int price,
                                             String website ,String target, LocalDate startDuration, LocalDate endDuration,
                                                 LocalDateTime receiptDuration , int capacity , String representNum , String userInfo,
-                                           String locationInfo , byte[] objectImage) {
+                                           String locationInfo , String objectImage) {
         RentalObject changeRentalObject = new RentalObject();
         Optional<RentalObject> oldRentalObject = rentalObjectRepository.findByObjectIndex(objectIndex);
         if(oldRentalObject!=null){

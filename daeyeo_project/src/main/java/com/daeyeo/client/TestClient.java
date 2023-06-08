@@ -24,7 +24,7 @@ public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         WishService wishService = (WishService) container.getBean("wishListService");
-        wishService.insertWishList("ax@ax.com1",0,LocalDateTime.now());
+        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
 
 
 //        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");

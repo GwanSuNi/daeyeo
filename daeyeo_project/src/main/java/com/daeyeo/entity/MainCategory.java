@@ -21,6 +21,10 @@ public class MainCategory {
     @JoinColumn(name = "mcId")
     private Set<SubCategory> subCategories = new HashSet<>();
 
+    public MainCategory(String newMcId) {
+        this.mcId = newMcId;
+    }
+
     public void addSubCategory(SubCategory subCategory) {
         this.getSubCategories().add(subCategory);
     }

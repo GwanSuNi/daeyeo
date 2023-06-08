@@ -1,13 +1,8 @@
 package com.daeyeo.controller;
-import com.daeyeo.entity.MainCategory;
-import com.daeyeo.entity.RentalObject;
-import com.daeyeo.entity.SubCategory;
-import com.daeyeo.entity.UserEntity;
+import com.daeyeo.entity.*;
+import com.daeyeo.persistence.MemberManagementRepository;
 import com.daeyeo.persistence.RentalObjectRepository;
-import com.daeyeo.service.MainCategoryService;
-import com.daeyeo.service.NewUserService;
-import com.daeyeo.service.RentalLogService;
-import com.daeyeo.service.RentalObjectService;
+import com.daeyeo.service.*;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -32,7 +27,8 @@ public class AdminController {
     NewUserService userService;
     @Autowired
     MainCategoryService mainCategoryService;
-
+    @Autowired
+    MemberManagementService memberManagementService;
 
     @RequestMapping("/adminMainPage")
     public String adminMainPage(Model model) {
@@ -57,11 +53,8 @@ public class AdminController {
 
     @RequestMapping("/adminMemberPage")
     public String adminMemberPage(Model model) {
-        List<UserEntity> userEntities = userService.findAll();
-
-
-//        userEntities.
-        model.addAttribute("userEntity",userEntities);
+        List<MemberManagement> memberManagement = memberManagementService.findAll();
+        model.addAttribute("memberManagement",memberManagement);
         return "adminpage/adminMemberPage";
     }
     @RequestMapping("/adminPostPage")

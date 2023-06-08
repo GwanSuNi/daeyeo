@@ -3,6 +3,7 @@ package com.daeyeo.service;
 import com.daeyeo.entity.*;
 import com.daeyeo.persistence.CustomUserRepositoryImpl;
 import com.daeyeo.persistence.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,10 +26,18 @@ public class NewUserService {
     private EntityManager entityManager;
     // ==================== 유저 관련 메서드 시작 ====================
     // User 엔티티 persist 해주는 메서드
-    public void insertUser(UserEntity userEntity) {
-//        entityManager.detach(userEntity);
-        userRepository.save(userEntity);
+//    public void insertUser(String userEmail , String userPw , String userName , String statusMsg , String location,
+//                           String phoneNum , String department , String userCategory , LocalDate registDate , int paySum ,
+//                           int commissionSum , int rate , boolean quitFlag , Address address) {
+//                    UserEntity userEntity = new UserEntity(userEmail,userPw,userName,statusMsg,location,phoneNum,department
+//                    ,userCategory,registDate,paySum,commissionSum,rate,quitFlag,address);
+//
+//
+//        userRepository.save(userEntity);
 //        userRepository.flush();
+//    }
+    public void inserUser(UserEntity userEntity){
+        userRepository.save(userEntity);
     }
 
     // 직접 접근 안하고 이렇게 써야되나?
