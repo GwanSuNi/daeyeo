@@ -1,9 +1,8 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.mysql.cj.jdbc.Blob;
+import lombok.*;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -39,9 +38,9 @@ public class RentalObject {
     }
 
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
-                        String website , String target , LocalDate startDuration , LocalDate endDuration
-            , LocalDateTime receiptDuration , int capacity , int representNum , String userInfo , String locationInfo
-            ,String objectImage ){
+                         String website , String target , LocalDate startDuration , LocalDate endDuration
+            , LocalDateTime receiptDuration , int capacity , String representNum , String userInfo , String locationInfo
+            ,byte[] objectImage ){
         this.userEntity=user;
         this.subCategory=subCategory;
         this.objectName = objectName;
@@ -90,12 +89,13 @@ public class RentalObject {
     private LocalDateTime receiptDuration;
     private int capacity;
 
-    private int representNum;
+    private String representNum;
     @Column(length = 200)
     private String userInfo;
     @Column(length = 200)
     private String locationInfo;
-    private String objectImage; //BLOB임
+    @Column(name = "objectImage", columnDefinition = "BLOB")
+    private byte[] objectImage; //BLOB임
     private int visitCount;
     @Embedded
     private Address address;

@@ -73,7 +73,7 @@ public class UserEntity {
 
     private int paySum;
     private int commissionSum;
-    private int rate;
+    private float rate;
     private boolean quitFlag;
 
     @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL, mappedBy = "userEntity")

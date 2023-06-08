@@ -193,12 +193,11 @@ public class TestClient {
 //        banLogService.insertBanLog("ax@ax.com3", "잠못3", LocalDateTime.now());
 //        banLogService.insertBanLog("ax@ax.com4", "잠못4", LocalDateTime.now());
 
-
-
 //        NewUserService userService = (NewUserService) container.getBean("uService");
 ////        BanLogService banLogService = (BanLogService)container.getBean("")
 //        UserEntity user = userService.findUserByEmail("ax@ax.com");
 ////        banLogService.insertBanLog("ax@ax.com", "그냥 꼬와", LocalDateTime.now());
+
 //        UserEntity newUser  = new UserEntity();
 //        newUser.setUserEmail("ax@ax.com5");
 //        newUser.setUserPw("1234");
