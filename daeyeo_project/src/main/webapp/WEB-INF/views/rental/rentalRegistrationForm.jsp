@@ -14,81 +14,94 @@
 <body>
 <div class="wrapper">
     <jsp:include page="../includes/header.jsp"/>
-    <div class="container">
+    <form action ="/form" class="container" method="post">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
+
                 <li class="item">
                     <div class="item-title">분류</div>
                     <div class="item-content">
                         <div class="category">
                             <select class="main-cate form-select">
-                                <option value="0" selected>선택</option>
+                                <option value="0" selected >선택</option>
                             </select>
                             <select class="sub-cate form-select" aria-label="Default select example">
-                                <option value="0" selected>선택</option>
+                                <option value="0" selected name="scId">선택</option>
                             </select>
                         </div>
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">제목</div>
                     <div class="item-content">
-                        <input type="text" class="txt">
+                        <input type="text" class="txt" name="objectName">
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">장소</div>
                     <div class="item-content">
-                        <input type="text" class="txt">
+                        <input type="text" class="txt" name="locationInfo">
                     </div>
                 </li>
+                <%--구현안됨--%>
                 <li class="item">
                     <div class="item-title">사진</div>
                     <div class="item-content">
                         <div class="dropzone" id="myDropzone"></div>
                     </div>
                 </li>
+                <%--주소 api 메서드 사용해야 함 값은 넘길거임--%>
                 <li class="item">
                     <div class="item-title">주소</div>
                     <div class="item-content">
-                        <input type="text" class="txt">
+                        <input type="text" class="txt" name="address">
                     </div>
                 </li>
+                <%--구현안됨--%>
                 <li class="item">
                     <div class="item-title">오시는 길</div>
                     <div class="item-content">
                         <iframe src="/txtEditor" class="txt-editor" scrolling="no"></iframe>
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">이용요금</div>
                     <div class="item-content">
-                        <input type="number" class="price"><b>원</b>
+                        <input type="number" class="price" name="price"><b>원</b>
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">접수기간</div>
                     <div class="item-content">
                         <div class="reception">
-                            <input type="date"><span>~</span><input type="date">
+                            <input type="date"name="receiptStartDuration"><span>~</span><input type="date" name="receiptEndDuration">
                         </div>
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">사용기간</div>
                     <div class="item-content">
                         <div class="use">
-                            <input type="date"><span>~</span><input type="date">
+                            <input type="date" name="startDuration"><span>~</span><input type="date" name="endDuration">
                         </div>
                     </div>
                 </li>
+
+                <%--구현안됨--%>
                 <li class="item">
                     <div class="item-title">취소기간</div>
                     <div class="item-content">
                         <b>이용일 </b><input type="number" class="cancellation"><b>일 전까지</b>
                     </div>
                 </li>
+
+                <%--구현안됨--%>
                 <li class="item">
                     <div class="item-title">예약방법</div>
                     <div class="item-content">
@@ -112,31 +125,39 @@
                         </div>
                     </div>
                 </li>
+
                 <li class="item">
                     <div class="item-title">문의전화</div>
                     <div class="item-content">
                         <div class="phone">
-                            <input type="text" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" name="representNum1" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                             <span>-</span>
-                            <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" name="representNum2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                             <span>-</span>
-                            <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" name="representNum3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                         </div>
                     </div>
                 </li>
+                <%--구현안됨--%>
                 <li class="item">
                     <div class="item-title">이용안내</div>
                     <div class="item-content">
                         <iframe src="/txtEditor" class="txt-editor" scrolling="no"></iframe>
                     </div>
                 </li>
+
             </ul>
+
             <div class="btn-box">
+
                 <a href="" class="a-btn">취소하기</a>
+
                 <a href="" class="a-btn">등록하기</a>
+
             </div>
+
         </div>
-    </div>
+    </form>
     <jsp:include page="../includes/footer.jsp"/>
 </div>
 </body>

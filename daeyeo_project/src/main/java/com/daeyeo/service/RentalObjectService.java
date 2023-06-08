@@ -7,7 +7,9 @@ import com.daeyeo.entity.UserEntity;
 import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.persistence.SubCategoryRepository;
 import com.daeyeo.persistence.UserRepository;
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.config.RepositoryNameSpaceHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,13 +58,26 @@ public class RentalObjectService {
          UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
          SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
 
-         RentalObject rentalObject = new RentalObject(userEntity, subCategory , objectName, price ,website,
-                 target,startDuration,endDuration,receiptDuration,capacity,representNum,userInfo,locationInfo,
-                 objectImage);
-        rentalObject.setAddress(address);
-        userEntity.addRentalObject(rentalObject);
-        subCategory.addRentalObject(rentalObject);
-        rentalObjectRepository.save(rentalObject);
+//         RentalObject rentalObject = new RentalObject(userEntity, subCategory , objectName, price ,website,
+//                 target,startDuration,endDuration,receiptDuration,capacity,representNum,userInfo,locationInfo,
+//                 objectImage);/
+//        rentalObject.setAddress(address);
+//        userEntity.addRentalObject(rentalObject);
+//        subCategory.addRentalObject(rentalObject);
+//        rentalObjectRepository.save(rentalObject);
+    }
+    public void insertRentalObjectReal(String scId, String ownerEmail ,String objectName, String locationInfo,
+                                        Address address, int price , LocalDate receipStartDuration, LocalDate receiptEndDuration, LocalDate startDuration,
+                                       LocalDate endDuration , String representNum){
+        UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
+        SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
+        RentalObject newRentalObject = new RentalObject(userEntity,subCategory,objectName,locationInfo,
+                    address,price,receipStartDuration,receiptEndDuration,startDuration,endDuration,representNum);
+        newRentalObject.setAddress(address);
+        userEntity.addRentalObject(newRentalObject);
+        subCategory.addRentalObject(newRentalObject);
+        rentalObjectRepository.save(newRentalObject);
+        // mysql에 있는 createDate는 신경쓰지 않아도 됩니다
     }
 
     /**
@@ -113,7 +128,7 @@ public class RentalObjectService {
             changeRentalObject.setTarget(target);
             changeRentalObject.setStartDuration(startDuration);
             changeRentalObject.setEndDuration(endDuration);
-            changeRentalObject.setReceiptDuration(receiptDuration);
+//            changeRentalObject.setReceiptDuration(receiptDuration);
             changeRentalObject.setCapacity(capacity);
             changeRentalObject.setRepresentNum(representNum);
             changeRentalObject.setUserInfo(userInfo);
