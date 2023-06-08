@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 package com.daeyeo.client;
 
 import com.daeyeo.config.SpringConfiguration;
@@ -306,7 +305,3 @@ public class TestClient {
 //        userService.setUserMemoToUser("ex@ex.com", );
     }
 }
->>>>>>> Stashed changes
-// * 각자 테스트를 해보고 싶을 때 해당 블럭을 주석 해제 후 실행해보세요
-//import com.daeyeo.service.RentalLogService;
-//
