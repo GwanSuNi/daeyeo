@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class AdService {
      * @param adImage : 광고 이미지
      * @param adLocation : 광고가 기재될 위치
      */
-    public void insertNewAd(String email, String adCompany, LocalDate duration, int price, String adImage, String adLocation) {
+    public void insertNewAd(String email, String adCompany, LocalDateTime duration, int price, String adImage, String adLocation) {
         UserEntity user = userRepository.findByUserEmail(email).get();
         Advertisement newAd = new Advertisement(adCompany, duration, price, adImage, adLocation);
         user.getAdvertisement().add(newAd); // getAdvertisement() 가 set 이라 가져와서 다시 추가해줌

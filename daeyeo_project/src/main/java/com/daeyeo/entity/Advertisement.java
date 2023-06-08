@@ -1,11 +1,12 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Embeddable
 @Data
 @NoArgsConstructor
@@ -14,14 +15,14 @@ public class Advertisement {
     @Column(name = "adId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int adId;
-//    private String adOwnerEmail;
+    //    private String adOwnerEmail;
     private String adCompany;
-    private LocalDate duration;
+    private LocalDateTime duration;
     private int price;
     private String adImage;
     private String adLocation;
 
-    public Advertisement(String adCompany, LocalDate duration, int price, String adImage, String adLocation) {
+    public Advertisement(String adCompany, LocalDateTime duration, int price, String adImage, String adLocation) {
         this.adCompany = adCompany;
         this.duration = duration;
         this.price = price;

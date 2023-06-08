@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,15 +40,17 @@ public class MypageController {
     }
 
     @RequestMapping("/myWishList")
-    public String myWishList(Model model) {
-        UserEntity userEntity = userRepository.findByUserEmail("ax@ax.com1").get();
+    public String myWishList(Model model , HttpServletRequest httpServletRequest) {
+        UserEntity loginUser = getLoggedInUser(httpServletRequest);
+        String loginUserId = loginUser.getUserEmail();
+        UserEntity userEntity = userRepository.findByUserEmail(loginUserId).get();
         List<WishList> wishList = wishListRepository.findByUserEntity(userEntity);
         model.addAttribute("wishList",wishList);
         return "myPage/my_wish_list";
     }
 
     @RequestMapping("/reservation")
-    public String reservation(Model model) {
+    public String reservation(Model model, HttpServletRequest httpServletRequest) {
 //            Optional<UserEntity> userEntityOptional = userRepository.findByUserEmail("ax@ax.com1");
 //            if(userEntityOptional.isPresent()) {
 //                UserEntity userEntity = userEntityOptional.get();
@@ -55,7 +59,9 @@ public class MypageController {
 //            } else {
 //                // 사용자가 발견되지 않았을 때 대비하여 예외 처리 코드 작성
 //            }
-        UserEntity userEntity = userRepository.findByUserEmail("ax@ax.com1").get();
+        UserEntity loginUser = getLoggedInUser(httpServletRequest);
+        String loginUserId = loginUser.getUserEmail();
+        UserEntity userEntity = userRepository.findByUserEmail(loginUserId).get();
         List<RentalObject> rentalObjectList = rentalObjectRepository.findByUserEntity(userEntity);
 //        List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
         model.addAttribute("rentalObject1",rentalObjectList);
@@ -63,8 +69,10 @@ public class MypageController {
     }
 
     @RequestMapping("/rental_log")
-    public String rental_log(Model model) {
-        UserEntity userEntity = userRepository.findByUserEmail("ax@ax.com1").get();
+    public String rental_log(Model model , HttpServletRequest httpServletRequest ) {
+        UserEntity loginUser = getLoggedInUser(httpServletRequest);
+        String loginUserId = loginUser.getUserEmail();
+        UserEntity userEntity = userRepository.findByUserEmail(loginUserId).get();
         List<RentalLog> rentalLogs = rentalLogRepository.findByUserEntity(userEntity);
         model.addAttribute("rentalLog",rentalLogs);
         return "myPage/rental_log";
@@ -77,4 +85,12 @@ public class MypageController {
     }
     @RequestMapping("/member_manage")
     public String member_manage() { return "myPage/member_manage";}
+
+    public UserEntity getLoggedInUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (UserEntity) session.getAttribute("loginUser");
+        }
+        return null;
+    }
 }
