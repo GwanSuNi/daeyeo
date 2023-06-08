@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Report_Log")
+@Table(name = "report_log")
 public class ReportLog {
 
     @Column(length = 100)

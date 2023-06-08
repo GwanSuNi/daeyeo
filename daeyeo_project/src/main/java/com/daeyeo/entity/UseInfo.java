@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name="Use_Info")
+@Table(name="use_info")
 public class UseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

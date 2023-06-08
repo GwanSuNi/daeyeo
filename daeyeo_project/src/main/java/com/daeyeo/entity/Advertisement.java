@@ -1,6 +1,5 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 @Embeddable
 @Data
 @NoArgsConstructor
-@Table(name = "Advertisement")
+@Table(name = "advertisement")
 public class Advertisement {
     @Column(name = "adId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

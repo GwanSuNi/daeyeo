@@ -1,7 +1,9 @@
 package com.daeyeo.entity;
 
-import lombok.*;
-import org.apache.catalina.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"rentalLogs","reviews"})
-@Table(name = "Rental_Object")
+@Table(name = "rental_object")
 public class RentalObject {
 
     @Id

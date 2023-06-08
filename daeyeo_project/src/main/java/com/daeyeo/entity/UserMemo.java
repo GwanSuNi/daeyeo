@@ -5,14 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Embeddable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User_Memo")
+@Table(name = "user_memo")
 public class UserMemo {
     @Column(name = "memoId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

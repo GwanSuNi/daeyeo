@@ -1,11 +1,11 @@
 package com.daeyeo.entity;
 
-import jakarta.annotation.Nullable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString(exclude = {"userEntity"})
 @AllArgsConstructor
 @DynamicUpdate
-@Table(name="Ban_Log")
+@Table(name="ban_log")
 public class BanLog {
     public BanLog() {
         flag = false;
