@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
+import java.util.List;
+
 @Controller
 public class HomeController {
     @Autowired
@@ -25,6 +28,9 @@ public class HomeController {
 
     @RequestMapping("/test")
     public String test(Model model) {
+        Date minRegistDate = userService.getOldesRegistDate();
+        List<String> dateList = userService.createDateList(minRegistDate);
+        model.addAttribute("dateList", dateList);
         UserEntity user = userService.findUserByEmail("test@test.com");
         model.addAttribute("user", user);
         return "test";

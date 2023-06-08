@@ -105,17 +105,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>dlsxo@kyungmin.ac.kr</td>
-                                    <td>Sample content 1</td>
-                                    <td>2023-05-1</td>
-                                </tr>
-                                <tr>
-                                    <td>dbsdn@kyungmin.ac.kr</td>
-                                    <td>Sample content 2</td>
-                                    <td>2023-05-2</td>
-                                </tr>
-
+                                <c:forEach varStatus="index" var="wish" items="${wishList}">
+                                    <tr>
+                                        <td>${wish.wishListIndex}</td>
+                                        <td>${wish.userEntity.userEmail}</td>
+                                        <td>${wish.objectIndex}</td>
+                                        <td>${wish.wishedDate}</td>
+                                    </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->

@@ -71,7 +71,7 @@ public class RentalObject {
 //    //외래키
 //    private String ownerEmail;
 
-//    @OneToMany
+    //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
     @Column(length = 40)
@@ -97,6 +97,9 @@ public class RentalObject {
     @Column(name = "objectImage", columnDefinition = "BLOB")
     private byte[] objectImage; //BLOB임
     private int visitCount;
+    @Embedded
+    private Address address;
+
 
 }
 

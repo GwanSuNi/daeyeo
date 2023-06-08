@@ -14,4 +14,6 @@ public interface RentalLogRepository extends JpaRepository<RentalLog, Integer>, 
     Optional<RentalLog> findByRentalIdAndUserEntityAndRentalObject(int rentalId,UserEntity userEntity , RentalObject rentalObject);
     Optional<RentalLog> findByRentalId(int rentalId);
 
+    List<RentalLog> findByUserEntity(UserEntity userEntity);
+
 }

@@ -142,6 +142,13 @@
                                         <h5 class="card-title">상세 정보</h5>
 
                                         <div class="row">
+<%--                                            <c:forEach var="user" items="${userEntityList}">--%>
+<%--                                                ${user.name}--%>
+<%--                                                ${user.department}--%>
+<%--                                                ${user.statusMsg}--%>
+<%--                                                ${user.phoneNum}--%>
+<%--                                                ${user.userEmail}--%>
+<%--                                            </c:forEach>--%>
                                             <div class="col-lg-3 col-md-4 label ">이름</div>
                                             <div class="col-lg-9 col-md-8">유관형</div>
                                         </div>
@@ -154,16 +161,6 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">상태 메시지</div>
                                             <div class="col-lg-9 col-md-8">코딩하기 좋은날!</div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">직업</div>
-                                            <div class="col-lg-9 col-md-8">Web Developer</div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">국가</div>
-                                            <div class="col-lg-9 col-md-8">대한민국</div>
                                         </div>
 
                                         <div class="row">

@@ -23,14 +23,17 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        WishService wishService = (WishService) container.getBean("wishListService");
+        wishService.insertWishList("ax@ax.com1",0,LocalDateTime.now());
 
-        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");
+
+//        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");
 //        useInfoService.insertUseInfo("질문2", "답변2");
 //        System.out.println(useInfoService.getAllUseInfos());
 //        System.out.println(useInfoService.countUseInfos());
 
 //        NewUserService userService = (NewUserService) container.getBean("uService");
-        BanLogService banLogService = (BanLogService) container.getBean("banLogService");
+//        BanLogService banLogService = (BanLogService) container.getBean("banLogService");
 
 //        banLogService.insertBanLog("test@test.com", "ListTest1", LocalDateTime.now());
 //        banLogService.getLastBanLogByEmail("test@test.com");
@@ -58,12 +61,15 @@ public class TestClient {
 
 //        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
 
-//        rentalLogService.insertRentalLog("test@test.com", 5, LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
+//        rentalLogService.insertRentalLog(5, "test@test.com", LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
 //          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
-        // 완료 -rentalObject CRUD 테스트 다함
-//        rentalObjectService.insertRentalObject("test@test.com","scIdTest","test마지막입니다.",0,"0",
-//                  "test1",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),0,0,
-//                  "test1","test1","test마지막입니다.");
+
+//         완료 -rentalObject CRUD 테스트 다함
+//        Address address = new Address(1,"안녕","하세요","위치","입니다.");
+//        rentalObjectService.insertRentalObject("ax@ax.com1","scIdTest","체육관",400,"현대",
+//                  "타겟3",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),9,10,
+//                  "test!!","위치입니다2.","강의실사진1",address);
+
         // 완료
 //        rentalObjectService.deleteRentalObject(9,"scIdTest","test@test.com");
         // 완료
@@ -77,10 +83,10 @@ public class TestClient {
 
         // 미완료 -rentalLog CRUD 테스트 80% 완료
 //        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
-        // 완료
-//        rentalLogService.insertRentalLog(5,"test@test.com",LocalDate.now(),
-//                                                                    LocalDate.now(),123456);
-        // 완료
+//         완료
+//        rentalLogService.insertRentalLog(5,"ax@ax.com4",LocalDate.now(),
+//                                                                    LocalDate.now(),4000);
+//         완료
 //        rentalLogService.deleteRentalLog(9,5,"test@test.com");
         // 검증중..
 //        rentalLogService.updateRentalLog(8,5,"test@test.com", LocalDate.now() , LocalDate.now() ,123456,LocalDateTime.now());
@@ -88,7 +94,7 @@ public class TestClient {
         // Review CRUD 테스트 완료
 //          ReviewService reviewService = (ReviewService) container.getBean("reviewService");
         // 완료
-//          reviewService.insertReview("test@test.com",5,"테스트리뷰last");
+//          reviewService.insertReview(5,"ax@ax.com4","정말좋아요3");
         // 완료
 //          reviewService.deleteReview(4,5,"test@test.com");
         // delete 되면 완료 review는 굳이 업데이트 할 필요가 없음 == 배민도 안함
@@ -102,6 +108,12 @@ public class TestClient {
 // 성공
 //        System.out.println(review);
 
+
+//        ReportLogService reportLogService = (ReportLogService)container.getBean("reportLogService");
+//        reportLogService.insertReportLog("ax@ax.com1");
+//        reportLogService.insertReportLog("ax@ax.com2");
+//        reportLogService.insertReportLog("ax@ax.com3");
+//        reportLogService.insertReportLog("ax@ax.com4");
 
 //        rentalLogService.findRentalLog(8,"test@test.com",5);
 
@@ -175,14 +187,24 @@ public class TestClient {
 //        System.out.println("4");
 //        mainCategoryService.insertMainCategory(mainCategory1);
 
+//        BanLogService banLogService = (BanLogService) container.getBean("banLogService");
+//        banLogService.insertBanLog("ax@ax.com1", "잠못1", LocalDateTime.now());
+//        banLogService.insertBanLog("ax@ax.com2", "잠못2", LocalDateTime.now());
+//        banLogService.insertBanLog("ax@ax.com3", "잠못3", LocalDateTime.now());
+//        banLogService.insertBanLog("ax@ax.com4", "잠못4", LocalDateTime.now());
 
-        NewUserService userService = (NewUserService) container.getBean("uService");
-        banLogService.insertBanLog("ax@ax.com", "그냥", LocalDateTime.now());
+//        NewUserService userService = (NewUserService) container.getBean("uService");
+////        BanLogService banLogService = (BanLogService)container.getBean("")
+//        UserEntity user = userService.findUserByEmail("ax@ax.com");
+////        banLogService.insertBanLog("ax@ax.com", "그냥 꼬와", LocalDateTime.now());
+
 //        UserEntity newUser  = new UserEntity();
-//        newUser.setUserEmail("ax@ax.com");
-//        newUser.setUserPw("12345");
+//        newUser.setUserEmail("ax@ax.com5");
+//        newUser.setUserPw("1234");
 //        newUser.setUserName("Bye World");
-//        newUser.setPhoneNum("010-4321-8765");
+//        newUser.setPhoneNum("010-1234-8765");
+//        newUser.setPaySum(1000);
+//        newUser.setRegistDate(LocalDate.now());
 //        newUser.setQuitFlag(false);
 //        newUser.setAddress(new Address(1));
 //        BanLog newBanLog = new BanLog();
@@ -229,10 +251,11 @@ public class TestClient {
 
 // ==================== 메모 관련 메서드 시작 ====================
 //        NewUserService userService = (NewUserService) container.getBean("uService");
+//        UserMemoService userMemoService = (UserMemoService) container.getBean("userMemoService");
         // 값 넣기 전 검증
-//        UserEntity a = userService.findUserByEmail("ex@ex.com");
-
-//        userService.insertUserMemo("ex@ex.com", "테스트 해볼게용");
+//        UserEntity a = userMemoService.findUserByEmail("ex@ex.com");
+//
+//        userMemoService.insertUserMemo("ax@ax.com4", "유저메모입니다.");
 //        userService.updateUserMemo(a.getUserEmail(), 2, "바꾼 내용");
 //        userService.deleteUserMemo("ex@ex.com", 1);
 //        System.out.println(userService.findUserMemo("ex@ex.com", 2));

@@ -1,6 +1,5 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +15,7 @@ public class Advertisement {
     @Column(name = "adId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int adId;
-//    private String adOwnerEmail;
+    //    private String adOwnerEmail;
     private String adCompany;
     private LocalDateTime duration;
     private int price;

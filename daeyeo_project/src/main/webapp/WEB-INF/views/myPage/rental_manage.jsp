@@ -5,6 +5,9 @@
   Time: 오전 11:54
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="org.apache.catalina.User" %>
+<%@ page import="com.daeyeo.entity.RentalObject" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 

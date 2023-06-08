@@ -1,3 +1,6 @@
+<%@ page import="org.apache.catalina.User" %>
+<%@ page import="com.daeyeo.entity.RentalObject" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: dlsxi
@@ -110,33 +113,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>경민 401호 강의실</td>
-                                    <td>무료</td>
-                                    <td>www.kyungmin.ac.kr/</td>
-                                    <td>학과사무실)010-****-****</td>
-                                    <td>경기도 의정부시 서부로 545</td>
-                                    <td>2023-05-15</td>
-                                    <td>2023-05-20</td>
-                                    <td>
-                                        <button class="cancel-reservation-btn" onclick="cancelReservation(1)">예약 취소
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>경민 운동장</td>
-                                    <td>10000원</td>
-                                    <td>www.kyungmin.ac.kr/</td>
-                                    <td>관리자)010-****-****</td>
-                                    <td>경기도 의정부시 서부로 545</td>
-                                    <td>2023-06-01</td>
-                                    <td>2023-06-10</td>
-                                    <td>
-                                        <button class="cancel-reservation-btn" onclick="cancelReservation(1)">예약 취소
-                                        </button>
-                                    </td>
-                                </tr>
-
+                                    <c:forEach varStatus="index" var="rental" items="${rentalObject1}">
+                                        <tr>
+                                            <td>${index.count}</td>
+                                        <td>${rental.price}</td>
+                                        <td>${rental.website}</td>
+                                        <td>${rental.representNum}</td>
+                                        <td>${rental.locationInfo}</td>
+                                        <td>${rental.startDuration}</td>
+                                        <td>${retnal.endDuration}</td>
+                                        </tr>
+                                    </c:forEach>
+<%--                                    <td>경민 401호 강의실</td>--%>
+<%--                                    <td>무료</td>--%>
+<%--                                    <td>www.kyungmin.ac.kr/</td>--%>
+<%--                                    <td>학과사무실)010-****-****</td>--%>
+<%--                                    <td>경기도 의정부시 서부로 545</td>--%>
+<%--                                    <td>2023-05-15</td>--%>
+<%--                                    <td>2023-05-20</td>--%>
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->

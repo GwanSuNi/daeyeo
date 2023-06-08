@@ -1,6 +1,18 @@
-<%@ page import="org.apache.catalina.User" %>
-<%@ page import="com.daeyeo.entity.RentalObject" %>
-<%@ page import="java.util.List" %><%--
+<%--
+  Created by IntelliJ IDEA.
+  User: seosanghyeon
+  Date: 2023/06/03
+  Time: 6:53 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: seosanghyeon
+  Date: 2023/05/15
+  Time: 2:37 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
   Created by IntelliJ IDEA.
   User: seosanghyeon
   Date: 2023/05/10
@@ -19,8 +31,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -130,8 +141,7 @@
         <!-- Start Statistics Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
@@ -168,102 +178,139 @@
                 </li>
             </ul>
         </li>
-
         <!-- End Ad Nav -->
     </ul>
 </aside>
-
-
 <!-- End Sidebar-->
+
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>일자별 요약</h1>
+        <h1>광고관리</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/${path}adminMainPage">대쉬보드</a></li>
-                <li class="breadcrumb-item active">일자별 요약</li>
+                <li class="breadcrumb-item"><a href="index.html">광고관리</a></li>
+                <li class="breadcrumb-item active">광고신청양식</li>
             </ol>
         </nav>
     </div>
-
-    <!-- End Page Title -->
-
-    <!-- Start Main-Content -->
-
-    <section class="Main-Content">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">         <!-- 내용을 구분해주는 div -->
-                    <div class="card-body">  <!-- 내용을 구분해주는 div -->
-                        <h5 class="card-title">일자별로 요약한 내용</h5>
-
-                        <!-- Start Table with stripped rows -->
-
-                        <table class="table datatable">
-                            <thead>
-                            <tr>
-                                <th scope="col">index</th>
-                                <th scope="col">날짜</th>
-                                <th scope="col">매출액</th>
-                                <th scope="col">매출액 평균</th>
-                                <th scope="col">방문자</th>
-                                <th scope="col">가입자</th>
-                                <th scope="col">후기개수</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                  <%--                                <% for (String date : dateList) { %>--%>
-                                <%--                                <% String[] splitDate = date.split(","); %>--%>
-                                <%--                                <% List<RentalObject> rentalObjectList = (List<RentalObject>) request.getAttribute("rentalObject");%>--%>
-                                <%--                                <% for (RentalObject rentalObject : rentalObjectList) {%>--%>
-                                <%--                                <th scope="row"><%= rentalObject.getObjectName()%></th>--%>
-                                <%--                                <td><%= rentalObject.getPrice()%></td> <!-- 날짜 -->--%>
-                                <%--                                <td><%= rentalObject.getWishCount()%></td>            <!-- 대여 성사 수 -->--%>
-                                <%--                                <td><%= rentalObject.getWebsite()%></td>         <!-- 매출액 -->--%>
-                                <%--                                <td><%= rentalObject.getTarget()%></td>            <!-- 방문자 -->--%>
-                                <%--                                <td><%=rentalObject.getCapacity()%></td>            <!-- 가입자 -->--%>
-                                <%--                                <td><%=rentalObject.getLocationInfo()%></td>--%>
-                                <%--                                        <% } %><!-- 후기 개수 -->--%>
-                                <%--                                <td>${paysum}</td>--%>
-                                <c:forEach varStatus="index" var="rental" items="${rentalObject}">
-                                    <tr>
-                                        <td>${index.count}</td>
-                                        <td>${rental.receiptDuration}</td>
-                                        <td>${rental.price}</td> <!-- 집계 -->
-                                        <td>${rental.price}</td>
-                                        <td>${rental.visitCount}</td>
-                                        <td>${rental.price}</td>
-                                        <td>${rental.price}</td>
-                                    </tr>
-                                </c:forEach>
-<%--                                <td>${rental.userEntity.registDate}</td>--%>
-<%--                                <td>${rental.reviews.size()}</td>--%>
-
-                            </tbody>
-                        </table>
-
-                        <!-- End Table with stripped rows -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Start google analytics -->
-
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">구글 애널리틱스</h5>
-                <a href="https://www.google.co.kr/?hl=ko"></a>
+                <h5 class="card-title">광고 신청 양식</h5>
+
+                <!-- General Form Elements -->
+
+                <form>
+                    <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">이메일</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="대여어때 이메일을 입력해주세요">
+                            <button type="submit" class="btn btn-secondary btn-sm">아이디 검사</button>
+                            <small id="emailHelp" class="form-text text-muted">아이디검사 해주세요</small>
+                            <small id="emailHelp" class="form-text text-muted">/검사 완료</small>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputName" class="col-sm-2 col-form-label">성함</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" placeholder="성함을 입력해주세요">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputIMG" class="col-sm-2 col-form-label">넣을 광고</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputDate" class="col-sm-2 col-form-label">날짜 시작</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputDate" class="col-sm-2 col-form-label">날짜 끝</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">요구사항</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 100px" placeholder="요구사항을 입력해주세요"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <legend class="col-form-label col-sm-2 pt-0">원하시는 광고위치를 선택해주세요</legend>
+                        <div class="col-sm-10">
+
+                            <div class="top-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    상단
+                                </label>
+                            </div>
+
+                            <div class="bottom-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck2">
+                                <label class="form-check-label" for="gridCheck2">
+                                    하단
+                                </label>
+                            </div>
+
+
+                            <div class="left-center-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                <label class="form-check-label" for="gridCheck3">
+                                    왼쪽 중간
+                                </label>
+                            </div>
+
+
+                            <div class="right-center-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck4">
+                                <label class="form-check-label" for="gridCheck4">
+                                    오른쪽 중간
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">광고 가격</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" multiple aria-label="multiple select example">
+                                <option selected>꼭 읽어주세요</option>
+                                <option value="1">1. 사용자가 클릭시 10원</option>
+                                <option value="2">2. 사용자에게 보여질시 7원</option>
+                                <option value="3">3. 크기에 따라 가격측정 달라짐</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">제출하기</label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">제출하기</button>
+                        </div>
+                    </div>
+
+                </form><!-- End General Form Elements -->
+
             </div>
         </div>
+
     </div>
 
-    <!-- End google analytics  -->
-
-</main>
+</main><!-- End #main -->
 </body>
 <!-- Vendor JS Files -->
 <script src="${path}/resources/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -277,6 +324,6 @@
 
 <!-- Template Main JS File -->
 <script src="${path}/resources/css/assets/js/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>
+

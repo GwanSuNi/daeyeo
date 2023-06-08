@@ -1,19 +1,22 @@
 package com.daeyeo.entity;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Fetch;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 @Entity
 @Data
 @ToString(exclude = {"banLogs"})
 //@DynamicUpdate
 @Table(name = "User")
-@EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs", "banLogs", "reviews"})
+@EqualsAndHashCode(exclude = {"rentalObjects", "rentalLogs", "banLogs", "reviews","wishLists"})
 @NoArgsConstructor
 @SecondaryTables({
         @SecondaryTable(name = "Report_Log",
@@ -36,7 +39,7 @@ public class UserEntity {
     private String department;
     private String userCategory;
 
-    private LocalDateTime registDate;
+    private LocalDate registDate;
 
     // Embedded 였는데 수정
     @ElementCollection(fetch = FetchType.EAGER)
@@ -88,14 +91,18 @@ public class UserEntity {
     private Set<Review> reviews = new HashSet<>();
     public void addReview(Review review){this.getReviews().add(review);}
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "Wish_List",
-            joinColumns = @JoinColumn(name = "userEmail")
-    )
-    @MapKeyColumn(name = "objectIndex")
-    @Column(name = "wishedDate")
-    private Map<Integer, LocalDateTime> wishLists = new HashMap();
+    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL ,mappedBy = "userEntity")
+    private Set<WishList> wishLists = new HashSet<>();
+    public void addWishList(WishList wishList){
+        this.getWishLists().add(wishList);
+    }
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(
+//            name = "Wish_List",
+//            joinColumns = @JoinColumn(name = "userEmail")
+//    )
+//    @OrderColumn(name = "wishIndex")
+//    private List<WishList> wishLists = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -107,5 +114,11 @@ public class UserEntity {
 
     public void addMemoToUser(UserMemo memo) {
         this.getUserMemo().add(memo);
+    }
+    public boolean checkUserEmail(String userEmail){
+        return this.userEmail.equals(userEmail);
+    }
+    public boolean checkPassword(String userPw){
+        return this.userPw.equals(userPw);
     }
 }
