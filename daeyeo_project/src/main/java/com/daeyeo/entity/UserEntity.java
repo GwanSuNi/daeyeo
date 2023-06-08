@@ -1,13 +1,16 @@
 package com.daeyeo.entity;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Fetch;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 @Entity
 @Data
 @ToString(exclude = {"banLogs"})
@@ -111,5 +114,11 @@ public class UserEntity {
 
     public void addMemoToUser(UserMemo memo) {
         this.getUserMemo().add(memo);
+    }
+    public boolean checkUserEmail(String userEmail){
+        return this.userEmail.equals(userEmail);
+    }
+    public boolean checkPassword(String userPw){
+        return this.userPw.equals(userPw);
     }
 }
