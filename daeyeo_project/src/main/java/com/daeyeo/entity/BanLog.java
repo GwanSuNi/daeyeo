@@ -1,5 +1,6 @@
 package com.daeyeo.entity;
 
+import jakarta.annotation.Nullable;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -10,18 +11,25 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @ToString(exclude = {"userEntity"})
-@NoArgsConstructor
 @AllArgsConstructor
 @DynamicUpdate
 @Table(name="Ban_Log")
 public class BanLog {
+    public BanLog() {
+        flag = false;
+        this.banDate = LocalDateTime.now();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "banId")
     private int banId;
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "userEmail")
     private UserEntity userEntity;
+    public void addUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+    @Column(nullable = true)
     private boolean flag;
     private String banReason;
     private LocalDateTime duration;

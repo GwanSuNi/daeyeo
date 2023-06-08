@@ -199,7 +199,6 @@
                                 <th scope="col">index</th>
                                 <th scope="col">회원유형</th>
                                 <th scope="col">회원이름</th>
-                                <th scope="col">생년월일</th>
                                 <th scope="col">번호</th>
                                 <th scope="col">가입일</th>
                                 <th scope="col">대여 글 횟수</th>
@@ -215,55 +214,21 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <th scope="row">1</th>
-                                <td>골드</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">서상현</button></td>
-                                <td>000612</td>         <!-- 생년 월일 -->
-                                <td>01099481901</td>         <!-- 번호 -->
-                                <td>20220612</td>         <!-- 가입일 -->
-                                <td>1회</td>         <!-- 대여 글 횟수 -->
-                                <td>2회</td>         <!-- 예약 횟수 -->
-                                <td>3회</td>         <!-- 대여 횟수 -->
-                                <td>4개</td>         <!-- 이용 후기 -->
-                                <td>4030</td>         <!-- 누적 결제 금액 -->
-                                <td>300</td>         <!-- 누적 수수료 -->
-                                <td>4.3</td>         <!-- 회원 별점 -->
-                                <td>true</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>실버</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">유관형</button></td>
-                                <td>000423</td>         <!-- 생년 월일 -->
-                                <td>01082440870</td>         <!-- 번호 -->
-                                <td>20220423</td>         <!-- 가입일 -->
-                                <td>3회</td>         <!-- 대여 글 횟수 -->
-                                <td>4회</td>         <!-- 예약 횟수 -->
-                                <td>5회</td>         <!-- 대여 횟수 -->
-                                <td>6개</td>         <!-- 이용 후기 -->
-                                <td>2030</td>         <!-- 누적 결제 금액 -->
-                                <td>600</td>         <!-- 누적 수수료 -->
-                                <td>2.3</td>         <!-- 회원 별점 -->
-                                <td>false</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>브론즈</td>           <!-- 회원 유형 -->
-                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">류인태</button></td>
-                                <td>000104</td>         <!-- 생년 월일 -->
-                                <td>01075248997</td>         <!-- 번호 -->
-                                <td>20220104</td>         <!-- 가입일 -->
-                                <td>2회</td>         <!-- 대여 글 횟수 -->
-                                <td>4회</td>         <!-- 예약 횟수 -->
-                                <td>1회</td>         <!-- 대여 횟수 -->
-                                <td>3개</td>         <!-- 이용 후기 -->
-                                <td>6974</td>         <!-- 누적 결제 금액 -->
-                                <td>600</td>         <!-- 누적 수수료 -->
-                                <td>4.1</td>         <!-- 회원 별점 -->
-                                <td>true</td>         <!-- 정지 여부 -->
-                                <td>메모</td>         <!-- 메모 -->
+<%--                                <c:forEach varStatus="index" var="user" items="${userEntity}">--%>
+<%--                                <th scope="row">${index.count}</th>--%>
+<%--                                <td>${user.department}</td>           <!-- 회원 유형 -->--%>
+<%--                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">${user.userName}</button></td>--%>
+<%--                                <td>${user.phoneNum}</td>         <!-- 생년 월일 -->--%>
+<%--                                <td>${user.registDate}</td>         <!-- 번호 -->--%>
+<%--                                <td>${user.paySum}</td>         <!-- 가입일 -->--%>
+<%--                                <td>${user.commissionSum}</td>         <!-- 대여 글 횟수 -->--%>
+<%--                                </c:forEach>--%>
+                                <td></td>         <!-- 이용 후기 -->
+                                <td></td>         <!-- 누적 결제 금액 -->
+                                <td></td>         <!-- 누적 수수료 -->
+                                <td></td>         <!-- 회원 별점 -->
+                                <td></td>         <!-- 정지 여부 -->
+<%--                                <td>${user.userMemo}</td>         <!-- 메모 -->--%>
                             </tr>
                             </tbody>
                         </table>
