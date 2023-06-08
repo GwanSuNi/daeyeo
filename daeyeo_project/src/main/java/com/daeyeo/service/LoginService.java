@@ -16,6 +16,7 @@ public class LoginService {
     }
 
 
+
     public UserEntity login(String userEmail,String userPw){
         Optional<UserEntity> findUser = userRepository.findByUserEmail(userEmail);
         if(!findUser.orElseThrow(()->new NotCorrespondingEmailException("해당 이메일이 존재하지 않습니다.")).checkPassword(userPw)){
