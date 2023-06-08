@@ -1,9 +1,8 @@
 package com.daeyeo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.mysql.cj.jdbc.Blob;
+import lombok.*;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -42,7 +41,6 @@ public class RentalObject {
                          String website , String target , LocalDate startDuration , LocalDate endDuration
                         ,LocalDate receiptStartDuration , LocalDate receiptEndDuration , int capacity ,
                         String representNum , String userInfo , String locationInfo,String objectImage ){
-
         this.userEntity=user;
         this.subCategory=subCategory;
         this.objectName = objectName;
