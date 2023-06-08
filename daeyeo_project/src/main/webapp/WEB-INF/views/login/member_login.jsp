@@ -90,13 +90,13 @@
                                         <div class="form-group">
                                             <input type="text" name="userEmail"
                                                    class="form-control form-control-user"
-                                                   value="<%= loginForm.getuserEmail() %>"
+                                                   value="<%= loginForm.getUserEmail() %>"
                                                    placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="userPw"
                                                    class="form-control form-control-user"
-                                                   value="<%= loginForm.getuserPw()%>"
+                                                   value="<%= loginForm.getUserEmail()%>"
                                                    id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         <div class="form-group">

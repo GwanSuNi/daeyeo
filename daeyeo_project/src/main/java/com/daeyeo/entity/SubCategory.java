@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Data
 @EqualsAndHashCode(exclude = "rentalObjects")
-@Table(name = "sub_category")
+@Table(name = "Sub_Category")
 public class SubCategory {
     @Id
     private String scId;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "report_log")
+@Table(name = "Report_Log")
 public class ReportLog {
 
     @Column(length = 100)

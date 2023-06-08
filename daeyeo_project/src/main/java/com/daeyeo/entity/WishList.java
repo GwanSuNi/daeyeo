@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "wish_list")
+@Table(name = "Wish_List")
 public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

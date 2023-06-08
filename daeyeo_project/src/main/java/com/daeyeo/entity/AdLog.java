@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
-@Table(name = "adlog")
+@Table(name = "AdLog")
 @Data
 public class AdLog {
     //외래키

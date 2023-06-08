@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 @Entity
 @Data
-@Table(name = "server_log")
+@Table(name = "Server_Log")
 public class ServerLog {
     @Id
     private int id;

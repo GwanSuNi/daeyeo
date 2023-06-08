@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"rentalLogs","reviews"})
-@Table(name = "rental_object")
+@Table(name = "Rental_Object")
 public class RentalObject {
 
     @Id
@@ -39,7 +39,7 @@ public class RentalObject {
     }
 
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
-                         String website , String target , LocalDate startDuration , LocalDate endDuration
+                        String website , String target , LocalDate startDuration , LocalDate endDuration
             , LocalDateTime receiptDuration , int capacity , int representNum , String userInfo , String locationInfo
             ,String objectImage ){
         this.userEntity=user;
@@ -72,7 +72,7 @@ public class RentalObject {
 //    //외래키
 //    private String ownerEmail;
 
-//    @OneToMany
+    //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
     @Column(length = 40)

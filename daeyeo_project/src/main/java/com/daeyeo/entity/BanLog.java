@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString(exclude = {"userEntity"})
 @AllArgsConstructor
 @DynamicUpdate
-@Table(name="ban_log")
+@Table(name="Ban_Log")
 public class BanLog {
     public BanLog() {
         flag = false;

@@ -43,7 +43,7 @@ public class LoginController {
             return "login/member_login";
         }
         System.out.println("값이 있어요!");
-        UserEntity loginUser = loginService.login(form.getuserEmail(), form.getuserPw());
+        UserEntity loginUser = loginService.login(form.getUserEmail(), form.getUserPw());
 
         /**
          * 로그인 성공 처리

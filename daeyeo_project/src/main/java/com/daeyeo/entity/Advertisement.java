@@ -8,12 +8,12 @@ import java.time.LocalDate;
 @Embeddable
 @Data
 @NoArgsConstructor
-@Table(name = "advertisement")
+@Table(name = "Advertisement")
 public class Advertisement {
     @Column(name = "adId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int adId;
-//    private String adOwnerEmail;
+    //    private String adOwnerEmail;
     private String adCompany;
     private LocalDate duration;
     private int price;
