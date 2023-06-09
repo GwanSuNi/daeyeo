@@ -21,7 +21,6 @@
 
     <!-- Custom styles for this template-->
     <link href="${path}/resources/css/assets/css/sb-admin-2.min.css" rel="stylesheet">
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <%--    <script>--%>
 <%--        window.onload = function () {--%>
 <%--            document.getElementById("userAddress").addEventListener("click", () => {--%>
@@ -79,8 +78,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" id="userAddress" class="form-control form-control-user"
+                                                <input type="text" name="userAddress" id="userAddress" class="form-control form-control-user"
                                                    placeholder="주소 입력" onclick="execDaumPostcode();" onfocus="execDaumPostcode()">
+                                            <input type="hidden" id="zipCode" name="zipCode"/>
+                                            <input type="hidden" id="jibunAddress" name="jibunAddress"/>
+                                            <input type="hidden" id="sido" name="sido"/>
+                                            <input type="hidden" id="sigungu" name="sigungu"/>
                                         </div>
                                         <div id="wrap"
                                              style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
@@ -124,7 +127,20 @@
     <%-- footer --%>
     <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    const themeObj = {
+        //bgColor: "", //바탕 배경색
+        searchBgColor: "#3B71CA", //검색창 배경색
+        //contentBgColor: "", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+        //pageBgColor: "", //페이지 배경색
+        //textColor: "", //기본 글자색
+        queryTextColor: "#FFFFFF" //검색창 글자색
+        //postcodeTextColor: "", //우편번호 글자색
+        //emphTextColor: "", //강조 글자색
+        //outlineColor: "", //테두리
+    };
+
     let element_wrap = document.getElementById("wrap");
 
     function foldDaumPostcode() {
@@ -136,8 +152,13 @@
         new daum.Postcode({
             oncomplete: function (data) {
                 let address = data.address;
-                if (address !== '') {
-                    document.getElementById("userAddress").value = address;
+                let jibunAddress = data.jibunAddress;
+                if (address !== '' || jibunAddress !== '') {
+                    document.querySelector("input[name=userAddress]").value = address;
+                    document.querySelector("input[name=jibunAddress]").value = jibunAddress;
+                    document.querySelector("input[name=zipCode]").value = data.zonecode;
+                    document.querySelector("input[name=sido]").value = data.sido;
+                    document.querySelector("input[name=sigungu]").value = data.sigungu;
                     document.querySelector("input[name=userDepartment]").focus();
                     element_wrap.style.display = 'none';
                     document.body.scrollTop = currentScroll;
@@ -148,7 +169,8 @@
                 element_wrap.style.height = size.height + 'px';
             },
             width: '100%',
-            height: '100%'
+            height: '100%',
+            theme: themeObj
         }).embed(element_wrap);
         // iframe을 넣은 element를 보이게 한다.
         element_wrap.style.display = 'block';
