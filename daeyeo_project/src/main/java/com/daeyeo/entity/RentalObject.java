@@ -38,9 +38,9 @@ public class RentalObject {
     }
 
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
-                         String website , String target , LocalDate startDuration , LocalDate endDuration
-            , LocalDateTime receiptDuration , int capacity , String representNum , String userInfo , String locationInfo
-            ,byte[] objectImage ){
+                        String website , String target , LocalDate startDuration , LocalDate endDuration
+            ,LocalDate receiptStartDuration , LocalDate receiptEndDuration , int capacity ,
+                        String representNum , String userInfo , String locationInfo,String objectImage ){
         this.userEntity=user;
         this.subCategory=subCategory;
         this.objectName = objectName;
@@ -49,12 +49,28 @@ public class RentalObject {
         this.target=target;
         this.startDuration=startDuration;
         this.endDuration=endDuration;
-        this.receiptDuration=receiptDuration;
+        this.receiptStartDuration=receiptStartDuration;
+        this.receiptEndDuration=receiptEndDuration;
         this.capacity=capacity;
         this.representNum= representNum;
         this.userInfo=userInfo;
         this.locationInfo=locationInfo;
         this.objectImage=objectImage;
+    }
+    public RentalObject(UserEntity userEntity , SubCategory subCategory , String objectName , String locationInfo
+            ,Address address , int price , LocalDate receiptStartDuration , LocalDate receiptEndDuration
+            ,LocalDate startDuration , LocalDate endDuration , String representNum){
+        this.userEntity=userEntity;
+        this.subCategory=subCategory;
+        this.objectName = objectName;
+        this.price=price;
+        this.startDuration=startDuration;
+        this.endDuration=endDuration;
+        this.receiptStartDuration=receiptStartDuration;
+        this.receiptEndDuration=receiptEndDuration;
+        this.representNum= representNum;
+        this.locationInfo=locationInfo;
+        this.address = address;
     }
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL , mappedBy = "rentalObject")
@@ -86,16 +102,16 @@ public class RentalObject {
     private String location;
     private LocalDate startDuration;
     private LocalDate endDuration;
-    private LocalDateTime receiptDuration;
+    private LocalDate receiptStartDuration;
+    private LocalDate receiptEndDuration;
     private int capacity;
-
     private String representNum;
     @Column(length = 200)
     private String userInfo;
     @Column(length = 200)
     private String locationInfo;
-    @Column(name = "objectImage", columnDefinition = "BLOB")
-    private byte[] objectImage; //BLOB임
+    private String objectImage; //BLOB임
+    @Column(name = "vistCount")
     private int visitCount;
     @Embedded
     private Address address;

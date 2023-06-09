@@ -37,8 +37,6 @@ cateBtn.forEach((element) => {
     element.addEventListener('click', (event) => {
         event.preventDefault();
 
-        // TODO : 뒤로가기 시 데이터가 남아있어서 뒤로갔다 클릭하면 문제 생김
-        // 예를 들어 list?searchWord=&mainCate=공간시설&subCate= 이 되야 하는데 뒤로 갔다 클릭하면 list?searchWord=&mainCate=공간시설&subCate=공간시설이 됨
         if (mainCate === '')
             params.set('mainCate', element.innerText);
         else

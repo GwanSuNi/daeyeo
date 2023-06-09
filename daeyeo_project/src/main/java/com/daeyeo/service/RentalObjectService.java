@@ -53,20 +53,33 @@ public class RentalObjectService {
      * @param scId Sub Category에서 갖고온 외래키입니다.
      */
     public void insertRentalObject(String ownerEmail , String scId, String objectName, int price,
-                                     String website , String target , LocalDate startDuration ,
+                                   String website , String target , LocalDate startDuration ,
                                    LocalDate endDuration, LocalDateTime receiptDuration , int capacity ,
-                                   String representNum , String userInfo , String locationInfo, byte[] objectImage
-                                        ,Address address){
-         UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
-         SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
+                                   String representNum , String userInfo , String locationInfo, String objectImage
+            ,Address address){
+        UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
+        SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
 
-         RentalObject rentalObject = new RentalObject(userEntity, subCategory , objectName, price ,website,
-                 target,startDuration,endDuration,receiptDuration,capacity,representNum,userInfo,locationInfo,
-                 objectImage);
-        rentalObject.setAddress(address);
-        userEntity.addRentalObject(rentalObject);
-        subCategory.addRentalObject(rentalObject);
-        rentalObjectRepository.save(rentalObject);
+//         RentalObject rentalObject = new RentalObject(userEntity, subCategory , objectName, price ,website,
+//                 target,startDuration,endDuration,receiptDuration,capacity,representNum,userInfo,locationInfo,
+//                 objectImage);/
+//        rentalObject.setAddress(address);
+//        userEntity.addRentalObject(rentalObject);
+//        subCategory.addRentalObject(rentalObject);
+//        rentalObjectRepository.save(rentalObject);
+    }
+    public void insertRentalObjectReal(String scId, String ownerEmail ,String objectName, String locationInfo,
+                                       Address address, int price , LocalDate receipStartDuration, LocalDate receiptEndDuration, LocalDate startDuration,
+                                       LocalDate endDuration , String representNum){
+        UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
+        SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
+        RentalObject newRentalObject = new RentalObject(userEntity,subCategory,objectName,locationInfo,
+                address,price,receipStartDuration,receiptEndDuration,startDuration,endDuration,representNum);
+        newRentalObject.setAddress(address);
+        userEntity.addRentalObject(newRentalObject);
+        subCategory.addRentalObject(newRentalObject);
+        rentalObjectRepository.save(newRentalObject);
+        // mysql에 있는 createDate는 신경쓰지 않아도 됩니다
     }
 
     /**
@@ -110,9 +123,9 @@ public class RentalObjectService {
      * @param ownerEmail User에서 만든 기본키입니다
      */
     public void updateRentalObject(int objectIndex , String scId , String ownerEmail ,String objectName , int price,
-                                            String website ,String target, LocalDate startDuration, LocalDate endDuration,
-                                                LocalDateTime receiptDuration , int capacity , String representNum , String userInfo,
-                                           String locationInfo , byte[] objectImage) {
+                                   String website ,String target, LocalDate startDuration, LocalDate endDuration,
+                                   LocalDateTime receiptDuration , int capacity , String representNum , String userInfo,
+                                   String locationInfo , String objectImage) {
         RentalObject changeRentalObject = new RentalObject();
         Optional<RentalObject> oldRentalObject = rentalObjectRepository.findByObjectIndex(objectIndex);
         if(oldRentalObject!=null){
@@ -127,7 +140,7 @@ public class RentalObjectService {
             changeRentalObject.setTarget(target);
             changeRentalObject.setStartDuration(startDuration);
             changeRentalObject.setEndDuration(endDuration);
-            changeRentalObject.setReceiptDuration(receiptDuration);
+//            changeRentalObject.setReceiptDuration(receiptDuration);
             changeRentalObject.setCapacity(capacity);
             changeRentalObject.setRepresentNum(representNum);
             changeRentalObject.setUserInfo(userInfo);

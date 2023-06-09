@@ -96,7 +96,7 @@
                                     </li>
                                     <li>
                                         <span class="reception_period icon">접수기간</span>
-                                            ${rentalObject.receiptDuration}
+                                            ${rentalObject.receiptStartDuration} ~ ${rentalObject.receiptEndDuration}
                                     </li>
                                     <li>
                                         <span class="use_period icon">사용기간</span>
