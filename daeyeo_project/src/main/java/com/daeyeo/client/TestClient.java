@@ -23,6 +23,8 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        AdService adService = (AdService) container.getBean("adService");
+//        adService.insertNewAd("ax@ax.com1","카카오",LocalDate.now(),LocalDate.of(2023,06,11));
 //        WishService wishService = (WishService) container.getBean("wishListService");
 //        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
 
@@ -62,13 +64,13 @@ public class TestClient {
 //        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
 
 //        rentalLogService.insertRentalLog(5, "test@test.com", LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
-          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
+//          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
 
 //         완료 -rentalObject CRUD 테스트 다함
-        Address address = new Address(1,"안녕","하세요","위치","입니다.");
-        rentalObjectService.insertRentalObject("ax@ax.com1","scIdTest","체육관",400,"현대",
-                  "타겟3",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),9,"10",
-                  "test!!","위치입니다2.","강의실사진1",address);
+//        Address address = new Address(1,"안녕","하세요","위치","입니다.");
+//        rentalObjectService.insertRentalObject("ax@ax.com1","scIdTest","체육관",400,"현대",
+//                  "타겟3",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),9,"10",
+//                  "test!!","위치입니다2.","강의실사진1",address);
 
         // 완료
 //        rentalObjectService.deleteRentalObject(9,"scIdTest","test@test.com");

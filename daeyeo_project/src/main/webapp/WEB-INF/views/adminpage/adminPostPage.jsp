@@ -183,7 +183,7 @@
         <h1>전체 게시물 정보</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">컨텐츠 관리</a></li>
+                <li class="breadcrumb-item"><a href="/${path}adminPostPage.jsp">컨텐츠 관리</a></li>
                 <li class="breadcrumb-item active">전체 게시물</li>
             </ol>
         </nav>
@@ -204,45 +204,27 @@
                             <tr>
                                 <th scope="col">index</th>
                                 <th scope="col">삭제하기</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">작성자</th>
-                                <th scope="col">위치</th>
+                                <th scope="col">공간시설</th>
+                                <th scope="col">작성자 이름</th>
+                                <th scope="col">강의실</th>
                                 <th scope="col">작성시각</th>
-                                <th scope="col">좋아요</th>
-                                <th scope="col">조회수</th>
+                                <th scope="col">위치정보</th>
+                                <th scope="col">작성자 정보</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                <td>401호강의실..</td>           <!-- 회원 유형 -->
-                                <td>서상현</td>       <!-- 작성자 -->
-                                <td>효행관</td>         <!-- 위치 -->
-                                <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
-                                <td>33</td>         <!-- 좋아요 -->
-                                <td>132</td>        <!-- 조회수 -->
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                <td>401호강의실..</td>           <!-- 회원 유형 -->
-                                <td>서상현</td>      <!-- 작성자 -->
-                                <td>효행관</td>          <!-- 위치 -->
-                                <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
-                                <td>33</td>         <!-- 좋아요 -->
-                                <td>132</td>         <!-- 조회수 -->
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                <td>401호강의실..</td>   <!-- 제목 -->
-                                <td>서상현</td>          <!-- 작성자 -->
-                                <td>효행관</td>         <!-- 위치 -->
-                                <td>2023년5월23일07시23분</td> <!-- 작성시각 -->
-                                <td>33</td>         <!-- 좋아요 -->
-                                <td>132</td>         <!-- 조회수 -->
-                            </tr>
+                            <c:forEach varStatus="index" var="rental" items="${rentalObject}">
+                                <tr>
+                                    <th scope="row">${index.count}</th>
+                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
+                                    <td>${rental.subCategory.scId}</td>           <!-- 회원 유형 -->
+                                    <td>${rental.userEntity.userName}</td>       <!-- 작성자 -->
+                                    <td>${rental.objectName}</td>         <!-- 위치 -->
+                                    <td>${rental.createDate}</td>       <!-- 작성시각 -->
+                                    <td>${rental.locationInfo}</td>         <!-- 좋아요 -->
+                                    <td>${rental.userInfo}</td>        <!-- 조회수 -->
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->

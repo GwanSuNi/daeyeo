@@ -209,46 +209,24 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">index</th>
-                                    <th scope="col">삭제하기</th>
-                                    <th scope="col">제목</th>
-                                    <th scope="col">작성자</th>
-                                    <th scope="col">위치</th>
-                                    <th scope="col">작성시각</th>
-                                    <th scope="col">좋아요</th>
-                                    <th scope="col">조회수</th>
+                                    <th scope="col">작성자 아이디</th>
+                                    <th scope="col">작성자 이름</th>
+                                    <th scope="col">게시글 이름</th>
+                                    <th scope="col">작성 날짜</th>
+                                    <th scope="col">작성 내용</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:forEach varStatus="index" var="review" items="${reviewList}">
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                    <td>401호강의실..</td>           <!-- 회원 유형 -->
-                                    <td>서상현</td>       <!-- 작성자 -->
-                                    <td>효행관</td>         <!-- 위치 -->
-                                    <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
-                                    <td>33</td>         <!-- 좋아요 -->
-                                    <td>132</td>        <!-- 조회수 -->
+                                    <td>${index.count}</td>
+                                    <td>${review.userEntity.userEmail}</td>   <!-- 제목 -->
+                                    <td>${review.userEntity.userName}</td>          <!-- 작성자 -->
+                                    <td>${review.rentalObject.objectName}</td>         <!-- 위치 -->
+                                    <td>${review.writeDate}</td> <!-- 작성시각 -->
+                                    <td>${review.content}</td>         <!-- 좋아요 -->
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                    <td>401호강의실..</td>           <!-- 회원 유형 -->
-                                    <td>서상현</td>      <!-- 작성자 -->
-                                    <td>효행관</td>          <!-- 위치 -->
-                                    <td>2023년5월23일07시23분</td>       <!-- 작성시각 -->
-                                    <td>33</td>         <!-- 좋아요 -->
-                                    <td>132</td>         <!-- 조회수 -->
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <th scope="row"><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></th>
-                                    <td>401호강의실..</td>   <!-- 제목 -->
-                                    <td>서상현</td>          <!-- 작성자 -->
-                                    <td>효행관</td>         <!-- 위치 -->
-                                    <td>2023년5월23일07시23분</td> <!-- 작성시각 -->
-                                    <td>33</td>         <!-- 좋아요 -->
-                                    <td>132</td>         <!-- 조회수 -->
-                                </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->

@@ -17,4 +17,6 @@ public interface RentalObjectRepository extends JpaRepository<RentalObject,Integ
     List<RentalObject> findByUserEntity(UserEntity userEntity);
     Optional<RentalObject> findByObjectIndexAndSubCategoryAndUserEntity(int objectIndex , SubCategory subCategory, UserEntity user);
     List<RentalObject> findAll();
+    @Query("SELECT ro FROM RentalObject ro LEFT JOIN UserEntity u ON ro.userEntity.userEmail = u.userEmail")
+    List<RentalObject> findRentalObjectsWithUser();
 }
