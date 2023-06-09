@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RentalObjectRepository extends JpaRepository<RentalObject,Integer> {
-
+public interface RentalObjectRepository extends JpaRepository<RentalObject,Integer>, CustomRentalObjectRepository {
     Optional<RentalObject> findByObjectIndex(int objectIndex);
     List<RentalObject> findByUserEntity(UserEntity userEntity);
     Optional<RentalObject> findByObjectIndexAndSubCategoryAndUserEntity(int objectIndex , SubCategory subCategory, UserEntity user);

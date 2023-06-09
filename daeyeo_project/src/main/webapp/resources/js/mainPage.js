@@ -1,5 +1,5 @@
 // 지역 선택
-const area0 = ["시/도 선택", "서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
+const area0 = ["서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
 const area1 = ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
 const area2 = ["계양구", "남구", "남동구", "동구", "부평구", "서구", "연수구", "중구", "강화군", "옹진군"];
 const area3 = ["대덕구", "동구", "서구", "유성구", "중구"];
@@ -38,48 +38,45 @@ const sido = document.querySelector('.sido');
 const sigungu = document.querySelector('.sigungu');
 
 // 시/도 선택 박스 초기화
-area0.forEach((value, index) => {
-    sido.options[sido.options.length] = new Option(value, index);
+area0.forEach((value) => {
+    sido.options[sido.options.length] = new Option(value, value);
 });
 
-sigungu.options[sigungu.options.length] = new Option('시/구/군 선택', '0');
-
-// 시/도 선택시 구/군 설정
+// 시/도 선택시 시/군/구 설정
 sido.addEventListener('change', () => {
-    const select = sido.options[sido.selectedIndex].value;
+    const select = sido.selectedIndex;
 
-    sigungu.options.length = 0;
+    sigungu.options.length = 1;
 
-    if (select === '0') {
-        sigungu.options[sigungu.options.length] = new Option('시/구/군 선택', '0');
-    } else {
-        area['area' + select].forEach((value, index) => {
-            sigungu.options[sigungu.options.length] = new Option(value, index);
+    if (select !== 0) {
+        area['area' + select].forEach((value) => {
+            sigungu.options[sigungu.options.length] = new Option(value, value);
         });
     }
 });
 
 
 // 분류 선택
-const cate0 = ['축구장', '농구장', '야구장'];
-const cate1 = ['강의실', '회의실'];
-const cate2 = [];
-const cate = {'cate0': cate0, 'cate1': cate1, 'cate2': cate2};
+const cate0 = ['강의실', '강당', '회의실', '축구장', '농구장', '야구장'];
+const cate1 = [];
+const cate = {'cate0': cate0, 'cate1': cate1};
 const activeCate = document.querySelector('.category.active');
-const initCate = ['선택'].concat(cate['cate' + activeCate.value]);
+const initCate = cate['cate' + activeCate.value];
 const tab = document.querySelectorAll('.category');
 const category = document.querySelector('.sub-category');
+const mainCate = document.querySelector('#main-cate');
 
-initCate.forEach((item, index) => {
-    category.options[category.options.length] = new Option(item, index);
+initCate.forEach((item) => {
+    category.options[category.options.length] = new Option(item, item);
 });
 
 tab.forEach((e, num) => {
     e.addEventListener('click', () => {
         category.options.length = 1;
-        cate['cate' + num].forEach((value, index) => {
-            category.options[category.options.length] = new Option(value, index);
+        cate['cate' + num].forEach((value) => {
+            category.options[category.options.length] = new Option(value, value);
         });
+        mainCate.value = e.innerText;
     });
 });
 

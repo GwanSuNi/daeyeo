@@ -40,34 +40,39 @@
         <div class="search-container">
             <div class="search-content">
                 <div class="search-field">
-                    <div class="search">
-                        <input type="text" placeholder="검색어를 입력하세요.">
-                        <a href="" class="search-btn a-btn">검색하기</a>
-                    </div>
+                    <form  action="rental/list" class="search">
+                        <input type="text" name="searchWord" placeholder="검색어를 입력하세요.">
+                        <button class="search-btn a-btn">검색하기</button>
+                    </form>
                 </div>
-                <div class="reserve-tab">
+                <form action="rental/list" class="reserve-tab">
                     <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
                         <li class="regional-base">
                             <span class="nav-link">지역 기반</span>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="category nav-link active" data-bs-toggle="tab" type="button" value="0">야외시설
+                            <button class="category nav-link active" data-bs-toggle="tab" type="button" value="0">공간시설
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="category nav-link" data-bs-toggle="tab" type="button" value="1">실내시설</button>
+                            <button class="category nav-link" data-bs-toggle="tab" type="button" value="1">개인대여</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="category nav-link" data-bs-toggle="tab" type="button" value="2">개인대여</button>
-                        </li>
+                        <input type="hidden" id="main-cate" name="mainCate" value="공간시설">
                     </ul>
                     <div class="tab-content">
-                        <select class="sido form-select"></select>
-                        <select class="sigungu form-select"></select>
-                        <select class="sub-category form-select"></select>
-                        <a href="" class="reserve-btn a-btn">예약하기</a>
+                        <select name="sido" class="sido form-select">
+                            <option value="">시/도 선택</option>
+                        </select>
+
+                        <select name="sigungu" class="sigungu form-select">
+                            <option value="">시/군/구 선택</option>
+                        </select>
+                        <select name="subCate" class="sub-category form-select">
+                            <option value="">선택</option>
+                        </select>
+                        <button class="reserve-btn a-btn">예약하기</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="main-content">

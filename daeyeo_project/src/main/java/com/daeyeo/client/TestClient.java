@@ -23,8 +23,8 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        WishService wishService = (WishService) container.getBean("wishListService");
-        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
+//        WishService wishService = (WishService) container.getBean("wishListService");
+//        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
 
 
 //        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");
@@ -62,13 +62,13 @@ public class TestClient {
 //        RentalLogService rentalLogService = (RentalLogService) container.getBean("rentalLogService");
 
 //        rentalLogService.insertRentalLog(5, "test@test.com", LocalDate.now(), LocalDate.of(2024, 12, 25),0); // JPQL사용해야함
-//          RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
+        RentalObjectService rentalObjectService = (RentalObjectService) container.getBean("rentalObjectService");
 
 //         완료 -rentalObject CRUD 테스트 다함
-//        Address address = new Address(1,"안녕","하세요","위치","입니다.");
-//        rentalObjectService.insertRentalObject("ax@ax.com1","scIdTest","체육관",400,"현대",
-//                  "타겟3",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),9,10,
-//                  "test!!","위치입니다2.","강의실사진1",address);
+        Address address = new Address(1,"안녕","하세요","위치","입니다.");
+        rentalObjectService.insertRentalObject("ax@ax.com1","scIdTest","체육관",400,"현대",
+                "타겟3",LocalDate.now(),LocalDate.now(),LocalDateTime.now(),9,"10",
+                "test!!","위치입니다2.","강의실사진1",address);
 
         // 완료
 //        rentalObjectService.deleteRentalObject(9,"scIdTest","test@test.com");
@@ -78,7 +78,7 @@ public class TestClient {
 //                                                    "테스트업데이트",123,"테스트업데이트"
 //                                                    ,"테스트업데이트",LocalDate.now(),LocalDate.now(),
 //                                                    LocalDateTime.now(),123,123,
-//                                            "테스트업데이트","테스트업데이트","테스트업데이트");
+//                    /                        "테스트업데이트","테스트업데이트","테스트업데이트");
         // 완료
 
         // 미완료 -rentalLog CRUD 테스트 80% 완료
@@ -193,11 +193,12 @@ public class TestClient {
 //        banLogService.insertBanLog("ax@ax.com3", "잠못3", LocalDateTime.now());
 //        banLogService.insertBanLog("ax@ax.com4", "잠못4", LocalDateTime.now());
 
+
+
 //        NewUserService userService = (NewUserService) container.getBean("uService");
 ////        BanLogService banLogService = (BanLogService)container.getBean("")
 //        UserEntity user = userService.findUserByEmail("ax@ax.com");
 ////        banLogService.insertBanLog("ax@ax.com", "그냥 꼬와", LocalDateTime.now());
-
 //        UserEntity newUser  = new UserEntity();
 //        newUser.setUserEmail("ax@ax.com5");
 //        newUser.setUserPw("1234");

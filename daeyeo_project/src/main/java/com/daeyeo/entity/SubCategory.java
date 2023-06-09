@@ -15,6 +15,10 @@ public class SubCategory {
     @Id
     private String scId;
 
+    @ManyToOne
+    @JoinColumn(name = "mcId")
+    private MainCategory mainCategory;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
             mappedBy = "subCategory")
     private Set<RentalObject> rentalObjects = new HashSet<>();
