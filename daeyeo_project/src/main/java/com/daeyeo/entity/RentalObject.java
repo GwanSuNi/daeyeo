@@ -40,7 +40,7 @@ public class RentalObject {
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
                          String website , String target , LocalDate startDuration , LocalDate endDuration
             , LocalDateTime receiptDuration , int capacity , String representNum , String userInfo , String locationInfo
-            ,String objectImage ){
+            ,byte[] objectImage ){
         this.userEntity=user;
         this.subCategory=subCategory;
         this.objectName = objectName;
