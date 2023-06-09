@@ -4,7 +4,6 @@ package com.daeyeo.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,6 +20,10 @@ public class MainCategory {
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "mcId")
     private Set<SubCategory> subCategories = new HashSet<>();
+
+    public MainCategory(String newMcId) {
+        this.mcId = newMcId;
+    }
 
     public void addSubCategory(SubCategory subCategory) {
         this.getSubCategories().add(subCategory);

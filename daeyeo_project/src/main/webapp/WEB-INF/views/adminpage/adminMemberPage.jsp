@@ -213,7 +213,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+<%--                            <tr>--%>
 <%--                                <c:forEach varStatus="index" var="user" items="${userEntity}">--%>
 <%--                                <th scope="row">${index.count}</th>--%>
 <%--                                <td>${user.department}</td>           <!-- 회원 유형 -->--%>
@@ -223,13 +223,29 @@
 <%--                                <td>${user.paySum}</td>         <!-- 가입일 -->--%>
 <%--                                <td>${user.commissionSum}</td>         <!-- 대여 글 횟수 -->--%>
 <%--                                </c:forEach>--%>
-                                <td></td>         <!-- 이용 후기 -->
-                                <td></td>         <!-- 누적 결제 금액 -->
-                                <td></td>         <!-- 누적 수수료 -->
-                                <td></td>         <!-- 회원 별점 -->
-                                <td></td>         <!-- 정지 여부 -->
+<%--                                <td></td>         <!-- 이용 후기 -->--%>
+<%--                                <td></td>         <!-- 누적 결제 금액 -->--%>
+<%--                                <td></td>         <!-- 누적 수수료 -->--%>
+<%--                                <td></td>         <!-- 회원 별점 -->--%>
+<%--                                <td></td>         <!-- 정지 여부 -->--%>
 <%--                                <td>${user.userMemo}</td>         <!-- 메모 -->--%>
-                            </tr>
+<%--                            </tr>--%>
+                            <c:forEach var="manage" items="${memberManagement}">
+                                <tr>
+<%--                                    <td>${manage.userCategory}</td>--%>
+                                    <td>${manage.userEmail}</td>
+                                    <td>${manage.userName}</td>
+                                    <td>${manage.phoneNum}}</td>
+                                    <td>${manage.registerDate}}</td>
+                                    <td>${manage.totalObject}}</td>
+                                    <td>${manage.totalRent}</td>
+                                    <td>${manage.totalReview}</td>
+<%--                                    <td>${manage.paySum}</td>--%>
+                                    <td>${manage.commissionSum}</td>
+                                    <td>${manage.rate}</td>
+<%--                                    <td>${manage.isBan}</td>--%>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->

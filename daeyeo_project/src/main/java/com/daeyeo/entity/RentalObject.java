@@ -1,5 +1,6 @@
 package com.daeyeo.entity;
 
+import com.mysql.cj.jdbc.Blob;
 import lombok.*;
 import org.apache.catalina.User;
 
@@ -38,7 +39,7 @@ public class RentalObject {
 
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
                          String website , String target , LocalDate startDuration , LocalDate endDuration
-            , LocalDateTime receiptDuration , int capacity , int representNum , String userInfo , String locationInfo
+            , LocalDateTime receiptDuration , int capacity , String representNum , String userInfo , String locationInfo
             ,String objectImage ){
         this.userEntity=user;
         this.subCategory=subCategory;
@@ -50,7 +51,7 @@ public class RentalObject {
         this.endDuration=endDuration;
         this.receiptDuration=receiptDuration;
         this.capacity=capacity;
-        this.representNum=representNum;
+        this.representNum= representNum;
         this.userInfo=userInfo;
         this.locationInfo=locationInfo;
         this.objectImage=objectImage;
@@ -70,7 +71,7 @@ public class RentalObject {
 //    //외래키
 //    private String ownerEmail;
 
-//    @OneToMany
+    //    @OneToMany
 //    @JoinColumn(name="objectIndex")
 //    private Set<WishList> wishLists = new HashSet<>();
     @Column(length = 40)
@@ -88,12 +89,13 @@ public class RentalObject {
     private LocalDateTime receiptDuration;
     private int capacity;
 
-    private int representNum;
+    private String representNum;
     @Column(length = 200)
     private String userInfo;
     @Column(length = 200)
     private String locationInfo;
-    private String objectImage; //BLOB임
+    @Column(name = "objectImage", columnDefinition = "BLOB")
+    private byte[] objectImage; //BLOB임
     private int visitCount;
     @Embedded
     private Address address;

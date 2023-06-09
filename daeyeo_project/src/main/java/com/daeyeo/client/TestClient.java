@@ -24,7 +24,7 @@ public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         WishService wishService = (WishService) container.getBean("wishListService");
-        wishService.insertWishList("ax@ax.com1",0,LocalDateTime.now());
+        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
 
 
 //        UseInfoService useInfoService = (UseInfoService) container.getBean("useInfoService");
@@ -193,12 +193,11 @@ public class TestClient {
 //        banLogService.insertBanLog("ax@ax.com3", "잠못3", LocalDateTime.now());
 //        banLogService.insertBanLog("ax@ax.com4", "잠못4", LocalDateTime.now());
 
-
-
 //        NewUserService userService = (NewUserService) container.getBean("uService");
 ////        BanLogService banLogService = (BanLogService)container.getBean("")
 //        UserEntity user = userService.findUserByEmail("ax@ax.com");
 ////        banLogService.insertBanLog("ax@ax.com", "그냥 꼬와", LocalDateTime.now());
+
 //        UserEntity newUser  = new UserEntity();
 //        newUser.setUserEmail("ax@ax.com5");
 //        newUser.setUserPw("1234");
