@@ -11,7 +11,21 @@
 <jsp:useBean id="loginForm" class="com.daeyeo.config.LoginForm" scope="request"/>
 <html>
 <head>
-    <title>대여대여 로그인</title>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-S11E29LT0T');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-58QHFKS');</script>
+    <!-- End Google Tag Manager -->
+    <title>로그인 | 대여대여</title>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/login_style.css">
 
     <!-- Custom fonts for this template-->
@@ -106,7 +120,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <input type="submit" value="로그인2"
+                                            <input type="submit" value="로그인" id="loginBtn"
                                                    class="btn btn-primary btn-user btn-block">
                                         </div>
                                         <hr>
@@ -144,4 +158,8 @@
     <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 </div>
 </body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58QHFKS"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </html>

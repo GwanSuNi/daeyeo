@@ -110,6 +110,7 @@ public class RentalObject {
     private String userInfo;
     @Column(length = 200)
     private String locationInfo;
+    @Column(name = "objectImage", columnDefinition = "BLOB")
     private String objectImage; //BLOB임
     @Column(name = "vistCount")
     private int visitCount;

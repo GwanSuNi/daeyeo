@@ -140,7 +140,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/error/404">
+                    <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">
                         <i class="bi bi-circle"></i><span>방문자 현황 그래프</span>
                     </a>
                 </li>
@@ -256,7 +256,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">구글 애널리틱스</h5>
-                <a href="https://www.google.co.kr/?hl=ko"></a>
+                <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">구글 애널리틱스에서 분석하기</a>
             </div>
         </div>
     </div>

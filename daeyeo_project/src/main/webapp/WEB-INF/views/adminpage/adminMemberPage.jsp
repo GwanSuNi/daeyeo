@@ -17,7 +17,8 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -127,7 +128,8 @@
         <!-- Start Statistics Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
@@ -136,7 +138,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/error/404">
+                    <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">
                         <i class="bi bi-circle"></i><span>방문자 현황 그래프</span>
                     </a>
                 </li>
@@ -193,57 +195,89 @@
                         <h5 class="card-title"></h5>
                         <p></p>
                         <!-- Table with stripped rows -->
-                        <table class="table datatable" >
+                        <table class="table datatable">
                             <thead>
                             <tr>
                                 <th scope="col">index</th>
                                 <th scope="col">회원유형</th>
+                                <th scope="col">이메일</th>
                                 <th scope="col">회원이름</th>
                                 <th scope="col">번호</th>
                                 <th scope="col">가입일</th>
                                 <th scope="col">대여 글 횟수</th>
-                                <th scope="col">예약 횟수</th>
+                                <%--                                <th scope="col">예약 횟수</th>--%>
                                 <th scope="col">대여 횟수</th>
                                 <th scope="col">이용 후기</th>
                                 <th scope="col">누적 결제 금액</th>
                                 <th scope="col">누적 수수료</th>
                                 <th scope="col">회원 별점</th>
                                 <th scope="col">정지 여부</th>
-                                <th scope="col">메모</th>
                             </tr>
                             </thead>
                             <tbody>
-<%--                            <tr>--%>
-<%--                                <c:forEach varStatus="index" var="user" items="${userEntity}">--%>
-<%--                                <th scope="row">${index.count}</th>--%>
-<%--                                <td>${user.department}</td>           <!-- 회원 유형 -->--%>
-<%--                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">${user.userName}</button></td>--%>
-<%--                                <td>${user.phoneNum}</td>         <!-- 생년 월일 -->--%>
-<%--                                <td>${user.registDate}</td>         <!-- 번호 -->--%>
-<%--                                <td>${user.paySum}</td>         <!-- 가입일 -->--%>
-<%--                                <td>${user.commissionSum}</td>         <!-- 대여 글 횟수 -->--%>
-<%--                                </c:forEach>--%>
-<%--                                <td></td>         <!-- 이용 후기 -->--%>
-<%--                                <td></td>         <!-- 누적 결제 금액 -->--%>
-<%--                                <td></td>         <!-- 누적 수수료 -->--%>
-<%--                                <td></td>         <!-- 회원 별점 -->--%>
-<%--                                <td></td>         <!-- 정지 여부 -->--%>
-<%--                                <td>${user.userMemo}</td>         <!-- 메모 -->--%>
-<%--                            </tr>--%>
-                            <c:forEach var="manage" items="${memberManagement}">
+                            <%--                            <tr>--%>
+                            <%--                                <c:forEach varStatus="index" var="user" items="${userEntity}">--%>
+                            <%--                                <th scope="row">${index.count}</th>--%>
+                            <%--                                <td>${user.department}</td>           <!-- 회원 유형 -->--%>
+                            <%--                                <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#seosanghyeon">${user.userName}</button></td>--%>
+                            <%--                                <td>${user.phoneNum}</td>         <!-- 생년 월일 -->--%>
+                            <%--                                <td>${user.registDate}</td>         <!-- 번호 -->--%>
+                            <%--                                <td>${user.paySum}</td>         <!-- 가입일 -->--%>
+                            <%--                                <td>${user.commissionSum}</td>         <!-- 대여 글 횟수 -->--%>
+                            <%--                                </c:forEach>--%>
+                            <%--                                <td></td>         <!-- 이용 후기 -->--%>
+                            <%--                                <td></td>         <!-- 누적 결제 금액 -->--%>
+                            <%--                                <td></td>         <!-- 누적 수수료 -->--%>
+                            <%--                                <td></td>         <!-- 회원 별점 -->--%>
+                            <%--                                <td></td>         <!-- 정지 여부 -->--%>
+                            <%--                                <td>${user.userMemo}</td>         <!-- 메모 -->--%>
+                            <%--                            </tr>--%>
+                            <c:forEach var="manage" items="${memberManagement}" varStatus="status">
                                 <tr>
-<%--                                    <td>${manage.userCategory}</td>--%>
+                                        <%--                                    <td>${manage.userCategory}</td>--%>
+                                    <td>${status.index}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${manage.userCategory.equals('고급')}">
+                                                <span style="color:gold;">${manage.userCategory}</span>
+                                            </c:when>
+                                            <c:when test="${manage.userCategory.equals('일반')}">
+                                                <span style="color:black;">${manage.userCategory}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${manage.userCategory}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                     <td>${manage.userEmail}</td>
                                     <td>${manage.userName}</td>
-                                    <td>${manage.phoneNum}}</td>
-                                    <td>${manage.registerDate}}</td>
-                                    <td>${manage.totalObject}}</td>
+                                    <td>${manage.phoneNum}</td>
+                                    <td>${manage.registerDate}</td>
+                                    <td>${manage.totalObject}</td>
                                     <td>${manage.totalRent}</td>
                                     <td>${manage.totalReview}</td>
-<%--                                    <td>${manage.paySum}</td>--%>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${manage.totalPay != null}">
+                                                ${manage.totalPay}
+                                            </c:when>
+                                            <c:otherwise>
+                                                0
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                     <td>${manage.commissionSum}</td>
                                     <td>${manage.rate}</td>
-<%--                                    <td>${manage.isBan}</td>--%>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${manage.isBan}">
+                                                <span style="color: red">O</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span>X</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -265,7 +299,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table datatable" >
+                <table class="table datatable">
                     <thead>
                     <tr>
                         <th scope="col">index</th>
@@ -308,5 +342,6 @@
 
 <!-- Template Main JS File -->
 <script src="${path}/resources/css/assets/js/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>

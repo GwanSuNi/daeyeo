@@ -25,9 +25,11 @@
     </div>
 
     <form action="/rental/list" id="header-form" class="navbar_menu">
+      <ul>
         <li><a class="header_a header-cate" href="#">공간시설</a></li>
         <li><a class="header_a header-cate" href="#">개인대여</a></li>
-        <li><a class="header_a" href="${path}/guidebook">이용안내</a></li>
+        <li><a class="header_a" id="guidebook" href="${path}/guidebook">이용안내</a></li>
+      </ul>
         <input type="hidden" class="header-main-cate" name="mainCate">
     </form>
 
@@ -38,7 +40,7 @@
     <ul class="navbar_links">
         <li><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <%--<i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>--%>
-        <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
+        <div onclick="location.href='${path}/login'"><li><i class="fas fa-user" style="color: #ffffff;"></i></li></div>
         <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
     </ul>
 </nav>

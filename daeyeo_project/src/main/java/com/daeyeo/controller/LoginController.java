@@ -62,8 +62,8 @@ public class LoginController {
         return null;
     }
 
-//    @RequestMapping("/register")
-//    public String register() {return "login/member_register";}
+    @RequestMapping("/register")
+    public String register() {return "login/member_register";}
 //    public String register() {
 //        System.out.println("bdbd");
 //        return "login/member_register";

@@ -13,8 +13,21 @@
     <link href="${path}/resources/css/assets/css/style.css" rel="stylesheet">
     <!-- CSS File -->
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/rental/rental_list.css">
+    <title>공간시설 목록 | 대여대여</title>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    <title>공간시설 대여 | 대여대여</title>
+        gtag('config', 'G-S11E29LT0T');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-58QHFKS');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
 <div class="wrapper">
@@ -147,6 +160,10 @@
     <jsp:include page="../includes/footer.jsp"/>
 </div>
 </body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58QHFKS"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <!-- JS File -->
 <script src="${path}/resources/js/rental/rentalList.js" type="text/javascript"></script>
 </html>
