@@ -36,9 +36,9 @@ public class AdService {
      * @param adImage : 광고 이미지
      * @param adLocation : 광고가 기재될 위치
      */
-    public void insertNewAd(String email, String adCompany, LocalDateTime duration, int price, String adImage, String adLocation) {
+    public void insertNewAd(String email, String adCompany, LocalDate startDuration , LocalDate endDuration , int price, String adImage, String adLocation) {
         UserEntity user = userRepository.findByUserEmail(email).get();
-        Advertisement newAd = new Advertisement(adCompany, duration, price, adImage, adLocation);
+        Advertisement newAd = new Advertisement(adCompany, startDuration,endDuration, price, adImage, adLocation);
         user.getAdvertisement().add(newAd); // getAdvertisement() 가 set 이라 가져와서 다시 추가해줌
         // 추가한걸 다시 대입해줌 그래서 add(newAd)가 들어간거임
         // 우리는 이걸 메서드화 해서 만듬
