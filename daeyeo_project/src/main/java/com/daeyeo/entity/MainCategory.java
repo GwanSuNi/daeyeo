@@ -17,7 +17,7 @@ import java.util.Set;
 public class MainCategory {
     @Id
     private String mcId;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "mcId")
     private Set<SubCategory> subCategories = new HashSet<>();
 

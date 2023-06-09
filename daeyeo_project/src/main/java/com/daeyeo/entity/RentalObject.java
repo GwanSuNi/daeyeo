@@ -38,8 +38,8 @@ public class RentalObject {
     }
 
     public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
-                         String website , String target , LocalDate startDuration , LocalDate endDuration
-                        ,LocalDate receiptStartDuration , LocalDate receiptEndDuration , int capacity ,
+                        String website , String target , LocalDate startDuration , LocalDate endDuration
+            ,LocalDate receiptStartDuration , LocalDate receiptEndDuration , int capacity ,
                         String representNum , String userInfo , String locationInfo,String objectImage ){
         this.userEntity=user;
         this.subCategory=subCategory;
@@ -58,8 +58,8 @@ public class RentalObject {
         this.objectImage=objectImage;
     }
     public RentalObject(UserEntity userEntity , SubCategory subCategory , String objectName , String locationInfo
-                        ,Address address , int price , LocalDate receiptStartDuration , LocalDate receiptEndDuration
-                          ,LocalDate startDuration , LocalDate endDuration , String representNum){
+            ,Address address , int price , LocalDate receiptStartDuration , LocalDate receiptEndDuration
+            ,LocalDate startDuration , LocalDate endDuration , String representNum){
         this.userEntity=userEntity;
         this.subCategory=subCategory;
         this.objectName = objectName;

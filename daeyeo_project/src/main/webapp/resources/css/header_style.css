@@ -20,7 +20,7 @@ body {
     background-color: var(--background-color);
     padding: 6px 10px;
     line-height: normal;
-    box-shadow: 0 5px 5px lightgrey;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
 }
 .navbar_logo {
     font-size: 24px;

@@ -24,11 +24,12 @@
         <a class="header_a" href="${path}/">대여대여로고</a>
     </div>
 
-    <ul class="navbar_menu">
-        <li><a class="header_a" href="${path}/rental/list">공간시설</a></li>
-        <li><a class="header_a" href="${path}/error/404">개인대여</a></li>
+    <form action="/rental/list" id="header-form" class="navbar_menu">
+        <li><a class="header_a header-cate" href="#">공간시설</a></li>
+        <li><a class="header_a header-cate" href="#">개인대여</a></li>
         <li><a class="header_a" href="${path}/guidebook">이용안내</a></li>
-    </ul>
+        <input type="hidden" class="header-main-cate" name="mainCate">
+    </form>
 
     <div class="dum_navbar_links">
         <%-- flex space between 용--%>

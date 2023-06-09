@@ -41,13 +41,13 @@ public class AdminController {
 //        int paySum = userService.findByPaySum();
 //        model.addAttribute("paysum",paySum);
         List<RentalObject> rentalObject1 = rentalObjectService.findAll();
-        DateTimeFormatter newDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년MM월dd HH:mm:ss");
-        for (RentalObject rentalObject : rentalObject1) {
-            LocalDateTime originalDateTime = rentalObject.getReceiptDuration();
-            String formattedDateTime = originalDateTime.format(newDateTimeFormatter);
-            rentalObject.setReceiptDuration(LocalDateTime.parse(formattedDateTime, newDateTimeFormatter));
-        }
-        model.addAttribute("rentalObject",rentalObject1);
+//        DateTimeFormatter newDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년MM월dd HH:mm:ss");
+//        for (RentalObject rentalObject : rentalObject1) {
+//            LocalDateTime originalDateTime = rentalObject.getReceiptDuration();
+//            String formattedDateTime = originalDateTime.format(newDateTimeFormatter);
+//            rentalObject.setReceiptDuration(LocalDateTime.parse(formattedDateTime, newDateTimeFormatter));
+//        }
+//        model.addAttribute("rentalObject",rentalObject1);
         return "adminpage/adminMainPage";
     }
 

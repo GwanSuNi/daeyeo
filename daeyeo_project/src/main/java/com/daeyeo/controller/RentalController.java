@@ -1,21 +1,49 @@
 package com.daeyeo.controller;
 
+import com.daeyeo.command.RentalListCmd;
 import com.daeyeo.command.RentalObjectDTO;
+import com.daeyeo.entity.MainCategory;
 import com.daeyeo.entity.RentalObject;
+import com.daeyeo.entity.SubCategory;
+import com.daeyeo.service.MainCategoryService;
 import com.daeyeo.service.RentalObjectService;
-import org.dom4j.rule.Mode;
+import com.daeyeo.service.SubCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/rental")
 public class RentalController {
+    @Autowired
+    MainCategoryService mainCategoryService;
+    @Autowired
+    SubCategoryService subCategoryService;
+    @Autowired
     RentalObjectService rentalObjectService;
 
     @RequestMapping("/list")
-    public String rentalList() {
+    public String rentalList(RentalListCmd rentalListCmd, Model model) {
+        List<SubCategory> subCategories = subCategoryService.findByMcId(rentalListCmd.getMainCate());
+        List<String> list;
+
+        if(rentalListCmd.getMainCate().equals(""))
+            list = mainCategoryService.getAllCategories().stream().map(MainCategory::getMcId).collect(Collectors.toList());
+        else if (subCategories == null)
+            list = new ArrayList<>();
+        else
+            list = subCategories.stream().map(SubCategory::getScId).collect(Collectors.toList());
+
+        model.addAttribute("categories", list);
+        System.out.println("==========================================");
+        model.addAttribute("rentalList", rentalObjectService.findRentalObjectByCommand(rentalListCmd));
+
         return "rental/rentalList";
     }
 

@@ -1,3 +1,10 @@
+<%@ page import="org.springframework.ui.Model" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="com.daeyeo.entity.MainCategory" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="com.daeyeo.entity.SubCategory" %>
+<%@ page import="com.daeyeo.entity.RentalObject" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -13,27 +20,22 @@
 <div class="wrapper">
     <jsp:include page="../includes/header.jsp"/>
     <div class="contents">
-        <div class="category_wrap">
+        <form class="category_wrap">
             <div class="category_list">
                 <a href="" class="cate-btn">전체</a>
-                <a href="" class="cate-btn active">강의실</a>
-                <a href="" class="cate-btn">체육관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
-                <a href="" class="cate-btn">도서관</a>
+                <c:forEach var="category" items="${categories}">
+                    <a href="#" class="cate-btn">${category}</a>
+                </c:forEach>
             </div>
             <div class="search">
                 <label class="search_box">
-                    <input type="text" placeholder="검색어를 입력하세요.">
+                    <input type="text" id="search-word" name="searchWord" placeholder="검색어를 입력하세요." value="${rentalListCmd.searchWord}">
                 </label>
                 <a href="" class="a-btn">검색</a>
             </div>
-        </div>
+<%--            <input type="hidden" id="main-cate" name="mainCate" value="${rentalListCmd.mainCate}">--%>
+<%--            <input type="hidden" id="sub-cate" name="subCate" value="${rentalListCmd.subCate}">--%>
+        </form>
         <ul class="icon_list">
             <li>
                 <span class="icon online">온라인 예약</span>
@@ -67,141 +69,53 @@
                 </div>
             </h5>
             <ul id="rental-list" class="list-type">
-                <li>
-                    <a href="">
-                        <div class="img_box">
-                            <span class="board-state">state</span>
-                            <img src="${path}/resources/img/rental/airplane.jfif" alt="사진">
-                        </div>
-                        <div class="description">
-                            <div class="top_box">
-                                <div class="list-state">대여가능</div>
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
+                <c:forEach var="rentalObject" items="${rentalList}">
+                    <li>
+                        <a href="">
+                            <div class="img_box">
+                                <span class="board-state">state</span>
+                                <img src="${path}/resources/img/rental/airplane.jfif" alt="사진">
                             </div>
-                            <div class="title">title</div>
-                            <ul class="obj_info">
-                                <li>
-                                    <span class="place icon">장소</span>
-                                    <span class="obj">place</span>
-                                </li>
-                                <li>
-                                    <span class="price icon">이용요금</span>
-                                    <span class="obj">price</span>
-                                </li>
-                                <li>
-                                    <span class="reception_period icon">접수기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="use_period icon">사용기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="reservation icon">예약방법</span>
-                                    <ul class="reservation_method">
-                                        <li><img src="${path}/resources/img/rental/online_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/visit_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/phone_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/site_icon.png" alt="icon"></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="img_box">
-                            <span class="board-state">state</span>
-                            <img src="${path}/resources/img/rental/sea.jpg" alt="사진">
-                        </div>
-                        <div class="description">
-                            <div class="top_box">
-                                <div class="list-state">대여가능</div>
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
+                            <div class="description">
+                                <div class="top_box">
+                                    <div class="list-state">대여가능</div>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">공간시설</li>
+                                        <li class="breadcrumb-item">강의실</li>
+                                    </ol>
+                                </div>
+                                <div class="title">${rentalObject.objectName}</div>
+                                <ul class="obj_info">
+                                    <li>
+                                        <span class="place icon">장소</span>
+                                        <span class="obj">${rentalObject.locationInfo}</span>
+                                    </li>
+                                    <li>
+                                        <span class="price icon">이용요금</span>
+                                        <span class="obj">${rentalObject.price}</span>
+                                    </li>
+                                    <li>
+                                        <span class="reception_period icon">접수기간</span>
+                                            ${rentalObject.receiptStartDuration} ~ ${rentalObject.receiptEndDuration}
+                                    </li>
+                                    <li>
+                                        <span class="use_period icon">사용기간</span>
+                                            ${rentalObject.startDuration} ~ ${rentalObject.endDuration}
+                                    </li>
+                                    <li>
+                                        <span class="reservation icon">예약방법</span>
+                                        <ul class="reservation_method">
+                                            <li><img src="${path}/resources/img/rental/online_icon.png" alt="icon"></li>
+                                            <li><img src="${path}/resources/img/rental/visit_icon.png" alt="icon"></li>
+                                            <li><img src="${path}/resources/img/rental/phone_icon.png" alt="icon"></li>
+                                            <li><img src="${path}/resources/img/rental/site_icon.png" alt="icon"></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="title">title</div>
-                            <ul class="obj_info">
-                                <li>
-                                    <span class="place icon">장소</span>
-                                    <span class="obj">place</span>
-                                </li>
-                                <li>
-                                    <span class="price icon">이용요금</span>
-                                    <span class="obj">price</span>
-                                </li>
-                                <li>
-                                    <span class="reception_period icon">접수기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="use_period icon">사용기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="reservation icon">예약방법</span>
-                                    <ul class="reservation_method">
-                                        <li><img src="${path}/resources/img/rental/online_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/visit_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/phone_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/site_icon.png" alt="icon"></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="img_box">
-                            <span class="board-state">state</span>
-                            <img src="${path}/resources/img/rental/image_icon.png" alt="사진">
-                        </div>
-                        <div class="description">
-                            <div class="top_box">
-                                <div class="list-state">대여가능</div>
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
-                            </div>
-                            <div class="title">title</div>
-                            <ul class="obj_info">
-                                <li>
-                                    <span class="place icon">장소</span>
-                                    <span class="obj">place</span>
-                                </li>
-                                <li>
-                                    <span class="price icon">이용요금</span>
-                                    <span class="obj">price</span>
-                                </li>
-                                <li>
-                                    <span class="reception_period icon">접수기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="use_period icon">사용기간</span>
-                                    0000.00.00 ~ 0000.00.00
-                                </li>
-                                <li>
-                                    <span class="reservation icon">예약방법</span>
-                                    <ul class="reservation_method">
-                                        <li><img src="${path}/resources/img/rental/online_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/visit_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/phone_icon.png" alt="icon"></li>
-                                        <li><img src="${path}/resources/img/rental/site_icon.png" alt="icon"></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                </c:forEach>
             </ul>
             <ul class="pagination">
                 <li class="page-item disabled">
