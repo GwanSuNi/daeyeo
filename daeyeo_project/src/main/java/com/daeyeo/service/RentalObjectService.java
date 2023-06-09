@@ -1,9 +1,11 @@
 package com.daeyeo.service;
 
+import com.daeyeo.command.RentalListCmd;
 import com.daeyeo.entity.Address;
 import com.daeyeo.entity.RentalObject;
 import com.daeyeo.entity.SubCategory;
 import com.daeyeo.entity.UserEntity;
+import com.daeyeo.persistence.CustomRentalObjectRepositoryImpl;
 import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.persistence.SubCategoryRepository;
 import com.daeyeo.persistence.UserRepository;
@@ -25,6 +27,8 @@ public class RentalObjectService {
     private RentalObjectRepository rentalObjectRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CustomRentalObjectRepositoryImpl customRentalObjectRepository;
 
     public SubCategory findSubCategoryByScId(String scId){
         Optional<SubCategory> subCategory = subCategoryRepository.findByScId(scId);
@@ -51,7 +55,7 @@ public class RentalObjectService {
     public void insertRentalObject(String ownerEmail , String scId, String objectName, int price,
                                      String website , String target , LocalDate startDuration ,
                                    LocalDate endDuration, LocalDateTime receiptDuration , int capacity ,
-                                   String representNum , String userInfo , String locationInfo, String objectImage
+                                   String representNum , String userInfo , String locationInfo, byte[] objectImage
                                         ,Address address){
          UserEntity userEntity = userRepository.findByUserEmail(ownerEmail).get();
          SubCategory subCategory = subCategoryRepository.findByScId(scId).get();
@@ -88,6 +92,16 @@ public class RentalObjectService {
         Optional<RentalObject> rentalObject  = rentalObjectRepository.findByObjectIndexAndSubCategoryAndUserEntity(objectIndex,subCategory,user);
         return rentalObject;
     }
+
+    /**
+     *
+     * @param rentalListCmd
+     * @return
+     */
+    public List<RentalObject> findRentalObjectByCommand(RentalListCmd rentalListCmd) {
+        return customRentalObjectRepository.findRentalObjectByCommand(rentalListCmd);
+    }
+
 //TODO : 기본키 외래키 바꿔야 할 값을 모두 받아온후에 값 검증을 하기
     /**
      *
@@ -98,7 +112,7 @@ public class RentalObjectService {
     public void updateRentalObject(int objectIndex , String scId , String ownerEmail ,String objectName , int price,
                                             String website ,String target, LocalDate startDuration, LocalDate endDuration,
                                                 LocalDateTime receiptDuration , int capacity , String representNum , String userInfo,
-                                           String locationInfo , String objectImage) {
+                                           String locationInfo , byte[] objectImage) {
         RentalObject changeRentalObject = new RentalObject();
         Optional<RentalObject> oldRentalObject = rentalObjectRepository.findByObjectIndex(objectIndex);
         if(oldRentalObject!=null){
