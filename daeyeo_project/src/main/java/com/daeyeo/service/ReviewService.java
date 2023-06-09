@@ -67,4 +67,7 @@ public class ReviewService {
             // System.out.println("리뷰가없어요.");
         }
     }
+    public List<Review> findReviewWithUser(){
+       return reviewRepository.findReviewWithUser();
+    }
 }

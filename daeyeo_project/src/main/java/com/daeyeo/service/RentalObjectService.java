@@ -42,9 +42,9 @@ public class RentalObjectService {
     public List<RentalObject> findAll(){
         return rentalObjectRepository.findAll();
     }
-
-
-
+    public List<RentalObject> findRentalObjectWithUser(){
+        return rentalObjectRepository.findRentalObjectsWithUser();
+    }
     /**
      * @auther 서상현
      * RentalObject를 만드는 메서드입니다. 기본키는 AutoIncrement를 적용해서 매개변수로 값을 넣어주지않았고 ,
