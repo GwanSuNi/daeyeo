@@ -197,7 +197,7 @@
         <h1>일자별 요약</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">통계</a></li>
+                <li class="breadcrumb-item"><a href="${path}/adminStatisticsPage">통계</a></li>
                 <li class="breadcrumb-item active">일별 요약</li>
             </ol>
         </nav>
@@ -234,6 +234,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <c:forEach var="" items="${memberManagement}">
                         <tr>
                             <th scope="row">1</th>
                             <td>2022년 5월 8일</td> <!-- 날짜 -->
@@ -243,6 +244,7 @@
                             <td>1명</td>         <!-- 가입자 -->
                             <td>4개</td>         <!-- 후기 개수 -->
                         </tr>
+                        </c:forEach>
                         <tr>
                             <th scope="row">2</th>
                             <td>2022년 5월 9일</td> <!-- 날짜 -->
