@@ -99,9 +99,10 @@
                             <table class="table table-striped table-hover">
                                 <thead class="table-dark">
                                 <tr>
+                                    <th>wishListIndex</th>
                                     <th>userEmail</th>
-                                    <th>content</th>
-                                    <th>memoDate</th>
+                                    <th>objectIndex</th>
+                                    <th>wishedDate</th>
                                 </tr>
                                 </thead>
                                 <tbody>

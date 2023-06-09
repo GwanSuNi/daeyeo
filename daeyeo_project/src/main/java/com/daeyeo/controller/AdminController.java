@@ -29,25 +29,16 @@ public class AdminController {
     MainCategoryService mainCategoryService;
     @Autowired
     MemberManagementService memberManagementService;
+    @Autowired
+    DashBoardService dashBoardService;
+    @Autowired
+    ReviewService reviewService;
+
 
     @RequestMapping("/adminMainPage")
     public String adminMainPage(Model model) {
-//        Date minRegistDate = userService.getOldesRegistDate();
-//        List<String> dateList = userService.createDateList(minRegistDate);
-//        for (String date : dateList) {
-//            String[] splitDate = date.split(",");
-//            model.addAttribute("dateList", splitDate);
-//        }
-//        int paySum = userService.findByPaySum();
-//        model.addAttribute("paysum",paySum);
-        List<RentalObject> rentalObject1 = rentalObjectService.findAll();
-//        DateTimeFormatter newDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년MM월dd HH:mm:ss");
-//        for (RentalObject rentalObject : rentalObject1) {
-//            LocalDateTime originalDateTime = rentalObject.getReceiptDuration();
-//            String formattedDateTime = originalDateTime.format(newDateTimeFormatter);
-//            rentalObject.setReceiptDuration(LocalDateTime.parse(formattedDateTime, newDateTimeFormatter));
-//        }
-//        model.addAttribute("rentalObject",rentalObject1);
+        List <DashBoard> dashBoards = dashBoardService.findAll();
+        model.addAttribute("dashBoard",dashBoards);
         return "adminpage/adminMainPage";
     }
 
@@ -58,11 +49,15 @@ public class AdminController {
         return "adminpage/adminMemberPage";
     }
     @RequestMapping("/adminPostPage")
-    public String adminPostPage(){
+    public String adminPostPage(Model model){
+        List<RentalObject> rentalObjects = rentalObjectService.findRentalObjectWithUser();
+        model.addAttribute("rentalObject",rentalObjects);
         return "adminpage/adminPostPage";
     }
     @RequestMapping("/adminReviewPage")
-    public String adminReviewPage(){
+    public String adminReviewPage(Model model){
+        List<Review> reviewList = reviewService.findReviewWithUser();
+        model.addAttribute("reviewList",reviewList);
         return "adminpage/adminReviewPage";
     }
     @RequestMapping("/adminStatisticsPage")

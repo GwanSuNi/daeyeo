@@ -116,8 +116,11 @@ public class RentalObject {
     private int visitCount;
     @Embedded
     private Address address;
-
-
+    private LocalDateTime createDate ;
+    @PrePersist
+    public void prePersist() {
+        createDate = LocalDateTime.now();
+    }
 }
 
 
