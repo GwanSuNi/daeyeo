@@ -53,7 +53,7 @@ public class SpringConfiguration {
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.id.new_generator_mappings", "true");
-        properties.put("hibernate.hbm2ddl.auto", "validate");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 
         factoryBean.setJpaPropertyMap(properties);
         return factoryBean;
