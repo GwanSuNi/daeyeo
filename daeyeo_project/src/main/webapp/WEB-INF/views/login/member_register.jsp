@@ -87,7 +87,7 @@
                                                    class="form-control form-control-user"
                                                    placeholder="주소 입력" onclick="execDaumPostcode();"
                                                    onfocus="execDaumPostcode()">
-                                            <input type="hidden" id="zonecode" name="zonecode"/>
+                                            <input type="hidden" id="zipCode" name="zipCode"/>
                                             <input type="hidden" id="jibunAddress" name="jibunAddress"/>
                                             <input type="hidden" id="sido" name="sido"/>
                                             <input type="hidden" id="sigungu" name="sigungu"/>
@@ -176,7 +176,7 @@
                 if (address !== '' || jibunAddress !== '') {
                     document.querySelector("input[name=userAddress]").value = address;
                     document.querySelector("input[name=jibunAddress]").value = data.jibunAddress;
-                    document.querySelector("input[name=zonecode]").value = data.zonecode;
+                    document.querySelector("input[name=zipCode]").value = data.zonecode;
                     document.querySelector("input[name=sido]").value = data.sido;
                     document.querySelector("input[name=sigungu]").value = data.sigungu;
                     document.querySelector("input[name=phoneNum]").focus();

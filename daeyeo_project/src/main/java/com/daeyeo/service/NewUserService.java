@@ -30,7 +30,7 @@ public class NewUserService {
      * @param phoneNum
      * @param userCategory
      * @param department
-     * @param zonecode
+     * @param zipCode
      * @param roadAddress
      * @param jibunAddress
      * @param sido
@@ -38,7 +38,7 @@ public class NewUserService {
      * @return
      */
     public UserEntity userRegister(String userName, String userEmail, String userPw,
-                                   String phoneNum, String userCategory, String department, int zonecode, String roadAddress, String jibunAddress,
+                                   String phoneNum, String userCategory, String department, int zipCode, String roadAddress, String jibunAddress,
                                    String sido, String sigungu) {
         Optional<UserEntity> dupleUser = userRepository.findByUserEmail(userEmail);
         if (dupleUser.isPresent()) {
@@ -53,7 +53,7 @@ public class NewUserService {
         user.setDepartment(department);
 
         Address address = new Address();
-        address.setZonecode(zonecode);
+        address.setZipCode(zipCode);
         address.setRoadAddress(roadAddress);
         address.setJibunAddress(jibunAddress);
         address.setSido(sido);
