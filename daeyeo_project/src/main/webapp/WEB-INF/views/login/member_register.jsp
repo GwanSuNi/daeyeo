@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<jsp:useBean id="UserCreateForm" class="com.daeyeo.config.UserCreateForm" scope="request"/>
 <html>
 <head>
     <title>회원가입</title>
@@ -21,21 +22,22 @@
 
     <!-- Custom styles for this template-->
     <link href="${path}/resources/css/assets/css/sb-admin-2.min.css" rel="stylesheet">
-<%--    <script>--%>
-<%--        window.onload = function () {--%>
-<%--            document.getElementById("userAddress").addEventListener("click", () => {--%>
-<%--                new daum.Postcode({--%>
-<%--                    oncomplete: function (data) {--%>
-<%--                        let address = data.address;--%>
-<%--                        if (address !== '') { // 주소가 존재할 경우--%>
-<%--                            document.getElementById("userAddress").value = address;--%>
-<%--                            document.querySelector("input[name=userDepartment]").focus();--%>
-<%--                        }--%>
-<%--                    }--%>
-<%--                }).open();--%>
-<%--            })--%>
-<%--        }--%>
-<%--    </script>--%>
+    <%--    <script>--%>
+    <%--        window.onload = function () {--%>
+    <%--            document.getElementById("userAddress").addEventListener("click", () => {--%>
+    <%--                new daum.Postcode({--%>
+    <%--                    oncomplete: function (data) {--%>
+    <%--                        let address = data.address;--%>
+    <%--                        if (address !== '') { // 주소가 존재할 경우--%>
+    <%--                            document.getElementById("userAddress").value = address;--%>
+    <%--                            document.querySelector("input[name=userDepartment]").focus();--%>
+    <%--                        }--%>
+    <%--                    }--%>
+    <%--                }).open();--%>
+    <%--            })--%>
+    <%--        }--%>
+    <%--    </script>--%>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
 <body>
@@ -56,39 +58,53 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
                                     </div>
-                                    <form class="user">
+                                    <form action="/register.do" object="${UserCreateForm}" method="post" class="user">
+                                        <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
+                                            <input type="text" name="userName" class="form-control form-control-user"
                                                    id="exampleFirstName"
                                                    placeholder="이름 입력">
                                         </div>
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="userEmail" class="form-control form-control-user"
                                                    id="floatingInput"
                                                    placeholder="이메일 입력">
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="password" class="form-control form-control-user"
+                                                <input type="password" name="userPw2"
+                                                       class="form-control form-control-user"
                                                        id="exampleInputPassword" placeholder="비밀번호 입력">
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="password" class="form-control form-control-user"
+                                                <input type="password" name="userPw"
+                                                       class="form-control form-control-user"
                                                        id="exampleRepeatPassword" placeholder="비밀번호 다시 입력">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                                <input type="text" name="userAddress" id="userAddress" class="form-control form-control-user"
-                                                   placeholder="주소 입력" onclick="execDaumPostcode();" onfocus="execDaumPostcode()">
+                                            <input type="text" name="userAddress" id="userAddress"
+                                                   class="form-control form-control-user"
+                                                   placeholder="주소 입력" onclick="execDaumPostcode();"
+                                                   onfocus="execDaumPostcode()">
                                             <input type="hidden" id="zipCode" name="zipCode"/>
                                             <input type="hidden" id="jibunAddress" name="jibunAddress"/>
                                             <input type="hidden" id="sido" name="sido"/>
                                             <input type="hidden" id="sigungu" name="sigungu"/>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                        <input type="text" id="phoneNum" name="phoneNum"
+                                               class="form-control form-control-user"
+                                               placeholder="번호 입력">
                                         </div>
                                         <div id="wrap"
                                              style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-                                            <img src="<c:url value="//t1.daumcdn.net/postcode/resource/images/close.png"/>" id="btnFoldWrap"
-                                                 style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()"
+                                            <img src="<c:url value="//t1.daumcdn.net/postcode/resource/images/close.png"/>"
+                                                 id="btnFoldWrap"
+                                                 style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1"
+                                                 onclick="foldDaumPostcode()"
                                                  alt="접기 버튼">
                                         </div>
 
@@ -97,24 +113,28 @@
                                                    class="form-control form-control-user"
                                                    placeholder="소속 입력">
                                         </div>
+                                        <c:if test="${err == true}">
+                                            <p style="color: red">모든 값을 입력해주세요</p>
+                                        </c:if>
+                                        <c:if test="${registErr == true}">
+                                            <p style="color: red">중복된 이메일 입니다</p>
+                                        </c:if>
 
-                                        <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                            회원가입하기
-                                        </a>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="회원가입하기">
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Register with Google
                                         </a>
-<%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
-<%--                                            <i class="fab fa-facebook-f fa-fw"></i> Register with KakaoTalk--%>
-<%--                                        </a>--%>
+                                        <%--                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
+                                        <%--                                            <i class="fab fa-facebook-f fa-fw"></i> Register with KakaoTalk--%>
+                                        <%--                                        </a>--%>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="../login/findPw">비밀번호 찾기</a>
+                                        <a href="/forgotPw" class="small" href="../login/findPw">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="../login">계정이 있으시다면? 로그인하기</a>
+                                        <a href="/login" class="small" href="../login">계정이 있으시다면? 로그인하기</a>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +179,7 @@
                     document.querySelector("input[name=zipCode]").value = data.zonecode;
                     document.querySelector("input[name=sido]").value = data.sido;
                     document.querySelector("input[name=sigungu]").value = data.sigungu;
-                    document.querySelector("input[name=userDepartment]").focus();
+                    document.querySelector("input[name=phoneNum]").focus();
                     element_wrap.style.display = 'none';
                     document.body.scrollTop = currentScroll;
                 }
