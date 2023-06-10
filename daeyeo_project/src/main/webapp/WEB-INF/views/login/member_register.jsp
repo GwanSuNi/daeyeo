@@ -175,7 +175,7 @@
                 let jibunAddress = data.jibunAddress;
                 if (address !== '' || jibunAddress !== '') {
                     document.querySelector("input[name=userAddress]").value = address;
-                    document.querySelector("input[name=jibunAddress]").value = data.jibunAddress;
+                    document.querySelector("input[name=jibunAddress]").value = jibunAddress;
                     document.querySelector("input[name=zipCode]").value = data.zonecode;
                     document.querySelector("input[name=sido]").value = data.sido;
                     document.querySelector("input[name=sigungu]").value = data.sigungu;
