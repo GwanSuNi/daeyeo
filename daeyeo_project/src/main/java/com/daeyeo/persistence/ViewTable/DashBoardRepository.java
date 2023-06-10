@@ -1,7 +1,6 @@
-package com.daeyeo.persistence;
+package com.daeyeo.persistence.ViewTable;
 
-import com.daeyeo.entity.DashBoard;
-import com.daeyeo.entity.MemberManagement;
+import com.daeyeo.entity.ViewTable.DashBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

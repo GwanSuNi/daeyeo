@@ -180,7 +180,7 @@
         <h1>회원별 정보</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">회원관리</a></li>
+                <li class="breadcrumb-item"><a href="${path}/adminMemberPage">회원관리</a></li>
                 <li class="breadcrumb-item active">회원 테이블</li>
             </ol>
         </nav>
@@ -234,7 +234,6 @@
                             <%--                            </tr>--%>
                             <c:forEach var="manage" items="${memberManagement}" varStatus="status">
                                 <tr>
-                                        <%--                                    <td>${manage.userCategory}</td>--%>
                                     <td>${status.index}</td>
                                     <td>
                                         <c:choose>
