@@ -203,41 +203,35 @@
                             <thead>
                             <tr>
                                 <th scope="col">index</th>
-                                <th scope="col">날짜</th>
+                                <th scope="col">등록날짜</th>
                                 <th scope="col">매출액</th>
-                                <th scope="col">매출액 평균</th>
                                 <th scope="col">방문자</th>
                                 <th scope="col">가입자</th>
                                 <th scope="col">후기개수</th>
                             </tr>
                             </thead>
                             <tbody>
-                                  <%--                                <% for (String date : dateList) { %>--%>
-                                <%--                                <% String[] splitDate = date.split(","); %>--%>
-                                <%--                                <% List<RentalObject> rentalObjectList = (List<RentalObject>) request.getAttribute("rentalObject");%>--%>
-                                <%--                                <% for (RentalObject rentalObject : rentalObjectList) {%>--%>
-                                <%--                                <th scope="row"><%= rentalObject.getObjectName()%></th>--%>
-                                <%--                                <td><%= rentalObject.getPrice()%></td> <!-- 날짜 -->--%>
-                                <%--                                <td><%= rentalObject.getWishCount()%></td>            <!-- 대여 성사 수 -->--%>
-                                <%--                                <td><%= rentalObject.getWebsite()%></td>         <!-- 매출액 -->--%>
-                                <%--                                <td><%= rentalObject.getTarget()%></td>            <!-- 방문자 -->--%>
-                                <%--                                <td><%=rentalObject.getCapacity()%></td>            <!-- 가입자 -->--%>
-                                <%--                                <td><%=rentalObject.getLocationInfo()%></td>--%>
-                                <%--                                        <% } %><!-- 후기 개수 -->--%>
-                                <%--                                <td>${paysum}</td>--%>
-                                <c:forEach varStatus="index" var="rental" items="${rentalObject}">
-                                    <tr>
-                                        <td>${index.count}</td>
-                                        <td>${rental.receiptDuration}</td>
-                                        <td>${rental.price}</td> <!-- 집계 -->
-                                        <td>${rental.price}</td>
-                                        <td>${rental.visitCount}</td>
-                                        <td>${rental.price}</td>
-                                        <td>${rental.price}</td>
-                                    </tr>
-                                </c:forEach>
-<%--                                <td>${rental.userEntity.registDate}</td>--%>
-<%--                                <td>${rental.reviews.size()}</td>--%>
+                            <c:forEach varStatus="index" var="board" items="${dashBoard}">
+                                <tr>
+                                    <td>${index.count}회</td>
+                                    <td>${board.registDate}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${board.totalRentalPrice != null}">
+                                                ${board.totalRentalPrice}원
+                                            </c:when>
+                                            <c:otherwise>
+                                                0원
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td> <!-- 집계 -->
+                                    <td>${board.totalVisitCount}명</td>
+                                    <td>${board.totalNewUserCount}명</td>
+                                    <td>${board.totalReviewCount}개</td>
+                                </tr>
+                            </c:forEach>
+                            <%--                                <td>${rental.userEntity.registDate}</td>--%>
+                            <%--                                <td>${rental.reviews.size()}</td>--%>
 
                             </tbody>
                         </table>
@@ -256,7 +250,8 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">구글 애널리틱스</h5>
-                <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">구글 애널리틱스에서 분석하기</a>
+                <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">구글
+                    애널리틱스에서 분석하기</a>
             </div>
         </div>
     </div>

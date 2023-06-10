@@ -17,14 +17,16 @@ public class Advertisement {
     private int adId;
     //    private String adOwnerEmail;
     private String adCompany;
-    private LocalDateTime duration;
+    private LocalDate startDuration;
+    private LocalDate endDuration;
     private int price;
     private String adImage;
     private String adLocation;
 
-    public Advertisement(String adCompany, LocalDateTime duration, int price, String adImage, String adLocation) {
+    public Advertisement(String adCompany, LocalDate startDuration, LocalDate endDuration, int price, String adImage, String adLocation) {
         this.adCompany = adCompany;
-        this.duration = duration;
+        this.startDuration = startDuration;
+        this.endDuration = endDuration;
         this.price = price;
         this.adImage = adImage;
         this.adLocation = adLocation;

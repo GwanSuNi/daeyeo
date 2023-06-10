@@ -1,21 +1,16 @@
 package com.daeyeo.controller;
 import com.daeyeo.entity.*;
-import com.daeyeo.persistence.MemberManagementRepository;
-import com.daeyeo.persistence.RentalObjectRepository;
+import com.daeyeo.entity.ViewTable.DashBoard;
+import com.daeyeo.entity.ViewTable.DashBoardMonthly;
+import com.daeyeo.entity.ViewTable.DashBoardYearly;
 import com.daeyeo.service.*;
-import org.dom4j.rule.Mode;
+import com.daeyeo.service.ViewTable.DashBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -29,25 +24,15 @@ public class AdminController {
     MainCategoryService mainCategoryService;
     @Autowired
     MemberManagementService memberManagementService;
+    @Autowired
+    DashBoardService dashBoardService;
+    @Autowired
+    ReviewService reviewService;
 
     @RequestMapping("/adminMainPage")
     public String adminMainPage(Model model) {
-//        Date minRegistDate = userService.getOldesRegistDate();
-//        List<String> dateList = userService.createDateList(minRegistDate);
-//        for (String date : dateList) {
-//            String[] splitDate = date.split(",");
-//            model.addAttribute("dateList", splitDate);
-//        }
-//        int paySum = userService.findByPaySum();
-//        model.addAttribute("paysum",paySum);
-        List<RentalObject> rentalObject1 = rentalObjectService.findAll();
-//        DateTimeFormatter newDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년MM월dd HH:mm:ss");
-//        for (RentalObject rentalObject : rentalObject1) {
-//            LocalDateTime originalDateTime = rentalObject.getReceiptDuration();
-//            String formattedDateTime = originalDateTime.format(newDateTimeFormatter);
-//            rentalObject.setReceiptDuration(LocalDateTime.parse(formattedDateTime, newDateTimeFormatter));
-//        }
-//        model.addAttribute("rentalObject",rentalObject1);
+        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
+        model.addAttribute("dashBoard",dashBoards);
         return "adminpage/adminMainPage";
     }
 
@@ -58,15 +43,25 @@ public class AdminController {
         return "adminpage/adminMemberPage";
     }
     @RequestMapping("/adminPostPage")
-    public String adminPostPage(){
+    public String adminPostPage(Model model){
+        List<RentalObject> rentalObjects = rentalObjectService.findRentalObjectWithUser();
+        model.addAttribute("rentalObject",rentalObjects);
         return "adminpage/adminPostPage";
     }
     @RequestMapping("/adminReviewPage")
-    public String adminReviewPage(){
+    public String adminReviewPage(Model model){
+        List<Review> reviewList = reviewService.findReviewWithUser();
+        model.addAttribute("reviewList",reviewList);
         return "adminpage/adminReviewPage";
     }
     @RequestMapping("/adminStatisticsPage")
-    public String adminStatisticsPage() {
+    public String adminStatisticsPage(Model model) {
+        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
+        List <DashBoardMonthly> dashBoardMonthlyList = dashBoardService.findMonthlyAll();
+        List <DashBoardYearly> dashBoardYearlyList = dashBoardService.findYearlyAll();
+        model.addAttribute("dashBoard",dashBoards);
+        model.addAttribute("dashBoardMonthly",dashBoardMonthlyList);
+        model.addAttribute("dashBoardYearly",dashBoardYearlyList);
         return "adminpage/adminStatisticsPage";
     }
     @RequestMapping("/adminAdPage")

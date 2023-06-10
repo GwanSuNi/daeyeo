@@ -24,8 +24,8 @@
         <a class="header_a" href="${path}/">대여대여로고</a>
     </div>
 
-    <form action="/rental/list" id="header-form" class="navbar_menu">
-      <ul>
+    <form style="margin-bottom: 0" action="${path}/rental/list" id="header-form">
+      <ul class="navbar_menu">
         <li><a class="header_a header-cate" href="#">공간시설</a></li>
         <li><a class="header_a header-cate" href="#">개인대여</a></li>
         <li><a class="header_a" id="guidebook" href="${path}/guidebook">이용안내</a></li>
