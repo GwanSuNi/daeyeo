@@ -13,17 +13,29 @@
 <head>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-S11E29LT0T');
     </script>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-58QHFKS');</script>
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-58QHFKS');</script>
     <!-- End Google Tag Manager -->
     <title>로그인 | 대여대여</title>
     <link rel="stylesheet" type="text/css" href="${path}/resources/css/login_style.css">
@@ -41,16 +53,6 @@
             color: #bd2130;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // 로그인 실패시 에러 메시지 출력
-        $(document).ready(function () {
-            var errorMessage = "${errorMessage}";
-            if (errorMessage != null && errorMessage !== "") {
-                alert(errorMessage);
-            }
-        });
-    </script>
 </head>
 <body>
 <div class="body_container">
@@ -104,13 +106,11 @@
                                         <div class="form-group">
                                             <input type="text" name="userEmail"
                                                    class="form-control form-control-user"
-                                                   value="<%= loginForm.getUserEmail() %>"
                                                    placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="userPw"
                                                    class="form-control form-control-user"
-                                                   value="<%= loginForm.getUserEmail()%>"
                                                    id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         <div class="form-group">
@@ -123,6 +123,12 @@
                                             <input type="submit" value="로그인" id="loginBtn"
                                                    class="btn btn-primary btn-user btn-block">
                                         </div>
+                                        <c:if test="${loginErr == true}">
+                                            <p style="color: red">Email과 Password를 확인해주세요.</p>
+                                        </c:if>
+                                        <c:if test="${err == true}">
+                                            <p style="color: red">모든 값을 입력해주세요</p>
+                                        </c:if>
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
@@ -137,10 +143,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="login/findPw">비밀번호 찾기</a>
+                                        <a href="/forgotPw" class="small" href="login/findPw">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="login/register">회원가입</a>
+                                        <a href="/register" class="small" href="login/register">회원가입</a>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +165,9 @@
 </div>
 </body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58QHFKS"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58QHFKS"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 </html>

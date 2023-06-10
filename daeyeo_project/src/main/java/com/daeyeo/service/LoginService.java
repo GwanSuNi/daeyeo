@@ -6,6 +6,7 @@ import com.daeyeo.persistence.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class LoginService {
 
@@ -16,13 +17,11 @@ public class LoginService {
     }
 
 
-
-    public UserEntity login(String userEmail,String userPw){
+    public UserEntity login(String userEmail, String userPw) {
         Optional<UserEntity> findUser = userRepository.findByUserEmail(userEmail);
-        if(!findUser.orElseThrow(()->new NotCorrespondingEmailException("해당 이메일이 존재하지 않습니다.")).checkPassword(userPw)){
-            throw new IllegalStateException("이메일과 비밀번호가 일치하지 않습니다.");
+        if (!findUser.orElseThrow(() -> new NotCorrespondingEmailException("")).checkPassword(userPw)) {
+            throw new IllegalStateException("");
         }
         return findUser.get();
-
     }
 }
