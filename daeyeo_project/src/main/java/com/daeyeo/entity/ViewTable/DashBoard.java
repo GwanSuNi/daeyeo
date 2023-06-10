@@ -1,4 +1,4 @@
-package com.daeyeo.entity;
+package com.daeyeo.entity.ViewTable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +22,5 @@ public class DashBoard {
     Integer totalVisitCount;
     Integer totalNewUserCount;
     Integer totalReviewCount;
-
+    Integer totalRentCount;
 }

@@ -38,7 +38,8 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -148,7 +149,8 @@
         <!-- Start Statistics Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
@@ -210,13 +212,19 @@
             <!-- Bordered Tabs -->
             <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="day-tab" data-bs-toggle="tab" data-bs-target="#day" type="button" role="tab" aria-controls="home" aria-selected="true">일별</button>
+                    <button class="nav-link active" id="day-tab" data-bs-toggle="tab" data-bs-target="#day"
+                            type="button" role="tab" aria-controls="home" aria-selected="true">일별
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="month-tab" data-bs-toggle="tab" data-bs-target="#month" type="button" role="tab" aria-controls="profile" aria-selected="false">월별</button>
+                    <button class="nav-link" id="month-tab" data-bs-toggle="tab" data-bs-target="#month" type="button"
+                            role="tab" aria-controls="profile" aria-selected="false">월별
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year" type="button" role="tab" aria-controls="contact" aria-selected="false">년별</button>
+                    <button class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year" type="button"
+                            role="tab" aria-controls="contact" aria-selected="false">년별
+                    </button>
                 </li>
             </ul>
             <div class="tab-content pt-2" id="borderedTabContent">
@@ -227,42 +235,31 @@
                             <th scope="col">index</th>
                             <th scope="col">날짜</th>
                             <th scope="col">대여 성사 횟수</th>
-                            <th scope="col">회원 수익</th>
-                            <th scope="col">광고 수익</th>
-                            <th scope="col">가입자 수</th>
-                            <th scope="col">총 매출</th>
+                            <th scope="col">매출액</th>
+                            <th scope="col">방문자</th>
+                            <th scope="col">가입자</th>
+                            <th scope="col">후기 개수</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="" items="${memberManagement}">
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>2022년 5월 8일</td> <!-- 날짜 -->
-                            <td>8회</td>            <!-- 대여 성사 수 -->
-                            <td>3000원</td>         <!-- 매출액 -->
-                            <td>9명</td>         <!-- 방문자 -->
-                            <td>1명</td>         <!-- 가입자 -->
-                            <td>4개</td>         <!-- 후기 개수 -->
-                        </tr>
+                        <c:forEach var="dash" items="${dashBoard}" varStatus="status">
+                            <tr>
+                                <th scope="row">${status.index}</th>
+                                <td>${dash.registDate}</td> <!-- 날짜 -->
+                                <td>${dash.totalRentCount}회</td>            <!-- 대여 성사 수 -->
+                                <td><c:choose>
+                                    <c:when test="${dash.totalRentalPrice != null}">
+                                        ${dash.totalRentalPrice}원
+                                    </c:when>
+                                    <c:otherwise>
+                                        0원
+                                    </c:otherwise>
+                                </c:choose></td>         <!-- 매출액 -->
+                                <td>${dash.totalVisitCount}명</td>         <!-- 방문자 -->
+                                <td>${dash.totalNewUserCount}명</td>         <!-- 가입자 -->
+                                <td>${dash.totalReviewCount}개</td>         <!-- 후기 개수 -->
+                            </tr>
                         </c:forEach>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>2022년 5월 9일</td> <!-- 날짜 -->
-                            <td>4회</td>            <!-- 대여 성사 수 -->
-                            <td>5000원</td>         <!-- 매출액 -->
-                            <td>5명</td>         <!-- 방문자 -->
-                            <td>3명</td>         <!-- 가입자 -->
-                            <td>5개</td>         <!-- 후기 개수 -->
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>2022년 5월 10일</td> <!-- 날짜 -->
-                            <td>3회</td>            <!-- 대여 성사 수 -->
-                            <td>7000원</td>         <!-- 매출액 -->
-                            <td>4명</td>         <!-- 방문자 -->
-                            <td>2명</td>         <!-- 가입자 -->
-                            <td>3개</td>         <!-- 후기 개수 -->
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -273,40 +270,31 @@
                             <th scope="col">index</th>
                             <th scope="col">날짜</th>
                             <th scope="col">대여 성사 횟수</th>
-                            <th scope="col">회원 수익</th>
-                            <th scope="col">광고 수익</th>
-                            <th scope="col">가입자 수</th>
-                            <th scope="col">총 매출</th>
+                            <th scope="col">매출액</th>
+                            <th scope="col">방문자</th>
+                            <th scope="col">가입자</th>
+                            <th scope="col">후기 개수</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>2022년 3월</td> <!-- 날짜 -->
-                            <td>8회</td>            <!-- 대여 성사 수 -->
-                            <td>3000원</td>         <!-- 매출액 -->
-                            <td>9명</td>         <!-- 방문자 -->
-                            <td>1명</td>         <!-- 가입자 -->
-                            <td>4개</td>         <!-- 후기 개수 -->
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>2022년 4월</td> <!-- 날짜 -->
-                            <td>4회</td>            <!-- 대여 성사 수 -->
-                            <td>5000원</td>         <!-- 매출액 -->
-                            <td>5명</td>         <!-- 방문자 -->
-                            <td>3명</td>         <!-- 가입자 -->
-                            <td>5개</td>         <!-- 후기 개수 -->
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>2022년 5월</td> <!-- 날짜 -->
-                            <td>3회</td>            <!-- 대여 성사 수 -->
-                            <td>7000원</td>         <!-- 매출액 -->
-                            <td>4명</td>         <!-- 방문자 -->
-                            <td>2명</td>         <!-- 가입자 -->
-                            <td>3개</td>         <!-- 후기 개수 -->
-                        </tr>
+                        <c:forEach var="dash" items="${dashBoardMonthly}" varStatus="status">
+                            <tr>
+                                <th scope="row">${status.index}</th>
+                                <td>${dash.month}</td> <!-- 날짜 -->
+                                <td>${dash.totalRentCount}회</td>            <!-- 대여 성사 수 -->
+                                <td><c:choose>
+                                    <c:when test="${dash.totalRentalPrice != null}">
+                                        ${dash.totalRentalPrice}원
+                                    </c:when>
+                                    <c:otherwise>
+                                        0원
+                                    </c:otherwise>
+                                </c:choose></td>         <!-- 매출액 -->
+                                <td>${dash.totalVisitCount}명</td>         <!-- 방문자 -->
+                                <td>${dash.totalNewUserCount}명</td>         <!-- 가입자 -->
+                                <td>${dash.totalReviewCount}개</td>         <!-- 후기 개수 -->
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -317,49 +305,37 @@
                             <th scope="col">index</th>
                             <th scope="col">날짜</th>
                             <th scope="col">대여 성사 횟수</th>
-                            <th scope="col">회원 수익</th>
-                            <th scope="col">광고 수익</th>
-                            <th scope="col">가입자 수</th>
-                            <th scope="col">총 매출</th>
+                            <th scope="col">매출액</th>
+                            <th scope="col">방문자</th>
+                            <th scope="col">가입자</th>
+                            <th scope="col">후기 개수</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>2020년</td> <!-- 날짜 -->
-                            <td>8회</td>            <!-- 대여 성사 수 -->
-                            <td>3000원</td>         <!-- 매출액 -->
-                            <td>9명</td>         <!-- 방문자 -->
-                            <td>1명</td>         <!-- 가입자 -->
-                            <td>4개</td>         <!-- 후기 개수 -->
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>2021년</td> <!-- 날짜 -->
-                            <td>4회</td>            <!-- 대여 성사 수 -->
-                            <td>5000원</td>         <!-- 매출액 -->
-                            <td>5명</td>         <!-- 방문자 -->
-                            <td>3명</td>         <!-- 가입자 -->
-                            <td>5개</td>         <!-- 후기 개수 -->
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>2022년</td> <!-- 날짜 -->
-                            <td>3회</td>            <!-- 대여 성사 수 -->
-                            <td>7000원</td>         <!-- 매출액 -->
-                            <td>4명</td>         <!-- 방문자 -->
-                            <td>2명</td>         <!-- 가입자 -->
-                            <td>3개</td>         <!-- 후기 개수 -->
-                        </tr>
+                        <c:forEach var="dash" items="${dashBoardYearly}" varStatus="status">
+                            <tr>
+                                <th scope="row">${status.index}</th>
+                                <td>${dash.year}</td> <!-- 날짜 -->
+                                <td>${dash.totalRentCount}회</td>            <!-- 대여 성사 수 -->
+                                <td><c:choose>
+                                    <c:when test="${dash.totalRentalPrice != null}">
+                                        ${dash.totalRentalPrice}원
+                                    </c:when>
+                                    <c:otherwise>
+                                        0원
+                                    </c:otherwise>
+                                </c:choose></td>         <!-- 매출액 -->
+                                <td>${dash.totalVisitCount}명</td>         <!-- 방문자 -->
+                                <td>${dash.totalNewUserCount}명</td>         <!-- 가입자 -->
+                                <td>${dash.totalReviewCount}개</td>         <!-- 후기 개수 -->
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
             </div><!-- End Bordered Tabs -->
         </div>
     </div>
-
-
-
 
 
 </main><!-- End #main -->
@@ -377,5 +353,6 @@
 
 <!-- Template Main JS File -->
 <script src="${path}/resources/css/assets/js/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>
