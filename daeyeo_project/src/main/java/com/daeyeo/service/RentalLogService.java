@@ -31,12 +31,16 @@ public class RentalLogService {
      * @param targetUser User에서 갖고온 외래키 값
      */
     public void insertRentalLog(int targetObject, String targetUser, LocalDate startDate, LocalDate endDate, int price) {
-        UserEntity userEntity = userRepository.findByUserEmail(targetUser).get();
-        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).get();
-        RentalLog rentalLog = new RentalLog(userEntity,rentalObject ,startDate, endDate, price);
-        userEntity.addRentalLog(rentalLog);
-        rentalObject.addRentalLog(rentalLog);
-        rentalLogRepository.save(rentalLog);
+        UserEntity userEntity = userRepository.findByUserEmail(targetUser).orElse(null);
+        RentalObject rentalObject = rentalObjectRepository.findByObjectIndex(targetObject).orElse(null);
+
+        if(userEntity != null && rentalObject != null) {
+            RentalLog rentalLog = new RentalLog(userEntity, rentalObject, startDate, endDate, price);
+
+            userEntity.addRentalLog(rentalLog);
+            rentalObject.addRentalLog(rentalLog);
+            rentalLogRepository.save(rentalLog);
+        }
     }
 
     /**

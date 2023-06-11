@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"rentalLogs","reviews"})
+@EqualsAndHashCode(exclude = {"rentalLogs", "reviews"})
 @Table(name = "Rental_Object")
 public class RentalObject {
 
@@ -31,51 +31,76 @@ public class RentalObject {
     @JoinColumn(name = "scId")
     private SubCategory subCategory;
 
-    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "rentalObject")
     private Set<RentalLog> rentalLogs = new HashSet<>();
-    public void addRentalLog(RentalLog rentalLog){
+
+    public void addRentalLog(RentalLog rentalLog) {
         this.getRentalLogs().add(rentalLog);
     }
 
-    public RentalObject(UserEntity user , SubCategory subCategory , String objectName, int price,
-                        String website , String target , LocalDate startDuration , LocalDate endDuration
-            ,LocalDate receiptStartDuration , LocalDate receiptEndDuration , int capacity ,
-                        String representNum , String userInfo , String locationInfo,String objectImage ){
-        this.userEntity=user;
-        this.subCategory=subCategory;
+    public RentalObject(UserEntity user, SubCategory subCategory, String objectName, int price,
+                        String website, String target, LocalDate startDuration, LocalDate endDuration
+            , LocalDate receiptStartDuration, LocalDate receiptEndDuration, int capacity,
+                        String representNum, String useInfo, String locationInfo, String objectImage) {
+        this.userEntity = user;
+        this.subCategory = subCategory;
         this.objectName = objectName;
-        this.price=price;
-        this.website=website;
-        this.target=target;
-        this.startDuration=startDuration;
-        this.endDuration=endDuration;
-        this.receiptStartDuration=receiptStartDuration;
-        this.receiptEndDuration=receiptEndDuration;
-        this.capacity=capacity;
-        this.representNum= representNum;
-        this.userInfo=userInfo;
-        this.locationInfo=locationInfo;
-        this.objectImage=objectImage;
+        this.price = price;
+        this.website = website;
+        this.target = target;
+        this.startDuration = startDuration;
+        this.endDuration = endDuration;
+        this.receiptStartDuration = receiptStartDuration;
+        this.receiptEndDuration = receiptEndDuration;
+        this.capacity = capacity;
+        this.representNum = representNum;
+        this.useInfo = useInfo;
+        this.locationInfo = locationInfo;
+        this.objectImage = objectImage;
     }
-    public RentalObject(UserEntity userEntity , SubCategory subCategory , String objectName , String locationInfo
-            ,Address address , int price , LocalDate receiptStartDuration , LocalDate receiptEndDuration
-            ,LocalDate startDuration , LocalDate endDuration , String representNum){
-        this.userEntity=userEntity;
-        this.subCategory=subCategory;
+
+    public RentalObject(UserEntity userEntity, SubCategory subCategory, String objectName, String locationInfo
+            , Address address, int price, LocalDate receiptStartDuration, LocalDate receiptEndDuration
+            , LocalDate startDuration, LocalDate endDuration, String representNum) {
+        this.userEntity = userEntity;
+        this.subCategory = subCategory;
         this.objectName = objectName;
-        this.price=price;
-        this.startDuration=startDuration;
-        this.endDuration=endDuration;
-        this.receiptStartDuration=receiptStartDuration;
-        this.receiptEndDuration=receiptEndDuration;
-        this.representNum= representNum;
-        this.locationInfo=locationInfo;
+        this.price = price;
+        this.startDuration = startDuration;
+        this.endDuration = endDuration;
+        this.receiptStartDuration = receiptStartDuration;
+        this.receiptEndDuration = receiptEndDuration;
+        this.representNum = representNum;
+        this.locationInfo = locationInfo;
         this.address = address;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL , mappedBy = "rentalObject")
+    public RentalObject(UserEntity user, SubCategory subCategory, String objectName, int price, String website, String target,String location,
+                        LocalDate startDuration, LocalDate endDuration, LocalDate receiptStartDuration, LocalDate receiptEndDuration,
+                        int capacity, String representNum, String useInfo, String locationInfo, String objectImage, Address address) {
+        this.userEntity = user;
+        this.subCategory = subCategory;
+        this.objectName = objectName;
+        this.price = price;
+        this.website = website;
+        this.target = target;
+        this.location = location;
+        this.startDuration = startDuration;
+        this.endDuration = endDuration;
+        this.receiptStartDuration = receiptStartDuration;
+        this.receiptEndDuration = receiptEndDuration;
+        this.capacity = capacity;
+        this.representNum = representNum;
+        this.useInfo = useInfo;
+        this.locationInfo = locationInfo;
+        this.objectImage = objectImage;
+        this.address = address;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "rentalObject")
     private Set<Review> reviews = new HashSet<>();
-    public void addReview(Review review){
+
+    public void addReview(Review review) {
         this.getReviews().add(review);
     }
 
@@ -107,26 +132,21 @@ public class RentalObject {
     private int capacity;
     private String representNum;
     @Column(length = 200)
-    private String userInfo;
+    private String useInfo;
     @Column(length = 200)
     private String locationInfo;
     @Column(name = "objectImage", columnDefinition = "BLOB")
     private String objectImage; //BLOB임
-    @Column(name = "vistCount")
     private int visitCount;
     @Embedded
     private Address address;
-    private LocalDateTime createDate ;
+    private LocalDateTime createDate;
+
     @PrePersist
     public void prePersist() {
         createDate = LocalDateTime.now();
     }
 }
-
-
-
-
-
 
 
 //import lombok.Data;

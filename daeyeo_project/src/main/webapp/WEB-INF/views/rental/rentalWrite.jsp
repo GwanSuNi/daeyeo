@@ -17,7 +17,7 @@
             <div class="contents">
                 <div class="top_contents">
                     <div class="state">대여가능</div>
-                    <div class="title">제목</div>
+                    <div class="title">${rentalObject.objectName}</div>
                 </div>
                 <div class="bot_contents">
                     <div class="left_box">
@@ -26,24 +26,28 @@
                             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="${path}/resources/img/rental/airplane.jfif" class="d-block w-100" alt="...">
+                                        <img src="${path}/resources/img/rental/airplane.jfif" class="d-block w-100"
+                                             alt="...">
                                     </div>
                                     <div class="carousel-item">
                                         <img src="${path}/resources/img/rental/sea.jpg" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="${path}/resources/img/rental/image_icon.png" class="d-block w-100" alt="...">
+                                        <img src="${path}/resources/img/rental/image_icon.png" class="d-block w-100"
+                                             alt="...">
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
-                            <button type="button" class="expand icon btn" data-bs-toggle="modal" data-bs-target="#fullscreenModal"></button>
+                            <button type="button" class="expand icon btn" data-bs-toggle="modal"
+                                    data-bs-target="#fullscreenModal"></button>
                             <!-- Full Screen Modal -->
                             <div class="modal fade" id="fullscreenModal" tabindex="-1">
                                 <div class="modal-dialog modal-fullscreen">
                                     <div class="modal-content">
                                         <%-- Slider --%>
                                         <div class="carousel-wrap">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             <div class="carousel">
                                                 <div class="btn btn-back hidden">
                                                     <i class="fas left-arrow"></i>
@@ -51,28 +55,36 @@
                                                 <div class="viewbox">
                                                     <div class="track">
                                                         <div class="slide active">
-                                                            <img class="images" src="${path}/resources/img/rental/airplane.jfif">
+                                                            <img class="images"
+                                                                 src="${path}/resources/img/rental/airplane.jfif">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="${path}/resources/img/rental/sea.jpg">
+                                                            <img class="images"
+                                                                 src="${path}/resources/img/rental/sea.jpg">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="${path}/resources/img/rental/image_icon.png">
+                                                            <img class="images"
+                                                                 src="${path}/resources/img/rental/image_icon.png">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="https://source.unsplash.com/random/800x803">
+                                                            <img class="images"
+                                                                 src="https://source.unsplash.com/random/800x803">
                                                         </div>
                                                         <div class="slide active">
-                                                            <img class="images" src="https://source.unsplash.com/random/800x804">
+                                                            <img class="images"
+                                                                 src="https://source.unsplash.com/random/800x804">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="https://source.unsplash.com/eADQs40WywY/800x805">
+                                                            <img class="images"
+                                                                 src="https://source.unsplash.com/eADQs40WywY/800x805">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="https://source.unsplash.com/random/800x806">
+                                                            <img class="images"
+                                                                 src="https://source.unsplash.com/random/800x806">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images" src="https://source.unsplash.com/ArYjvKHVByg/800x807">
+                                                            <img class="images"
+                                                                 src="https://source.unsplash.com/ArYjvKHVByg/800x807">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -101,7 +113,7 @@
                         <div class="func_box">
                             <div class="icon_box">
                                 <div class="icon hits_box">
-                                    <span class="hits" title="조회수">120</span>
+                                    <span class="hits" title="조회수">${rentalObject.visitCount}</span>
                                 </div>
                                 <div class="rating">
                                     <img src="${path}/resources/img/rental/star_icon.png" alt="사진">
@@ -117,45 +129,50 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-                        <table class="description">
-                            <tr>
-                                <th>장소</th>
-                                <td>place</td>
-                            </tr>
-                            <tr>
-                                <th>이용요금</th>
-                                <td>price</td>
-                            </tr>
-                            <tr>
-                                <th>접수기간</th>
-                                <td>reception period</td>
-                            </tr>
-                            <tr>
-                                <th>사용기간</th>
-                                <td>use period</td>
-                            </tr>
-                            <tr>
-                                <th>취소기간</th>
-                                <td>Cancellation period</td>
-                            </tr>
-                            <tr>
-                                <th>예약방법</th>
-                                <td>a
-                                    a
-                                    a
-                                    a
-                                    a
-                                    a
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>문의전화</th>
-                                <td>inquiry call</td>
-                            </tr>
-                        </table>
+                        <form action="/rental/rental.do" id="reservation-form">
+                            <input type="hidden" name="objectId" value="${rentalObject.objectIndex}">
+                            <table class="description">
+                                <tr>
+                                    <th>장소</th>
+                                    <td>${rentalObject.location}</td>
+                                </tr>
+                                <tr>
+                                    <th>대상</th>
+                                    <td>${rentalObject.target}</td>
+                                </tr>
+                                <tr>
+                                    <th>이용요금</th>
+                                    <td><input type="text" name="price" value="${rentalObject.price}" tabindex="-1" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>접수기간</th>
+                                    <td>${rentalObject.receiptStartDuration} ~ ${rentalObject.receiptEndDuration}</td>
+                                </tr>
+                                <tr>
+                                    <th>사용기간</th>
+                                    <td>
+                                        <input type="text" name="startDuration" value="" tabindex="-1" readonly>
+                                        ~
+                                        <input type="text" name="endDuration" value="" tabindex="-1" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>모집인원</th>
+                                    <td>${rentalObject.capacity} 명</td>
+                                </tr>
+                                <tr>
+                                    <th>웹사이트</th>
+                                    <td>${rentalObject.website}</td>
+                                </tr>
+                                <tr>
+                                    <th>문의전화</th>
+                                    <td>${rentalObject.representNum}</td>
+                                </tr>
+                            </table>
+                        </form>
                         <div class="btn_box">
-                            <a href="" class="reservation">예약하기</a>
-                            <a href="" class="list">목록</a>
+                            <a href="#" class="reservation">예약하기</a>
+                            <a href="/rental/list" class="list">목록</a>
                         </div>
                     </div>
                 </div>
@@ -165,18 +182,28 @@
         <div class="bottom_container">
             <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
                 <li class="nav-item flex-fill" role="presentation">
-                    <button class="nav-link w-100 active" id="guide-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-guide" type="button" role="tab" aria-controls="guide" aria-selected="true">이용안내</button>
+                    <button class="nav-link w-100 active" id="guide-tab" data-bs-toggle="tab"
+                            data-bs-target="#bordered-justified-guide" type="button" role="tab" aria-controls="guide"
+                            aria-selected="true">이용안내
+                    </button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                    <button class="nav-link w-100" id="place-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-place" type="button" role="tab" aria-controls="place" aria-selected="false">장소안내</button>
+                    <button class="nav-link w-100" id="place-tab" data-bs-toggle="tab"
+                            data-bs-target="#bordered-justified-place" type="button" role="tab" aria-controls="place"
+                            aria-selected="false">장소안내
+                    </button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                    <button class="nav-link w-100" id="review-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-review" type="button" role="tab" aria-controls="review" aria-selected="false">이용후기</button>
+                    <button class="nav-link w-100" id="review-tab" data-bs-toggle="tab"
+                            data-bs-target="#bordered-justified-review" type="button" role="tab" aria-controls="review"
+                            aria-selected="false">이용후기
+                    </button>
                 </li>
             </ul>
             <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel" aria-labelledby="guide-tab">
-                    <div>이용안내</div>
+                <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel"
+                     aria-labelledby="guide-tab">
+                    <div>${rentalObject.useInfo}</div>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-place" role="tabpanel" aria-labelledby="place-tab">
                     <div class="sub_box">
@@ -189,7 +216,7 @@
                     </div>
                     <div class="sub_box">
                         <h3>오시는 길</h3>
-                        <div>녹양역에서 5번 버스 승차하고 경민대학에서 하차</div>
+                        <div>${rentalObject.locationInfo}</div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-review" role="tabpanel" aria-labelledby="review-tab">
@@ -205,7 +232,7 @@
                                         <input type="button" id="star_5" class="empty_star icon btn">
                                     </div>
                                 </h5>
-                                <textarea class="review_input"z placeholder="이용후기를 입력해 주세요."></textarea>
+                                <textarea class="review_input" z placeholder="이용후기를 입력해 주세요."></textarea>
                                 <div class="post_box">
                                     <a href="" class="post">후기 작성</a>
                                 </div>
@@ -216,26 +243,41 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum in.
+                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
+                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
+                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
+                                repellendus voluptas.
+                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
+                                Enim fuga ipsum dolor nulla quia ut.
+                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
+                                Consequatur rerum in.
                                 <a href="" class="btn btn-primary">Button</a>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum in.
+                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
+                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
+                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
+                                repellendus voluptas.
+                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
+                                Enim fuga ipsum dolor nulla quia ut.
+                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
+                                Consequatur rerum in.
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum in.
+                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
+                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
+                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
+                                repellendus voluptas.
+                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
+                                Enim fuga ipsum dolor nulla quia ut.
+                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
+                                Consequatur rerum in.
                             </div>
                         </div>
                     </div>
