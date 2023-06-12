@@ -1,20 +1,27 @@
 package com.daeyeo.controller;
 
 import com.daeyeo.entity.*;
-import com.daeyeo.entity.ViewTable.DashBoard;
-import com.daeyeo.entity.ViewTable.DashBoardMonthly;
-import com.daeyeo.entity.ViewTable.DashBoardYearly;
+import com.daeyeo.persistence.MemberManagementRepository;
+import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.service.*;
 import com.daeyeo.service.ViewTable.DashBoardService;
 import com.daeyeo.utils.ScriptUtils;
+import org.dom4j.rule.Mode;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -32,6 +39,9 @@ public class AdminController {
     DashBoardService dashBoardService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    AdService adService;
+
 
     @RequestMapping("/adminMainPage")
     public String adminMainPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
