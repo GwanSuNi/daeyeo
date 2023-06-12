@@ -33,6 +33,8 @@ public class AdminController {
     DashBoardService dashBoardService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    AdService adService;
 
 
     @RequestMapping("/adminMainPage")
@@ -66,6 +68,8 @@ public class AdminController {
     }
     @RequestMapping("/adminAdPage")
     public String adminAdPage(){
+        List<Advertisement> advertisements = adService.fin
+
         return "adminpage/adminAdPage";
     }
     @RequestMapping("/adminAdFormPage")

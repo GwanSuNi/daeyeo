@@ -23,8 +23,9 @@ import java.util.Set;
 public class TestClient {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        AdService adService = (AdService) container.getBean("adService");
-//        adService.insertNewAd("ax@ax.com1","카카오",LocalDate.now(),LocalDate.of(2023,06,11));
+//        AdService adService = (AdService) container.getBean("adService");
+//        adService.insertNewAd("ax@ax.com1","카카오",LocalDate.now(),LocalDate.of(2023,6,11),1000,"adImage","상단");
+
 //        WishService wishService = (WishService) container.getBean("wishListService");
 //        wishService.insertWishList("ax@ax.com1",1,LocalDateTime.now());
 
