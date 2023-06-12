@@ -49,6 +49,15 @@ public class LoginController {
         }
     }
 
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "mainPage";
+    }
+
     public UserEntity getLoggedInUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
