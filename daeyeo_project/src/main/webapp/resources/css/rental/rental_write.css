@@ -421,6 +421,25 @@ th, td {
     width: 130px;
 }
 
+#reservation-form {
+    margin: 0;
+}
+
+input[name='price'],
+input[name='startDuration'],
+input[name='endDuration'] {
+    background-color: inherit;
+    border: none;
+}
+
+input[name='price'] {
+    text-align: center;
+}
+
+input[name='startDuration'] {
+    text-align: right;
+}
+
 .btn_box {
     display: flex;
     justify-content: right;

@@ -1,17 +1,14 @@
 package com.daeyeo.service;
 
-import com.daeyeo.entity.*;
-import com.daeyeo.persistence.CustomUserRepositoryImpl;
+import com.daeyeo.entity.Address;
+import com.daeyeo.entity.UserEntity;
 import com.daeyeo.persistence.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service("uService")
@@ -21,19 +18,54 @@ public class NewUserService {
     private UserRepository userRepository;
     @Autowired
     private EntityManager entityManager;
+
+    private BanLogService banLogService;
     // ==================== 유저 관련 메서드 시작 ====================
     // User 엔티티 persist 해주는 메서드
-//    public void insertUser(String userEmail , String userPw , String userName , String statusMsg , String location,
-//                           String phoneNum , String department , String userCategory , LocalDate registDate , int paySum ,
-//                           int commissionSum , int rate , boolean quitFlag , Address address) {
-//                    UserEntity userEntity = new UserEntity(userEmail,userPw,userName,statusMsg,location,phoneNum,department
-//                    ,userCategory,registDate,paySum,commissionSum,rate,quitFlag,address);
-//
-//
-//        userRepository.save(userEntity);
-//        userRepository.flush();
-//    }
-    public void inserUser(UserEntity userEntity){
+
+    /**
+     * @param userName
+     * @param userEmail
+     * @param userPw
+     * @param phoneNum
+     * @param userCategory
+     * @param department
+     * @param zipCode
+     * @param roadAddress
+     * @param jibunAddress
+     * @param sido
+     * @param sigungu
+     * @return
+     */
+    public UserEntity userRegister(String userName, String userEmail, String userPw,
+                                   String phoneNum, String userCategory, String department, int zipCode, String roadAddress, String jibunAddress,
+                                   String sido, String sigungu) {
+        Optional<UserEntity> dupleUser = userRepository.findByUserEmail(userEmail);
+        if (dupleUser.isPresent()) {
+            throw new IllegalStateException("이미 등록된 이메일 주소입니다.");
+        }
+        UserEntity user = new UserEntity();
+        user.setUserName(userName);
+        user.setUserEmail(userEmail);
+        user.setUserPw(userPw);
+        user.setPhoneNum(phoneNum);
+        user.setUserCategory(userCategory);
+        user.setDepartment(department);
+
+        Address address = new Address();
+        address.setZipCode(zipCode);
+        address.setRoadAddress(roadAddress);
+        address.setJibunAddress(jibunAddress);
+        address.setSido(sido);
+        address.setSigungu(sigungu);
+
+        user.setAddress(address);
+
+        this.userRepository.save(user);
+        return user;
+    }
+
+    public void inserUser(UserEntity userEntity) {
         userRepository.save(userEntity);
     }
 
@@ -66,20 +98,21 @@ public class NewUserService {
 //        int resultList = query.executeUpdate();
 //    }
 
-//    public Date getOldestRegistDate() {
+    //    public Date getOldestRegistDate() {
 //        String minRegistDate = userRepository.getOldestRegistDate();
 //        minRegistDate = (Date) entityManager.createQuery(minDateQuery).getSingleResult();
 //        return
 //    }
-      public int findByPaySum(){
-            int paySum = userRepository.findByPaySum();
+    public int findByPaySum() {
+        int paySum = userRepository.findByPaySum();
         return paySum;
     }
 
-      public Date getOldesRegistDate(){
+    public Date getOldesRegistDate() {
         Date minRegistDate = userRepository.findByRegistDate();
         return minRegistDate;
     }
+
     public List<String> createDateList(Date minRegistDate) {
         List<String> dateList = new ArrayList<>();
 
@@ -96,14 +129,7 @@ public class NewUserService {
         return dateList;
     }
 
-    public List<UserEntity> findAll(){
+    public List<UserEntity> findAll() {
         return userRepository.findAll();
     }
-    public List<UserEntity> findAllAdvertisement(){
-        List<UserEntity> userEntities = userRepository.findAll();
-//        Set<Advertisement> advertisements = userEntities.getAd
-        return userRepository.findAll();
-    }
-
-
 }

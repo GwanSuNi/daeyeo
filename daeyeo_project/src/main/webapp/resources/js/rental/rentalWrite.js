@@ -57,10 +57,10 @@ function updateDots(current, target) {
 }
 
 function btnShowHide(targetIndex, prevBtn, nextBtn, slides) {
-    if (targetIndex == 0) {
+    if (targetIndex === 0) {
         prevBtn.classList.add('hidden')
         nextBtn.classList.remove('hidden')
-    } else if (targetIndex == slides.length - 1) {
+    } else if (targetIndex === slides.length - 1) {
         prevBtn.classList.remove('hidden')
         nextBtn.classList.add('hidden')
     } else {
@@ -125,8 +125,10 @@ navIndicator.addEventListener('click', (e) => {
 
 /* FullCalendar */
 document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    const startDuration = document.querySelector('input[name="startDuration"]');
+    const endDuration = document.querySelector('input[name="endDuration"]');
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             left: 'prev',
             center: 'title',
@@ -149,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // return !(event.groupId == "999"); // groupId가 999인 것은 overlap 불가
         // },
         select: function (arg) {
-            var title = prompt('Event Title:');
+            let title = prompt('Event Title:');
             if (title) {
                 calendar.addEvent({
                     title: title,
@@ -157,48 +159,52 @@ document.addEventListener('DOMContentLoaded', function () {
                     end: arg.end,
                     allDay: arg.allDay,
                     backgroundColor: '#3B71CA'
-                })
+                });
+
+                startDuration.value = arg.startStr;
+                let end = new Date(arg.end);
+                endDuration.value = end.toISOString().slice(0, 10);
             }
-            console.log(arg.startStr);
-            console.log(arg.endStr);
             calendar.unselect();
         },
         eventClick: function (arg) {
             if (confirm('삭제')) {
-                arg.event.remove()
+                arg.event.remove();
+                startDuration.value = "";
+                endDuration.value = ""
             }
         },
-        events: [
-            {
-                title: 'All Day Event',
-                start: '2023-01-01'
-            },
-            {
-                title: 'Long Event',
-                start: '2023-01-07',
-                end: '2023-01-10'
-            },
-            {
-                groupId: 999,
-                title: 'Repeating Event',
-                start: '2023-01-09T16:00:00'
-            },
-            {
-                groupId: 998,
-                title: 'Repeating Event',
-                start: '2023-01-16'
-            },
-            {
-                title: 'Meeting',
-                start: '2023-01-12T10:30:00',
-                end: '2023-01-12T12:30:00'
-            },
-            {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2023-01-28'
-            }
-        ]
+        // events: [
+        //     {
+        //         title: 'All Day Event',
+        //         start: '2023-01-01'
+        //     },
+        //     {
+        //         title: 'Long Event',
+        //         start: '2023-01-07',
+        //         end: '2023-01-10'
+        //     },
+        //     {
+        //         groupId: 999,
+        //         title: 'Repeating Event',
+        //         start: '2023-01-09T16:00:00'
+        //     },
+        //     {
+        //         groupId: 998,
+        //         title: 'Repeating Event',
+        //         start: '2023-01-16'
+        //     },
+        //     {
+        //         title: 'Meeting',
+        //         start: '2023-01-12T10:30:00',
+        //         end: '2023-01-12T12:30:00'
+        //     },
+        //     {
+        //         title: 'Click for Google',
+        //         url: 'http://google.com/',
+        //         start: '2023-01-28'
+        //     }
+        // ]
     });
 
     calendar.render();
@@ -224,4 +230,13 @@ reviewTxar.oninput = () => {
     reviewTxar.style.height = 'auto'; // 높이 초기화
     reviewTxar.style.height = reviewTxar.scrollHeight;
     root.style.setProperty('--reviewHeight', -review.scrollHeight + 'px');
-};
+}; /* End Kakao Maps */
+
+
+const reservationForm = document.querySelector('#reservation-form');
+const reservationBtn = document.querySelector('.reservation');
+
+reservationBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    reservationForm.submit();
+});
