@@ -1,6 +1,9 @@
 package com.daeyeo.controller;
 
 import com.daeyeo.entity.*;
+import com.daeyeo.entity.ViewTable.DashBoard;
+import com.daeyeo.entity.ViewTable.DashBoardMonthly;
+import com.daeyeo.entity.ViewTable.DashBoardYearly;
 import com.daeyeo.persistence.MemberManagementRepository;
 import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.service.*;
