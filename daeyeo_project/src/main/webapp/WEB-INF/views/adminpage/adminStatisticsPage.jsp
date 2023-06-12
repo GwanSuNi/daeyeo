@@ -5,27 +5,6 @@
   Time: 2:37 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%--
-  Created by IntelliJ IDEA.
-  User: seosanghyeon
-  Date: 2023/06/03
-  Time: 6:48 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%--
-  Created by IntelliJ IDEA.
-  User: seosanghyeon
-  Date: 2023/05/15
-  Time: 2:36 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%--
-  Created by IntelliJ IDEA.
-  User: seosanghyeon
-  Date: 2023/05/15
-  Time: 2:36 PM
-  To change this template use File | Settings | File Templates.
---%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -35,7 +14,9 @@
     <!-- Favicons -->
     <link href="${path}/resources/css/assets/img/favicon.png" rel="icon">
     <link href="${path}/resources/css/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
+    <%-- font awesome css 라이브러리--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/d0b3f12e44.js" crossorigin="anonymous"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
@@ -74,7 +55,21 @@
     </div>
 
     <!-- End Search Bar -->
-
+    <%
+        if (session.getAttribute("loginUser") != null) { // 로그인 돼 있을 때
+    %>
+    <div onclick="location.href='${path}/logout'"><i class="fa-solid fa-right-from-bracket logout_btn"
+                                                     style="color: var(--accecnt-color);font-size: 1.5em; padding-top: 2px"></i>
+    </div>
+    <%
+    } else { // 로그아웃 돼 있을 때
+    %>
+    <div onclick="location.href='${path}/login'"><i class="fa-solid fa-right-to-bracket logout_btn"
+                                                    style="color: var(--accecnt-color); font-size: 1.5em; padding-top: 2px"></i>
+    </div>
+    <%
+        }
+    %>
 </header>
 <!-- End Header -->
 

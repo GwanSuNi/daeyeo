@@ -1,16 +1,20 @@
 package com.daeyeo.controller;
+
 import com.daeyeo.entity.*;
 import com.daeyeo.entity.ViewTable.DashBoard;
 import com.daeyeo.entity.ViewTable.DashBoardMonthly;
 import com.daeyeo.entity.ViewTable.DashBoardYearly;
 import com.daeyeo.service.*;
 import com.daeyeo.service.ViewTable.DashBoardService;
+import com.daeyeo.utils.ScriptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -30,46 +34,79 @@ public class AdminController {
     ReviewService reviewService;
 
     @RequestMapping("/adminMainPage")
-    public String adminMainPage(Model model) {
-        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
-        model.addAttribute("dashBoard",dashBoards);
+    public String adminMainPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
+        List<DashBoard> dashBoards = dashBoardService.findDailyAll();
+        model.addAttribute("dashBoard", dashBoards);
         return "adminpage/adminMainPage";
     }
 
     @RequestMapping("/adminMemberPage")
-    public String adminMemberPage(Model model) {
+    public String adminMemberPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
         List<MemberManagement> memberManagement = memberManagementService.findAll();
-        model.addAttribute("memberManagement",memberManagement);
+        model.addAttribute("memberManagement", memberManagement);
         return "adminpage/adminMemberPage";
     }
+
     @RequestMapping("/adminPostPage")
-    public String adminPostPage(Model model){
+    public String adminPostPage(HttpServletRequest request,HttpServletResponse response,  Model model) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
         List<RentalObject> rentalObjects = rentalObjectService.findRentalObjectWithUser();
-        model.addAttribute("rentalObject",rentalObjects);
+        model.addAttribute("rentalObject", rentalObjects);
         return "adminpage/adminPostPage";
     }
+
     @RequestMapping("/adminReviewPage")
-    public String adminReviewPage(Model model){
+    public String adminReviewPage(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception{
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
         List<Review> reviewList = reviewService.findReviewWithUser();
-        model.addAttribute("reviewList",reviewList);
+        model.addAttribute("reviewList", reviewList);
         return "adminpage/adminReviewPage";
     }
+
     @RequestMapping("/adminStatisticsPage")
-    public String adminStatisticsPage(Model model) {
-        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
-        List <DashBoardMonthly> dashBoardMonthlyList = dashBoardService.findMonthlyAll();
-        List <DashBoardYearly> dashBoardYearlyList = dashBoardService.findYearlyAll();
-        model.addAttribute("dashBoard",dashBoards);
-        model.addAttribute("dashBoardMonthly",dashBoardMonthlyList);
-        model.addAttribute("dashBoardYearly",dashBoardYearlyList);
+    public String adminStatisticsPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
+        List<DashBoard> dashBoards = dashBoardService.findDailyAll();
+        List<DashBoardMonthly> dashBoardMonthlyList = dashBoardService.findMonthlyAll();
+        List<DashBoardYearly> dashBoardYearlyList = dashBoardService.findYearlyAll();
+        model.addAttribute("dashBoard", dashBoards);
+        model.addAttribute("dashBoardMonthly", dashBoardMonthlyList);
+        model.addAttribute("dashBoardYearly", dashBoardYearlyList);
         return "adminpage/adminStatisticsPage";
     }
+
     @RequestMapping("/adminAdPage")
-    public String adminAdPage(){
+    public String adminAdPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
         return "adminpage/adminAdPage";
     }
+
     @RequestMapping("/adminAdFormPage")
-    public String adminAdFormPage(){
+    public String adminAdFormPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (request.getSession(false).getAttribute("loginUser") == null) {
+            ScriptUtils.alert(response, "어드민 계정 로그인이 필요한 페이지 입니다. 로그인 해주세요.");
+            return "login/member_login";
+        }
         return "adminpage/adminAdFormPage";
     }
 }
