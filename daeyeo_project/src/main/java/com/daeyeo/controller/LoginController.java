@@ -37,9 +37,13 @@ public class LoginController {
             model.addAttribute("err", true);
             return "login/member_login";
         }
-
         try {
             UserEntity loginUser = loginService.login(form.getUserEmail(), form.getUserPw());
+            if (loginUser.getUserCategory().equals("admin")) { // 사실 Admin 테이블을 사용해서 별도의 레파지토리와 서비스를 사용해, adminMainPage에 접속했을 시, 로그인 요청을 해야하지만 임시로 이런 방식 사용
+                HttpSession session = request.getSession();
+                session.setAttribute("loginUser", loginUser);
+                return "adminpage/adminMainPage";
+            }
             HttpSession session = request.getSession();
             session.setAttribute("loginUser", loginUser);
             return "redirect:/";
@@ -47,6 +51,15 @@ public class LoginController {
             model.addAttribute("loginErr", true);
             return "login/member_login";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 
     public UserEntity getLoggedInUser(HttpServletRequest request) {
