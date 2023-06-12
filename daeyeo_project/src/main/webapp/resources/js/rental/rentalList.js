@@ -56,3 +56,15 @@ else {
             element.classList.add('active');
     });
 }
+
+
+const rentalObjectForm = document.querySelector('.object-form');
+const rentalObjects = document.querySelectorAll('.rental-object');
+
+rentalObjects.forEach((element) => {
+    element.addEventListener('click', (event) => {
+        event.preventDefault();
+        element.previousElementSibling.setAttribute('name','objectId');
+        rentalObjectForm.submit();
+    });
+});

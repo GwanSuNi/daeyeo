@@ -291,7 +291,7 @@ ul, ol, li {
     border-bottom: 1px solid var(--border);
 }
 
-.list-type > li > a {
+.list-type > li a {
     display: flex;
 }
 

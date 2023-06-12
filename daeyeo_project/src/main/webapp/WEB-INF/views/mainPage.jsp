@@ -140,7 +140,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">공유하고 싶은 것이 있으신가요?<br>대여 등록을 통해 다른 사람들과 공유해 보세요.</h5>
-                        <div class="registration"><a href="" class="a-btn">대여 등록</a></div>
+                        <div class="registration"><a href="rental/form" class="a-btn">대여 등록</a></div>
                     </div>
                     <div class="card-header">
                         <h5 class="card-title">대여 상품을 등록하셨나요?<br>등록한 상품을 편리하게 관리할 수 있습니다.</h5>
