@@ -140,7 +140,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">
+                    <a href="/error/404">
                         <i class="bi bi-circle"></i><span>방문자 현황 그래프</span>
                     </a>
                 </li>
@@ -211,27 +211,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach varStatus="index" var="board" items="${dashBoard}">
-                                <tr>
-                                    <td>${index.count}회</td>
-                                    <td>${board.registDate}</td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${board.totalRentalPrice != null}">
-                                                ${board.totalRentalPrice}원
-                                            </c:when>
-                                            <c:otherwise>
-                                                0원
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td> <!-- 집계 -->
-                                    <td>${board.totalVisitCount}명</td>
-                                    <td>${board.totalNewUserCount}명</td>
-                                    <td>${board.totalReviewCount}개</td>
-                                </tr>
-                            </c:forEach>
-                            <%--                                <td>${rental.userEntity.registDate}</td>--%>
-                            <%--                                <td>${rental.reviews.size()}</td>--%>
+                                <c:forEach varStatus="index" var="board" items="${dashBoard}">
+                                    <tr>
+                                        <td>${index.count}</td>
+                                        <td>${board.registDate}</td>
+                                        <td>${board.totalRentalPrice}</td> <!-- 집계 -->
+                                        <td>${board.totalVisitCount}</td>
+                                        <td>${board.totalNewUserCount}</td>
+                                        <td>${board.totalReviewCount}</td>
+                                    </tr>
+                                </c:forEach>
+<%--                                <td>${rental.userEntity.registDate}</td>--%>
+<%--                                <td>${rental.reviews.size()}</td>--%>
 
                             </tbody>
                         </table>
@@ -250,8 +241,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">구글 애널리틱스</h5>
-                <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">구글
-                    애널리틱스에서 분석하기</a>
+                <a href="https://www.google.co.kr/?hl=ko"></a>
             </div>
         </div>
     </div>

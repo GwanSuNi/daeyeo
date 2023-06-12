@@ -1,16 +1,21 @@
 package com.daeyeo.controller;
 import com.daeyeo.entity.*;
-import com.daeyeo.entity.ViewTable.DashBoard;
-import com.daeyeo.entity.ViewTable.DashBoardMonthly;
-import com.daeyeo.entity.ViewTable.DashBoardYearly;
+import com.daeyeo.persistence.MemberManagementRepository;
+import com.daeyeo.persistence.RentalObjectRepository;
 import com.daeyeo.service.*;
-import com.daeyeo.service.ViewTable.DashBoardService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,10 +33,13 @@ public class AdminController {
     DashBoardService dashBoardService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    AdService adService;
+
 
     @RequestMapping("/adminMainPage")
     public String adminMainPage(Model model) {
-        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
+        List <DashBoard> dashBoards = dashBoardService.findAll();
         model.addAttribute("dashBoard",dashBoards);
         return "adminpage/adminMainPage";
     }
@@ -55,17 +63,13 @@ public class AdminController {
         return "adminpage/adminReviewPage";
     }
     @RequestMapping("/adminStatisticsPage")
-    public String adminStatisticsPage(Model model) {
-        List <DashBoard> dashBoards = dashBoardService.findDailyAll();
-        List <DashBoardMonthly> dashBoardMonthlyList = dashBoardService.findMonthlyAll();
-        List <DashBoardYearly> dashBoardYearlyList = dashBoardService.findYearlyAll();
-        model.addAttribute("dashBoard",dashBoards);
-        model.addAttribute("dashBoardMonthly",dashBoardMonthlyList);
-        model.addAttribute("dashBoardYearly",dashBoardYearlyList);
+    public String adminStatisticsPage() {
         return "adminpage/adminStatisticsPage";
     }
     @RequestMapping("/adminAdPage")
     public String adminAdPage(){
+        List<Advertisement> advertisements = adService.fin
+
         return "adminpage/adminAdPage";
     }
     @RequestMapping("/adminAdFormPage")

@@ -12,10 +12,7 @@ import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("uService")
 @Transactional
@@ -102,4 +99,11 @@ public class NewUserService {
     public List<UserEntity> findAll(){
         return userRepository.findAll();
     }
+    public List<UserEntity> findAllAdvertisement(){
+        List<UserEntity> userEntities = userRepository.findAll();
+//        Set<Advertisement> advertisements = userEntities.getAd
+        return userRepository.findAll();
+    }
+
+
 }
