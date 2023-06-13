@@ -127,6 +127,8 @@ navIndicator.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', function () {
     const startDuration = document.querySelector('input[name="startDuration"]');
     const endDuration = document.querySelector('input[name="endDuration"]');
+    const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText;
+    const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;
     let calendarEl = document.getElementById('calendar');
     let calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -142,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // weekends: false,
         // hiddenDays: [ 0,6 ],
         validRange: {
-            start: '2023-02',
-            end: '2023-06-20'
+            start: receiptStartDuration,
+            end: receiptEndDuration
         },
         selectOverlap: false,
         // selectConstraint: {[1,2,3,4,5]}, // groupId가 998인 것만 event 선택 가능
@@ -151,20 +153,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // return !(event.groupId == "999"); // groupId가 999인 것은 overlap 불가
         // },
         select: function (arg) {
-            let title = prompt('Event Title:');
-            if (title) {
-                calendar.addEvent({
-                    title: title,
-                    start: arg.start,
-                    end: arg.end,
-                    allDay: arg.allDay,
-                    backgroundColor: '#3B71CA'
-                });
+            calendar.addEvent({
+                title: '예약',
+                start: arg.start,
+                end: arg.end,
+                allDay: arg.allDay,
+                backgroundColor: '#3B71CA'
+            });
 
-                startDuration.value = arg.startStr;
-                let end = new Date(arg.end);
-                endDuration.value = end.toISOString().slice(0, 10);
-            }
+            startDuration.value = arg.startStr;
+            let end = new Date(arg.end);
+            endDuration.value = end.toISOString().slice(0, 10);
             calendar.unselect();
         },
         eventClick: function (arg) {
