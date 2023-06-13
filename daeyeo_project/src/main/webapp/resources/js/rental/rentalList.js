@@ -37,7 +37,7 @@ cateBtn.forEach((element) => {
     element.addEventListener('click', (event) => {
         event.preventDefault();
 
-        if (mainCate === '')
+        if (mainCate === '' || mainCate === null)
             params.set('mainCate', element.innerText);
         else
             params.set('subCate', element.innerText);
@@ -48,7 +48,7 @@ cateBtn.forEach((element) => {
     });
 });
 
-if (mainCate === '' || subCate === '')
+if (mainCate === '' || subCate === '' || mainCate === null || subCate === null)
     firstCateBtn.classList.add('active');
 else {
     cateBtn.forEach((element) => {
