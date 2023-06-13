@@ -440,6 +440,11 @@ input[name='startDuration'] {
     text-align: right;
 }
 
+.user-duration {
+    display: flex;
+    justify-content: center;
+}
+
 .btn_box {
     display: flex;
     justify-content: right;

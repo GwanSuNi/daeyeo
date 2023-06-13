@@ -96,7 +96,7 @@
                             <a href="" class="rental-object">
                                 <div class="img_box">
                                     <span class="board-state">대여가능</span>
-                                    <img src="${path}/resources/img/rental/airplane.jfif" alt="사진">
+                                    <img src="${path}/resources/img/rental/image_icon.png" alt="사진">
                                 </div>
                                 <div class="description">
                                     <div class="top_box">

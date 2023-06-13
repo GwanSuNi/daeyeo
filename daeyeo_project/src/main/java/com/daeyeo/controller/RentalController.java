@@ -46,7 +46,6 @@ public class RentalController {
             list = subCategories.stream().map(SubCategory::getScId).collect(Collectors.toList());
 
         model.addAttribute("categories", list);
-        System.out.println("==========================================");
         model.addAttribute("rentalList", rentalObjectService.findRentalObjectByCommand(rentalListCmd));
 
         return "rental/rentalList";
@@ -74,11 +73,11 @@ public class RentalController {
     @RequestMapping("/register.do")
     public String doRegister(RentalObjectCmd rentalObjectCmd, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        String send = "rental/rentalList";
         UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
+        String send = "redirect:/rental/list";
 
         if (loginUser == null)
-            send = "login/member_login";
+            send = "redirect:/login";
         else
             rentalObjectService.insertRentalObject(loginUser.getUserEmail(), rentalObjectCmd);
 
@@ -86,13 +85,13 @@ public class RentalController {
     }
 
     @RequestMapping("/rental.do")
-    public String doRental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request, Model model) {
+    public String doRental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        String send = "rental/rentalWrite";
+        String send = "redirect:/rental/list";
 
         if (loginUser == null)
-            send = "login/member_login";
+            send = "redirect:/login";
         else
             rentalLogService.insertRentalLog(objectId, loginUser.getUserEmail(), LocalDate.parse(startDuration), LocalDate.parse(endDuration), price);
 

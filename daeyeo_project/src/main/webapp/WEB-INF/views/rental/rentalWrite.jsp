@@ -26,15 +26,13 @@
                             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="${path}/resources/img/rental/airplane.jfif" class="d-block w-100"
-                                             alt="...">
+                                        <img src="${path}/resources/img/rental/image_icon.png" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
                                         <img src="${path}/resources/img/rental/sea.jpg" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="${path}/resources/img/rental/image_icon.png" class="d-block w-100"
-                                             alt="...">
+                                        <img src="${path}/resources/img/rental/airplane.jfif" class="d-block w-100" alt="...">
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
@@ -146,14 +144,24 @@
                                 </tr>
                                 <tr>
                                     <th>접수기간</th>
-                                    <td>${rentalObject.receiptStartDuration} ~ ${rentalObject.receiptEndDuration}</td>
+                                    <td>
+                                        <span class="receipt-start-duration">${rentalObject.receiptStartDuration}</span>
+                                        ~
+                                        <span class="receipt-end-duration">${rentalObject.receiptEndDuration}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>이용기간</th>
+                                    <td>${rentalObject.startDuration} ~ ${rentalObject.endDuration}</td>
                                 </tr>
                                 <tr>
                                     <th>사용기간</th>
                                     <td>
-                                        <input type="text" name="startDuration" value="" tabindex="-1" readonly>
-                                        ~
-                                        <input type="text" name="endDuration" value="" tabindex="-1" readonly>
+                                        <div class="user-duration">
+                                            <input type="text" name="startDuration" value="" tabindex="-1" readonly>
+                                            ~
+                                            <input type="text" name="endDuration" value="" tabindex="-1" readonly>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -212,7 +220,7 @@
                     </div>
                     <div class="sub_box">
                         <h3>주소</h3>
-                        <div>경기도 의정부시</div>
+                        <div>${rentalObject.address.roadAddress}</div>
                     </div>
                     <div class="sub_box">
                         <h3>오시는 길</h3>
