@@ -156,7 +156,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/error/404">
+                    <a href="https://analytics.google.com/analytics/web/?hl=ko&pli=1#/p363945097/realtime/overview?params=_u..pageSize%3D25%26_u..nav%3Dmaui">
                         <i class="bi bi-circle"></i><span>방문자 현황 그래프</span>
                     </a>
                 </li>
