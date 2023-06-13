@@ -58,7 +58,7 @@
         %>
         <li><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <%--<i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>--%>
-        <div onclick="location.href='${path}/login'">
+        <div onclick="location.href='${path}/myPage'">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
         <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
