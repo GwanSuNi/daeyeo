@@ -209,7 +209,7 @@ input[type=number]:not(.cancellation) {
 
 .phone > input {
     width: 50px;
-    padding: 0 8px;
+    text-align: center;
 }
 
 .phone > input:first-child {
