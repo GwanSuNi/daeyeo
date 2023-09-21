@@ -1,10 +1,16 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/daeyeo;
+    url: jdbc:h2:tcp://localhost/~/db/H2/data;
+#    Mode는 MYSQL 호환모드 # Auto_Server true 시 다중접속 허용
+#    url: jdbc:h2:file:./db/H2/data;MODE=MySQL;AUTO_SERVER=true
+#    url: jdbc:h2:mem:demo
     username: sa
     passward:
     driver-class-name: org.h2.Driver
-
+  h2:
+    console:
+      enabled: true
+      path: /h2-console # localhost:8080/h2-console로 진입가능
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,6 +18,10 @@ spring:
       hibernate:
 #        show_sql: true
         format_sql: true
+# 타임리프 디폴트 설정 바꾸려면 여기서 설정~!
+#  thymeleaf:
+#    suffix:
+#    prefix:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
