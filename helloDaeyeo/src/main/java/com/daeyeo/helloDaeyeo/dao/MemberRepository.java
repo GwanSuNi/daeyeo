@@ -1,6 +1,6 @@
 package com.daeyeo.helloDaeyeo.dao;
 
-import com.daeyeo.helloDaeyeo.Entity.Member;
+import com.daeyeo.helloDaeyeo.entity.Member;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
