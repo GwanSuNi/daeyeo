@@ -1,33 +1,18 @@
-//package com.daeyeo.helloDaeyeo.Repository;
-//
-//import com.daeyeo.helloDaeyeo.Entity.Member;
-//import jakarta.persistence.EntityManager;
-//import jakarta.persistence.PersistenceContext;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.stereotype.Repository;
-//
-//@Repository
-//public class MemberRepository implements MemberRepositoryBasic {
-//    @Autowired
-//    MemberRepositoryBasic memberRepositoryBasic;
-//
-//    public String changeName(Member member){
-//        member = memberRepositoryBasic.findById(member.getId());
-//        member.setUserName("바뀌었어요");
-//        memberRepositoryBasic.save(member);
-//        return member.getUserName();
-//    }
-//
-////    @PersistenceContext
-////    private EntityManager em;
-////
-////    public Long save(Member member){
-////        em.persist(member);
-////        return member.getId();
-////    }
-////    public Member find(Long id){
-////        return em.find(Member.class , id);
-////    }
-//
-//}
+package com.daeyeo.helloDaeyeo.repository;
+
+import com.daeyeo.helloDaeyeo.entity.Member;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+public interface MemberRepository extends CrudRepository<Member, Long> {
+    List<Member> findByUserName(String name);
+    List<Member> findByUserNameLike(String name);
+
+    @Query(value = "select * from Member where User_Name = ?1 and age = ?2", nativeQuery = true) // false = JPQL, true = sql
+    List<Member> findVIPList(String name, int age);
+
+    @Query("from Member where userName = ?1 and age = ?2") // JPQL은 카멜케이스를 알아서 변경해주지만 네이티브는 실제 컬럼 이름 그대로 써야함!!! // 또한 select문 유무 차이
+    List<Member> findVIPList2(String name, int age);
+}
