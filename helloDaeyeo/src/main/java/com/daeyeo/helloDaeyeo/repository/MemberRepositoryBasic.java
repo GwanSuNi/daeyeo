@@ -1,6 +1,6 @@
-package com.daeyeo.helloDaeyeo.Repository;
+package com.daeyeo.helloDaeyeo.repository;
 
-import com.daeyeo.helloDaeyeo.Entity.Member;
+import com.daeyeo.helloDaeyeo.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepositoryBasic extends JpaRepository<Member,Integer> {

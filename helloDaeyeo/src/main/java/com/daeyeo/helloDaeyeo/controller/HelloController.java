@@ -1,4 +1,4 @@
-package com.daeyeo.helloDaeyeo.Controller;
+package com.daeyeo.helloDaeyeo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
