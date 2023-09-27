@@ -22,20 +22,16 @@ import java.time.Duration;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    ObjectMapper objectMapper;
+    private final TokenProvider tokenProvider;
+    private final RefreshTokenService refreshTokenService;
+    private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     // TODO: 만료기간 변수화
     // 매개변수에 원래 @RequestBody가 있었지만
     // Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported 에러 때문에 뺌
     @PostMapping("/user")
-    public ResponseEntity<CreateAccessTokenResponse> signup(AddUserRequest request) {
+    public ResponseEntity<CreateAccessTokenResponse> signup(@RequestBody AddUserRequest request) {
         // 요청하는 계정으로 가입하고 성공 시 User 클래스로 반환
         User newUser = userService.findById(userService.save(request));
 

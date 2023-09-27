@@ -24,8 +24,7 @@ public class WebSecurityConfig {
 
     private final UserDetailService userService;
 
-    @Autowired
-    private TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     public WebSecurityCustomizer configure() {

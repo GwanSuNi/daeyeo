@@ -44,6 +44,7 @@ public class TokenProvider {
     }
 
     // JWT 토큰 유효성 검증
+    // TODO: 헤더에서 암호화 타입이 none일 때는??
     public boolean validToken(String token) {
         try {
             Jwts.parser()
