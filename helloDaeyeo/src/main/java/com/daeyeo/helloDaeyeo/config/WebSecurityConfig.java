@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers("/static/**", "/error");
+                .requestMatchers("/static/**", "/error", "/swagger-ui/**", "/v3/**");
     }
 
     @Bean
@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .requestMatchers("/login", "/signup", "/user").permitAll()
+//                .anyRequest().permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
