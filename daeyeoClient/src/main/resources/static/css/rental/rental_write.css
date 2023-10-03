@@ -1,0 +1,570 @@
+@import '../color.css';
+
+:root {
+    --reviewHeight: -259px;
+}
+
+body {
+    font-size: 16px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul, ol, li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th, td {
+    height: 35px;
+    border: 1px solid var(--border);
+    padding: 5px;
+    text-align: center;
+    white-space: normal;
+}
+
+.icon {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px auto;
+}
+
+.btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.container {
+    max-width: 1080px;
+    margin: 50px auto 60px;
+    padding: 0 10px;
+}
+
+.top_container {
+    margin-bottom: 60px;
+}
+
+.top_contents {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.state {
+    min-width: 85px;
+    max-height: 34px;
+    background: var(--daeyeo);
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-right: 15px;
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: 1000;
+}
+
+.bot_contents {
+    display: flex;
+}
+
+.left_box {
+    width: 50%;
+    margin-right: 40px;
+}
+
+.img_box {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+#carouselExampleSlidesOnly,
+#carouselExampleSlidesOnly * {
+    width: 100%;
+    height: 100%;
+}
+
+#carouselExampleSlidesOnly img {
+    object-fit: contain;
+}
+
+.expand {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba( 255, 255, 255, 0.3 );
+    background-image: url("../../img/rental/expand_icon.png");
+    top: 95%;
+    left: 95%;
+    transform: translate(-100%, -100%);
+    filter: invert(100%);
+}
+
+/* Slider  */
+.carousel-wrap {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #4D4D4D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-close {
+    background-image: url("../../img/rental/x_icon.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    padding: 4px;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+.btn-close:hover,
+.btn-close:focus {
+    opacity: .9;
+    box-shadow: none;
+}
+
+.hidden {
+    transition: all 200ms ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.carousel {
+    width: 1200px;
+    height: 85vmin;
+    position: relative;
+}
+
+.carousel .btn {
+    position: absolute;
+    height: calc(100% - 15%);
+    width: calc(100% - 90%);
+    margin: 35px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 400ms ease;
+    overflow: hidden;
+}
+
+.carousel .btn:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 300ms ease;
+}
+
+.carousel .btn:hover:before {
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateX(0);
+}
+
+.carousel .btn i {
+    font-size: 1.6rem;
+    color: #000;
+    transition: transform 400ms ease;
+    opacity: 0;
+}
+
+.carousel .btn-back {
+    top: 0;
+    left: 0;
+}
+
+.carousel .btn-back:before {
+    border-radius: 100% 0 0 100%;
+    transform: translateX(100px);
+}
+
+.carousel .btn-next {
+    top: 0;
+    right: 0;
+}
+
+.carousel .btn-next:before {
+    border-radius: 0 100% 100% 0;
+    transform: translate(-100px);
+}
+
+.carousel .btn-back .left-arrow,
+.carousel .btn-next .right-arrow {
+    transform: translateX(100px);
+}
+
+.carousel .btn:hover .left-arrow,
+.carousel .btn:hover .right-arrow {
+    opacity: 1;
+    transform: translateX(8px);
+    width: 32px;
+    height: 32px;
+    background-image: url("../../img/rental/left_arrow_icon.png");
+    background-size: 32px;
+    background-position: center;
+}
+
+.carousel .btn:hover .right-arrow {
+    rotate: 180deg;
+}
+
+.carousel .viewbox {
+    width: calc(100% - 20%);
+    height: calc(100% - 10%);
+    position: relative;
+    margin: 15px auto;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2), 2px 5px 10px rgba(0, 0, 0, 0.1), -2px 8px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    overflow: hidden;
+}
+
+.carousel .viewbox .track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    box-shadow: 10px 10px 5px 5px #000000;
+}
+
+.carousel .viewbox .track .slide {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #4D4D4D;
+}
+
+.carousel .viewbox .track .slide .images {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.carousel .nav-indicator {
+    position: absolute;
+    bottom: -2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+.carousel .nav-indicator .dot {
+    margin: 0 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.carousel .nav-indicator .dot.active {
+    background: rgba(0, 0, 0, 0.5);
+}
+/* End Slider */
+
+/* Full Calendar */
+#calendar {
+    height: 425px;
+}
+
+.fc .fc-toolbar {
+    justify-content: space-evenly;
+}
+
+.fc-toolbar-chunk > .fc-button {
+    padding: 0;
+    margin-top: 1px;
+}
+
+.fc-toolbar-chunk > .fc-toolbar-title {
+    font-size: 22px;
+}
+
+.fc-col-header-cell {
+    background-color: #D3D3D3;
+    padding: 2px;
+    line-height: 32px;
+}
+
+.fc-scrollgrid-sync-table td,
+.fc .fc-non-business {
+    background-color: #FFFFFF;
+}
+
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+}
+
+.fc-day-sat a {
+    color: blue;
+    text-decoration: none;
+}
+/* End Full Calendar */
+
+.right_box {
+    width: 60%;
+}
+
+.func_box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.icon_box {
+    display: flex;
+    align-items: center;
+}
+
+.icon_box .btn {
+    width: 32px;
+    height: 32px;
+    background-size: 32px auto;
+}
+
+.hits_box {
+    padding-left: 30px;
+    background-image: url("../../img/rental/eye_icon.png");
+    background-position: left top;
+    margin-right: 15px;
+}
+
+.hits {
+    line-height: 32px;
+    box-shadow: 1px 1px 3px 1px #808080;
+    border-radius: 15px;
+    padding: 5px  10px;
+    margin-left: 5px;
+}
+
+.rating {
+    height: 32px;
+}
+
+.rating img {
+    height: 28px;
+}
+
+.icon_btn_box > input {
+    margin-left: 5px;
+    transition: color .15s ease-in-out;
+}
+
+.want {
+    background-image: url("../../img/rental/empty_heart_icon.png");
+}
+
+.share {
+    background-image: url("../../img/rental/share_icon.png");
+    background-size: 24px auto;
+}
+
+.report {
+    background-image: url("../../img/rental/siren_icon.png");
+}
+
+.want:hover,
+.want:focus,
+.share:hover,
+.share:focus,
+.report:hover,
+.report:focus {
+    border-radius: 50%;
+    background-color: var(--light-background);
+}
+
+.description {
+    white-space: normal;
+    word-wrap: break-word;
+    border-radius: 10px;
+    border-style: hidden;
+    box-shadow: 1px 1px 3px 2px var(--border);
+}
+
+.description th, .description td {
+    height: 60px;
+    padding: 10px;
+}
+
+.description th {
+    width: 130px;
+}
+
+#reservation-form {
+    margin: 0;
+}
+
+input[name='price'],
+input[name='startDuration'],
+input[name='endDuration'] {
+    background-color: inherit;
+    border: none;
+}
+
+input[name='price'] {
+    text-align: center;
+}
+
+input[name='startDuration'] {
+    text-align: right;
+}
+
+.user-duration {
+    display: flex;
+    justify-content: center;
+}
+
+.btn_box {
+    display: flex;
+    justify-content: right;
+    margin-top: 30px;
+}
+
+.btn_box a,
+.post {
+    background: var(--daeyeo);
+    color: #FFFFFF;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-left: 15px;
+}
+
+.btn_box a:hover,
+.post:hover {
+    background-color: var(--hover-daeyeo);
+    color: #FFFFFF;
+}
+
+.nav-tabs-bordered .nav-link.active,
+.nav-tabs-bordered .nav-link:hover,
+.nav-tabs-bordered .nav-link:focus {
+    background-color: inherit;
+    color: var(--daeyeo);
+    font-weight: 1000;
+}
+
+.bottom_container {
+    margin-bottom: 60px;
+}
+
+#borderedTabJustifiedContent {
+    padding: 0 10px;
+    margin-top: 30px;
+}
+
+#bordered-justified-guide > div {
+    min-height: 300px;
+}
+
+.sub_box {
+    margin-bottom: 40px;
+}
+
+.sub_box h3 {
+    margin-bottom: 20px;
+    font-weight: 1000;
+}
+
+#map {
+    width: 640px;
+    height: 470px;
+    margin: auto;
+}
+
+.user_review {
+    position: sticky;
+    top: calc(100% + var(--reviewHeight));
+    z-index: 2;
+    padding: 1px;
+    background-color: #FFFCF7;
+}
+
+.user_review .card {
+    margin: 15px 30px;
+}
+
+.user_review .card-body {
+    padding: 0 20px 10px;
+}
+
+.user_review .card-title {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.rate {
+    margin-left: 8px;
+}
+
+.rate .btn {
+    width: 31px;
+    height: 31px;
+}
+
+.empty_star {
+    background-image: url("../../img/rental/empty_star_icon.png");
+}
+
+.review_input {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    overflow: hidden;
+}
+
+.review_input:focus {
+    border: none;
+    box-shadow: 0 0 0 0.2rem var(--input-focus);
+}
+
+.post_box {
+    display: flex;
+    justify-content: right;
+}
+
+.post {
+    margin-top: 7px;
+}
+
+.reviews {
+    transform: translateY(var(--reviewHeight));
+    margin: 30px 30px 0;
+    padding: 1px;
+}
