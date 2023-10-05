@@ -10,24 +10,23 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class TokenService {
     private final WebClient webClient;
 
-    public Optional<String> getTokenFromCookie(ServerWebExchange exchange, String tokenName) {
-        HttpCookie cookie = exchange.getRequest().getCookies().getFirst(tokenName);
-
-        if (cookie != null)
-            return Optional.of(cookie.getValue());
-        else
-            return Optional.empty();
+    public Mono<String> getTokenFromCookie(ServerWebExchange exchange, String tokenName) {
+        return Mono.fromSupplier(() -> {
+            HttpCookie cookie = exchange.getRequest().getCookies().getFirst(tokenName);
+            if (cookie != null)
+                return cookie.getValue();
+            else
+                return null;
+        });
     }
 
     public Mono<String> getAccessTokenFromCookie(ServerWebExchange exchange) {
-        return Mono.justOrEmpty(getTokenFromCookie(exchange, "access_token"))
+        return getTokenFromCookie(exchange, "access_token")
                 .switchIfEmpty(Mono.error(new AccessTokenMissingException()));
     }
 
