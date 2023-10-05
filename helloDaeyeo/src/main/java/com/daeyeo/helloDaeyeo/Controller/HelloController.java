@@ -17,4 +17,8 @@ public class HelloController {
 
 
     }
+    @GetMapping("rentalList")
+    public String testRental(){
+        return "rentalList";
+    }
 }
