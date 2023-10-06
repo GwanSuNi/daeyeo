@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 public class MemberController {
-    private MemberRepository repository;
+    private final MemberRepository repository;
 
     public MemberController(MemberRepository repository) {
         this.repository = repository;
