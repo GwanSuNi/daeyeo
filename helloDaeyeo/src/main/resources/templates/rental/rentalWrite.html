@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- BootStrap CSS File -->
-    <link th:href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="${path}/resources/css/assets/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
     <!-- CSS File -->
-    <link th:href="${path}/resources/css/rental/rental_write.css" rel="stylesheet">
+    <link th:href="@{/css/rental/rental_write.css}" rel="stylesheet">
 
     <meta charset="UTF-8">
     <title>대여글 작성 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">
-    <div th:include="../includes/header"></div>
+    <!--    <div th:replace="../includes/header :: header"></div>-->
     <div class="container">
         <div class="top_container">
             <div class="contents">
@@ -27,16 +27,13 @@
                             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img th:src="${path}/resources/img/rental/image_icon.png"
-                                             class="d-block w-100" alt="...">
+                                        <img th:src="@{/img/rental/image_icon.png}" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img th:src="${path}/resources/img/rental/sea.jpg"
-                                             class="d-block w-100" alt="...">
+                                        <img th:src="@{/img/rental/sea.jpg}" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img th:src="${path}/resources/img/rental/airplane.jfif"
-                                             class="d-block w-100" alt="...">
+                                        <img th:src="@{/img/rental/airplane.jfif}" class="d-block w-100" alt="...">
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
@@ -57,16 +54,13 @@
                                                 <div class="viewbox">
                                                     <div class="track">
                                                         <div class="slide active">
-                                                            <img class="images"
-                                                                 th:src="${path}/resources/img/rental/airplane.jfif">
+                                                            <img class="images" th:src="@{/img/rental/airplane.jfif}">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 th:src="${path}/resources/img/rental/sea.jpg">
+                                                            <img class="images" th:src="@{/img/rental/sea.jpg}">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 th:src="${path}/resources/img/rental/image_icon.png">
+                                                            <img class="images" th:src="@{/img/rental/image_icon.png}">
                                                         </div>
                                                         <div class="slide">
                                                             <img class="images"
@@ -115,14 +109,14 @@
                         <div class="func_box">
                             <div class="icon_box">
                                 <div class="icon hits_box">
-                                    <span class="hits" th:title="조회수" th:text="${rentalObject.visitCount}"></span>
+                                    <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>
                                 </div>
                                 <div class="rating">
-                                    <img th:src="${path}/resources/img/rental/star_icon.png" alt="사진">
-                                    <img th:src="${path}/resources/img/rental/star_icon.png" alt="사진">
-                                    <img th:src="${path}/resources/img/rental/star_icon.png" alt="사진">
-                                    <img th:src="${path}/resources/img/rental/star_icon.png" alt="사진">
-                                    <img th:src="${path}/resources/img/rental/star_icon.png" alt="사진">
+                                    <img th:src="@{/img/rental/star_icon.png}" alt="사진">
+                                    <img th:src="@{/img/rental/star_icon.png}" alt="사진">
+                                    <img th:src="@{/img/rental/star_icon.png}" alt="사진">
+                                    <img th:src="@{/img/rental/star_icon.png}" alt="사진">
+                                    <img th:src="@{/img/rental/star_icon.png}" alt="사진">
                                 </div>
                             </div>
                             <div class="icon_btn_box">
@@ -131,7 +125,7 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-                        <form action="/rental/rental.do" id="reservation-form">
+                        <form th:action="@{/rental/rental.do}" id="reservation-form">
                             <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">
                             <table class="description">
                                 <tr>
@@ -144,10 +138,8 @@
                                 </tr>
                                 <tr>
                                     <th>이용요금</th>
-                                    <td>
-                                        <input type="text" name="price" th:value="${rentalObject.price}"
-                                               tabindex="-1" readonly>
-                                    </td>
+                                    <td><input type="text" name="price" th:value="${rentalObject.price}" tabindex="-1"
+                                               readonly></td>
                                 </tr>
                                 <tr>
                                     <th>접수기간</th>
@@ -161,8 +153,7 @@
                                 </tr>
                                 <tr>
                                     <th>이용기간</th>
-                                    <td th:text="${rentalObject.startDuration + ' ~ ' + rentalObject.endDuration}"></td>
-
+                                    <td th:text="${rentalObject.startDuration} + ' ~ ' + ${rentalObject.endDuration}"></td>
                                 </tr>
                                 <tr>
                                     <th>사용기간</th>
@@ -176,7 +167,7 @@
                                 </tr>
                                 <tr>
                                     <th>모집인원</th>
-                                    <td th:text="${rentalObject.capacity} 명"></td>
+                                    <td th:text="${rentalObject.capacity} + ' 명'"></td>
                                 </tr>
                                 <tr>
                                     <th>웹사이트</th>
@@ -189,8 +180,8 @@
                             </table>
                         </form>
                         <div class="btn_box">
-                            <a href="#" class="reservation">예약하기</a>
-                            <a href="/rental/list" class="list">목록</a>
+                            <a th:href="" class="reservation">예약하기</a>
+                            <a th:href="/rental/list" class="list">목록</a>
                         </div>
                     </div>
                 </div>
@@ -250,7 +241,7 @@
                                         <input type="button" id="star_5" class="empty_star icon btn">
                                     </div>
                                 </h5>
-                                <textarea class="review_input" z placeholder="이용후기를 입력해 주세요."></textarea>
+                                <textarea class="review_input" placeholder="이용후기를 입력해 주세요."></textarea>
                                 <div class="post_box">
                                     <a href="" class="post">후기 작성</a>
                                 </div>
@@ -303,18 +294,18 @@
             </div> <!-- End Bordered Tabs Justified -->
         </div>
     </div>
-    <div th:include="../includes/footer"></div>
+    <div th:replace="~{/includes/footer :: footer}"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->
-<script th:src="${path}/resources/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <!-- Slider JS File -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
 <!-- FullCalendar JS File -->
-<script th:src="${path}/resources/js/rental/index.global.js"></script>
+<script th:src="@{/js/rental/index.global.js}"></script>
 <!-- Kakao Maps API -->
-<script th:src="'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0e9e66db9f3843b34b9c3a178aaae77d'"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0e9e66db9f3843b34b9c3a178aaae77d"></script>
 <!-- JS File -->
-<script th:src="${path}/resources/js/rental/rentalWrite.js"></script>
+<script th:src="@{/js/rental/rentalWrite.js}"></script>
 </html>
