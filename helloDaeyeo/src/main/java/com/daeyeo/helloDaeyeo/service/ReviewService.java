@@ -1,12 +1,12 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.ReviewDto;
-import com.daeyeo.helloDaeyeo.updateentity.Member;
-import com.daeyeo.helloDaeyeo.updateentity.RentalObject;
-import com.daeyeo.helloDaeyeo.updateentity.Review;
-import com.daeyeo.helloDaeyeo.updaterepository.MemberRepository;
-import com.daeyeo.helloDaeyeo.updaterepository.RentalObjectRepository;
-import com.daeyeo.helloDaeyeo.updaterepository.ReviewRepository;
+import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
+import com.daeyeo.helloDaeyeo.entity.Review;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
+import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

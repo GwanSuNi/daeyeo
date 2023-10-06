@@ -1,6 +1,6 @@
-package com.daeyeo.helloDaeyeo.updaterepository;
+package com.daeyeo.helloDaeyeo.repository;
 
-import com.daeyeo.helloDaeyeo.updateentity.Review;
+import com.daeyeo.helloDaeyeo.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.daeyeo.helloDaeyeo.updateentity;
+package com.daeyeo.helloDaeyeo.entity;
 import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

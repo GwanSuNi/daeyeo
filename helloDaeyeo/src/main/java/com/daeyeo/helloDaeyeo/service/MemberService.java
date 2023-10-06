@@ -1,8 +1,8 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.MemberDto;
-import com.daeyeo.helloDaeyeo.updateentity.Member;
-import com.daeyeo.helloDaeyeo.updaterepository.MemberRepository;
+import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

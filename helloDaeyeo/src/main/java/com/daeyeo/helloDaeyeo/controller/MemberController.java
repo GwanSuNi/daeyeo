@@ -1,7 +1,7 @@
 package com.daeyeo.helloDaeyeo.controller;
 
-import com.daeyeo.helloDaeyeo.updateentity.Member;
-import com.daeyeo.helloDaeyeo.updaterepository.MemberRepository;
+import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

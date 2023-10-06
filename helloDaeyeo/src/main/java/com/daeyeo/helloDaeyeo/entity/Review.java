@@ -1,38 +1,39 @@
-package com.daeyeo.helloDaeyeo.updateentity;
+package com.daeyeo.helloDaeyeo.entity;
 
-import com.daeyeo.helloDaeyeo.dto.RentalLogDto;
+import com.daeyeo.helloDaeyeo.dto.ReviewDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentalLog {
+@Getter@Setter
+public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int rentalLogIndex;
+    int reviewIndex;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rentalLogMemberId")
     Member member;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rentalObjectId")
     RentalObject rentalObject;
-    int rentalPrice;
+    LocalDateTime writeDate;
+    String content;
     public void setMember(Member member) {
         this.member = member;
-        member.getRentalLogs().add(this);
+        member.getReviews().add(this);
     }
-
     public void setRentalObject(RentalObject rentalObject) {
         this.rentalObject = rentalObject;
-        rentalObject.getRentalLogs().add(this);
+        rentalObject.getReviews().add(this);
     }
-    public RentalLog(RentalLogDto rentalLogDto){
-        this.rentalPrice = rentalLogDto.getRentalPrice();
+    public Review(ReviewDto reviewDto){
+        this.writeDate = reviewDto.getWriteDate();
+        this.content = reviewDto.getContent();
     }
 }

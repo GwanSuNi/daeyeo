@@ -1,7 +1,7 @@
 package com.daeyeo.helloDaeyeo.dto;
 
-import com.daeyeo.helloDaeyeo.updateentity.Member;
-import com.daeyeo.helloDaeyeo.updateentity.SubCategory;
+import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.SubCategory;
 import lombok.Getter;
 import lombok.Setter;
 

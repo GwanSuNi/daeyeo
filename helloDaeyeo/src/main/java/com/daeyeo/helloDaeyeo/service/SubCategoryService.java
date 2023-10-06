@@ -1,9 +1,9 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.updateentity.MainCategory;
-import com.daeyeo.helloDaeyeo.updateentity.SubCategory;
-import com.daeyeo.helloDaeyeo.updaterepository.MainCategoryRepository;
-import com.daeyeo.helloDaeyeo.updaterepository.SubCategoryRepository;
+import com.daeyeo.helloDaeyeo.entity.MainCategory;
+import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.repository.MainCategoryRepository;
+import com.daeyeo.helloDaeyeo.repository.SubCategoryRepository;
 import com.daeyeo.helloDaeyeo.exception.SubAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
