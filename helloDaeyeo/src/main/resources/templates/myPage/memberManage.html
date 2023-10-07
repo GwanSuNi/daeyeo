@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
-    <link th:href="${path}/resources/css/footer_bottom.css" rel="stylesheet" type="text/css">
-    <link th:href="${path}/resources/css/mypage/myPage.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/footer_bottom.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/mypage/myPage.css}" rel="stylesheet" type="text/css">
     <!-- Custom fonts for this template-->
-    <link th:href="${path}/resources/css/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
-    <link th:href="${path}/resources/css/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
     <!-- Vendor CSS Files -->
-    <link th:href="${path}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="${path}/resources/css/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link th:href="${path}/resources/css/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
     <!-- Template Main CSS File -->
-    <link th:href="${path}/resources/css/assets/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div class="body_container">
-    <div th:replace="/WEB-INF/views/includes/header.jsp"></div>
+    <div th:replace="/includes/header"></div>
     <div class="main_content">
         <div class="my_content">
             <div class="divInform">
@@ -36,13 +36,13 @@
                         <td><a class="nav-link collapsed" th:href="@{/myPage/reservation}"><i class="bi-calendar-week"></i> 예약 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/rental_manage}"><i class="bi-table"></i> 대여 관리</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalManage}"><i class="bi-table"></i> 대여 관리</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/rental_log}"><i class="bi-cart-check"></i> 대여 기록</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalLog}"><i class="bi-cart-check"></i> 대여 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/member_manage}"><i class="bi-person-lines-fill"></i> 회원 관리</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/memberManage}"><i class="bi-person-lines-fill"></i> 회원 관리</a></td>
                     </tr>
                 </table>
             </div>
@@ -157,18 +157,18 @@
         </div>
 
         <!-- Vendor JS Files -->
-        <script th:src="${path}/resources/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/chart.js/chart.umd.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/echarts/echarts.min.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/quill/quill.min.jss"></script>
-        <script th:src="${path}/resources/css/assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/tinymce/tinymce.min.js"></script>
-        <script th:src="${path}/resources/css/assets/vendor/php-email-form/validate.js"></script>
+        <script src="/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/css/assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="/css/assets/vendor/echarts/echarts.min.js"></script>
+        <script src="/css/assets/vendor/quill/quill.min.js"></script>
+        <script src="/css/assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="/css/assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="/css/assets/vendor/php-email-form/validate.js"></script>
         <!-- Template Main JS File -->
-        <script th:src="${path}/resources/css/assets/js/main.js"></script>
+        <script th:src="@{/css/assets/js/main.js}"></script>
     </div>
-    <div th:replace="/WEB-INF/views/includes/footer.jsp"></div>
+    <div th:replace="/includes/footer"></div>
 </div>
 </body>
 </html>

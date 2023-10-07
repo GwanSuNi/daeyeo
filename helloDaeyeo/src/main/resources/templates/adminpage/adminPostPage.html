@@ -2,24 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Favicons -->
-    <link th:href="${#request.contextPath}/resources/css/assets/img/favicon.png" rel="icon">
-    <link th:href="${#request.contextPath}/resources/css/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-    <!-- font awesome css 라이브러리-->
+    <link th:href="@{/css/assets/img/favicon.png}" rel="icon">
+    <link th:href="@{/css/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+    <!-- Font Awesome CSS Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/d0b3f12e44.js"></script>
+    <script src="https://kit.fontawesome.com/d0b3f12e44.js" crossorigin="anonymous"></script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
     <!-- Vendor CSS Files -->
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link th:href="${#request.contextPath}/resources/css/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+
     <!-- Template Main CSS File -->
-    <link th:href="${#request.contextPath}/resources/css/assets/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
 
     <meta charset="UTF-8">
     <title>어드민 메인페이지</title>
@@ -28,7 +32,7 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-        <a th:href="@{'${#request.contextPath}/adminMainPage'}" class="logo d-flex align-items-center">
+        <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">NoobGPT</span>
         </a>
@@ -43,15 +47,15 @@
         </form>
     </div>
 
-    <!-- End Search Bar -->
-    <div th:if="${session.loginUser != null}" onclick="/logout">
-        <i class="fa-solid fa-right-from-bracket logout_btn"
-           style="color: var(--accecnt-color);font-size: 1.5em; padding-top: 2px"></i>
-    </div>
-    <div th:unless="${session.loginUser != null}" onclick="/login">
-        <i class="fa-solid fa-right-to-bracket logout_btn"
-           style="color: var(--accecnt-color); font-size: 1.5em; padding-top: 2px"></i>
-    </div>
+<!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
+<!--    <div th:if="${session.loginUser != null}" onclick="/logout">-->
+<!--        <i class="fa-solid fa-right-from-bracket logout_btn"-->
+<!--           style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
+<!--    </div>-->
+<!--    <div th:unless="${session.loginUser != null}" onclick="/login">-->
+<!--        <i class="fa-solid fa-right-to-bracket logout_btn"-->
+<!--           style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
+<!--    </div>-->
 </header>
 <!-- End Header -->
 
@@ -59,7 +63,7 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'${#request.contextPath}/adminMainPage'}">
+            <a class="nav-link collapsed" th:href="@{/adminpage/adminMain}">
                 <i class="bi bi-grid"></i>
                 <span>대쉬보드</span>
             </a>
@@ -72,7 +76,7 @@
             </a>
             <ul id="member-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{'${#request.contextPath}/adminMemberPage'}">
+                    <a th:href="@{/adminpage/adminMember}">
                         <i class="bi bi-circle"></i><span>회원 테이블</span>
                     </a>
                 </li>
@@ -82,14 +86,14 @@
             <a class="nav-link collapsed" data-bs-target="#content-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>컨텐츠관리</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="content-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <ul id="content-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{'${#request.contextPath}/adminPostPage'}">
+                    <a th:href="@{/adminpage/adminPost}" class="active">
                         <i class="bi bi-circle"></i><span>전체 게시물</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{'${#request.contextPath}/adminReviewPage'}">
+                    <a th:href="@{/adminpage/adminReview}">
                         <i class="bi bi-circle"></i><span>후기 관리</span>
                     </a>
                 </li>
@@ -101,7 +105,7 @@
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{'${#request.contextPath}/adminStatisticsPage'}">
+                    <a th:href="@{/adminpage/adminStatistics}">
                         <i class="bi bi-circle"></i><span>일별 요약</span>
                     </a>
                 </li>
@@ -118,12 +122,12 @@
             </a>
             <ul id="Ad-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{'/${#request.contextPath}/adminAdPage'}">
+                    <a th:href="@{/adminpage/adminAdPage}">
                         <i class="bi bi-circle"></i><span>광고수익 전체통계</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{'/${#request.contextPath}/adminAdFormPage'}">
+                    <a th:href="@{/adminpage/adminAdForm}">
                         <i class="bi bi-circle"></i><span>광고 수익 신청 양식</span>
                     </a>
                 </li>
@@ -138,7 +142,7 @@
         <h1>전체 게시물 정보</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/${#request.contextPath}/adminPostPage.jsp'}">컨텐츠 관리</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/adminpage/adminPost}">컨텐츠 관리</a></li>
                 <li class="breadcrumb-item active">전체 게시물</li>
             </ol>
         </nav>
@@ -166,16 +170,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="rental, index : ${rentalObject}">
-                                <td th:text="${index.count}"></td>
-                                <td><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></td>
-                                <td th:text="${rental.subCategory.scId}"></td>
-                                <td th:text="${rental.userEntity.userName}"></td>
-                                <td th:text="${rental.objectName}"></td>
-                                <td th:text="${rental.createDate}"></td>
-                                <td th:text="${rental.locationInfo}"></td>
-                                <td th:text="${rental.userInfo}"></td>
-                            </tr>
+<!--                            <tr th:each="rental, index : ${rentalObject}">-->
+<!--                                <td th:text="${index.count}"></td>-->
+<!--                                <td><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></td>-->
+<!--                                <td th:text="${rental.subCategory.scId}"></td>-->
+<!--                                <td th:text="${rental.userEntity.userName}"></td>-->
+<!--                                <td th:text="${rental.objectName}"></td>-->
+<!--                                <td th:text="${rental.createDate}"></td>-->
+<!--                                <td th:text="${rental.locationInfo}"></td>-->
+<!--                                <td th:text="${rental.userInfo}"></td>-->
+<!--                            </tr>-->
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
@@ -188,15 +192,17 @@
 <!-- End #main -->
 </body>
 <!-- Vendor JS Files -->
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/chart.js/chart.umd.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/echarts/echarts.min.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/quill/quill.min.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/tinymce/tinymce.min.js"></script>
-<script th:src="${#request.contextPath}/resources/css/assets/vendor/php-email-form/validate.js"></script>
+<script src="/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/css/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/css/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/css/assets/vendor/quill/quill.min.js"></script>
+<script src="/css/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/css/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/css/assets/vendor/php-email-form/validate.js"></script>
+
 <!-- Template Main JS File -->
-<script th:src="${#request.contextPath}/resources/css/assets/js/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<script src="/css/assets/js/main.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </html>
