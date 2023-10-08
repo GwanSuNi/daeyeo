@@ -29,8 +29,8 @@ public class RentalObject {
     @JoinColumn(name = "user_id")
     private Member member;
 
-    @OneToMany(mappedBy = "rentalObject")
-    Set<RentalLog> rentalLogs = new HashSet<RentalLog>();
+    @OneToMany(mappedBy = "rentalObjectId")
+    Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
 
     @OneToMany(mappedBy = "reviewIndex")
     List<Review> reviews = new ArrayList<Review>();

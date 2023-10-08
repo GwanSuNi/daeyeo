@@ -1,17 +1,20 @@
 package com.daeyeo.helloDaeyeo.controller.mypagecontroller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
     @RequestMapping("")
-    public String mypage(){
+    public String myPage(){
+
         return "/myPage/myPage";
     }
     @RequestMapping("myWishList")
-    public String wishList(){
+    public String wishList(Model model){
+
         return "/myPage/myWishList";
     }
     @RequestMapping("reservation")

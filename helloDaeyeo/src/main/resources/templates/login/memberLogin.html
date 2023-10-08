@@ -50,14 +50,14 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     </div>
-                                    <form th:action="@{/members/login.do}" th:object="${loginDto}" method="post"
+<!--                                    <form th:action="@{/members/login.do}" th:object="${loginDto}" method="post"-->
                                           class="user">
                                         <div class="form-group">
-                                            <input type="text" th:field="*{id}" class="form-control form-control-user"
+<!--                                            <input type="text" th:field="*{id}" class="form-control form-control-user"-->
                                                    placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" th:field="*{pw}"
+<!--                                            <input type="password" th:field="*{pw}"-->
                                                    class="form-control form-control-user" placeholder="Password">
                                         </div>
                                         <div class="form-group">
@@ -66,7 +66,7 @@
                                                 <label class="custom-control-label" for="customCheck">아이디 저장</label>
                                             </div>
                                         </div>
-                                        <p style="color: red" th:text="${error}"></p>
+<!--                                        <p style="color: red" th:text="${error}"></p>-->
                                         <div>
                                             <input type="submit" value="로그인" id="loginBtn"
                                                    class="btn btn-primary btn-user btn-block">
@@ -98,7 +98,7 @@
             <!--flex용 더미 데이터            -->
         </div>
     </div>
-    <div th:replace="~{/includes/footer :: footer}"></div>
+    <div th:replace="/includes/footer"></div>
 </div>
 </body>
 <!-- Google Tag Manager (noscript) -->

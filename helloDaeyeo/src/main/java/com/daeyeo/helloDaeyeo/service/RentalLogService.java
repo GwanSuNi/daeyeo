@@ -30,14 +30,7 @@ public class RentalLogService {
      * @param userId
      */
 
-    public void insertRentalLog(RentalLogDto rentalLogDto, int rentalId , String userId){
-        Optional<RentalObject> rentalObject = rentalObjectRepository.findById(rentalId);
-        Optional<Member> member = memberRepository.findById(userId);
-        RentalLog rentalLog = new RentalLog(rentalLogDto);
-        rentalLog.setRentalObject(rentalObject.get());
-        rentalLog.setMember(member.get());
-        rentalLogRepository.save(rentalLog);
-    }
+
 
 
 }

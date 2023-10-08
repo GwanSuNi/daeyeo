@@ -1,13 +1,15 @@
 package com.daeyeo.helloDaeyeo.entity;
 
 
-import com.daeyeo.helloDaeyeo.dto.MemberDto;
+import com.daeyeo.helloDaeyeo.dto.MemberRegisterDto;
+import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,22 +24,36 @@ import java.util.Set;
 public class Member  {
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private String userEmail;
     @OneToMany(mappedBy = "objectIndex")
     Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
-    @OneToMany(mappedBy = "rentalLogIndex")
-    List<RentalLog> rentalLogs = new ArrayList<RentalLog>();
+    @OneToMany(mappedBy = "userId")
+    Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
     @OneToMany(mappedBy = "reviewIndex")
     List<Review> reviews = new ArrayList<Review>();
-
+    @Embedded
+    private Address memberAddress;
+    private String phone;
     private String userPw;
-    private String userEmail;
     private String userName;
-    public Member(MemberDto memberDto){
-        this.userId = memberDto.getUserId();
-        this.userPw = memberDto.getUserPw();
-        this.userEmail = memberDto.getUserEmail();
-        this.userName = memberDto.getUserName();
+    // 등록 날짜
+    private LocalDateTime registDate;
+    private String department;
+    // 상태메세지
+    private String statusMsg;
+    // 유저가 사용한 돈
+    private int paySum;
+    // 유저가 벌은 돈
+    private int moneyEarned;
+
+    public Member(MemberRegisterDto memberRegisterDto){
+        this.userEmail = memberRegisterDto.getUserEmail();
+        this.userPw = memberRegisterDto.getUserPw();
+        this.userName = memberRegisterDto.getUserName();
+        this.memberAddress = memberRegisterDto.getAddress();
+        this.phone = memberRegisterDto.getPhone();
+        this.department = memberRegisterDto.getDepartment();
+        this.registDate = memberRegisterDto.getRegistDate();
     }
 
 }

@@ -16,7 +16,7 @@ public interface MemberRepository extends JpaRepository<Member,String> {
      * @param member
      * @return
      */
-    @Query("SELECT ro FROM RentalObject ro WHERE ro.member.userId = :userId")
+    @Query("SELECT ro FROM RentalObject ro WHERE ro.member.userEmail = :userId")
     List<RentalObject> findRentalObjectsByMember(@Param("userId") String userId);
 
 }

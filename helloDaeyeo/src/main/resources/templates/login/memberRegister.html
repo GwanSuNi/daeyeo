@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link th:href="@{/css/footer_bottom.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/login_style.css}" rel="stylesheet" type="text/css">
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</head>
+<body>
+<div class="body_container">
+    <!-- header -->
+    <div th:replace="/includes/header"></div>
+    <div class="main_content">
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-5 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-7">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
+                                    </div>
+                                    <form th:action="@{/login/memberRegister}" th:object="${memberRegisterDto}" method="post"
+                                          class="user">
+                                        <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
+                                        <div class="form-group">
+                                            <input type="text" th:field="*{userName}"
+                                                   class="form-control form-control-user"
+                                                   id="exampleFirstName"
+                                                   placeholder="이름 입력">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" th:field="*{userEmail}"
+                                                   class="form-control form-control-user"
+                                                   id="floatingInput"
+                                                   placeholder="이메일 입력">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="password" id="userPw2"
+                                                       class="form-control form-control-user"
+                                                        placeholder="비밀번호 입력">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="password" th:field="*{userPw}"
+                                                       class="form-control form-control-user"
+                                                       placeholder="비밀번호 다시 입력">
+                                                <button onclick="compareInputs()">확인하기</button>
+                                                <p id="result"></p>
+                                            </div>
+                                        </div>
+
+<!--                                        <div class="form-group">-->
+<!--                                            <input type="text" th:field="*{address}" id="userAddress"-->
+<!--                                                   class="form-control form-control-user"-->
+<!--                                                   placeholder="주소 입력" onclick="execDaumPostcode();"-->
+<!--                                                   onfocus="execDaumPostcode()">-->
+
+<!--                                            <input type="hidden" id="zipCode" th:name="zipCode"/>-->
+<!--                                            <input type="hidden" id="jibunAddress" th:name="jibunAddress"/>-->
+<!--                                            <input type="hidden" id="sido" th:name="sido"/>-->
+<!--                                            <input type="hidden" id="sigungu" th:name="sigungu"/>-->
+
+                                        <input type="hidden" th:field="*{address.postcode}"  placeholder="우편번호">
+                                        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                                        <input type="text" th:field="*{address.address}" placeholder="주소"><br>
+                                        <input type="text" th:field="*{address.detailAddress}" placeholder="상세주소">
+                                        <input type="hidden" th:field="*{address.extraAddress}" placeholder="참고항목">
+<!--                                        </div>-->
+
+                                        <div class="form-group">
+                                            <input type="text" th:field="*{phone}"
+                                                   class="form-control form-control-user"
+                                                   placeholder="번호 입력">
+                                        </div>
+
+                                        <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                                            <img src="/postcode/resource/images/close.png" id="btnFoldWrap"
+                                                 style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1"
+                                                 alt="접기 버튼" onclick="foldDaumPostcode()"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="text" th:field="*{department}"
+                                                   class="form-control form-control-user"
+                                                   placeholder="소속 입력">
+                                        </div>
+                                        <div th:if="${err == true}">
+                                            <p style="color: red">모든 값을 입력해주세요</p>
+                                        </div>
+                                        <div th:if="${registErr == true}">
+                                            <p style="color: red">중복된 이메일 입니다</p>
+                                        </div>
+
+                                        <input type="submit" class="btn btn-primary btn-user btn-block"
+                                               value="회원가입하기">
+                                        <hr>
+                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Register with Google
+                                        </a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+<!--                                        <a href="/forgotPw" class="small" href="../login/findPw">비밀번호 찾기</a>-->
+                                    </div>
+                                    <div class="text-center">
+<!--                                        <a href="/login" class="small" href="../login">계정이 있으시다면? 로그인하기</a>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div th:replace="/includes/footer"></div>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script th:src="@{/js/login/memberRegister.js}"</script>
+<script th:src="@{/js/myPage/myPage.js}"></script>
+</body>
+</html>

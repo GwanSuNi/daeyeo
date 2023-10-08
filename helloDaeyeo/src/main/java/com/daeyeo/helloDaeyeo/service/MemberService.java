@@ -1,7 +1,8 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.dto.MemberDto;
+import com.daeyeo.helloDaeyeo.dto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.exception.NotFoundIdException;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,23 @@ public class MemberService {
     MemberRepository memberRepository;
 
     @Transactional
-    public void insertMember(MemberDto memberDto){
-        Optional<Member> member = memberRepository.findById(memberDto.getUserId());
+    public void insertMember(MemberRegisterDto memberRegisterDto){
+        Optional<Member> member = memberRepository.findById(memberRegisterDto.getUserEmail());
          // 멤버의 갯수를 세서 멤버의 갯수가 0이면 허용 1이면 허용 x 해서 최적화하기 ?
          if(member.isPresent()){
             throw new IdAlreadyExistsException("이미 아이디가 존재합니다.");
         }else{
-            Member insertMember = new Member(memberDto);
+            Member insertMember = new Member(memberRegisterDto);
             memberRepository.save(insertMember);
         }
+    }
+    @Transactional
+    public void updateMember(MemberRegisterDto memberRegisterDto){
+        Optional<Member> member = memberRepository.findById(memberRegisterDto.getUserEmail());
+        if(member.isPresent()){
+
+        }
+            throw new NotFoundIdException("찾으시는 아이디가 없습니다");
     }
 
     /***

@@ -1,9 +1,9 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.dto.MemberDto;
+import com.daeyeo.helloDaeyeo.dto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.RentalLogDto;
 import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
-import com.daeyeo.helloDaeyeo.dto.ReviewDto;
+import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
@@ -54,14 +54,11 @@ public class MainServiceTest {
     public void makeMember() {
         mainCategoryService.insertMain("메인테스트");
         subCategoryService.insertSub("메인테스트", "서브테스트");
-        MemberDto memberDto = new MemberDto("testId", "test1234", "testEmail", "testName");
-        memberService.insertMember(memberDto);
-        RentalObjectDto rentalObjectDto = new RentalObjectDto("testRentalName", 1234, 1234);
-        rentalObjectService.insertRental(rentalObjectDto, "testId", "서브테스트");
-        RentalLogDto rentalLogDto = new RentalLogDto(1234);
-        rentalLogService.insertRentalLog(rentalLogDto, 1, "testId");
-        ReviewDto reviewDto = new ReviewDto(LocalDateTime.now(),"reviewTest");
-        reviewService.insertReview(reviewDto,"testId",1);
+//        Address address = new Address("01610");
+//        MemberRegisterDto memberRegisterDto = new MemberRegisterDto("testName","testEmail","testPw",address,"phone","testDepartment",LocalDateTime.now());
+//        memberService.insertMember(memberRegisterDto);
+//        RentalObjectDto rentalObjectDto = new RentalObjectDto("testRentalName", 1234, 1234);
+//        rentalObjectService.insertRental(rentalObjectDto, "testEmail", "서브테스트");
     }
 
     @Test
@@ -69,8 +66,8 @@ public class MainServiceTest {
         mainCategoryService.insertMain("메인테스트");
         subCategoryService.insertSub("메인테스트", "서브테스트");
         for (int i = 0; i < 10; i++) {
-            MemberDto memberDto = new MemberDto("testId" + i, "test" + i, "testEmail" + i, "testName" + i);
-            memberService.insertMember(memberDto);
+//            MemberDto memberDto = new MemberDto("testId" + i, "test" + i, "testEmail" + i, "testName" + i);
+//            memberService.insertMember(memberDto);
         }
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -81,7 +78,7 @@ public class MainServiceTest {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 RentalLogDto rentalLogDto = new RentalLogDto(1234 + i);
-                rentalLogService.insertRentalLog(rentalLogDto, i + 1, "testId" + i);
+//                rentalLogService.insertRentalLog(rentalLogDto, i + 1, "testId" + i);
             }
         }
         List<Member> entities = memberService.findAll();
