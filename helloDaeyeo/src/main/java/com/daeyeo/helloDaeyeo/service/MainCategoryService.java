@@ -6,7 +6,6 @@ import com.daeyeo.helloDaeyeo.exception.MainAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMainCategoryException;
 import com.daeyeo.helloDaeyeo.mapper.MainCategoryMapper;
 import com.daeyeo.helloDaeyeo.repository.MainCategoryRepository;
-import com.daeyeo.helloDaeyeo.utils.StreamUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

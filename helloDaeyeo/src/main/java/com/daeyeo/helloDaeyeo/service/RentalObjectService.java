@@ -10,7 +10,6 @@ import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import com.daeyeo.helloDaeyeo.repository.SubCategoryRepository;
-import com.daeyeo.helloDaeyeo.utils.StreamUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
