@@ -1,28 +1,31 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.exception.NotFoundRentalObjectException;
+import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import com.daeyeo.helloDaeyeo.repository.SubCategoryRepository;
-import com.daeyeo.helloDaeyeo.exception.NotFoundRentalObjectException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.daeyeo.helloDaeyeo.utils.StreamUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class RentalObjectService {
-    @Autowired
-    SubCategoryRepository subCategoryRepository;
-    @Autowired
-    RentalObjectRepository rentalObjectRepository;
-    @Autowired
-    MemberRepository memberRepository;
+    private final SubCategoryRepository subCategoryRepository;
+    private final RentalObjectRepository rentalObjectRepository;
+    private final MemberRepository memberRepository;
+    private final RentalObjectMapper mapper;
 
     /***
      *
@@ -49,5 +52,9 @@ public class RentalObjectService {
             throw new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다");
         }
 
+    }
+
+    public List<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto) {
+        return mapper.toDtoList(rentalObjectRepository.findRentalObjectsByDto(dto));
     }
 }
