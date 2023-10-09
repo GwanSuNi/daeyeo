@@ -1,25 +1,22 @@
 package com.daeyeo.helloDaeyeo.entity;
+
 import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
+@Getter
+@NoArgsConstructor
 public class RentalObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int objectIndex;
+    private Long objectIndex;
     // scId
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subCategoryId")
