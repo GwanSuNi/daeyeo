@@ -1,15 +1,15 @@
-package com.daeyeo.helloDaeyeo.dto;
+package com.daeyeo.helloDaeyeo.dto.memberRegistDto;
 
 import com.daeyeo.helloDaeyeo.embedded.Address;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.stream.XMLEventWriter;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,20 +17,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberRegisterDto {
-    @NotNull(message = "이메일을 입력하세요")
+    @NotEmpty(message = "이메일을 입력하세요")
     @Email(message = "이메일 형식에 맞게 다시 입력하세요")
     private String userEmail;
-    @NotNull(message = "비밀번호를 입력하세요")
+    @NotEmpty(message = "비밀번호를 입력하세요")
     private String userPw;
-    @NotNull(message = "이름을 입력하세요")
+    @NotEmpty(message = "비밀번호 확인 칸에 비밀번호를 입력하세요")
+    private String userPw1;
+    @NotEmpty(message = "이름을 입력하세요")
     private String userName;
     private LocalDateTime registDate;
-    @NotNull(message = "주소를 입력하세요")
+    @Valid
     private Address address;
-    @NotNull
+    @NotEmpty(message = "핸드폰 번호를 입력하세요")
     @Pattern(regexp = "^(01[016789])-\\d{3,4}-\\d{4}$", message = "올바른 핸드폰 번호를 입력하세요")
     private String phone;
-    @NotNull(message = "부서를 올바르게 입력하세요")
+    @NotEmpty(message = "부서를 올바르게 입력하세요")
     private String department;
 
     public MemberRegisterDto(String userName , String userEmail , String userPw ,
@@ -43,5 +45,4 @@ public class MemberRegisterDto {
         this.department = department;
         this.registDate = LocalDateTime.now();
     }
-
 }

@@ -18,5 +18,10 @@ public interface MemberRepository extends JpaRepository<Member,String> {
      */
     @Query("SELECT ro FROM RentalObject ro WHERE ro.member.userEmail = :userId")
     List<RentalObject> findRentalObjectsByMember(@Param("userId") String userId);
+    List<Member> findAll();
+// 망가짐
+//    @Query("SELECT m, COUNT(r) FROM Member m LEFT JOIN m.reviews r GROUP BY m")
+//    List<Member> findByReviewsCount();
+
 
 }

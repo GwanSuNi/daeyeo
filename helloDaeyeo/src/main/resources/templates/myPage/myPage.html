@@ -106,7 +106,7 @@
                                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
                                             프로필 수정
                                         </button>
-                                    </li>로
+                                    </li>
 
                                     <li class="nav-item">
                                         <button class="nav-link" data-bs-toggle="tab"
@@ -126,46 +126,41 @@
                                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
                                         <h5 class="card-title">상세 정보</h5>
-
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">이름</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.userName}"></td></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">소속</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.department}"></td></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">상태 메시지</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.statusMsg}"></td></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">주소</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.getMemberAddress().address}"></td></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">전화</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.phone}"></td></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Email</div>
-                                            <div class="col-lg-9 col-md-8"></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.userEmail}"></td></div>
                                         </div>
-
+                                        </tr>
                                     </div>
 
                                     <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-
-                                        <form>
-
-<!--                                            <form th:action="@{/myPage}" th:object="updateMemberForm" method="post">-->
-
+                                            <form th:action="@{/myPage/updateInfo}" th:object="${memberUpdateForm}" method="post">
                                             <div class="row mb-3">
                                                 <label class="col-md-4 col-lg-3 col-form-label">프로필
                                                     사진</label>
@@ -184,35 +179,40 @@
 
 
                                             <div class="row mb-3">
-                                                <label for="fullName"
-                                                       class="col-md-4 col-lg-3 col-form-label">이름</label>
+                                                <label class="col-md-4 col-lg-3 col-form-label">이름</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="fullName" type="text" class="form-control"
-                                                           id="fullName"
+                                                    <input type="text" class="form-control" th:field="*{userName}"
                                                            placeholder="이름을 입력하세요">
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="company" class="col-md-4 col-lg-3 col-form-label">소속</label>
+                                                <label class="col-md-4 col-lg-3 col-form-label">소속</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="company" type="text" class="form-control" id="company"
+                                                    <input type="text" class="form-control" th:field="*{department}"
                                                            placeholder="소속을 입력하세요">
                                                 </div>
                                             </div>
 
+
                                             <div class="row mb-3">
-                                                <label for="Address" class="col-md-4 col-lg-3 col-form-label">주소</label>
+                                                <label class="col-md-4 col-lg-3 col-form-label">주소</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="address" type="text" class="form-control" id="Address"
-                                                           placeholder="주소를 입력하세요">
+<!--                                                    <input name="address" type="text" class="form-control" id="Address"-->
+<!--                                                           placeholder="주소를 입력하세요">-->
+                                                    <input type="text" th:field="*{address.address}" class="form-control" placeholder="주소"><br>
+                                                    <input type="text" th:field="*{address.detailAddress}" class="form-control" placeholder="상세주소">
+                                                    <input type="hidden" th:field="*{address.postcode}"  placeholder="우편번호">
+                                                    <input type="button" onclick="execDaumPostcode()" onfocus="execDaumPostcode()" value="우편번호 찾기"><br>
+                                                    <input type="hidden" th:field="*{address.extraAddress}" placeholder="참고항목">
                                                 </div>
                                             </div>
 
+
                                             <div class="row mb-3">
-                                                <label for="Phone" class="col-md-4 col-lg-3 col-form-label">전화</label>
+                                                <label class="col-md-4 col-lg-3 col-form-label">전화</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="phone" type="text" class="form-control" id="Phone"
+                                                    <input type="text" class="form-control" th:field="*{phone}"
                                                            placeholder="번호를 입력하세요">
                                                 </div>
                                             </div>
@@ -222,38 +222,35 @@
                                             </div>
                                         </form>
 
-
-
-
                                     </div>
 
                                     <div class="tab-pane fade pt-3" id="profile-change-password">
-                                        <form>
 
+                                        <form id = "myForm" th:action="@{/myPage/updatePw}" th:object="${memberUpdatePw}" method="post">
                                             <div class="row mb-4">
-                                                <label for="currentPassword" class="col-md-4 col-lg-4 col-form-label">현재
+                                                <label class="col-md-4 col-lg-4 col-form-label">현재
                                                     비밀번호 입력</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="password" type="password" class="form-control"
-                                                           id="currentPassword">
+                                                    <input type="password" class="form-control" th:field="*{pw}">
+                                                    <div th:if="${notSamePw}" th:text="${notSamePw}" style="color: red;"></div>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-4">
-                                                <label for="newPassword" class="col-md-4 col-lg-4 col-form-label">새로운
+                                                <label class="col-md-4 col-lg-4 col-form-label">새로운
                                                     비밀변호 입력</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="newpassword" type="password" class="form-control"
-                                                           id="newPassword">
+                                                    <input type="password" class="form-control" th:field="*{newPw1}">
+                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}" style="color: red;"></div>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-4">
-                                                <label for="renewPassword" class="col-md-4 col-lg-4 col-form-label">비밀번호
+                                                <label class="col-md-4 col-lg-4 col-form-label">비밀번호
                                                     재입력</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="renewpassword" type="password" class="form-control"
-                                                           id="renewPassword">
+                                                    <input type="password" class="form-control" th:field="*{newPw}">
+                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}" style="color: red;"></div>
                                                 </div>
                                             </div>
 
@@ -261,30 +258,34 @@
                                         </form>
                                     </div>
 
+
+
                                     <div class="tab-pane fade pt-4" id="Delete-Account">
                                         <div class="row mb-4">
                                             <div class="col-md-8 col-lg-9">
-                                                <form>
+
+                                                <form th:action="@{/myPage/delete}" th:object="${memberDelete}">
                                                     <div class="row mb-4">
-                                                        <label for="currentPassword"
+                                                        <label
                                                                class="col-md-4 col-lg-4 col-form-label">아이디 입력</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input name="password" type="password" class="form-control"
-                                                                   id="currentPassword1">
+                                                            <input type="password" class="form-control" th:field="*{memberId}">
+                                                            <p th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}">Incorrect date</p>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-4">
-                                                        <label for="newPassword"
-                                                               class="col-md-4 col-lg-4 col-form-label">비밀변호
+                                                        <label class="col-md-4 col-lg-4 col-form-label">비밀변호
                                                             입력</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input name="newpassword" type="password"
-                                                                   class="form-control"
-                                                                   id="newPassword2">
+                                                            <input type="password" class="form-control" th:field="*{memberPw}">
+                                                            <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>
+                                                            <div th:if="${idpwerror}" th:text="${idpwerror}" style="color: red;"></div>
                                                         </div>
                                                     </div>
                                                     <button type="button" class="btn btn-danger">회원 탈퇴하기</button>
                                                 </form>
+
+
                                                 <div class="text-center">
                                                 </div>
                                             </div>
@@ -298,10 +299,39 @@
             </section>
         </div>
 
+        <script>
+            document.getElementById("myForm").addEventListener("submit", function(event) {
+                event.preventDefault();  // 폼 제출을 막습니다.
+                // 폼 데이터를 가져옵니다.
+                var formData = new FormData(this);
+
+                // AJAX 요청을 생성합니다.
+                var xhr = new XMLHttpRequest();
+
+                // POST 요청을 설정합니다.
+                xhr.open("POST", "/myPage/updatePw", true);
+
+                // 요청이 완료되었을 때 처리할 콜백 함수를 정의합니다.
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // 성공적으로 처리된 경우
+                        // 여기에서 필요한 작업을 수행합니다.
+
+                        // 성공적으로 처리된 경우 리다이렉트
+                        window.location.href = "/myPage"; // 리다이렉트할 URL로 변경
+                    }
+                };
+                // 요청을 보냅니다.
+                xhr.send(formData);
+            });
+        </script>
+
         <script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
         <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/css/assets/js/main.js}"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:src="@{/js/myPage/myPage.js}"></script>
+        <script th:src="@{/js/login/memberRegister.js}"></script>
     </div>
     <div th:replace="/includes/footer"></div>
 </div>

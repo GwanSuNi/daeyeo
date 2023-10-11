@@ -22,17 +22,15 @@ public class RentalObject {
     private int objectIndex;
     // scId
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subCategoryId")
     private SubCategory subCategory;
     // userId
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private Member member;
 
-    @OneToMany(mappedBy = "rentalObjectId")
+    @OneToMany(mappedBy = "rentalObject")
     Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
 
-    @OneToMany(mappedBy = "reviewIndex")
+    @OneToMany(mappedBy = "rentalObject")
     List<Review> reviews = new ArrayList<Review>();
 
     // 빌릴 대상 이름

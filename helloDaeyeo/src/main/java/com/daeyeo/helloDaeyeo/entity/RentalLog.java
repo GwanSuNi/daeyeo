@@ -17,8 +17,7 @@ public class RentalLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int rentalLogIndex;
 
-    @ManyToOne
-    @JoinColumn(name ="rentalLogs")
+    @ManyToOne(fetch = FetchType.LAZY)
     RentalStatus rentalStatus;
 
 }

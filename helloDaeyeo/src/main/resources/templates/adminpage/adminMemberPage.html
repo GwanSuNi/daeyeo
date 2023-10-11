@@ -218,19 +218,25 @@
                             </tr>
                             </thead>
                             <tbody>
-<!--                            <tr th:each="manage, status : ${memberManagement}">-->
-<!--                                <td th:text="${status.index}"></td>-->
+                            <tr th:each="member:${adminMemberDtos}">
+<!--                                <td th:text="${index}"></td>-->
 <!--                                <td>-->
 <!--                                    <span th:style="${manage.userCategory == '고급'} ? 'color: gold;' : ${manage.userCategory == '일반'} ? 'color: black;' : ''"-->
 <!--                                          th:text="${manage.userCategory}"></span>-->
 <!--                                </td>-->
-<!--                                <td th:text="${manage.userEmail}"></td>-->
-<!--                                <td th:text="${manage.userName}"></td>-->
-<!--                                <td th:text="${manage.phoneNum}"></td>-->
-<!--                                <td th:text="${manage.registerDate}"></td>-->
-<!--                                <td th:text="${manage.totalObject}"></td>-->
-<!--                                <td th:text="${manage.totalRent}"></td>-->
-<!--                                <td th:text="${manage.totalReview}"></td>-->
+                                <td th:text="${member.reviewCount}"></td>
+                                <td th:text="${member.rentalCount}"></td>
+                                <td th:text="${member.objectCount}"></td>
+                                <td th:text="${member.userName}"></td>
+                                <td th:text="${member.phone}"></td>
+                                <td th:text="${member.phone}"></td>
+                                <td th:text="${member.phone}"></td>
+                                <td th:text="${member.userName}"></td>
+                                <td th:text="${manage.phoneNum}"></td>
+                                <td th:text="${manage.registerDate}"></td>
+                                <td th:text="${manage.totalObject}"></td>
+                                <td th:text="${manage.totalRent}"></td>
+                                <td th:text="${manage.totalReview}"></td>
 <!--                                <td>-->
 <!--                                    <span th:if="${manage.totalPay != null}" th:text="${manage.totalPay}"></span>-->
 <!--                                    <span th:unless="${manage.totalPay != null}">0</span>-->

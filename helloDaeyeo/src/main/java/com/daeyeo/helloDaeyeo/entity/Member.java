@@ -1,7 +1,8 @@
 package com.daeyeo.helloDaeyeo.entity;
 
 
-import com.daeyeo.helloDaeyeo.dto.MemberRegisterDto;
+import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,13 +24,12 @@ import java.util.Set;
 @Table(name = "Member")
 public class Member  {
     @Id
-    @Column(name = "user_id")
     private String userEmail;
-    @OneToMany(mappedBy = "objectIndex")
+    @OneToMany(mappedBy = "member")
     Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "member")
     Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
-    @OneToMany(mappedBy = "reviewIndex")
+    @OneToMany(mappedBy = "member")
     List<Review> reviews = new ArrayList<Review>();
     @Embedded
     private Address memberAddress;
@@ -53,7 +53,9 @@ public class Member  {
         this.memberAddress = memberRegisterDto.getAddress();
         this.phone = memberRegisterDto.getPhone();
         this.department = memberRegisterDto.getDepartment();
-        this.registDate = memberRegisterDto.getRegistDate();
+        this.registDate = LocalDateTime.now();
     }
+    public Member(MemberUpdateDto memberUpdateDto){
 
+    }
 }

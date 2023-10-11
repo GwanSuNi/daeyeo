@@ -45,7 +45,9 @@
 //     element_wrap.style.display = 'block';
 // }
 
-
+    // function stopDefAction(event) {
+    //     event.preventDefault();
+    // }
 
     function execDaumPostcode() {
         // 현재 scroll 위치를 저장해놓는다.
@@ -118,10 +120,11 @@
         var input1 = document.getElementById("userPw2").value;
         var input2 = document.getElementById("userPw").value;
 
-        // 값을 비교합니다.
+        var resultElement = document.getElementById("result"); // 결과를 표시할 요소 참조
+
         if (input1 === input2) {
-            document.getElementById("result").textContent = "비밀번호가 동일합니다";
+            resultElement.textContent = "비밀번호가 동일합니다";
         } else {
-            document.getElementById("result").textContent = "비밀번호가 다릅니다. 다시 확인해주세요.";
+            resultElement.textContent = "비밀번호가 다릅니다. 다시 확인해주세요.";
         }
     }

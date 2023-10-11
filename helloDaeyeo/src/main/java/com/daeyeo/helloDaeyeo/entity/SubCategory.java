@@ -16,7 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class SubCategory {
     @Id
-    @Column(name = "subCategoryId")
     private String scId;
     @ManyToOne(fetch = FetchType.LAZY)
     MainCategory mainCategory;

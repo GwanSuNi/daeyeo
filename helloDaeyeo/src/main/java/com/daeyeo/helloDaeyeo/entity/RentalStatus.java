@@ -19,23 +19,21 @@ public class RentalStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rentalStatusId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userRentalStatus")
-    Member userId;
+    Member member;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "objectRentalStatus")
-    RentalObject rentalObjectId;
+    RentalObject rentalObject;
     @OneToMany(mappedBy = "rentalStatus")
     List<RentalLog> rentalLogs = new ArrayList<RentalLog>();
     @Enumerated(EnumType.STRING)
     private Status status;
 
     public void setMember(Member member) {
-        this.userId = member;
+        this.member = member;
         member.getRentalStatuses().add(this);
     }
 
     public void setRentalObject(RentalObject rentalObject) {
-        this.rentalObjectId = rentalObject;
+        this.rentalObject = rentalObject;
         rentalObject.getRentalStatuses().add(this);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +31,10 @@ public class ReviewService {
         review.setMember(member.get());
         review.setRentalObject(rentalObject.get());
         reviewRepository.save(review);
+    }
+    public List<Review> findAll(){
+        List<Review> reviewList = reviewRepository.findAll();
+        return reviewList;
     }
     public void deleteReview(){
 

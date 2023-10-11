@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// 버튼을 클릭할 때 실행될 함수 정의
 function toggleInputVisibility() {
     var input = document.getElementById("myInput");
     if (input.style.display === "none") {
