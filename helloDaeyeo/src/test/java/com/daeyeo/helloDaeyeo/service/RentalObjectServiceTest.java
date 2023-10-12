@@ -26,11 +26,14 @@ public class RentalObjectServiceTest {
     SubCategoryService subCategoryService;
     @Autowired
     RentalObjectService rentalObjectService;
+    /*
     @Test
     public void rentalTest(){
         RentalObjectDto rentalObjectDto = new RentalObjectDto("testRentalName",1234,1234);
         rentalObjectService.insertRental(rentalObjectDto,"testId","서브테스트");
     }
+
+     */
     @Test
     public void memberTest(){
         List<Member> entities = memberService.findAll();

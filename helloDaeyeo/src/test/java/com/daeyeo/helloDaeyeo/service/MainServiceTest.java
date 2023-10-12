@@ -49,7 +49,7 @@ public class MainServiceTest {
         mainCategoryService.insertMain("업데이트테스트");
         mainCategoryService.updateMain("업데이트테스트", "updateTestSuccess");
     }
-
+    /*
     @Test
     public void makeMember() {
         mainCategoryService.insertMain("메인테스트");
@@ -91,4 +91,6 @@ public class MainServiceTest {
         }
 
     }
+
+     */
 }

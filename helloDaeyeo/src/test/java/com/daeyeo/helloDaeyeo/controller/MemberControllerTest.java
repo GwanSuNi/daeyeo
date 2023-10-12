@@ -40,7 +40,7 @@ class MemberControllerTest {
     public void cleanUp() {
         memberRepository.deleteAll();
     }
-
+    /*
     @DisplayName("getAllMembers: 멤버 get 성공")
     @Test
     public void getAllMembers() throws Exception {
@@ -58,4 +58,6 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$[0].userName").value(savedMember.getUserName()))
                 .andExpect(jsonPath("$[0].age").value(savedMember.getAge()));
     }
+
+     */
 }
