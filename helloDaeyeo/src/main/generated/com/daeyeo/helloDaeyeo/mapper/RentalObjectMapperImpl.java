@@ -1,6 +1,6 @@
 package com.daeyeo.helloDaeyeo.mapper;
 
-import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-12T20:04:55+0900",
+    date = "2023-10-13T01:05:01+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.8.1 (Azul Systems, Inc.)"
 )
 @Component
@@ -25,6 +25,9 @@ public class RentalObjectMapperImpl implements RentalObjectMapper {
         }
 
         RentalObjectDto rentalObjectDto = new RentalObjectDto();
+
+        rentalObjectDto.setScId( rentalObjectSubCategoryScId( rentalObject ) );
+        rentalObjectDto.setUserEmail( rentalObjectMemberUserEmail( rentalObject ) );
 
         return rentalObjectDto;
     }
@@ -52,5 +55,35 @@ public class RentalObjectMapperImpl implements RentalObjectMapper {
         }
 
         return list;
+    }
+
+    private String rentalObjectSubCategoryScId(RentalObject rentalObject) {
+        if ( rentalObject == null ) {
+            return null;
+        }
+        SubCategory subCategory = rentalObject.getSubCategory();
+        if ( subCategory == null ) {
+            return null;
+        }
+        String scId = subCategory.getScId();
+        if ( scId == null ) {
+            return null;
+        }
+        return scId;
+    }
+
+    private String rentalObjectMemberUserEmail(RentalObject rentalObject) {
+        if ( rentalObject == null ) {
+            return null;
+        }
+        Member member = rentalObject.getMember();
+        if ( member == null ) {
+            return null;
+        }
+        String userEmail = member.getUserEmail();
+        if ( userEmail == null ) {
+            return null;
+        }
+        return userEmail;
     }
 }
