@@ -1,6 +1,5 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
