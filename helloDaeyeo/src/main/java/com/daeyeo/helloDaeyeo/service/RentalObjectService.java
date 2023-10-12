@@ -20,27 +20,32 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
+
     private final MemberService memberService;
     private final SubCategoryService subCategoryService;
+
     private final RentalObjectMapper rentalObjectMapper;
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
+    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
-//        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
-//        SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
-//        RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
-//
-//        rentalObjectRepository.save(rentalObject);
+        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
+        SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
+        RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
+
+        rentalObjectRepository.save(rentalObject);
     }
 
+    @Transactional
     public void updateRental() {
 
     }
 
+    @Transactional
     public void removeRental(long objectIndex, String userId, String scId) {
         Optional<RentalObject> rentalObject = rentalObjectRepository.findById(objectIndex);
         if (rentalObject.isPresent()) {

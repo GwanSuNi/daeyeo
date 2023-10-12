@@ -115,8 +115,7 @@ public class MemberService {
     public MemberDto getMember(String userId) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));
 
-//        return mapper.toDto(member);
-        return null;
+        return mapper.toDto(member);
     }
 
     public void validateMember(HttpServletRequest request) {
