@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link th:href="@{/css/header_style.css}" rel="stylesheet" type="text/css">
+    <!-- font awesome css 라이브러리 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d0b3f12e44.js" crossorigin="anonymous"></script>
+    <!-- fonts.google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="navBar">
+    <div class="navbar_logo">
+        <a class="header_a" th:href="@{/index.html}">대여대여로고</a>
+    </div>
+
+    <form style="margin-bottom: 0" th:action="@{/index.html}" id="header-form">
+        <ul class="navbar_menu">
+            <li><a class="header_a header-cate" href="#">공간시설</a></li>
+            <li><a class="header_a header-cate" href="#">개인대여</a></li>
+            <li><a class="header_a" id="guidebook" th:href="@{/guidebook}">이용안내</a></li>
+        </ul>
+        <input type="hidden" class="header-main-cate" name="mainCate">
+    </form>
+
+    <div class="dum_navbar_links">
+        <!-- flex space between 용 -->
+    </div>
+
+<!--    <ul class="navbar_links">-->
+<!--        <th:block th:if="${session.getAttribute('loginUser') != null}">-->
+<!--            <li>-->
+<!--                <div th:onclick="|location.href='${path}/logout'|"><i class="fa-solid fa-right-from-bracket"-->
+<!--                                                                      style="color: #ffffff; padding-top: 2px"></i></div>-->
+<!--            </li>-->
+<!--        </th:block>-->
+<!--        <th:block th:unless="${session.getAttribute('loginUser') != null}">-->
+<!--            <li>-->
+<!--                <div th:onclick="|location.href='${path}/login'|"><i class="fa-solid fa-right-to-bracket"-->
+<!--                                                                     style="color: #ffffff; padding-top: 2px"></i></div>-->
+<!--            </li>-->
+<!--        </th:block>-->
+<!--        <li><i class="fas fa-bell" style="color: #ffffff;"></i></li>-->
+<!--         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i> -->
+<!--        <div th:onclick="|location.href='${path}/myPage'|">-->
+<!--            <li><i class="fas fa-user" style="color: #ffffff;"></i></li>-->
+<!--        </div>-->
+<!--        <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>-->
+<!--    </ul>-->
+</nav>
+<!-- 햄버거버튼 이벤트 -->
+<script th:src="@{/js/header.js}"></script>
+</body>
+</html>

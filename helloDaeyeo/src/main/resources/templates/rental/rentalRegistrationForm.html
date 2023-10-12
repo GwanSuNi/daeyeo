@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- BootStrap CSS File -->
+    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet" type="text/css">
+    <!-- Dropzone CSS File -->
+    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" type="text/css"/>
+    <!-- CSS File -->
+    <link th:href="@{/css/rental/rental_registration_form.css}" rel="stylesheet" type="text/css">
+
+    <meta charset="UTF-8">
+    <title>대여 등록 양식 | 대여대여</title>
+</head>
+<body>
+<div class="wrapper">
+    <!--<div th:include="../includes/header"></div>-->
+    <form th:action="@{/rental/register.do}" class="container">
+        <div class="content-title">대여 등록</div>
+        <div class="content">
+            <ul class="card">
+
+                <li class="item">
+                    <div class="item-title">분류</div>
+                    <div class="item-content">
+                        <div class="category">
+                            <select th:name="mcId" class="main-cate form-select">
+                                <option value="" selected>선택</option>
+                            </select>
+                            <select th:name="scId" class="sub-cate form-select" aria-label="Default select example">
+                                <option value="" selected>선택</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">제목</div>
+                    <div class="item-content">
+                        <input type="text" class="txt" th:name="objectName">
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">대상</div>
+                    <div class="item-content">
+                        <input type="text" class="txt" th:name="target">
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">이용요금</div>
+                    <div class="item-content">
+                        <input type="number" class="num" th:name="price"><b>원</b>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">장소</div>
+                    <div class="item-content">
+                        <input type="text" class="txt" th:name="location">
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">웹사이트</div>
+                    <div class="item-content">
+                        <input type="text" class="txt" th:name="website">
+                    </div>
+                </li>
+
+                <!-- 구현안됨 -->
+                <!--
+                <li class="item">
+                    <div class="item-title">사진</div>
+                    <div class="item-content">
+                        <div class="dropzone" id="myDropzone"></div>
+                    </div>
+                </li>
+                -->
+
+                <li class="item">
+                    <div class="item-title">주소</div>
+                    <div class="item-content address">
+                        <input type="text" class="txt" th:name="roadAddress" tabindex="-1" readonly>
+                        <a class="a-btn find-address-btn" data-bs-toggle="modal"
+                           data-bs-target="#modalDialogScrollable">주소 찾기</a>
+                    </div>
+                    <input type="hidden" th:id="zipCode" th:name="zipCode"/>
+                    <input type="hidden" th:id="jibunAddress" th:name="jibunAddress"/>
+                    <input type="hidden" th:id="sido" th:name="sido"/>
+                    <input type="hidden" th:id="sigungu" th:name="sigungu"/>
+                </li>
+                <!-- Modal Dialog Scrollable -->
+                <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">대여대여 | 주소 찾기</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="find-address"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Modal Dialog Scrollable-->
+
+                <li class="item">
+                    <div class="item-title">오시는 길</div>
+                    <div class="item-content">
+                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>
+                        <input type="hidden" th:name="locationInfo" value="">
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">접수기간</div>
+                    <div class="item-content">
+                        <div class="reception">
+                            <input type="date" th:name="receiptStartDuration"><span>~</span><input type="date"
+                                                                                                   th:name="receiptEndDuration">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">사용기간</div>
+                    <div class="item-content">
+                        <div class="use">
+                            <input type="date" th:name="startDuration"><span>~</span><input type="date" th:name="endDuration">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">모집정원</div>
+                    <div class="item-content">
+                        <input type="number" class="num" th:name="capacity"><b>명</b>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">문의전화</div>
+                    <div class="item-content">
+                        <div class="phone">
+                            <input type="text" th:name="firstNum" maxlength="3"/>
+                            <span>-</span>
+                            <input type="text" th:name="middleNum" maxlength="4"/>
+                            <span>-</span>
+                            <input type="text" th:name="lastNum" maxlength="4"/>
+                        </div>
+                        <input type="hidden" th:name="representNum" value="">
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">이용안내</div>
+                    <div class="item-content">
+                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>
+                        <input type="hidden" th:name="useInfo" value="">
+                    </div>
+                </li>
+            </ul>
+
+            <div class="btn-box">
+                <a href="" class="a-btn">취소하기</a>
+                <a href="#" class="registration a-btn">등록하기</a>
+            </div>
+        </div>
+    </form>
+    <!--<div th:include="../includes/footer"></div>-->
+</div>
+</body>
+<!-- BootStrap JS File -->
+<script th:src="${path}/resources/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Dropzone JS File -->
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<!-- Kakao Local JS File -->
+<script th:src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- JS File -->
+<script th:src="${path}/resources/js/rental/rentalRegistrationForm.js"></script>
+</html>

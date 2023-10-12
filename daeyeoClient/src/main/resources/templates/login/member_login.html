@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-S11E29LT0T');
+    </script>
+    <!-- Google Tag Manager -->
+    <script src="https://www.googletagmanager.com/gtm.js?id=GTM-58QHFKS"></script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <title>로그인 | 대여대여</title>
+    <link th:href="@{/css/login_style.css}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
+    <link th:href="@{/css/footer_bottom.css}" rel="stylesheet">
+    <style>
+        .error {
+            color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+<div class="body_container">
+    <!--    <div th:replace="/includes/header :: header"></div>-->
+    <div class="main_content">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
+                                    </div>
+                                    <form th:action="@{/members/login.do}" th:object="${loginDto}" method="post"
+                                          class="user">
+                                        <div class="form-group">
+                                            <input type="text" th:field="*{id}" class="form-control form-control-user"
+                                                   placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" th:field="*{pw}"
+                                                   class="form-control form-control-user" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">아이디 저장</label>
+                                            </div>
+                                        </div>
+                                        <p style="color: red" th:text="${error}"></p>
+                                        <div>
+                                            <input type="submit" value="로그인" id="loginBtn"
+                                                   class="btn btn-primary btn-user btn-block">
+                                        </div>
+                                        <hr>
+                                        <a href="/forgotPw" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>
+                                        <div>
+                                            <input type="hidden" name="${_csrf.parameterName}"
+                                                   value="${_csrf.token}">
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a href="/forgotPw" class="small">비밀번호 찾기</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="/register" class="small">회원가입</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dum_area">
+            <!--flex용 더미 데이터            -->
+        </div>
+    </div>
+    <div th:replace="~{/includes/footer :: footer}"></div>
+</div>
+</body>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58QHFKS" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+</html>

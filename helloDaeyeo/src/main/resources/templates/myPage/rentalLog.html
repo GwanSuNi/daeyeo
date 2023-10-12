@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/footer_bottom.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mypage/myPage.css}">
+
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="body_container">
+    <!-- include 문도 Thymeleaf에서 사용 가능하며, 태그의 th:include 속성을 사용하면 됩니다. -->
+    <div th:include="/includes/header"></div>
+    <div class="main_content">
+
+        <!-- ======= Sidebar ======= -->
+        <div class="my_content">
+
+            <!-- 왼쪽 표 -->
+            <div class="divInform">
+                <table class="inFormTable">
+                    <tr>
+                        <th colspan="2">이동하기</th>
+                    </tr>
+                    <tr>
+                        <td><a class="nav-link collapsed" href="/myPage"><i class="bi bi-person"></i> 내 정보</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/myWishList}"><i
+                                class="bi-cart"></i> 찜한 목록</a></td>
+                    </tr>
+
+                    <tr>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/reservation}"><i
+                                class="bi-calendar-week"></i> 예약 기록</a></td>
+                    </tr>
+
+                    <tr>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalManage}"><i
+                                class="bi-table"></i> 대여 관리</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalLog}"><i
+                                class="bi-cart-check"></i> 대여 기록</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/memberManage}"><i
+                                class="bi-person-lines-fill"></i> 회원 관리</a></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- End Sidebar-->
+
+            <div class="pagetitle">
+                <h1>나의 대여 기록</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item">MyPage</li>
+                        <li class="breadcrumb-item active">My Rentla Log Page</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">내가 대여한 목록</h5>
+                            <!-- Table with stripped rows -->
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>rentalId</th>
+                                    <th>targetObject</th>
+                                    <th>targetUser</th>
+                                    <th>startDuration</th>
+                                    <th>endDuration</th>
+                                    <th>price</th>
+                                    <th>rentalDate</th>
+                                </tr>
+                                </thead>
+                                <!-- Thymeleaf의 반복문 사용 -->
+<!--                                <tr th:each="log, index : ${rentalLog}">-->
+<!--                                    <td th:text="${index.count}"></td>-->
+<!--                                    <td th:text="${log.rentalId}"></td>-->
+<!--                                    <td th:text="${log.userEntity.userEmail}"></td>-->
+<!--                                    <td th:text="${log.startDuration}"></td>-->
+<!--                                    <td th:text="${log.endDuration}"></td>-->
+<!--                                    <td th:text="${log.price}"></td>-->
+<!--                                    <td th:text="${log.rentalDate}"></td>-->
+                                </tr>
+                            </table>
+                            <!-- End Table with stripped rows -->
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+        <!-- Vendor JS Files -->
+        <script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+        <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/css/assets/vendor/chart.js/chart.umd.js}"></script>
+        <script th:src="@{/css/assets/vendor/echarts/echarts.min.js}"></script>
+        <script th:src="@{/css/assets/vendor/quill/quill.min.jss}"></script>
+        <script th:src="@{/css/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+        <script th:src="@{/css/assets/vendor/tinymce/tinymce.min.js}"></script>
+        <script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
+
+        <!-- Template Main JS File -->
+        <script th:src="@{/css/assets/js/main.js}"></script>
+    <!-- footer -->
+    <div th:include="/includes/footer"></div>
+</body>
+</html>

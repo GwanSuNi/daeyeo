@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/db/H2/data;
+    url: jdbc:h2:tcp://localhost/~/daeyeo;
 #    Mode는 MYSQL 호환모드 # Auto_Server true 시 다중접속 허용
 #    url: jdbc:h2:file:./db/H2/data;MODE=MySQL;AUTO_SERVER=true
 #    url: jdbc:h2:mem:demo
@@ -16,8 +16,14 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-#        show_sql: true
+        show_sql: true
         format_sql: true
+    # 테이블 생성 후에 data.sql 자동 실행
+    defer-datasource-initialization: true
+# TODO: 중요한 것은 아니지만 인스펙션 안뜨게 처리하기 https://namocom.tistory.com/599
+jwt:
+  issuer: tony2yoo@gmail.com
+  secret_key: study_springboot
 # 타임리프 디폴트 설정 바꾸려면 여기서 설정~!
 #  thymeleaf:
 #    suffix:
