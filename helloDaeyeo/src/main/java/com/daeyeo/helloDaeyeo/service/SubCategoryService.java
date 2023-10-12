@@ -5,6 +5,7 @@ import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.MainCategory;
 import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.exception.NotFoundSubCategoryException;
 import com.daeyeo.helloDaeyeo.exception.SubAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
 import com.daeyeo.helloDaeyeo.repository.MainCategoryRepository;
@@ -41,8 +42,20 @@ public class SubCategoryService {
 
     }
 
+    public SubCategoryDto getSubCategory(String scId) {
+        SubCategory subCategory = subCategoryRepository.findById(scId)
+                .orElseThrow(() -> new NotFoundSubCategoryException("존재하지 않는 하위 카테고리입니다."));
+
+        return mapper.toDto(subCategory);
+    }
+
     public List<SubCategoryDto> getSubCategories(String mcId) {
-        return mapper.toDtoList(subCategoryRepository.findByMainCategory_McId(mcId));
+        List<SubCategory> subCategories = subCategoryRepository.findByMainCategory_McId(mcId);
+
+        if (subCategories.isEmpty())
+            throw new NotFoundSubCategoryException("하위 카테고리를 찾을 수 없습니다.");
+
+        return mapper.toDtoList(subCategories);
     }
 
     public List<String> getCategories(SearchSpecDto specDto) {
