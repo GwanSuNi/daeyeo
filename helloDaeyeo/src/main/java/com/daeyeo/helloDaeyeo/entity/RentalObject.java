@@ -1,6 +1,9 @@
 package com.daeyeo.helloDaeyeo.entity;
 
-import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.embedded.CancellationPeriod;
+import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
+import com.daeyeo.helloDaeyeo.embedded.Phone;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,18 +37,28 @@ public class RentalObject {
 
     // 빌릴 대상 이름
     private String objectName;
+    // 장소
+    private String place;
+    // 주소
+    @Embedded
+    private Address address;
     // 사용 비용
     private int usageFee;
+    // 이용 기간
+    @Embedded
+    private UsagePeriod usagePeriod;
+    // 취소 기간
+    @Embedded
+    private CancellationPeriod cancellationPeriod;
     // 최대 인원
     private int maxPerson;
+    // 웹 사이트
+    private String webSite;
+    // 문의 전화
+    @Embedded
+    private Phone inquiryPhone;
 
-//    private Period period;
 
-    public RentalObject(RentalObjectDto rentalObjectDto){
-        this.objectName = rentalObjectDto.getObjectName();
-        this.usageFee = rentalObjectDto.getUsageFee();
-        this.maxPerson = rentalObjectDto.getMaxPerson();
-    }
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
         subCategory.getRentalObjects().add(this);
