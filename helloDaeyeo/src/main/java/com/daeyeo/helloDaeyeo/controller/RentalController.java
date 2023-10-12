@@ -2,30 +2,32 @@ package com.daeyeo.helloDaeyeo.controller;
 
 import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalListDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
+import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/rental")
+@RequestMapping("rentals")
 public class RentalController {
     private final SubCategoryService subCategoryService;
     private final RentalObjectService rentalObjectService;
+    private final MemberService memberService;
 
-    @GetMapping("/list")
+    @GetMapping("list")
     public String rentalList(@ModelAttribute SearchSpecDto specDto, Model model) {
         List<String> categories = subCategoryService.getCategories(specDto);
         RentalListDto listDto = new RentalListDto(specDto.getMainCategory(), specDto.getSubCategory(), specDto.getSearchWord(), 0);
@@ -38,41 +40,30 @@ public class RentalController {
         return "rental/rentalList";
     }
 
-    @RequestMapping("/write")
-    public String rentalWrite(@RequestParam("objectId") int objectId, Model model) {
-        model.addAttribute("rentalObject", rentalObjectService.findRentalObject(objectId));
+    @GetMapping("write/{objectId}")
+    public String rentalWrite(@PathVariable long objectId, Model model) {
+        model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
 
         return "rental/rentalWrite";
     }
 
-    @RequestMapping("/form")
-    public String rentalRegistrationForm(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        String send = "rental/rentalRegistrationForm";
+    @GetMapping("register")
+    public String showRentalRegistrationForm(HttpServletRequest request) {
+        memberService.validateMember(request);
 
-        if (loginUser == null)
-            send = "login/member_login";
-
-        return send;
+        return "rental/rentalRegistrationForm";
     }
 
-    @RequestMapping("/register.do")
-    public String doRegister(RentalObjectCmd rentalObjectCmd, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        String send = "redirect:/rental/list";
+    @RequestMapping("register.do")
+    public String register(@ModelAttribute @Valid RentalRegisterDto dto, HttpServletRequest request) {
+        memberService.validateMember(request);
+        rentalObjectService.insertRentalObject(dto);
 
-        if (loginUser == null)
-            send = "redirect:/login";
-        else
-            rentalObjectService.insertRentalObject(loginUser.getUserEmail(), rentalObjectCmd);
-
-        return send;
+        return "redirect:/rentals/list";
     }
-
+    /*
     @RequestMapping("/rental.do")
-    public String doRental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request) {
+    public String rental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
         String send = "redirect:/rental/list";
@@ -84,4 +75,5 @@ public class RentalController {
 
         return send;
     }
+     */
 }
