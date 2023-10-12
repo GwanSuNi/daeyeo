@@ -18,7 +18,7 @@
             <div class="contents">
                 <div class="top_contents">
                     <div class="state">대여가능</div>
-                    <div class="title" th:text="${rentalObject.objectName}"></div>
+<!--                    <div class="title" th:text="${rentalObject.getObjectName()}"></div>-->
                 </div>
                 <div class="bot_contents">
                     <div class="left_box">
@@ -109,7 +109,7 @@
                         <div class="func_box">
                             <div class="icon_box">
                                 <div class="icon hits_box">
-                                    <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>
+<!--                                    <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>-->
                                 </div>
                                 <div class="rating">
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
@@ -125,35 +125,35 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-                        <form th:action="@{/rental/rental.do}" id="reservation-form">
-                            <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">
+<!--                        <form th:action="@{/rental/rental.do}" id="reservation-form">-->
+<!--                            <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">-->
                             <table class="description">
                                 <tr>
                                     <th>장소</th>
-                                    <td th:text="${rentalObject.location}"></td>
+<!--                                    <td th:text="${rentalObject.location}"></td>-->
                                 </tr>
                                 <tr>
                                     <th>대상</th>
-                                    <td th:text="${rentalObject.target}"></td>
+<!--                                    <td th:text="${rentalObject.target}"></td>-->
                                 </tr>
                                 <tr>
                                     <th>이용요금</th>
-                                    <td><input type="text" name="price" th:value="${rentalObject.price}" tabindex="-1"
+<!--                                    <td><input type="text" name="price" th:value="${rentalObject.price}" tabindex="-1"-->
                                                readonly></td>
                                 </tr>
                                 <tr>
                                     <th>접수기간</th>
                                     <td>
-                                        <span class="receipt-start-duration"
-                                              th:text="${rentalObject.receiptStartDuration}"></span>
-                                        ~
-                                        <span class="receipt-end-duration"
-                                              th:text="${rentalObject.receiptEndDuration}"></span>
+<!--                                        <span class="receipt-start-duration"-->
+<!--                                              th:text="${rentalObject.receiptStartDuration}"></span>-->
+<!--                                        ~-->
+<!--                                        <span class="receipt-end-duration"-->
+<!--                                              th:text="${rentalObject.receiptEndDuration}"></span>-->
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용기간</th>
-                                    <td th:text="${rentalObject.startDuration} + ' ~ ' + ${rentalObject.endDuration}"></td>
+<!--                                    <td th:text="${rentalObject.startDuration} + ' ~ ' + ${rentalObject.endDuration}"></td>-->
                                 </tr>
                                 <tr>
                                     <th>사용기간</th>
@@ -167,21 +167,21 @@
                                 </tr>
                                 <tr>
                                     <th>모집인원</th>
-                                    <td th:text="${rentalObject.capacity} + ' 명'"></td>
+<!--                                    <td th:text="${rentalObject.capacity} + ' 명'"></td>-->
                                 </tr>
                                 <tr>
                                     <th>웹사이트</th>
-                                    <td th:text="${rentalObject.website}"></td>
+<!--                                    <td th:text="${rentalObject.website}"></td>-->
                                 </tr>
                                 <tr>
                                     <th>문의전화</th>
-                                    <td th:text="${rentalObject.representNum}"></td>
+<!--                                    <td th:text="${rentalObject.representNum}"></td>-->
                                 </tr>
                             </table>
                         </form>
                         <div class="btn_box">
-                            <a th:href="" class="reservation">예약하기</a>
-                            <a th:href="/rental/list" class="list">목록</a>
+                            <a href="" class="reservation">예약하기</a>
+                            <a href="/rentals/list" class="list">목록</a>
                         </div>
                     </div>
                 </div>
@@ -212,7 +212,7 @@
             <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                 <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel"
                      aria-labelledby="guide-tab">
-                    <div th:text="${rentalObject.useInfo}"></div>
+<!--                    <div th:text="${rentalObject.useInfo}"></div>-->
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-place" role="tabpanel" aria-labelledby="place-tab">
                     <div class="sub_box">
@@ -221,11 +221,11 @@
                     </div>
                     <div class="sub_box">
                         <h3>주소</h3>
-                        <div th:text="${rentalObject.address.roadAddress}"></div>
+<!--                        <div th:text="${rentalObject.address.roadAddress}"></div>-->
                     </div>
                     <div class="sub_box">
                         <h3>오시는 길</h3>
-                        <div th:text="${rentalObject.locationInfo}"></div>
+<!--                        <div th:text="${rentalObject.locationInfo}"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-review" role="tabpanel" aria-labelledby="review-tab">

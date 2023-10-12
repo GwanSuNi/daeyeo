@@ -93,7 +93,7 @@
             <form action="/rental/write" class="object-form">
                 <ul id="rental-list" class="list-type">
                     <li th:each="rentalObject : ${rentalObjects}">
-                        <a href="" class="rental-object">
+                        <a href="" th:data-id="${rentalObject.getObjectIndex()}" class="rental-object">
                             <div class="img_box">
                                 <span class="board-state">대여가능</span>
                                 <img th:src="@{/img/rental/image_icon.png}" alt="사진">
