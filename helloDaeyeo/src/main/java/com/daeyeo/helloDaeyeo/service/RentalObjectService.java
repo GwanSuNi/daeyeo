@@ -1,6 +1,6 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
