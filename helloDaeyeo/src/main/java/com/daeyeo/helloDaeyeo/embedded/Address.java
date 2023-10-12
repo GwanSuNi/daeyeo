@@ -1,6 +1,5 @@
 package com.daeyeo.helloDaeyeo.embedded;
 
-
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -18,5 +17,4 @@ public class Address {
     private String extraAddress;
     @NotEmpty(message = "상세주소를 입력해주세요")
     private String detailAddress;
-
 }

@@ -1,26 +1,17 @@
 package com.daeyeo.helloDaeyeo.dto;
 
-import com.daeyeo.helloDaeyeo.entity.Member;
-import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
 public class RentalObjectDto {
-    private SubCategory subCategory;
-    private Member member;
+    private long objectIndex;
+    private SubCategoryDto subCategory;
     private String objectName;
     private int usageFee;
     private int maxPerson;
-
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
 
     public RentalObjectDto(String objectName, int usageFee, int maxPerson) {
         this.objectName = objectName;
