@@ -1,14 +1,17 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -61,5 +64,15 @@ public class AdminController {
         model.addAttribute("address",address);
         return "rental/mapex";
     }
+    @GetMapping("cal")
+    public String calex(Model model){
+        model.addAttribute("rentalForm",new RentalForm());
+        return "rental/calendarEx";
+    }
+//    @PostMapping("cal")
+//    public String calpost(RentalForm rentalForm){
 
+//        rentalForm.getSelectedDate();
+
+//    }
 }
