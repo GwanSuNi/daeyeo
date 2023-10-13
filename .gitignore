@@ -439,5 +439,7 @@ gradle-app.setting
 
 .idea/
 
+generated/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,java,gradle
 
