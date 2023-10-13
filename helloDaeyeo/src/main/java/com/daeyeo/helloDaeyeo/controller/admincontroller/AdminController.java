@@ -1,11 +1,14 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
+import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -46,6 +49,17 @@ public class AdminController {
     @RequestMapping("adminAdForm")
     public String adFormPage(Model model){
         return "adminpage/adminAdFormPage";
+    }
+
+    @GetMapping("mapex")
+    public String mapex(Model model){
+        Address address = new Address();
+        address.setAddress("서울 노원구 동일로237바길");
+        address.setDetailAddress("101동802호");
+        address.setExtraAddress("(상계동, 북부현대아파트)");
+        address.setPostcode("01610");
+        model.addAttribute("address",address);
+        return "rental/mapex";
     }
 
 }

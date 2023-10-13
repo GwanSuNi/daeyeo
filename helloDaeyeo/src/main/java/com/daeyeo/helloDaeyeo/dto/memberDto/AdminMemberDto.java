@@ -29,5 +29,4 @@ public class AdminMemberDto {
         this.paySum = member.getPaySum();
         this.moneyEarned = member.getMoneyEarned();
     }
-
 }
