@@ -24,7 +24,7 @@ public class ReviewService {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public void insertReview(ReviewDto reviewDto ,String userId, int rentalId){
+    public void insertReview(ReviewDto reviewDto ,String userId, long rentalId){
         Optional<Member> member = memberRepository.findById(userId);
         Optional<RentalObject> rentalObject = rentalObjectRepository.findById(rentalId);
         Review review = new Review(reviewDto);

@@ -64,6 +64,8 @@ public class MainServiceTest {
         member.setMemberAddress(address);
         memberRepository.save(member);
     }
+    /*
+>>>>>>> feat/rental
     @Test
     public void makeMember() {
         mainCategoryService.insertMain("메인테스트");
@@ -115,4 +117,6 @@ public class MainServiceTest {
         }
 
     }
+
+     */
 }

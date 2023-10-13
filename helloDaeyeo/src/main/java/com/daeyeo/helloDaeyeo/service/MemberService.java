@@ -4,9 +4,13 @@ import com.daeyeo.helloDaeyeo.dto.memberDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.Review;
-import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
+import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
+import com.daeyeo.helloDaeyeo.session.SessionUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 /***
  * readOnly 속성은 값에대한 변화가 없을때 true 설정
@@ -24,8 +29,8 @@ import java.util.Optional;
 // @Transactional 설정한 애들은 readonly = false 가 default 인 값들이 먹힌다
 //
 public class MemberService {
-    @Autowired
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final MemberMapper mapper;
 
     @Transactional
     public void insertMember(MemberRegisterDto memberRegisterDto){
@@ -94,7 +99,7 @@ public class MemberService {
      * 멤버를 모두 보여주는 메서드
      * @return
      */
-    public List<Member> findAll(){
+    public List<Member> findAll() {
         List<Member> memberList = memberRepository.findAll();
         return memberList;
     }
@@ -107,4 +112,20 @@ public class MemberService {
         return adminMemberDtos;
     }
 
+    public MemberDto getMember(String userId) {
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));
+
+//        return mapper.toDto(member);
+        return null;
+    }
+
+    public void validateMember(HttpServletRequest request) {
+        String userId = SessionUtils.getUserIdFromSession(request);
+        verifyMember(userId);
+    }
+
+    public void verifyMember(String userId) {
+        if (userId.isBlank() || !memberRepository.existsById(userId))
+            throw new NotFoundMemberException("존재하지 않는 회원입니다.");
+    }
 }
