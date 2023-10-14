@@ -2,13 +2,8 @@ package com.daeyeo.helloDaeyeo.dto.memberRegistDto;
 
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +16,7 @@ public class MemberRegisterDto {
     @Email(message = "이메일 형식에 맞게 다시 입력하세요")
     private String userEmail;
     @NotEmpty(message = "비밀번호를 입력하세요")
+    @Size(min = 4, max = 20)
     private String userPw;
     @NotEmpty(message = "비밀번호 확인 칸에 비밀번호를 입력하세요")
     private String userPw1;

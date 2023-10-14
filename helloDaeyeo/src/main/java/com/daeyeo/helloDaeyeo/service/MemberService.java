@@ -21,9 +21,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-/***
- * readOnly 속성은 값에대한 변화가 없을때 true 설정
- * default 는 값에대한 변화가 있을때인 false 라서 값에대한 변화가 있는것들은 @Transactional만 적어줌
+/*
+  readOnly 속성은 값에대한 변화가 없을때 true 설정
+  default 는 값에대한 변화가 있을때인 false 라서 값에대한 변화가 있는것들은 @Transactional만 적어줌
  */
 // 이렇게 클래스에 설정해놓으면 클래스안에 메서드들이 리드온리값이 먹히고
 // @Transactional 설정한 애들은 readonly = false 가 default 인 값들이 먹힌다
