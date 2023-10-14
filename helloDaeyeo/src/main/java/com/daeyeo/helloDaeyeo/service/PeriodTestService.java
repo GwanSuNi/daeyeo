@@ -14,7 +14,7 @@ public class PeriodTestService {
     PeriodTestRepository periodTestRepository;
     public boolean validPeriod(LocalDateTime startTime, LocalDateTime endTime){
         List<PeriodTest> periodTestList = periodTestRepository.findAll();
-        for (PeriodTest periodTest : periodTestList) {
+        for (PeriodTest periodTest : periodTestList) { // rentalStatus 의 시작시간과 끝나는시간을 다 갖고오는거지
             LocalDateTime periodStartTime = periodTest.getStartTime();
             LocalDateTime periodEndTime = periodTest.getEndTime();
             // 두 기간이 겹치는지 확인합니다.

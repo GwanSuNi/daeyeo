@@ -81,6 +81,8 @@ public class AdminController {
     }
     @PostMapping("cal")
     public String calpost(RentalForm rentalForm){
+        // 매개변수로 선택된날짜랑 시작시간 끝나는시간 RentalStatus
+        // 하나의 메서드에서 다 형변환을 시켜주고 RentalStatus 안에 집어넣을생각
         String dateString = rentalForm.getSelectedDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate selectedDate = LocalDate.parse(dateString, formatter);
