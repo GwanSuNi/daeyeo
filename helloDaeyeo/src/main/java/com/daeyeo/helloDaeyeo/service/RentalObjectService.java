@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,22 +46,15 @@ public class RentalObjectService {
 
     @Transactional
     public void removeRental(long objectIndex, String userId, String scId) {
-        Optional<RentalObject> rentalObject = rentalObjectRepository.findById(objectIndex);
-        if (rentalObject.isPresent()) {
-            rentalObjectRepository.delete(rentalObject.get());
-        } else {
-            throw new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다");
-        }
-
+        RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
+                .orElseThrow(()->new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
     }
 
     public RentalObjectDto getRentalObject(long objectIndex) {
-        Optional<RentalObject> rentalObject = rentalObjectRepository.findById(objectIndex);
+        RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
+                .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
 
-        if (rentalObject.isEmpty())
-            throw new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다.");
-
-        return rentalObjectMapper.toDto(rentalObject.get());
+        return rentalObjectMapper.toDto(rentalObject);
     }
 
     public List<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto) {
