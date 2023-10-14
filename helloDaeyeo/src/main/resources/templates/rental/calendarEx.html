@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang='en'>
+<head>
+  <meta charset='utf-8' />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src='fullcalendar/dist/index.global.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+  <script th:inline="javascript">
+            /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          selectable: true,
+          validRange: {
+              start: '2023-04-01', // startDuration
+              end: '2023-04-31' // endDuration
+          },
+          select: function(info) {
+              // Calculate the difference between the selected start and end dates
+              var start = moment(info.start); // Convert to Moment object
+              var end = moment(info.end);     // Convert to Moment object
+
+              // Check if the difference is exactly one day
+              if (end.diff(start, 'days') === 1) {
+                  var selectedDate = start.format('YYYY-MM-DD');
+                  $('#selectedDate').val(selectedDate);
+              } else {
+                  // If the selected range is not one day, you can show an error message or take another action.
+                  alert('강의실 사용하실 날짜 하루만 입력해주세요.');
+                  calendar.unselect(); // Deselect the range
+              }
+          }
+      });
+          calendar.render();
+    });
+        /*]]>*/
+  </script>
+</head>
+<body>
+<div id='calendar'></div>
+<form th:action="@{/adminpage/cal}" th:object="${rentalForm}" method="post">
+    <input type="text" th:field="*{selectedDate}" readonly>
+<div class="row mb-3">
+    <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+    <div class="col-sm-10">
+        <input type="time" class="form-control" th:field="*{startTime}">
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+    <div class="col-sm-10">
+        <input type="time" class="form-control" th:field="*{endTime}">
+    </div>
+    <input type="submit" value="Submit">
+
+</div>
+</form>
+
+<!--<p>선택된 날짜: <span id="selected-date"></span></p>-->
+<!--<p>선택된 날짜: <span id="selected-date1"></span></p>-->
+
+
+</body>
+</html>
