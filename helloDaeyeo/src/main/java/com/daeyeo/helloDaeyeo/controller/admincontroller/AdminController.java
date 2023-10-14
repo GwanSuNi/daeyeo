@@ -4,7 +4,10 @@ import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.PeriodTest;
+import com.daeyeo.helloDaeyeo.repository.PeriodTestRepository;
 import com.daeyeo.helloDaeyeo.service.MemberService;
+import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -21,6 +27,9 @@ import java.util.List;
 public class AdminController {
     @Autowired
     MemberService memberService;
+    @Autowired
+    PeriodTestService periodTestService;
+
 
     @RequestMapping("adminMain")
     public String mainPage(Model model){
@@ -67,12 +76,30 @@ public class AdminController {
     @GetMapping("cal")
     public String calex(Model model){
         model.addAttribute("rentalForm",new RentalForm());
+
         return "rental/calendarEx";
     }
-//    @PostMapping("cal")
-//    public String calpost(RentalForm rentalForm){
+    @PostMapping("cal")
+    public String calpost(RentalForm rentalForm){
+        String dateString = rentalForm.getSelectedDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate selectedDate = LocalDate.parse(dateString, formatter);
+        LocalDateTime startTime = rentalForm.castTime(rentalForm.getSelectedDate(),rentalForm.getStartTime());
+        LocalDateTime endTime = rentalForm.castTime(rentalForm.getSelectedDate(),rentalForm.getEndTime());
+        if(startTime.isBefore(endTime)){
+            // 값 검증함
+            if(periodTestService.validPeriod(startTime,endTime)){
+                // 값넣기
+                periodTestService.insertPeriod(startTime,endTime);
+            }else{
+                // 에러
+                System.out.println("시간이겹친다!");
+            }
 
-//        rentalForm.getSelectedDate();
-
-//    }
+        }else{
+            // 에러
+            System.out.println("시간이 앞선다!");
+        }
+        return "redirect:/cal";
+    }
 }
