@@ -8,10 +8,10 @@ import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class MainCategory {
     @Id
-    @Setter
     private String mcId;
 
     public MainCategory(String mcId) {

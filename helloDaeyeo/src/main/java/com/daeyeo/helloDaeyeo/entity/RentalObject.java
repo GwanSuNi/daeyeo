@@ -1,12 +1,10 @@
 package com.daeyeo.helloDaeyeo.entity;
 
-import com.daeyeo.helloDaeyeo.embedded.Address;
-import com.daeyeo.helloDaeyeo.embedded.CancellationPeriod;
-import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
-import com.daeyeo.helloDaeyeo.embedded.Phone;
+import com.daeyeo.helloDaeyeo.embedded.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class RentalObject {
     @Id
@@ -47,6 +46,10 @@ public class RentalObject {
 
     // 사용 비용
     private int usageFee;
+
+    // 접수 기간
+    @Embedded
+    private ApplicationPeriod applicationPeriod;
 
     // 이용 기간
     @Embedded

@@ -10,13 +10,13 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class SubCategory {
     @Id
     private String scId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Setter
     MainCategory mainCategory;
 
     @OneToMany(mappedBy = "subCategory")
