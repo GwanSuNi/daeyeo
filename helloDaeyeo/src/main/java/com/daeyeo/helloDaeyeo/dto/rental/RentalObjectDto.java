@@ -4,17 +4,16 @@ import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.embedded.CancellationPeriod;
 import com.daeyeo.helloDaeyeo.embedded.Phone;
 import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RentalObjectDto {
     private Long objectIndex;
-    @Setter
     private String scId;
-    @Setter
     private String userEmail;
     private String objectName;
     private String place;

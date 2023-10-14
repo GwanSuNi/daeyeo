@@ -1,13 +1,15 @@
 package com.daeyeo.helloDaeyeo.dto.memberDto;
 
 import com.daeyeo.helloDaeyeo.embedded.Address;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberDto {
     private String userEmail;
     private Address memberAddress;
