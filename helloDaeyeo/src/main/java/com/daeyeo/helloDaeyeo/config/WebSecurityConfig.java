@@ -1,9 +1,7 @@
 package com.daeyeo.helloDaeyeo.config;
 
-import com.daeyeo.helloDaeyeo.config.jwt.TokenAuthenticationFilter;
-import com.daeyeo.helloDaeyeo.service.UserDetailService;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserDetailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,30 +22,30 @@ public class WebSecurityConfig {
 
     private final UserDetailService userService;
 
-    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+//    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers("/css/**", "/error", "/swagger-ui/**", "/v3/**",
-                                "/js/**" ,"/adminpage/**");
+                .requestMatchers("/static/**", "/css/**", "/error", "/swagger-ui/**", "/v3/**",
+                                "/js/**");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers("/login", "/signup", "/user","/adminpage/**","/myPage/**","/login/**").permitAll()
+                .requestMatchers( "/user","/adminpage/**","/myPage/**","/login/**", "/memberApi/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/memberApi/memberLogin")
                 .defaultSuccessUrl("/hello")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/memberApi/memberLogin")
                 .invalidateHttpSession(true)
                 .and()
                 .csrf().disable()
