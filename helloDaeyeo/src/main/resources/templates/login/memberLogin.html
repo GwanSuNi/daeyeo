@@ -36,7 +36,10 @@
 </head>
 <body>
 <div class="body_container">
-    <!--    <div th:replace="/includes/header :: header"></div>-->
+<!--    TODO: fragment 동작 테스트로 하나 해봤음 정상이면 나머지 페이지에서 다 바꿔줘야함 -->
+<!--    '~{}'로 써줘야 최신 문법, :: header를 쓰니까 CSS가 안먹음..-->
+    <div th:replace="~{/includes/header}"></div>
+    <!--    <div th:replace="/includes/header :: header"></div> 이거 이상함 -->
     <div class="main_content">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -50,15 +53,17 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     </div>
-<!--                                    <form th:action="@{/members/login.do}" th:object="${loginDto}" method="post"-->
+                                    <form th:action="@{/memberApi/login.do}" th:object="${memberLoginDto}" method="post"
                                           class="user">
                                         <div class="form-group">
-<!--                                            <input type="text" th:field="*{id}" class="form-control form-control-user"-->
+                                            <input type="text" th:field="*{userEmail}" class="form-control form-control-user"
                                                    placeholder="Enter Email Address...">
+                                            <div th:if="${noUserError}" th:text="${noUserError}" style="color: red;"></div>
                                         </div>
                                         <div class="form-group">
-<!--                                            <input type="password" th:field="*{pw}"-->
+                                            <input type="password" th:field="*{userPw}"
                                                    class="form-control form-control-user" placeholder="Password">
+                                            <div th:if="${pwMatchError}" th:text="${pwMatchError}" style="color: red;"></div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -82,10 +87,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a href="/forgotPw" class="small">비밀번호 찾기</a>
+                                        <a href="/memberApi/forgotPw" class="small">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a href="/register" class="small">회원가입</a>
+                                        <a href="/memberApi/register" class="small">회원가입</a>
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +103,7 @@
             <!--flex용 더미 데이터            -->
         </div>
     </div>
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 <!-- Google Tag Manager (noscript) -->

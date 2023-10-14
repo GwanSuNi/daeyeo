@@ -25,7 +25,7 @@
 <body>
 <div class="body_container">
     <!-- header -->
-    <div th:replace="/includes/header"></div>
+    <div th:replace="~{/includes/header}"></div>
     <div class="main_content">
         <div class="row justify-content-center">
 
@@ -40,7 +40,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
                                     </div>
-                                    <form th:action="@{/login/memberRegister}" th:object="${memberRegisterDto}" method="post"
+                                    <form th:action="@{/memberApi/register}" th:object="${memberRegisterDto}" method="post"
                                           class="user">
                                         <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
@@ -123,10 +123,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-<!--                                        <a href="/forgotPw" class="small" href="../login/findPw">비밀번호 찾기</a>-->
+                                        <a href="./forgotPw" class="small">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-<!--                                        <a href="/login" class="small" href="../login">계정이 있으시다면? 로그인하기</a>-->
+                                        <a href="./memberLogin" class="small">계정이 있으시다면? 로그인하기</a>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
         </div>
     </div>
     <!-- footer -->
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script th:src="@{/js/login/memberRegister.js}"></script>
