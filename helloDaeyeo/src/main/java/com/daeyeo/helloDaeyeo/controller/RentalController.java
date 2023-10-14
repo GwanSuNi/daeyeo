@@ -1,6 +1,6 @@
 package com.daeyeo.helloDaeyeo.controller;
 
-import com.daeyeo.helloDaeyeo.dto.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalListDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
@@ -27,6 +27,7 @@ public class RentalController {
     private final RentalObjectService rentalObjectService;
     private final MemberService memberService;
 
+    // TODO: totoal 인자를 0으로 넣고 있지만 데이터베이스에서 총 개수 조회해서 넣어야 함 
     @GetMapping("list")
     public String rentalList(@ModelAttribute SearchSpecDto specDto, Model model) {
         List<String> categories = subCategoryService.getCategories(specDto);

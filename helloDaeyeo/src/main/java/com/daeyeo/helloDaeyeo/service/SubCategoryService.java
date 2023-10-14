@@ -20,16 +20,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class SubCategoryService {
     private final MainCategoryRepository mainCategoryRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final MainCategoryService mainCategoryService;
     private final SubCategoryMapper mapper;
 
-    /***
-     *
-     */
+    @Transactional
     public void insertSub(String mainId, String scId) {
         Optional<MainCategory> mainCategory = mainCategoryRepository.findById(mainId);
         Optional<SubCategory> subCategory = subCategoryRepository.findById(scId);

@@ -31,7 +31,7 @@ ul, ol, li {
 }
 
 .cate-btn {
-    height: 60px;
+    display: block;
     line-height: 40px;
     text-align: center;
     font-size: 18px;

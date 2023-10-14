@@ -2,8 +2,10 @@ package com.daeyeo.helloDaeyeo.dto.rental;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class SearchSpecDto {
     private String mainCategory;
