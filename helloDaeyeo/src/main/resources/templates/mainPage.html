@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <!--    <div th:include="includes/header"></div>-->
+    <div th:replace="~{/includes/header}"></div>
     <div class="container">
         <div class="search-container">
             <div class="search-content">
@@ -226,7 +226,7 @@
             </div>
         </div>
     </div>
-    <div th:replace="~{/includes/footer :: footer}"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 <!-- Google Tag Manager (noscript) -->
