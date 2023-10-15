@@ -25,6 +25,6 @@ public interface MemberRepository extends JpaRepository<Member,String> {
 //    @Query("SELECT m, COUNT(r) FROM Member m LEFT JOIN m.reviews r GROUP BY m")
 //    List<Member> findByReviewsCount();
 
-    Optional<Member> findByUserEmail(String email);
+    Optional<Member> findByUserEmail(String userEmail);
     List<Member> findByUserEmailLike(String email);
 }

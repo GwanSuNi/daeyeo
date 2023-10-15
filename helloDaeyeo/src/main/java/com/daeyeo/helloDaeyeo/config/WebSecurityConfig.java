@@ -29,7 +29,7 @@ public class WebSecurityConfig {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
                 .requestMatchers("/static/**", "/css/**", "/error", "/swagger-ui/**", "/v3/**",
-                                "/js/**");
+                                "/js/**", "/img/**");
     }
 
     @Bean
@@ -41,11 +41,11 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/memberApi/memberLogin")
-                .defaultSuccessUrl("/hello")
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
                 .and()
                 .logout()
-                .logoutSuccessUrl("/memberApi/memberLogin")
+                .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .and()
                 .csrf().disable()

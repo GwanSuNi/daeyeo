@@ -84,28 +84,37 @@ public class MemberApiController {
     }
 
     // 로그인 로직
-    @PostMapping("/login.do")
-    public String loginMember(@Valid MemberLoginDto memberLoginDto, BindingResult bindingResult, Model model) {
-        Member member = memberService.findMember(memberLoginDto.getUserEmail()).orElse(null);
-        if (member == null) {
-            model.addAttribute("noUserError", "해당 이메일로 가입돼 있지 않습니다.");
-            return "login/memberLogin";
-        }
-
-        boolean pwMatch = bCryptPasswordEncoder.matches(memberLoginDto.getUserPw(), member.getUserPw());
-        log.info("입력한 pw: {}, DB pw: {}, pwMatch: {}", memberLoginDto.getUserPw(), member.getUserPw(), pwMatch);
-        if (!pwMatch) {
-            model.addAttribute("pwMatchError", "비밀번호가 같지 않거나 해당 이메일로 가입돼 있지 않습니다.");
-            return "login/memberLogin";
-        }
-        // TODO: 대충 다 괜찮을 때 로직
-
-        return "redirect:../mainPage";
-    }
+    // post /login을 내가 만들어버리니까 시큐리티가 내부적으로 동작하는 엔드포인트를 내가 오버라이드 한 것 같음... 따라서 동작이 정상적이지 않았고
+    // 비밀번호 검증, 시큐리티 컨텍스트에 있는 인증정보를 모든 엔드포인트에 이동할 때마다 내가 넘겨줘야되는 상황으로 되는 것 같음
+    // 추가로 로그인 폼에서 post 방식의 body가 아닌, dto를 사용하니까 문제가 발생하는 것일 수도?
+    // 확실한건 이 방식으로 하면 로그인 성공 시 localhost:8080/ 로 설정하는 것이 불가능했음 무조건 localhost:8080/memberApi로 가졌음
+//    @PostMapping("/login")
+//    public String loginMember(@Valid MemberLoginDto memberLoginDto, BindingResult bindingResult, Model model) {
+//        Member member = memberService.findMember(memberLoginDto.getUserEmail()).orElse(null);
+//        if (member == null) {
+//            model.addAttribute("noUserError", "해당 이메일로 가입돼 있지 않습니다.");
+//            return "login/memberLogin";
+//        }
+//
+//        boolean pwMatch = bCryptPasswordEncoder.matches(memberLoginDto.getUserPw(), member.getUserPw());
+//        log.info("입력한 pw: {}, DB pw: {}, pwMatch: {}", memberLoginDto.getUserPw(), member.getUserPw(), pwMatch);
+//        if (!pwMatch) {
+//            log.error("로그인 실패: 비밀번호 불일치");
+//            model.addAttribute("pwMatchError", "비밀번호가 같지 않거나 해당 이메일로 가입돼 있지 않습니다.");
+//            return "login/memberLogin";
+//        }
+//        log.info("로그인 성공");
+//        return "redirect:/memberApi/mainPage";
+//    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:./memberLogin";
     }
+
+//    @GetMapping("/mainPage")
+//    public String mainPage(Model model) {
+//        return "/mainPage";
+//    }
 }
