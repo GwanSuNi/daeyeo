@@ -53,17 +53,17 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     </div>
-                                    <form th:action="@{/memberApi/login.do}" th:object="${memberLoginDto}" method="post"
+                                    <form th:action="@{/login}" method="post"
                                           class="user">
                                         <div class="form-group">
-                                            <input type="text" th:field="*{userEmail}" class="form-control form-control-user"
-                                                   placeholder="Enter Email Address...">
-                                            <div th:if="${noUserError}" th:text="${noUserError}" style="color: red;"></div>
+                                            <input type="text"  class="form-control form-control-user"
+                                                   placeholder="Enter Email Address..." lang="en" name="username">
+<!--                                            <div th:if="${noUserError}" th:text="${noUserError}" style="color: red;"></div>-->
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" th:field="*{userPw}"
-                                                   class="form-control form-control-user" placeholder="Password">
-                                            <div th:if="${pwMatchError}" th:text="${pwMatchError}" style="color: red;"></div>
+                                            <input type="password"
+                                                   class="form-control form-control-user" placeholder="Password" name="password">
+<!--                                            <div th:if="${pwMatchError}" th:text="${pwMatchError}" style="color: red;"></div>-->
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
