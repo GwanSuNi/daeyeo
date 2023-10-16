@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <!-- BootStrap CSS File -->
     <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
@@ -15,7 +15,7 @@
 <body>
 <div class="wrapper">
     <!--<div th:include="../includes/header"></div>-->
-<!--    <form th:action="@{/rental/register.do}" class="container">-->
+    <form th:action="@{/rental/register.do}" class="container" th:object="${registerDto}">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
@@ -28,7 +28,7 @@
                                 <option value="" selected>선택</option>
                             </select>
                             <select name="scId" class="sub-cate form-select" aria-label="Default select example">
-                                <option value="" selected>선택</option>
+                                <option th:field="*{scId}" selected>선택</option>
                             </select>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 <li class="item">
                     <div class="item-title">제목</div>
                     <div class="item-content">
-                        <input type="text" class="txt" name="objectName">
+                        <input type="text" class="txt" th:field="*{objectName}">
                     </div>
                 </li>
 
@@ -51,21 +51,21 @@
                 <li class="item">
                     <div class="item-title">이용요금</div>
                     <div class="item-content">
-                        <input type="number" class="num" name="price"><b>원</b>
+                        <input type="number" class="num" th:field="*{usageFee}"><b>원</b>
                     </div>
                 </li>
 
                 <li class="item">
                     <div class="item-title">장소</div>
                     <div class="item-content">
-                        <input type="text" class="txt" name="location">
+                        <input type="text" class="txt" th:field="*{place}">
                     </div>
                 </li>
 
                 <li class="item">
                     <div class="item-title">웹사이트</div>
                     <div class="item-content">
-                        <input type="text" class="txt" name="website">
+                        <input type="text" class="txt" th:field="*{webSite}">
                     </div>
                 </li>
 
@@ -86,10 +86,14 @@
                         <a class="a-btn find-address-btn" data-bs-toggle="modal"
                            data-bs-target="#modalDialogScrollable">주소 찾기</a>
                     </div>
-                    <input type="hidden" id="zipCode" name="zipCode"/>
-                    <input type="hidden" id="jibunAddress" name="jibunAddress"/>
-                    <input type="hidden" id="sido" name="sido"/>
-                    <input type="hidden" id="sigungu" name="sigungu"/>
+                    <!--<input type="hidden" id="zipCode" name="zipCode"/>-->
+                    <!--<input type="hidden" id="jibunAddress" name="jibunAddress"/>-->
+                    <!--<input type="hidden" id="sido" name="sido"/>-->
+                    <!--<input type="hidden" id="sigungu" name="sigungu"/>-->
+                    <input type="hidden" th:field="*{address.address}">
+                    <input type="hidden" th:field="*{address.extraAddress}">
+                    <input type="hidden" th:field="*{address.detailAddress}">
+                    <input type="hidden" th:field="*{address.postcode}">
                 </li>
                 <!-- Modal Dialog Scrollable -->
                 <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
@@ -111,37 +115,42 @@
                 </div><!-- End Modal Dialog Scrollable-->
 
                 <li class="item">
-                    <div class="item-title">오시는 길</div>
-                    <div class="item-content">
-                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>
-                        <input type="hidden" name="locationInfo" value="">
-                    </div>
-                </li>
-
-                <li class="item">
                     <div class="item-title">접수기간</div>
                     <div class="item-content">
                         <div class="reception">
-                            <input type="date" name="receiptStartDuration">
+                            <input type="date" th:field="*{applicationPeriod.startDate}">
                             <span>~</span>
-                            <input type="date" name="receiptEndDuration">
+                            <input type="date" th:field="*{applicationPeriod.endDate}">
                         </div>
                     </div>
                 </li>
 
                 <li class="item">
-                    <div class="item-title">사용기간</div>
+                    <div class="item-title">이용기간</div>
                     <div class="item-content">
                         <div class="use">
-                            <input type="date" name="startDuration"><span>~</span><input type="date" name="endDuration">
+                            <input type="date" th:field="*{usagePeriod.startDate}">
+                            <span>~</span>
+                            <input type="date" th:field="*{usagePeriod.endDate}">
                         </div>
                     </div>
                 </li>
 
                 <li class="item">
-                    <div class="item-title">모집정원</div>
+                    <div class="item-title">이용시간</div>
                     <div class="item-content">
-                        <input type="number" class="num" name="capacity"><b>명</b>
+                        <div class="use">
+                            <input type="date" th:field="*{usagePeriod.startTime}">
+                            <span>~</span>
+                            <input type="date" th:field="*{usagePeriod.endTime}">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="item">
+                    <div class="item-title">최대인원</div>
+                    <div class="item-content">
+                        <input type="number" class="num" th:field="*{maxPerson}"><b>명</b>
                     </div>
                 </li>
 
@@ -155,7 +164,7 @@
                             <span>-</span>
                             <input type="text" name="lastNum" maxlength="4"/>
                         </div>
-                        <input type="hidden" name="representNum" value="">
+                        <input type="hidden" th:field="*{inquiryPhone}">
                     </div>
                 </li>
 
