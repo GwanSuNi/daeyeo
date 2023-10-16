@@ -56,10 +56,10 @@ public class SubCategoryService {
         return mapper.toDtoList(subCategories);
     }
 
-    public List<String> getCategories(SearchSpecDto specDto) {
-        if (specDto.getMainCategory() == null || specDto.getMainCategory().isBlank())
+    public List<String> getCategories(String mainCategory) {
+        if (mainCategory == null || mainCategory.isBlank())
             return mainCategoryService.getAllCategories().stream().map(MainCategoryDto::getMcId).collect(Collectors.toList());
         else
-            return getSubCategories(specDto.getMainCategory()).stream().map(SubCategoryDto::getScId).collect(Collectors.toList());
+            return getSubCategories(mainCategory).stream().map(SubCategoryDto::getScId).collect(Collectors.toList());
     }
 }

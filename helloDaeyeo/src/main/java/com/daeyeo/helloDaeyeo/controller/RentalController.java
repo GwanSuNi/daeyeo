@@ -1,9 +1,11 @@
 package com.daeyeo.helloDaeyeo.controller;
 
+import com.daeyeo.helloDaeyeo.dto.rental.RentalListPageInfoDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalListDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
+import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
@@ -26,17 +28,18 @@ public class RentalController {
     private final SubCategoryService subCategoryService;
     private final RentalObjectService rentalObjectService;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     // TODO: totoal 인자를 0으로 넣고 있지만 데이터베이스에서 총 개수 조회해서 넣어야 함 
     @GetMapping("list")
-    public String rentalList(@ModelAttribute SearchSpecDto specDto, Model model) {
-        List<String> categories = subCategoryService.getCategories(specDto);
-        RentalListDto listDto = new RentalListDto(specDto.getMainCategory(), specDto.getSubCategory(), specDto.getSearchWord(), 0);
+    public String rentalList(@ModelAttribute SearchSpecDto specDto, @ModelAttribute RentalListPageInfoDto pageInfoDto, Model model) {
+        List<String> categories = subCategoryService.getCategories(specDto.getMainCategory());
         List<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto);
 
         model.addAttribute("categories", categories);
-        model.addAttribute("rentalList", listDto);
         model.addAttribute("rentalObjects", rentalObjectDtos);
+        model.addAttribute("searchSpec", specDto);
+        model.addAttribute("pageInfo", pageInfoDto);
 
         return "rental/rentalList";
     }
@@ -49,8 +52,9 @@ public class RentalController {
     }
 
     @GetMapping("register")
-    public String showRentalRegistrationForm(HttpServletRequest request) {
+    public String showRentalRegistrationForm(HttpServletRequest request, Model model) {
         memberService.validateMember(request);
+        model.addAttribute("registerDto", new RentalRegisterDto());
 
         return "rental/rentalRegistrationForm";
     }
