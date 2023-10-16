@@ -37,9 +37,6 @@ public class RentalObject {
     // 빌릴 대상 이름
     private String objectName;
 
-    // 장소
-    private String place;
-
     // 주소
     @Embedded
     private Address address;

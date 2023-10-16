@@ -12,12 +12,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RentalObjectMapper {
+    @Mapping(source = "subCategory.mainCategory.mcId", target = "mcId")
     @Mapping(source = "subCategory.scId", target = "scId")
     @Mapping(source = "member.userEmail", target = "userEmail")
     RentalObjectDto toDto(RentalObject rentalObject);
 
-    @Mapping(source = "subCategory", target = "subCategory")
-    @Mapping(source = "member", target = "member")
     RentalObject toEntity(RentalRegisterDto rentalRegisterDto, SubCategory subCategory, Member member);
 
     List<RentalObjectDto> toDtoList(List<RentalObject> rentalObjects);

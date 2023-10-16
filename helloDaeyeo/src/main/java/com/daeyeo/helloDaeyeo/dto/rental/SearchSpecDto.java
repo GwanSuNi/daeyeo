@@ -1,12 +1,12 @@
 package com.daeyeo.helloDaeyeo.dto.rental;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SearchSpecDto {
     private String mainCategory;
     private String subCategory;

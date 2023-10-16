@@ -42,22 +42,27 @@
 <body>
 <div class="wrapper">
     <div th:replace="/includes/header"></div>
-    <div class="contents">
-        <form class="category_wrap">
+    <form class="contents" th:object="${searchSpec}">
+        <input type="hidden" th:field="*{sido}">
+        <input type="hidden" th:field="*{sigungu}">
+        <div class="category_wrap">
             <div class="category_list">
-                <a href="" class="cate-btn">전체</a>
+                <input type="hidden" th:field="*{mainCategory}">
+                <input type="hidden" th:field="*{subCategory}">
+                <a th:class="${#strings.isEmpty(searchSpec.subCategory)} ? 'cate-btn active' : 'cate-btn'">전체</a>
                 <div th:each="category : ${categories}">
-                    <a href="" class="cate-btn" th:text="${category}"></a>
+                    <a href="#"
+                       th:class="${#strings.equals(searchSpec.subCategory, category)} ? 'cate-btn active' : 'cate-btn'"
+                       th:text="${category}"></a>
                 </div>
             </div>
             <div class="search">
                 <label class="search_box">
-                    <input type="text" id="search-word" name="searchWord" placeholder="검색어를 입력하세요."
-                           th:value="${rentalList.getSearchWord()}">
+                    <input type="text" id="search-word" placeholder="검색어를 입력하세요." th:field="*{searchWord}">
                 </label>
-                <a href="" class="a-btn">검색</a>
+                <a href="#" class="a-btn">검색</a>
             </div>
-        </form>
+        </div>
         <ul class="icon_list">
             <li>
                 <span class="icon online">온라인 예약</span>
@@ -74,13 +79,14 @@
         </ul>
         <div class="rental_list_wrap">
             <h5 class="icon order_field">
-                총 <span class="emphasis" th:text="${rentalList.getTotal()}"></span> 건
+                총 <span class="emphasis" th:text="${pageInfo.total}"></span> 건
                 <div class="order_box">
-                    <select class="form-select">
-                        <option value="1" selected>접수기간 순</option>
-                        <option value="2">이용기간 순</option>
-                        <option value="3">지역명 순</option>
-                        <option value="4">장소명 순</option>
+                    <select class="form-select" th:field="*{sort}">
+                        <option value="receipt" th:selected="${#strings.equals(searchSpec.sort, 'receipt')}">접수기간 순
+                        </option>
+                        <option value="usage" th:selected="${#strings.equals(searchSpec.sort, 'usage')}">이용기간 순</option>
+                        <option value="region" th:selected="${#strings.equals(searchSpec.sort, 'region')}">지역명 순
+                        </option>
                     </select>
                     <button type="button" id="board-type" class="btn">
                         <span class="board-btn">보드형</span>
@@ -90,10 +96,10 @@
                     </button>
                 </div>
             </h5>
-            <form action="/rental/write" class="object-form">
+            <div class="object-form">
                 <ul id="rental-list" class="list-type">
                     <li th:each="rentalObject : ${rentalObjects}">
-                        <a href="" th:data-id="${rentalObject.getObjectIndex()}" class="rental-object">
+                        <a href="#" th:data-id="${rentalObject.objectIndex}" class="rental-object">
                             <div class="img_box">
                                 <span class="board-state">대여가능</span>
                                 <img th:src="@{/img/rental/image_icon.png}" alt="사진">
@@ -102,62 +108,63 @@
                                 <div class="top_box">
                                     <div class="list-state">대여가능</div>
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"
-                                            th:text="${rentalObject.getSubCategory().getMcId()}"></li>
-                                        <li class="breadcrumb-item" th:text="${rentalObject.getSubCategory().getScId()}"></li>
+                                        <li class="breadcrumb-item" th:text="${rentalObject.mcId}"></li>
+                                        <li class="breadcrumb-item" th:text="${rentalObject.scId}"></li>
                                     </ol>
                                 </div>
-                                <div class="title" th:text="${rentalObject.getObjectName()}"></div>
+                                <div class="title" th:text="${rentalObject.objectName}"></div>
                                 <ul class="obj_info">
                                     <li>
                                         <span class="place icon">장소</span>
-<!--                                        <span class="obj" th:text="${rentalObject.location}"></span>-->
+                                        <span class="obj" th:text="${rentalObject.address.detailAddress}"></span>
                                     </li>
                                     <li>
                                         <span class="price icon">이용요금</span>
-<!--                                        <span class="obj" th:text="${rentalObject.price}"></span>-->
+                                        <span class="obj" th:text="${rentalObject.usageFee}"></span>
                                     </li>
                                     <li>
                                         <span class="reception_period icon">접수기간</span>
-<!--                                        <span th:text="${rentalObject.receiptStartDuration} + ' ~ ' + ${rentalObject.receiptEndDuration}"></span>-->
+                                        <span th:text="${rentalObject.applicationPeriod.startDate}
+                                        + ' ~ ' + ${rentalObject.applicationPeriod.endDate}"></span>
                                     </li>
                                     <li>
                                         <span class="use_period icon">사용기간</span>
-<!--                                        <span th:text="${rentalObject.startDuration} + ' ~ ' + ${rentalObject.endDuration}"></span>-->
+                                        <span th:text="${rentalObject.usagePeriod.startDate}
+                                        + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></span>
                                     </li>
                                 </ul>
                             </div>
                         </a>
                     </li>
                 </ul>
-            </form>
+            </div>
             <ul class="pagination">
                 <li class="page-item disabled">
-                    <a class="page-link" href="">
+                    <a class="page-link" href="#">
                         <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt="<<">
                     </a>
                 </li>
                 <li class="page-item disabled">
-                    <a class="page-link" href="">
+                    <a class="page-link" href="#">
                         <img th:src="@{/img/rental/left_arrow_icon.png}" alt="<">
                     </a>
                 </li>
-                <li class="page-item active"><a class="page-link" href="">1</a></li>
-                <li class="page-item"><a class="page-link" href="">2</a></li>
-                <li class="page-item"><a class="page-link" href="">3</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="">
+                    <a class="page-link" href="#">
                         <img th:src="@{/img/rental/left_arrow_icon.png}" alt=">">
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="">
+                    <a class="page-link" href="#">
                         <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt=">>">
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
+    </form>
     <div th:replace="/includes/footer"></div>
 </div>
 </body>
