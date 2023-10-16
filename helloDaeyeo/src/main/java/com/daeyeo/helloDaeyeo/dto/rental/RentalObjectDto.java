@@ -1,9 +1,6 @@
 package com.daeyeo.helloDaeyeo.dto.rental;
 
-import com.daeyeo.helloDaeyeo.embedded.Address;
-import com.daeyeo.helloDaeyeo.embedded.CancellationPeriod;
-import com.daeyeo.helloDaeyeo.embedded.Phone;
-import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
+import com.daeyeo.helloDaeyeo.embedded.*;
 import lombok.*;
 
 @Getter
@@ -13,12 +10,13 @@ import lombok.*;
 @Builder
 public class RentalObjectDto {
     private Long objectIndex;
+    private String mcId;
     private String scId;
     private String userEmail;
     private String objectName;
-    private String place;
     private Address address;
     private int usageFee;
+    private ApplicationPeriod applicationPeriod;
     private UsagePeriod usagePeriod;
     private CancellationPeriod cancellationPeriod;
     private int maxPerson;
