@@ -12,6 +12,8 @@ import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
 
@@ -30,8 +32,9 @@ public class RentalObjectService {
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-    @Transactional
+//    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
+
         Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
@@ -56,6 +59,7 @@ public class RentalObjectService {
 
         return rentalObjectMapper.toDto(rentalObject);
     }
+
 
     public List<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto) {
         return rentalObjectMapper.toDtoList(rentalObjectRepository.findRentalObjectsByDto(dto));

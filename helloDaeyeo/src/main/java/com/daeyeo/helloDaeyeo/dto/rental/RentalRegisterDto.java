@@ -20,4 +20,12 @@ public class RentalRegisterDto {
     private int maxPerson;
     private String webSite;
     private Phone inquiryPhone;
+
+    public RentalRegisterDto(String scId , String userEmail , String objectName , String place , Address address){
+        this.scId = scId;
+        this.userId = userEmail;
+        this.objectName = objectName;
+        this.place = place;
+        this.address = address;
+    }
 }

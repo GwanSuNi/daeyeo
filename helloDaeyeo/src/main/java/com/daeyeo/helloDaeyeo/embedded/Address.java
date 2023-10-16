@@ -17,4 +17,6 @@ public class Address {
     private String extraAddress;
     @NotEmpty(message = "상세주소를 입력해주세요")
     private String detailAddress;
+    private String sido;
+    private String sigungu;
 }

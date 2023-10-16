@@ -13,4 +13,5 @@ public class SearchSpecDto {
     private String sido;
     private String sigungu;
     private String searchWord;
+    private String sort;
 }
