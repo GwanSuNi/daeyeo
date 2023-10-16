@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers("/css/**", "/error", "/swagger-ui/**", "/v3/**",
+                .requestMatchers("/css/**", "/error", "/swagger-ui/**", "/v3/**","/img/**",
                                 "/js/**" ,"/adminpage/**");
     }
 
@@ -39,7 +39,7 @@ public class WebSecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers("/login", "/signup", "/user","/adminpage/**","/myPage/**","/login/**","/rental/**").permitAll()
+                .requestMatchers("/login", "/signup", "/user","/adminpage/**","/myPage/**","/login/**","/rentals/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -3,8 +3,15 @@ package com.daeyeo.helloDaeyeo.service;
 import com.daeyeo.helloDaeyeo.dto.*;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
+import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.embedded.Phone;
+import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
 import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
+import com.daeyeo.helloDaeyeo.repository.CustomRentalObjectRepositoryImpl;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
@@ -40,6 +47,9 @@ public class MainServiceTest {
     RentalLogService rentalLogService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    CustomRentalObjectRepositoryImpl customRentalObjectRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(RentalObjectServiceTest.class);
 
 
@@ -48,13 +58,29 @@ public class MainServiceTest {
     }
 
     @Test
+    @Transactional
     public void updateMain() {
-        mainCategoryService.insertMain("업데이트테스트");
-        mainCategoryService.updateMain("업데이트테스트", "updateTestSuccess");
-    }
-    @Test
-    public void makeTest(){
-        Address address = new Address("address","01610","상계동","detailAddress");
+        mainCategoryService.insertMain("공간시설");
+        mainCategoryService.insertMain("체육시설");
+        subCategoryService.insertSub("공간시설", "강의실");
+        subCategoryService.insertSub("공간시설", "도서관");
+        subCategoryService.insertSub("공간시설", "회의실");
+        subCategoryService.insertSub("공간시설", "강당");
+        subCategoryService.insertSub("체육시설", "운동장");
+        subCategoryService.insertSub("체육시설", "체육관");
+        subCategoryService.insertSub("체육시설", "수영장");
+        Address address = new Address("가주소입니다", "01610", "가계동", "detailAddress","가도","가군구");
+        Address address1 = new Address("나주소입니다", "01610", "나계동", "detailAddress","나도","나군구");
+        Address address2 = new Address("다주소입니다", "01610", "다계동", "detailAddress","다도","다군구");
+        Address address3 = new Address("라주소입니다", "01610", "라계동", "detailAddress","라도","라군구");
+        Address address4 = new Address("마주소입니다", "01610", "마계동", "detailAddress","마도","마군구");
+        Address address5 = new Address("바주소입니다", "01610", "바계동", "detailAddress","바도","바군구");
+        Address address6 = new Address("사주소입니다", "01610", "사계동", "detailAddress","사도","사군구");
+        Address address7 = new Address("아주소입니다", "01610", "아계동", "detailAddress","아도","아군구");
+        Address address8 = new Address("자주소입니다", "01610", "자계동", "detailAddress","자도","자군구");
+        Address address9 = new Address("차주소입니다", "01610", "차계동", "detailAddress","차도","차군구");
+        Address address10 = new Address("파주소입니다", "01610", "파계동", "detailAddress","파도","파군구");
+
         Member member = new Member();
         member.setUserEmail("test@test.com");
         member.setUserPw("1111");
@@ -63,13 +89,44 @@ public class MainServiceTest {
         member.setDepartment("부서");
         member.setMemberAddress(address);
         memberRepository.save(member);
+        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto("강의실", "test@test.com", "testObjectName강의실", "testPlace", address);
+        RentalRegisterDto rentalRegisterDto11 = new RentalRegisterDto("강의실", "test@test.com", "testObjectName강의실1", "testPlace", address1);
+        RentalRegisterDto rentalRegisterDto1 = new RentalRegisterDto("도서관", "test@test.com", "testObjectName도서관", "testPlace", address2);
+        RentalRegisterDto rentalRegisterDto2 = new RentalRegisterDto("회의실", "test@test.com", "testObjectName회의실", "testPlace", address3);
+        RentalRegisterDto rentalRegisterDto3 = new RentalRegisterDto("강당", "test@test.com", "testObjectName강당", "testPlace", address4);
+        RentalRegisterDto rentalRegisterDto4 = new RentalRegisterDto("운동장", "test@test.com", "testObjectName운동장", "testPlace", address5);
+        RentalRegisterDto rentalRegisterDto5 = new RentalRegisterDto("체육관", "test@test.com", "testObjectName체육관", "testPlace", address6);
+        RentalRegisterDto rentalRegisterDto6 = new RentalRegisterDto("수영장", "test@test.com", "testObjectName수영장", "testPlace", address7);
+        rentalObjectService.insertRentalObject(rentalRegisterDto);
+        rentalObjectService.insertRentalObject(rentalRegisterDto1);
+        rentalObjectService.insertRentalObject(rentalRegisterDto2);
+        rentalObjectService.insertRentalObject(rentalRegisterDto3);
+        rentalObjectService.insertRentalObject(rentalRegisterDto4);
+        rentalObjectService.insertRentalObject(rentalRegisterDto5);
+        rentalObjectService.insertRentalObject(rentalRegisterDto6);
+        rentalObjectService.insertRentalObject(rentalRegisterDto11);
+
+        SearchSpecDto specDto = new SearchSpecDto();
+        specDto.setMainCategory("공간시설");
+        specDto.setSubCategory("강의실");
+//        specDto.setSido("address");
+        specDto.setSearchWord("강의실");
+//        specDto.setSort("addressName");
+        List<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto);
+        System.out.println(rentalObjectDtos);
+        System.out.println("chapter1");
+        for (int i = 0; i < rentalObjectDtos.size(); i++) {
+            System.out.println(rentalObjectDtos.get(i).getObjectName()+"결과값이야");
+        }
     }
+//    @Test
+//    public void makeTest(){
+//    }
     /*
 >>>>>>> feat/rental
     @Test
     public void makeMember() {
         mainCategoryService.insertMain("메인테스트");
-        subCategoryService.insertSub("메인테스트", "서브테스트");
 
 
 
