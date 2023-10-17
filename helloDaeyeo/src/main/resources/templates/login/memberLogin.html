@@ -37,9 +37,9 @@
 <body>
 <div class="body_container">
 <!--    TODO: fragment 동작 테스트로 하나 해봤음 정상이면 나머지 페이지에서 다 바꿔줘야함 -->
-<!--    '~{}'로 써줘야 최신 문법, :: header를 쓰니까 CSS가 안먹음..-->
-    <div th:replace="~{/includes/header}"></div>
-    <!--    <div th:replace="/includes/header :: header"></div> 이거 이상함 -->
+<!--    '~{}'로 써줘야 최신 문법, :: header를 쓰니까 CSS가 안먹음..
+       -> TODO: 이거 원래 레이아웃으로 공통적인 CSS를 묶어줘야되지만 그냥 header.html에서 html태그를 프래그먼트 처리해버렸음-->
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined})}"></div>
     <div class="main_content">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
