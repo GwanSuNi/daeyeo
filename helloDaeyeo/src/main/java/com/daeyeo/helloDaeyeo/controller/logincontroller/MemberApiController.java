@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -77,9 +79,14 @@ public class MemberApiController {
     }
 
     // 로그인 페이지
+    // TODO: DTO가 없어도 동작하고, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
     @GetMapping("/memberLogin")
     public String loginPage(Model model) {
-        model.addAttribute("memberLoginDto", new MemberLoginDto());
+//        model.addAttribute("memberLoginDto", new MemberLoginDto());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("isLogined", !authentication.getName().equals("anonymousUser"));
+        log.info("principal : {}, name: {}, authorities: {}, details : {}",authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
         return "/login/memberLogin";
     }
 
@@ -108,13 +115,9 @@ public class MemberApiController {
 //    }
 
     @GetMapping("/logout")
+    @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:./memberLogin";
     }
-
-//    @GetMapping("/mainPage")
-//    public String mainPage(Model model) {
-//        return "/mainPage";
-//    }
 }
