@@ -1,11 +1,13 @@
 package com.daeyeo.helloDaeyeo.dto.memberRegistDto;
 
 import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.entity.Role;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,6 +32,7 @@ public class MemberRegisterDto {
     private String phone;
     @NotEmpty(message = "부서를 올바르게 입력하세요")
     private String department;
+    private Set<Role> roles;
 
     public MemberRegisterDto(String userName , String userEmail , String userPw ,
                              Address address , String phone , String department){

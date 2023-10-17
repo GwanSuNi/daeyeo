@@ -3,21 +3,26 @@ package com.daeyeo.helloDaeyeo.controller.admincontroller;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.Role;
 import com.daeyeo.helloDaeyeo.service.MemberService;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/adminpage")
+@Secured("ROLE_ADMIN")
 public class AdminController {
-    @Autowired
-    MemberService memberService;
+    private final MemberService memberService;
+    private final UserService userService;
 
     @RequestMapping("adminMain")
     public String mainPage(Model model){
@@ -60,6 +65,25 @@ public class AdminController {
         address.setPostcode("01610");
         model.addAttribute("address",address);
         return "rental/mapex";
+    }
+
+    // 사용자의 역할 조회
+    @GetMapping("/updateRoles/{userEmail}")
+    public String showUpdateRolesForm(@PathVariable String userEmail, Model model) {
+        // 사용자의 현재 역할을 불러와 모델에 추가
+        Member member = userService.findByUserEmail(userEmail);
+        Set<Role> currentRoles = member.getRoles();
+        model.addAttribute("userEmail", userEmail);
+        model.addAttribute("currentRoles", currentRoles);
+        // TODO: 어디에 보여줄거?
+        return "/admin/updateRolesForm";
+    }
+
+    // 어드민이 유저의 권한을 변경하는 메서드
+    @PostMapping("/updateRoles")
+    public String updateRoles(@RequestParam String userEmail, @RequestParam Set<Role> roles) {
+        userService.updateMemberRoles(userEmail, roles);
+        return "redirect:/adminMember"; // 사용자 목록 페이지로 리다이렉트
     }
 
 }
