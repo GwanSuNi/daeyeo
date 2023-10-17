@@ -1,6 +1,7 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.*;
+import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
@@ -69,6 +70,14 @@ public class MainServiceTest {
         subCategoryService.insertSub("체육시설", "운동장");
         subCategoryService.insertSub("체육시설", "체육관");
         subCategoryService.insertSub("체육시설", "수영장");
+        List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories("공간시설");
+        System.out.println("아시발");
+        System.out.println(subCategoryList.get(0).getScId()+"아시발");
+        System.out.println(subCategoryList.get(1).getScId());
+        System.out.println(subCategoryList.get(2).getScId());
+        System.out.println(subCategoryList.get(3).getScId());
+
+
         Address address = new Address("가주소입니다", "01610", "가계동", "detailAddress","가도","가군구");
         Address address1 = new Address("나주소입니다", "01610", "나계동", "detailAddress","나도","나군구");
         Address address2 = new Address("다주소입니다", "01610", "다계동", "detailAddress","다도","다군구");

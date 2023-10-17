@@ -1,11 +1,15 @@
 package com.daeyeo.helloDaeyeo.controller;
 
+import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
+import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalListPageInfoDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
+import com.daeyeo.helloDaeyeo.entity.SubCategory;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
+import com.daeyeo.helloDaeyeo.service.MainCategoryService;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
@@ -15,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class RentalController {
     private final RentalObjectService rentalObjectService;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final MainCategoryService mainCategoryService;
+
 
     // TODO: total 인자를 0으로 넣고 있지만 데이터베이스에서 총 개수 조회해서 넣어야 함
     @GetMapping("list")
@@ -57,14 +60,28 @@ public class RentalController {
 
         return "rental/rentalWrite";
     }
+    @GetMapping("/getSubCategories")
+    @ResponseBody
+    public List<SubCategoryDto> getSubCategories(@RequestParam("mainCategoryId") String mainCategoryId) {
+        // 선택한 MainCategory에 대한 SubCategory 데이터를 서비스를 통해 가져옵니다.
+        List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories(mainCategoryId);
+        return subCategoryList;
+    }
 
     @GetMapping("register")
     public String showRentalRegistrationForm(HttpServletRequest request, Model model) {
-        memberService.validateMember(request);
+
+//        memberService.validateMember(request);
+        List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
         model.addAttribute("registerDto", new RentalRegisterDto());
+        model.addAttribute("mainCategoryList",mainCategoryList);
+//        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//        response.setHeader("Pragma", "no-cache");
+//        response.setHeader("Expires", "0");
 
         return "rental/rentalRegistrationForm";
     }
+
 
     @RequestMapping("register.do")
     public String register(@ModelAttribute @Valid RentalRegisterDto dto, HttpServletRequest request) {

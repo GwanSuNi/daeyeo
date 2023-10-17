@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <!--<div th:include="../includes/header"></div>-->
+    <div th:include="/includes/header"></div>
     <form th:action="@{/rental/register.do}" class="container" th:object="${registerDto}">
         <div class="content-title">대여 등록</div>
         <div class="content">
@@ -24,11 +24,11 @@
                     <div class="item-title">분류</div>
                     <div class="item-content">
                         <div class="category">
-                            <select name="mcId" class="main-cate form-select">
-                                <option value="" selected>선택</option>
+                            <select id="mainCategorySelect" class="main-cate form-select">
+                                <option th:each="mainCategory : ${mainCategoryList}" th:value="${mainCategory.mcId}" th:text="${mainCategory.mcId}"></option>
                             </select>
-                            <select name="scId" class="sub-cate form-select" aria-label="Default select example">
-                                <option th:field="*{scId}" selected>선택</option>
+                            <select th:field="*{scId}" class="sub-cate form-select" aria-label="Default select example">
+                                <option value="">장소를 선택해주세요</option>
                             </select>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <li class="item">
                     <div class="item-title">장소</div>
                     <div class="item-content">
-                        <input type="text" class="txt" th:field="*{place}">
+<!--                        <input type="text" class="txt" th:field="*{place}">-->
                     </div>
                 </li>
 
@@ -171,7 +171,7 @@
                 <li class="item">
                     <div class="item-title">이용안내</div>
                     <div class="item-content">
-                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>
+<!--                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>-->
                         <input type="hidden" name="useInfo" value="">
                     </div>
                 </li>
@@ -183,7 +183,7 @@
             </div>
         </div>
     </form>
-    <div th:replace="~{/includes/footer :: footer}"></div>
+    <div th:replace="/includes/footer"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->
@@ -192,6 +192,8 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <!-- Kakao Local JS File -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- jquery library load-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- JS File -->
 <script th:src="@{/js/rental/rentalRegistrationForm.js}"></script>
 </html>
