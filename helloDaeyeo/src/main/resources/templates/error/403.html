@@ -14,12 +14,12 @@
 <body>
 <div class="body_container">
   <!-- header -->
-  <div th:replace="~{/includes/header}"></div>
+  <div th:replace="~{/includes/header :: header(isLogined)}"></div>
   <div class="main_content">
     <div class="text-center">
       <div class="error mx-auto" th:text="403">403</div>
-      <p class="lead text-gray-800 mb-5"></p>
-      <p class="text-gray-500 mb-0">403 Forbidden 권한이 없습니다...</p>
+      <p class="lead text-gray-800 mb-5">403 Forbidden </p>
+      <p class="text-gray-500 mb-0">권한이 없습니다...</p>
       <a th:href="@{/}">메인화면으로 돌아가기</a>
     </div>
   </div>

@@ -12,9 +12,10 @@
     <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
 </head>
 <body>
+<!--TODO: 애니메이션 왜 안됨?-->
 <div class="body_container">
     <!-- header -->
-    <div th:replace="~{/includes/header}"></div>
+    <div th:replace="~{/includes/header :: header(isLogined)}"></div>
     <div class="main_content">
         <div class="text-center">
             <div class="error mx-auto" th:text="404">404</div>
