@@ -20,7 +20,7 @@ public class AdminMemberDto {
     private int moneyEarned;
     public AdminMemberDto(Member member){
         this.userEmail = member.getUserEmail();
-        this.userName = member.getUserName();
+        this.userName = member.getUsername();
         this.phone = member.getPhone();
         this.registDate = member.getRegistDate();
         this.objectCount = member.getRentalObjects().size();
