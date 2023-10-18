@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Role 업데이트</title>
+</head>
+<body>
+<form th:action="@{/admin/updateRoles}" method="post">
+  <input type="hidden" name="userEmail" th:value="${userEmail}" />
+  <div class="form-group">
+    <label for="userRoles">User Roles:</label>
+    <select name="roles" multiple="multiple" class="form-control" id="userRoles">
+      <option th:each="role : ${#sets.toSet(T(com.daeyeo.helloDaeyeo.entity.Role).values())}"
+              th:value="${role}" th:text="${role}"></option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Update Roles</button>
+</form>
+</body>
+</html>

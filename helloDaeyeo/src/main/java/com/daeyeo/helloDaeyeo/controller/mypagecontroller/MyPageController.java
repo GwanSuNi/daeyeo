@@ -7,7 +7,9 @@ import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.Review;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,10 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
+@Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
 @RequestMapping("/myPage")
 public class MyPageController {
-    @Autowired
-    MemberService memberService;
+    private final MemberService memberService;
 
     /***
      * id 값만 받아오면

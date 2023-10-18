@@ -14,17 +14,17 @@
 <body>
 <div class="body_container">
     <!-- header -->
-    <div th:replace="/includes/header :: header"></div>
+    <div th:replace="~{/includes/header}"></div>
     <div class="main_content">
         <div class="text-center">
             <div class="error mx-auto" th:text="404">404</div>
             <p class="lead text-gray-800 mb-5">Page Not Found</p>
             <p class="text-gray-500 mb-0">개발 중입니다...</p>
-            <a th:href="/">메인화면으로 돌아가기</a>
+            <a th:href="@{/}">메인화면으로 돌아가기</a>
         </div>
     </div>
     <!-- footer -->
-    <div th:replace="/includes/footer :: footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 </html>
