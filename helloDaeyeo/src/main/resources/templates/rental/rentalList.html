@@ -42,7 +42,7 @@
 <body>
 <div class="wrapper">
     <div th:replace="/includes/header"></div>
-    <form class="contents" th:object="${searchSpec}">
+    <form id="rentalListFrm" class="contents" action="/rentals/list" method="get" th:object="${searchSpec}">
         <input type="hidden" th:field="*{sido}">
         <input type="hidden" th:field="*{sigungu}">
         <div class="category_wrap">
@@ -60,9 +60,10 @@
                 <label class="search_box">
                     <input type="text" id="search-word" placeholder="검색어를 입력하세요." th:field="*{searchWord}">
                 </label>
-                <a href="#" class="a-btn">검색</a>
+                <a href="#" id="search" class="a-btn">검색</a>
             </div>
         </div>
+        <!--
         <ul class="icon_list">
             <li>
                 <span class="icon online">온라인 예약</span>
@@ -77,9 +78,10 @@
                 <span class="icon site">외부 사이트</span>
             </li>
         </ul>
+        -->
         <div class="rental_list_wrap">
             <h5 class="icon order_field">
-                총 <span class="emphasis" th:text="${pageInfo.total}"></span> 건
+                총 <span class="emphasis" th:text="${rentalObjects.totalElements}"></span> 건
                 <div class="order_box">
                     <select class="form-select" th:field="*{sort}">
                         <option value="receipt" th:selected="${#strings.equals(searchSpec.sort, 'receipt')}">접수기간 순
@@ -128,7 +130,7 @@
                                         + ' ~ ' + ${rentalObject.applicationPeriod.endDate}"></span>
                                     </li>
                                     <li>
-                                        <span class="use_period icon">사용기간</span>
+                                        <span class="use_period icon">이용기간</span>
                                         <span th:text="${rentalObject.usagePeriod.startDate}
                                         + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></span>
                                     </li>
@@ -138,27 +140,32 @@
                     </li>
                 </ul>
             </div>
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">
+            <ul class="pagination"
+                th:with="start=${T(java.lang.Math).max(0, T(java.lang.Math).min(rentalObjects.number - 2, rentalObjects.totalPages - 5))},
+                end=${T(java.lang.Math).min(rentalObjects.totalPages - 1, T(java.lang.Math).max(rentalObjects.number + 2, 4))}">
+                <li class="page-item" th:classappend="${rentalObjects.first ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-value="1">
                         <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt="<<">
                     </a>
                 </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">
+                <li class="page-item" th:classappend="${rentalObjects.first ? 'disabled' : ''}">
+                    <a class="page-link" href="#" th:data-value="${rentalObjects.number}">
                         <img th:src="@{/img/rental/left_arrow_icon.png}" alt="<">
                     </a>
                 </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">
+                <th:block th:each="i : ${#numbers.sequence(start, end)}">
+                    <li class="page-item" th:if="${rentalObjects.totalPages > i}"
+                        th:classappend="${i == rentalObjects.number ? 'active' : ''}">
+                        <a class="page-link" href="#" th:data-value="${i + 1}" th:text="${i + 1}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:classappend="${rentalObjects.last ? 'disabled' : ''}">
+                    <a class="page-link" href="#" th:data-value="${rentalObjects.number + 2}">
                         <img th:src="@{/img/rental/left_arrow_icon.png}" alt=">">
                     </a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">
+                <li class="page-item" th:classappend="${rentalObjects.last ? 'disabled' : ''}">
+                    <a class="page-link" href="#" th:data-value="${rentalObjects.totalPages}">
                         <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt=">>">
                     </a>
                 </li>

@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class RentalListPageInfoDto {
-    private String type;
     private int total;
     private int page;
 }

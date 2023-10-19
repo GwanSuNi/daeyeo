@@ -19,6 +19,8 @@ import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -112,11 +114,14 @@ public class MainServiceTest {
 //        specDto.setSido("address");
         specDto.setSearchWord("강의실");
 //        specDto.setSort("addressName");
-        List<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto);
+
+        Pageable pageable = null;
+
+        Page<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto, pageable);
         System.out.println(rentalObjectDtos);
         System.out.println("chapter1");
-        for (int i = 0; i < rentalObjectDtos.size(); i++) {
-            System.out.println(rentalObjectDtos.get(i).getObjectName()+"결과값이야");
+        for (RentalObjectDto rentalObjectDto : rentalObjectDtos.getContent()) {
+            System.out.println(rentalObjectDto.getObjectName()+"결과값이야");
         }
     }
 //    @Test
