@@ -1,18 +1,21 @@
+// form
+const frm = document.getElementById('rentalListFrm');
+// 카테고리
+const categories = document.querySelectorAll('.cate-btn');
+const mainCategory = document.getElementById('mainCategory');
+const subCategory = document.getElementById('subCategory');
+let category = mainCategory.value ? subCategory : mainCategory;
+// 검색
+const search = document.getElementById('search');
+// 목록형, 보드형
 const listType = document.getElementById('list-type');
 const boardType = document.getElementById('board-type');
-
-// 목록형, 보드형 클릭 시 typeActive 호출
-listType.addEventListener('click', (e) => typeActive(e.currentTarget));
-boardType.addEventListener('click', (e) => typeActive(e.currentTarget));
-
-// 목록형, 보드형 바꿔주는 함수
-function typeActive(type) {
-    listType.classList.remove('active');
-    boardType.classList.remove('active');
-    type.classList.add('active');
-    document.getElementById('rental-list').className = type.id;
-    sessionStorage.setItem("type", type.id);
-}
+// 정렬
+const selectSort = document.getElementById('sort');
+// rentalObjects
+const rentalObjects = document.querySelectorAll('.rental-object');
+// 페이징
+const pages = document.querySelectorAll('.page-link');
 
 // 페이지 로드 시
 window.addEventListener('load', () => {
@@ -22,26 +25,67 @@ window.addEventListener('load', () => {
         typeActive(document.getElementById(type));
 });
 
-const categories = document.querySelectorAll('.cate-btn');
-const mainCategory = document.getElementById('mainCategory');
-const subCategory = document.getElementById('subCategory');
-let category = mainCategory.value ? mainCategory : subCategory;
-
 // 카테고리에 클릭 이벤트 추가
 categories.forEach((element) => {
     element.addEventListener('click', (e) => {
         e.preventDefault();
 
+        if (element.text === "전체")
+            category.value = ""
+        else
+            category.value = element.text;
+        validateSubmit();
     });
 });
 
-const rentalObjectForm = document.querySelector('.object-form');
-const rentalObjects = document.querySelectorAll('.rental-object');
+// 검색 이벤트 리스너
+search.addEventListener('click', (e) => {
+    e.preventDefault();
+    validateSubmit();
+});
 
+// 목록형, 보드형 클릭 시 typeActive 호출
+listType.addEventListener('click', (e) => typeActive(e.currentTarget));
+boardType.addEventListener('click', (e) => typeActive(e.currentTarget));
+
+// 목록형, 보드형 바꿔주는 함수
+function typeActive(element) {
+    listType.classList.remove('active');
+    boardType.classList.remove('active');
+    element.classList.add('active');
+    document.getElementById('rental-list').className = element.id;
+    sessionStorage.setItem("type", element.id);
+}
+
+// 정렬 select 이벤트 리스너
+selectSort.addEventListener('change', validateSubmit);
+
+// 페이징 이벤트 리스너
+pages.forEach((page) => {
+    page.addEventListener('click', (e) => {
+        e.preventDefault();
+        frm.action = "/rentals/list/" + page.dataset.value;
+        validateSubmit();
+    });
+});
+
+// rentalObject 클릭 시 rentalWrite로 이동
 rentalObjects.forEach((element) => {
-    element.addEventListener('click', (event) => {
-        event.preventDefault();
-        element.previousElementSibling.setAttribute('name', 'objectId');
-        rentalObjectForm.submit();
+    element.addEventListener('click', (e) => {
+        e.preventDefault();
+        frm.action = "/rentals/write/" + element.dataset.id;
+        frm.method = 'POST';
+        frm.submit();
     });
 });
+
+// get 요청으로 보낼 때 url이 지저분해져서 값이 있는 필드만 보내는 함수
+function validateSubmit() {
+    let elements = frm.elements;
+
+    for (let i = 0; i < elements.length; i++)
+        if (elements[i].value === "")
+            elements[i].name = "";
+
+    frm.submit();
+}
