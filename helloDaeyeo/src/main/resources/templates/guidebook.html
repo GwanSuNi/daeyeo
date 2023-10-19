@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <!-- BootStrap CSS File -->
     <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -49,26 +49,26 @@
                 <h5 class="total icon">총 <span class="emphasis" th:text="${totalCount}"></span> 건</h5>
                 <ul class="list">
                     <li class="item" th:each="item : ${useInfos}">
-                        <div class="collapsible" th:onclick="'toggleActive(this)'">
+                        <div class="collapsible" onclick="toggleActive(this)">
                             <div class="question"><span>Q</span></div>
-                            <textarea class="item_title" th:oninput="'resizeHeight(this)'" th:disabled="true" th:text="${item.question}"></textarea>
+                            <textarea class="item_title" oninput="resizeHeight(this)" th:disabled="true" th:text="${item.question}"></textarea>
                             <div class="clps_icon"></div>
                         </div>
                         <div class="item_content">
                             <div class="answer"><span>A</span></div>
-                            <textarea class="item_txar" th:oninput="'resizeHeight(this)'" th:disabled="true" th:text="${item.answer}"></textarea>
+                            <textarea class="item_txar" oninput="resizeHeight(this)" th:disabled="true" th:text="${item.answer}"></textarea>
                         </div>
                     </li>
                 </ul>
                 <ul class="pagination">
                     <li class="page-item disabled">
                         <a class="page-link" href="">
-                            <img src="${path}/resources/img/rental/double_left_arrow_icon.png" alt="<<">
+                            <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt="<<">
                         </a>
                     </li>
                     <li class="page-item disabled">
                         <a class="page-link" href="">
-                            <img src="${path}/resources/img/rental/left_arrow_icon.png" alt="<">
+                            <img th:src="@{/img/rental/left_arrow_icon.png}" alt="<">
                         </a>
                     </li>
                     <li class="page-item active"><a class="page-link" href="">1</a></li>
@@ -76,12 +76,12 @@
                     <li class="page-item"><a class="page-link" href="">3</a></li>
                     <li class="page-item">
                         <a class="page-link" href="">
-                            <img src="${path}/resources/img/rental/left_arrow_icon.png" alt=">">
+                            <img th:src="@{/img/rental/left_arrow_icon.png}" alt=">">
                         </a>
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="">
-                            <img src="${path}/resources/img/rental/double_left_arrow_icon.png" alt=">>">
+                            <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt=">>">
                         </a>
                     </li>
                 </ul>
@@ -91,7 +91,7 @@
     <div th:replace="includes/footer :: footer"></div>
 </div>
 
-<script th:src="${path}/resources/js/guidebook.js"></script>
-<script th:src="${path}/resources/js/resizeHeight.js"></script>
+<script th:src="@{/js/guidebook.js}"></script>
+<script th:src="@{/js/resizeHeight.js}"></script>
 </body>
 </html>

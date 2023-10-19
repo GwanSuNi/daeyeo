@@ -40,4 +40,14 @@ public class UserViewController {
         log.info("principal : {}, name: {}, authorities: {}, details : {}",authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
         return "/login/loginCheck";
     }
+
+    @GetMapping("guidebook")
+    public String guidebook() {
+        return "guidebook";
+    }
+
+    @GetMapping("txtEditor")
+    public String txtEditor() {
+        return "txtEditor";
+    }
 }
