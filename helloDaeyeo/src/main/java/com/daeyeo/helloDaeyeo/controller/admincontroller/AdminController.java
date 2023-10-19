@@ -76,7 +76,7 @@ public class AdminController {
         model.addAttribute("userEmail", userEmail);
         model.addAttribute("currentRoles", currentRoles);
         // TODO: 어디에 보여줄거?
-        return "/admin/updateRolesForm";
+        return "/adminpage/updateRolesForm";
     }
 
     // 어드민이 유저의 권한을 변경하는 메서드
