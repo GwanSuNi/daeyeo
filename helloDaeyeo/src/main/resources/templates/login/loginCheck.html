@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>principal: <span sec:authentication="principal"></span></p>
+<!--<p th:text="${#authentication.name}"></p>-->
+<!--<p th:text="${#authentication.authrorities}"></p>-->
+<!--<p th:text="${#authentication.authenticated}"></p>-->
+<hr>
+<span th:remove="tag" sec:authentication="name"></span>
+<span sec:authentication="principal"></span>
+<span th:inline="text" sec:authentication="principal.username"></span>
+<span th:text="${isLogined}"></span>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:fragment="header(isLogined)">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -15,10 +16,10 @@
 <body>
 <nav class="navBar">
     <div class="navbar_logo">
-        <a class="header_a" th:href="@{/index.html}">대여대여로고</a>
+        <a class="header_a" th:href="@{/}">대여대여로고</a>
     </div>
 
-    <form style="margin-bottom: 0" th:action="@{/index.html}" id="header-form">
+    <form style="margin-bottom: 0" th:action="@{/}" id="header-form">
         <ul class="navbar_menu">
             <li><a class="header_a header-cate" href="#">공간시설</a></li>
             <li><a class="header_a header-cate" href="#">개인대여</a></li>
@@ -31,26 +32,65 @@
         <!-- flex space between 용 -->
     </div>
 
-<!--    <ul class="navbar_links">-->
-<!--        <th:block th:if="${session.getAttribute('loginUser') != null}">-->
-<!--            <li>-->
-<!--                <div th:onclick="|location.href='${path}/logout'|"><i class="fa-solid fa-right-from-bracket"-->
-<!--                                                                      style="color: #ffffff; padding-top: 2px"></i></div>-->
-<!--            </li>-->
-<!--        </th:block>-->
-<!--        <th:block th:unless="${session.getAttribute('loginUser') != null}">-->
-<!--            <li>-->
-<!--                <div th:onclick="|location.href='${path}/login'|"><i class="fa-solid fa-right-to-bracket"-->
-<!--                                                                     style="color: #ffffff; padding-top: 2px"></i></div>-->
-<!--            </li>-->
-<!--        </th:block>-->
-<!--        <li><i class="fas fa-bell" style="color: #ffffff;"></i></li>-->
-<!--         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i> -->
-<!--        <div th:onclick="|location.href='${path}/myPage'|">-->
-<!--            <li><i class="fas fa-user" style="color: #ffffff;"></i></li>-->
-<!--        </div>-->
-<!--        <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>-->
-<!--    </ul>-->
+    <!--    <ul class="navbar_links">-->
+    <!--        <th:block th:if="${session.getAttribute('loginUser') != null}">-->
+    <!--            <li>-->
+    <!--                <div th:onclick="|location.href='${path}/logout'|"><i class="fa-solid fa-right-from-bracket"-->
+    <!--                                                                      style="color: #ffffff; padding-top: 2px"></i></div>-->
+    <!--            </li>-->
+    <!--        </th:block>-->
+    <!--        <th:block th:unless="${session.getAttribute('loginUser') != null}">-->
+    <!--            <li>-->
+    <!--                <div th:onclick="|location.href='${path}/login'|"><i class="fa-solid fa-right-to-bracket"-->
+    <!--                                                                     style="color: #ffffff; padding-top: 2px"></i></div>-->
+    <!--            </li>-->
+    <!--        </th:block>-->
+    <!--        <li><i class="fas fa-bell" style="color: #ffffff;"></i></li>-->
+    <!--         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i> -->
+    <!--        <div th:onclick="|location.href='${path}/myPage'|">-->
+    <!--            <li><i class="fas fa-user" style="color: #ffffff;"></i></li>-->
+    <!--        </div>-->
+    <!--        <li id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>-->
+    <!--    </ul>-->
+    <ul class="navbar_links">
+        <li th:if="${isLogined}">
+            <div >
+                <!-- 사용자가 로그인한 경우에 표시할 내용 -->
+                <div th:onclick="|location.href='/memberApi/logout'|" class="header_a"><i
+                        class="fa-solid fa-right-from-bracket"
+                        style="color: #ffffff; padding-top: 2px"></i></div>
+            </div>
+        </li>
+<!--        TODO: 호버시 효과 없애기 :not 속성으로 해도 p태그에 대한 호버 속성이 어디서 들어가는지랑, 다른 li 태그까지 영향먹음-->
+        <li th:unless="${isLogined}">
+            <div>
+            <p >로그인 필요</p>
+            </div>
+        </li>
+        <li th:unless="${isLogined}">
+        <div>
+            <!-- 사용자가 로그아웃한 경우에 표시할 내용 -->
+            <div th:onclick="|location.href='/login'|" class="header_a"><i
+                    class="fa-solid fa-right-to-bracket"
+                    style="color: #ffffff; padding-top: 2px"></i></div>
+        </div>
+        </li>
+        <li th:if="${isLogined}"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
+        <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>
+        <div th:if="${isLogined}" th:onclick="|location.href='/myPage'|">
+            <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
+        </div>
+        <li th:if="${isLogined}" id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
+    </ul>
+
+    <!--    TODO: sec: 태그 안됨..-->
+    <!--    <span th:remove="tag" sec:authentication="name"></span>-->
+    <!--    <span sec:authentication="principal"></span>-->
+    <!--    <span th:inline="text" sec:authentication="principal.username"></span>-->
+
+    <!--    로그인 상태 플래그 검사 -->
+    <!--    <span th:text="${isLogined}"></span>-->
+
 </nav>
 <!-- 햄버거버튼 이벤트 -->
 <script th:src="@{/js/header.js}"></script>

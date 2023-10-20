@@ -32,7 +32,7 @@ public class RentalObjectService {
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-//    @Transactional
+    //    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
 
         Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
@@ -50,7 +50,7 @@ public class RentalObjectService {
     @Transactional
     public void removeRental(long objectIndex, String userId, String scId) {
         RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
-                .orElseThrow(()->new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
+                .orElseThrow(() -> new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
     }
 
     public RentalObjectDto getRentalObject(long objectIndex) {
@@ -61,7 +61,10 @@ public class RentalObjectService {
     }
 
 
-    public List<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto) {
-        return rentalObjectMapper.toDtoList(rentalObjectRepository.findRentalObjectsByDto(dto));
+    public Page<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto, Pageable pageable) {
+        List<RentalObject> rentalObjects = rentalObjectRepository.findRentalObjectsByDto(dto);
+        Page<RentalObject> pagedRentalObjects = rentalObjectRepository.findRentalObjectsByPage(pageable, rentalObjects);
+
+        return pagedRentalObjects.map(rentalObjectMapper::toDto);
     }
 }
