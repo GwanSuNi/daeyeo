@@ -8,14 +8,15 @@
     <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" type="text/css"/>
     <!-- CSS File -->
     <link th:href="@{/css/rental/rental_registration_form.css}" rel="stylesheet" type="text/css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <meta charset="UTF-8">
     <title>대여 등록 양식 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">
-    <!--<div th:include="../includes/header"></div>-->
-    <form th:action="@{/rental/register.do}" class="container" th:object="${registerDto}">
+    <div th:include="/includes/header"></div>
+    <form th:action="@{/rental/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
@@ -24,11 +25,13 @@
                     <div class="item-title">분류</div>
                     <div class="item-content">
                         <div class="category">
-                            <select name="mcId" class="main-cate form-select">
-                                <option value="" selected>선택</option>
+                            <select id="mainCategorySelect" class="main-cate form-select">
+                                <option th:each="mainCategory : ${mainCategoryList}" th:value="${mainCategory.mcId}" th:text="${mainCategory.mcId}"></option>
                             </select>
-                            <select name="scId" class="sub-cate form-select" aria-label="Default select example">
-                                <option th:field="*{scId}" selected>선택</option>
+                            <select id="subCategorySelect" class="sub-cate form-select" aria-label="Default select example">
+                                <option value="">장소를 선택해주세요</option>
+                            <input type="hidden" th:field="*{scId}" readonly />
+                                <div th:if="${scIdChoice}" th:text="${scIdChoice}" style="color: red;"></div>
                             </select>
                         </div>
                     </div>
@@ -38,6 +41,7 @@
                     <div class="item-title">제목</div>
                     <div class="item-content">
                         <input type="text" class="txt" th:field="*{objectName}">
+                        <p th:if="${#fields.hasErrors('objectName')}" th:errors="*{objectName}">Incorrect date</p>
                     </div>
                 </li>
 
@@ -52,13 +56,6 @@
                     <div class="item-title">이용요금</div>
                     <div class="item-content">
                         <input type="number" class="num" th:field="*{usageFee}"><b>원</b>
-                    </div>
-                </li>
-
-                <li class="item">
-                    <div class="item-title">장소</div>
-                    <div class="item-content">
-                        <input type="text" class="txt" th:field="*{place}">
                     </div>
                 </li>
 
@@ -82,18 +79,16 @@
                 <li class="item">
                     <div class="item-title">주소</div>
                     <div class="item-content address">
-                        <input type="text" class="txt" name="roadAddress" tabindex="-1" readonly>
+                        <input type="text" class="txt" th:field="*{address.address}" tabindex="-1" readonly>
+                        <p th:if="${#fields.hasErrors('address.address')}" th:errors="*{address.address}">Incorrect date</p>
+                        <input type="hidden" class="txt" th:field="*{address.postcode}" tabindex="-1" readonly>
+                        <input type="hidden" class= "txt" th:field="*{address.sido}" tabindex="-1" readonly>
+                        <input type="hidden" class="txt" th:field="*{address.sigungu}" tabindex="-1" readonly>
+                        <input type="text" class="txt" th:field="*{address.detailAddress}">
+                        <p th:if="${#fields.hasErrors('address.detailAddress')}" th:errors="*{address.detailAddress}">Incorrect date</p>
                         <a class="a-btn find-address-btn" data-bs-toggle="modal"
                            data-bs-target="#modalDialogScrollable">주소 찾기</a>
                     </div>
-                    <!--<input type="hidden" id="zipCode" name="zipCode"/>-->
-                    <!--<input type="hidden" id="jibunAddress" name="jibunAddress"/>-->
-                    <!--<input type="hidden" id="sido" name="sido"/>-->
-                    <!--<input type="hidden" id="sigungu" name="sigungu"/>-->
-                    <input type="hidden" th:field="*{address.address}">
-                    <input type="hidden" th:field="*{address.extraAddress}">
-                    <input type="hidden" th:field="*{address.detailAddress}">
-                    <input type="hidden" th:field="*{address.postcode}">
                 </li>
                 <!-- Modal Dialog Scrollable -->
                 <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
@@ -118,9 +113,11 @@
                     <div class="item-title">접수기간</div>
                     <div class="item-content">
                         <div class="reception">
-                            <input type="date" th:field="*{applicationPeriod.startDate}">
+                            <input type="date" th:field="*{applicationPeriodDto.startDate}">
+                            <p th:if="${#fields.hasErrors('applicationPeriodDto.startDate')}" th:errors="*{applicationPeriodDto.startDate}">Incorrect date</p>
                             <span>~</span>
-                            <input type="date" th:field="*{applicationPeriod.endDate}">
+                            <input type="date" th:field="*{applicationPeriodDto.endDate}">
+                            <p th:if="${#fields.hasErrors('applicationPeriodDto.endDate')}" th:errors="*{applicationPeriodDto.endDate}">Incorrect date</p>
                         </div>
                     </div>
                 </li>
@@ -129,9 +126,11 @@
                     <div class="item-title">이용기간</div>
                     <div class="item-content">
                         <div class="use">
-                            <input type="date" th:field="*{usagePeriod.startDate}">
+                            <input type="date" th:field="*{usagePeriodDto.startDate}">
+                            <p th:if="${#fields.hasErrors('usagePeriodDto.startDate')}" th:errors="*{usagePeriodDto.startDate}">Incorrect date</p>
                             <span>~</span>
-                            <input type="date" th:field="*{usagePeriod.endDate}">
+                            <input type="date" th:field="*{usagePeriodDto.endDate}">
+                            <p th:if="${#fields.hasErrors('usagePeriodDto.endDate')}" th:errors="*{usagePeriodDto.endDate}">Incorrect date</p>
                         </div>
                     </div>
                 </li>
@@ -140,12 +139,25 @@
                     <div class="item-title">이용시간</div>
                     <div class="item-content">
                         <div class="use">
-                            <input type="date" th:field="*{usagePeriod.startTime}">
+                            <div class="row mb-3">
+                                <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                                <div class="col-sm-10">
+                                    <input type="time" class="form-control" th:field="*{usagePeriodDto.startTime}">
+                                    <p th:if="${#fields.hasErrors('usagePeriodDto.startTime')}" th:errors="*{usagePeriodDto.startTime}">Incorrect date</p>
+                                </div>
                             <span>~</span>
-                            <input type="date" th:field="*{usagePeriod.endTime}">
+                                <div class="row mb-3">
+                                    <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                                    <div class="col-sm-10">
+                                        <input type="time" class="form-control" th:field="*{usagePeriodDto.endTime}">
+                                        <p th:if="${#fields.hasErrors('usagePeriodDto.endTime')}" th:errors="*{usagePeriodDto.endTime}">Incorrect date</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </li>
+            </ul>
 
                 <li class="item">
                     <div class="item-title">최대인원</div>
@@ -153,37 +165,37 @@
                         <input type="number" class="num" th:field="*{maxPerson}"><b>명</b>
                     </div>
                 </li>
-
+            <li class="item">
+                <div class="item-title">최대인원</div>
+                <div class="item-content">
+                    <input type="number" class="num" th:field="*{cancellation}"><b>원</b>
+                </div>
+            </li>
                 <li class="item">
                     <div class="item-title">문의전화</div>
                     <div class="item-content">
                         <div class="phone">
-                            <input type="text" name="firstNum" maxlength="3"/>
-                            <span>-</span>
-                            <input type="text" name="middleNum" maxlength="4"/>
-                            <span>-</span>
-                            <input type="text" name="lastNum" maxlength="4"/>
+                            <input type="text" th:field="*{inquiryPhone}">
+                            <p th:if="${#fields.hasErrors('inquiryPhone')}" th:errors="*{inquiryPhone}">Incorrect date</p>
                         </div>
-                        <input type="hidden" th:field="*{inquiryPhone}">
                     </div>
                 </li>
 
                 <li class="item">
                     <div class="item-title">이용안내</div>
                     <div class="item-content">
-                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>
+<!--                        <iframe th:src="@{/txtEditor}" class="txt-editor" scrolling="no"></iframe>-->
                         <input type="hidden" name="useInfo" value="">
                     </div>
                 </li>
             </ul>
-
             <div class="btn-box">
-                <a href="" class="a-btn">취소하기</a>
-                <a href="" class="registration a-btn">등록하기</a>
+                <input type="submit" class="btn btn-primary btn-user btn-block"
+                       value="등록하기">
             </div>
         </div>
     </form>
-    <div th:replace="~{/includes/footer :: footer}"></div>
+    <div th:replace="/includes/footer"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->
@@ -192,6 +204,8 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <!-- Kakao Local JS File -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- jquery library load-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- JS File -->
 <script th:src="@{/js/rental/rentalRegistrationForm.js}"></script>
 </html>

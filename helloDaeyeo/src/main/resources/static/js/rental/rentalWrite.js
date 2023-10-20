@@ -124,102 +124,50 @@ navIndicator.addEventListener('click', (e) => {
 }); /* End Slider*/
 
 /* FullCalendar */
-document.addEventListener('DOMContentLoaded', function () {
-    const startDuration = document.querySelector('input[name="startDuration"]');
-    const endDuration = document.querySelector('input[name="endDuration"]');
-    const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText;
-    const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;
-    let calendarEl = document.getElementById('calendar');
-    let calendar = new FullCalendar.Calendar(calendarEl, {
-        headerToolbar: {
-            left: 'prev',
-            center: 'title',
-            right: 'next'
-        },
-        // initialDate: '2023-01-12', // 지정하지 않으면 현재 날짜로 기본 설정
-        selectable: true,
-        businessHours: true,
-        dayMaxEvents: true,
-        locale: 'ko',
-        // weekends: false,
-        // hiddenDays: [ 0,6 ],
-        validRange: {
-            start: receiptStartDuration,
-            end: receiptEndDuration
-        },
-        selectOverlap: false,
-        // selectConstraint: {[1,2,3,4,5]}, // groupId가 998인 것만 event 선택 가능
-        // selectOverlap: function(event) {
-        // return !(event.groupId == "999"); // groupId가 999인 것은 overlap 불가
-        // },
-        select: function (arg) {
-            calendar.addEvent({
-                title: '예약',
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay,
-                backgroundColor: '#3B71CA'
-            });
+// document.addEventListener('DOMContentLoaded', function () {
+//
+//     const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText; // 접수기간시작
+//     const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;     // 접수시간끝
+//     let calendarEl = document.getElementById('calendar');
+//     let calendar = new FullCalendar.Calendar(calendarEl, {
+//         headerToolbar: {
+//             left: 'prev',
+//             center: 'title',
+//             right: 'next'
+//         },
+//         selectable: true,
+//         locale: 'ko',
+//         validRange: {
+//             start: receiptStartDuration,
+//             end: receiptEndDuration
+//         },
+//         selectOverlap: false,
+//         select: function (arg) {
+//             var start = moment(info.start)
+//             if (end.diff(start, 'days') === 1) {
+//                 var selectedDate = start.format('YYYY-MM-DD');
+//                 $('#rentalDate').val(selectedDate)
+//             }else{
+//                 alert('강의실 사용하실 날짜 하루만 입력해주세요.');
+//                 calendar.unselect();
+//             }
+//         },
+//     });
+//
+//     calendar.render();
+// }); /* End FullCalendar */
 
-            startDuration.value = arg.startStr;
-            let end = new Date(arg.end);
-            endDuration.value = end.toISOString().slice(0, 10);
-            calendar.unselect();
-        },
-        eventClick: function (arg) {
-            if (confirm('삭제')) {
-                arg.event.remove();
-                startDuration.value = "";
-                endDuration.value = ""
-            }
-        },
-        // events: [
-        //     {
-        //         title: 'All Day Event',
-        //         start: '2023-01-01'
-        //     },
-        //     {
-        //         title: 'Long Event',
-        //         start: '2023-01-07',
-        //         end: '2023-01-10'
-        //     },
-        //     {
-        //         groupId: 999,
-        //         title: 'Repeating Event',
-        //         start: '2023-01-09T16:00:00'
-        //     },
-        //     {
-        //         groupId: 998,
-        //         title: 'Repeating Event',
-        //         start: '2023-01-16'
-        //     },
-        //     {
-        //         title: 'Meeting',
-        //         start: '2023-01-12T10:30:00',
-        //         end: '2023-01-12T12:30:00'
-        //     },
-        //     {
-        //         title: 'Click for Google',
-        //         url: 'http://google.com/',
-        //         start: '2023-01-28'
-        //     }
-        // ]
-    });
-
-    calendar.render();
-}); /* End FullCalendar */
-
-/* Kakao Maps */
-let container = document.getElementById('map');
-let options = {
-    center: new kakao.maps.LatLng(33.450701, 126.570667),
-    level: 3
-};
-let map = new kakao.maps.Map(container, options);
-const placeTab = document.querySelector('#place-tab');
+// /* Kakao Maps */
+// let container = document.getElementById('map');
+// let options = {
+//     center: new kakao.maps.LatLng(33.450701, 126.570667),
+//     level: 3
+// };
+// let map = new kakao.maps.Map(container, options);
+// const placeTab = document.querySelector('#place-tab');
 // tab 안에 지도가 있을 경우 처음 로딩시 지도가 깨져서 relayout() 함수를 호출해 크기 조정
-placeTab.addEventListener('click', () => map.relayout());
-/* End Kakao Maps */
+// placeTab.addEventListener('click', () => map.relayout());
+// /* End Kakao Maps */
 
 const reviewTxar = document.querySelector('.review_input');
 reviewTxar.oninput = () => {
@@ -229,7 +177,7 @@ reviewTxar.oninput = () => {
     reviewTxar.style.height = 'auto'; // 높이 초기화
     reviewTxar.style.height = reviewTxar.scrollHeight;
     root.style.setProperty('--reviewHeight', -review.scrollHeight + 'px');
-}; /* End Kakao Maps */
+};
 
 
 const reservationForm = document.querySelector('#reservation-form');

@@ -18,8 +18,9 @@ public class RentalObjectDto {
     private int usageFee;
     private ApplicationPeriod applicationPeriod;
     private UsagePeriod usagePeriod;
-    private CancellationPeriod cancellationPeriod;
+    private int cancellation;
     private int maxPerson;
     private String webSite;
-    private Phone inquiryPhone;
+    private String inquiryPhone;
+    private int visitCount;
 }

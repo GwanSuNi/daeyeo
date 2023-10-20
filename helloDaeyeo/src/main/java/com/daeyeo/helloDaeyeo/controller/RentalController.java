@@ -1,8 +1,13 @@
 package com.daeyeo.helloDaeyeo.controller;
 
-import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
+import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
+import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
+import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
+import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
+import com.daeyeo.helloDaeyeo.service.MainCategoryService;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
@@ -14,19 +19,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("rentals")
+@RequestMapping("/rental")
 public class RentalController {
     private final SubCategoryService subCategoryService;
     private final RentalObjectService rentalObjectService;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
+    private final MainCategoryService mainCategoryService;
+
 
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
     @GetMapping({"list", "list/{page}"})
@@ -49,24 +56,47 @@ public class RentalController {
     @RequestMapping("write/{objectId}")
     public String rentalWrite(@PathVariable long objectId, Model model) {
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
+        model.addAttribute("rentalStatus", new RentalStatusFormDto());
+        return "rental/rentalWrite";
+    }
+    @PostMapping("write.do")
+    public String rentalStatusSend(@ModelAttribute("rentalStatus")RentalStatusFormDto rentalStatusFormDto){
 
         return "rental/rentalWrite";
     }
+    @GetMapping("/getSubCategories")
+    @ResponseBody
+    public List<SubCategoryDto> getSubCategories(@RequestParam("mainCategoryId") String mainCategoryId) {
+        // 선택한 MainCategory에 대한 SubCategory 데이터를 서비스를 통해 가져옵니다.
+        List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories(mainCategoryId);
+        return subCategoryList;
+    }
 
-    @GetMapping("register")
-    public String showRentalRegistrationForm(HttpServletRequest request, Model model) {
-        memberService.validateMember(request);
-        model.addAttribute("registerDto", new RentalRegisterDto());
-
+    @GetMapping("rentalRegistrationForm")
+    public String showRentalRegistrationForm(Model model) {
+//      memberService.validateMember(request);
+        List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
+        model.addAttribute("rentalRegister", new RentalRegisterFormDto());
+        model.addAttribute("mainCategoryList",mainCategoryList);
         return "rental/rentalRegistrationForm";
     }
 
-    @RequestMapping("register.do")
-    public String register(@Valid RentalRegisterDto dto, HttpServletRequest request) {
-        memberService.validateMember(request);
-        rentalObjectService.insertRentalObject(dto);
 
-        return "redirect:/rentals/list";
+
+    @PostMapping("rentalRegistrationForm")
+    public String register(@Valid @ModelAttribute("rentalRegister")RentalRegisterFormDto rentalRegisterFormDto , BindingResult bindingResult,Model model) {
+        if(bindingResult.hasErrors()){
+            return "rental/rentalRegistrationForm";
+        }else if (rentalRegisterFormDto.getScId()==null){
+            model.addAttribute("scIdChoice","장소를 선택해주세요");
+            return "rental/rentalRegistrationForm";
+        }
+        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
+        rentalRegisterDto.setUserId("test@test.com");
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+        rentalObjectService.insertRentalObject(rentalRegisterDto);
+//        memberService.validateMember(request);
+        return "rental/rentalRegistrationForm";
     }
     /*
     @RequestMapping("/rental.do")

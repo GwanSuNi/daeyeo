@@ -13,9 +13,10 @@
       var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
           selectable: true,
+          local: 'ko',
           validRange: {
-              start: '2023-04-01', // startDuration
-              end: '2023-04-31' // endDuration
+              start: '2023-10-01', // startDuration
+              end: '2023-10-31' // endDuration
           },
           select: function(info) {
               // Calculate the difference between the selected start and end dates
@@ -38,6 +39,7 @@
         /*]]>*/
   </script>
 </head>
+
 <body>
 <div id='calendar'></div>
 <form th:action="@{/adminpage/cal}" th:object="${rentalForm}" method="post">
