@@ -138,14 +138,14 @@ public class MainServiceTest {
         specDto.setSearchWord("강의실");
 //        specDto.setSort("addressName");
 
-        Pageable pageable = null;
+//        Pageable pageable = null;
 
-        Page<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto, pageable);
-        System.out.println(rentalObjectDtos);
-        System.out.println("chapter1");
-        for (RentalObjectDto rentalObjectDto : rentalObjectDtos.getContent()) {
-            System.out.println(rentalObjectDto.getObjectName()+"결과값이야");
-        }
+//        Page<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto, pageable);
+//        System.out.println(rentalObjectDtos);
+//        System.out.println("chapter1");
+//        for (RentalObjectDto rentalObjectDto : rentalObjectDtos.getContent()) {
+//            System.out.println(rentalObjectDto.getObjectName()+"결과값이야");
+//        }
     }
 //    @Test
 //    public void makeTest(){
