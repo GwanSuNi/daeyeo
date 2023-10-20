@@ -1,4 +1,4 @@
-package com.daeyeo.helloDaeyeo.controller;
+package com.daeyeo.helloDaeyeo.controller.rental;
 
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
