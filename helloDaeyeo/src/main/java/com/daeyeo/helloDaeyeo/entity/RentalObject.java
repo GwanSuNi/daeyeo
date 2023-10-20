@@ -53,8 +53,7 @@ public class RentalObject {
     private UsagePeriod usagePeriod;
 
     // 취소 기간
-    @Embedded
-    private CancellationPeriod cancellationPeriod;
+    int cancellation;
 
     // 최대 인원
     private int maxPerson;
@@ -63,9 +62,8 @@ public class RentalObject {
     private String webSite;
 
     // 문의 전화
-    @Embedded
-    private Phone inquiryPhone;
-
+    private String inquiryPhone;
+    private int visitCount;
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
         subCategory.getRentalObjects().add(this);

@@ -34,7 +34,7 @@ public class RentalObjectService {
 
 //    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
-
+        System.out.println("insertChapterStart");
         Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);

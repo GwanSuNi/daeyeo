@@ -85,13 +85,12 @@
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
                     document.getElementById("address.extraAddress").value = extraAddr;
-
                 } else {
                     document.getElementById("address.extraAddress").value = '';
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('address.postcode').value = data.zonecode;
+                document.getElementById("address.postcode").value = data.zonecode;
                 document.getElementById("address.address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("address.detailAddress").focus();

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,9 @@ public class RentalStatus {
     List<RentalLog> rentalLogs = new ArrayList<RentalLog>();
     @Enumerated(EnumType.STRING)
     private Status status;
-
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDate rentalDate;
 
     public void setMember(Member member) {
         this.member = member;

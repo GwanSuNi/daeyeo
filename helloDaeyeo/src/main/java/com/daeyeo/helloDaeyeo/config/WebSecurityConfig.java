@@ -39,7 +39,7 @@ public class WebSecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers("/login", "/signup", "/user","/adminpage/**","/myPage/**","/login/**","/rentals/**").permitAll()
+                .requestMatchers("/login", "/signup", "/user","/adminpage/**","/myPage/**","/login/**","/rental/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,6 +86,7 @@ public class AdminController {
         // 하나의 메서드에서 다 형변환을 시켜주고 RentalStatus 안에 집어넣을생각
         String dateString = rentalForm.getSelectedDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         LocalDate selectedDate = LocalDate.parse(dateString, formatter);
         LocalDateTime startTime = rentalForm.castTime(rentalForm.getSelectedDate(),rentalForm.getStartTime());
         LocalDateTime endTime = rentalForm.castTime(rentalForm.getSelectedDate(),rentalForm.getEndTime());
