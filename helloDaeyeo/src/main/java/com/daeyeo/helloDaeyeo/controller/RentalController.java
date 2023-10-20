@@ -3,15 +3,11 @@ package com.daeyeo.helloDaeyeo.controller;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
-import com.daeyeo.helloDaeyeo.embedded.Address;
-import com.daeyeo.helloDaeyeo.entity.RentalObject;
-import com.daeyeo.helloDaeyeo.entity.SubCategory;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.service.MainCategoryService;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,7 +45,15 @@ public class RentalController {
 
         model.addAttribute("categories", categories);
         model.addAttribute("searchSpec", specDto);
-        model.addAttribute("rentalObjects", rentalObjectDtos);
+
+        List<DummyClass> rentalObjectList = new ArrayList<>();
+
+        for (RentalObjectDto rentalObjectDto : rentalObjectDtos.getContent()) {
+            boolean isAble = LocalDate.now().compareTo(rentalObjectDto.getApplicationPeriod().getEndDate()) <= 0;
+
+            rentalObjectList.add(new DummyClass(rentalObjectDto,isAble));
+        }
+        model.addAttribute("isAbleList",rentalObjectList);
 
         return "rental/rentalList";
     }
@@ -113,4 +118,29 @@ public class RentalController {
         return send;
     }
      */
+}
+class DummyClass{
+    private RentalObjectDto dto;
+    private boolean isAble;
+
+    DummyClass(RentalObjectDto dto, boolean isAble){
+        this.dto = dto;
+        this.isAble = isAble;
+    }
+
+    public RentalObjectDto getDto() {
+        return dto;
+    }
+
+    public void setDto(RentalObjectDto dto) {
+        this.dto = dto;
+    }
+
+    public boolean isAble() {
+        return isAble;
+    }
+
+    public void setAble(boolean able) {
+        isAble = able;
+    }
 }
