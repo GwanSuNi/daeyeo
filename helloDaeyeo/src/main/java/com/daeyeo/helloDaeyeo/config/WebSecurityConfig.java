@@ -36,6 +36,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //        return http
                 http
+                        .userDetailsService(userService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user", "/login/**", "/memberApi/**", "/loginCheck").permitAll()
                                 .requestMatchers("/memberApi/memberLogin").anonymous()

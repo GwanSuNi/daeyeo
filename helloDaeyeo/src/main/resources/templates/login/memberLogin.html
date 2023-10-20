@@ -36,10 +36,8 @@
 </head>
 <body>
 <div class="body_container">
-<!--    TODO: fragment 동작 테스트로 하나 해봤음 정상이면 나머지 페이지에서 다 바꿔줘야함 -->
-<!--    '~{}'로 써줘야 최신 문법, :: header를 쓰니까 CSS가 안먹음..
-       -> TODO: 이거 원래 레이아웃으로 공통적인 CSS를 묶어줘야되지만 그냥 header.html에서 html태그를 프래그먼트 처리해버렸음-->
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined})}"></div>
+    <!-- TODO: 이거 원래 레이아웃으로 공통적인 CSS를 묶어줘야되지만 그냥 header.html에서 html태그를 프래그먼트 처리해버렸음-->
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
     <div class="main_content">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -56,14 +54,15 @@
                                     <form th:action="@{/login}" method="post"
                                           class="user">
                                         <div class="form-group">
-                                            <input type="text"  class="form-control form-control-user"
+                                            <input type="text" class="form-control form-control-user"
                                                    placeholder="Enter Email Address..." lang="en" name="username">
-<!--                                            <div th:if="${noUserError}" th:text="${noUserError}" style="color: red;"></div>-->
+                                            <!--                                            <div th:if="${noUserError}" th:text="${noUserError}" style="color: red;"></div>-->
                                         </div>
                                         <div class="form-group">
                                             <input type="password"
-                                                   class="form-control form-control-user" placeholder="Password" name="password">
-<!--                                            <div th:if="${pwMatchError}" th:text="${pwMatchError}" style="color: red;"></div>-->
+                                                   class="form-control form-control-user" placeholder="Password"
+                                                   name="password">
+                                            <!--                                            <div th:if="${pwMatchError}" th:text="${pwMatchError}" style="color: red;"></div>-->
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -71,7 +70,7 @@
                                                 <label class="custom-control-label" for="customCheck">아이디 저장</label>
                                             </div>
                                         </div>
-<!--                                        <p style="color: red" th:text="${error}"></p>-->
+                                        <!--                                        <p style="color: red" th:text="${error}"></p>-->
                                         <div>
                                             <input type="submit" value="로그인" id="loginBtn"
                                                    class="btn btn-primary btn-user btn-block">

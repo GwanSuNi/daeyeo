@@ -1,8 +1,6 @@
 package com.daeyeo.helloDaeyeo.controller.logincontroller;
 
-import com.daeyeo.helloDaeyeo.dto.memberDto.MemberLoginDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
-import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -45,6 +44,7 @@ public class MemberApiController {
 
     /**
      * 멤버 등록하는 폼을 보내줌
+     *
      * @param model
      * @return
      */
@@ -53,7 +53,8 @@ public class MemberApiController {
         model.addAttribute("memberRegisterDto", new MemberRegisterDto());
         return "/login/memberRegister";
     }
-   //TODO 회원가입이 완료되었습니다 라는 팝업창같은거 만들으면 될듯 검증 또한 완벽한게 아니라서 검증을 추가해야할듯
+    //TODO 회원가입이 완료되었습니다 라는 팝업창같은거 만들으면 될듯 검증 또한 완벽한게 아니라서 검증을 추가해야할듯
+
     /***
      * 멤버 등록 폼 안에 값을 채운 Dto 를 받아온후에 그 Dto 로 값을 받아오고 bindingResult 로 값들에대한 검증을함
      * @param memberRegisterDto
@@ -81,12 +82,10 @@ public class MemberApiController {
     // 로그인 페이지
     // TODO: DTO가 없어도 동작하고, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
     @GetMapping("/memberLogin")
-    public String loginPage(Model model) {
+    public String loginPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
 //        model.addAttribute("memberLoginDto", new MemberLoginDto());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("isLogined", !authentication.getName().equals("anonymousUser"));
-        log.info("principal : {}, name: {}, authorities: {}, details : {}",authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
         return "/login/memberLogin";
     }
 
@@ -117,7 +116,7 @@ public class MemberApiController {
     @GetMapping("/logout")
     @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
+        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:./memberLogin";
     }
 }
