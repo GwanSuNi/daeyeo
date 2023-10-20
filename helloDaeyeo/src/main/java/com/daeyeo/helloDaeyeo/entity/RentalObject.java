@@ -1,14 +1,14 @@
 package com.daeyeo.helloDaeyeo.entity;
 
-import com.daeyeo.helloDaeyeo.embedded.*;
+import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.embedded.ApplicationPeriod;
+import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,9 +30,6 @@ public class RentalObject {
 
     @OneToMany(mappedBy = "rentalObject")
     Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
-
-    @OneToMany(mappedBy = "rentalObject")
-    List<Review> reviews = new ArrayList<Review>();
 
     // 빌릴 대상 이름
     private String objectName;
@@ -64,6 +61,7 @@ public class RentalObject {
     // 문의 전화
     private String inquiryPhone;
     private int visitCount;
+
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
         subCategory.getRentalObjects().add(this);

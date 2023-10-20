@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalStatus {
+    // review 키의 주인
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rentalStatusId;
@@ -27,6 +28,9 @@ public class RentalStatus {
     @ManyToOne(fetch = FetchType.LAZY)
     RentalObject rentalObject;
 
+    @OneToOne
+    private Review review;
+
     @OneToMany(mappedBy = "rentalStatus")
     List<RentalLog> rentalLogs = new ArrayList<RentalLog>();
 
@@ -36,8 +40,6 @@ public class RentalStatus {
     // 대여 신청 날짜
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private LocalDate rentalDate;
-
     // 대여하는 날짜
     private LocalDate rentalDate;
 
@@ -50,4 +52,10 @@ public class RentalStatus {
         this.rentalObject = rentalObject;
         rentalObject.getRentalStatuses().add(this);
     }
+
+    public void setReivew(Review review) {
+        this.review = review;
+        review.getRentalStatus().setReivew(review);
+    }
+
 }

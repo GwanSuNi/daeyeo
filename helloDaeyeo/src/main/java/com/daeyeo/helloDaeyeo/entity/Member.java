@@ -1,20 +1,19 @@
 package com.daeyeo.helloDaeyeo.entity;
 
 
-import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
+import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,8 +28,6 @@ public class Member implements UserDetails {
     Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
     @OneToMany(mappedBy = "member")
     Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
-    @OneToMany(mappedBy = "member")
-    List<Review> reviews = new ArrayList<Review>();
     @Embedded
     private Address memberAddress;
     private String phone;
@@ -51,7 +48,7 @@ public class Member implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public Member(MemberRegisterDto memberRegisterDto){
+    public Member(MemberRegisterDto memberRegisterDto) {
         this.userEmail = memberRegisterDto.getUserEmail();
         this.userPw = memberRegisterDto.getUserPw();
         this.userName = memberRegisterDto.getUserName();
@@ -60,7 +57,8 @@ public class Member implements UserDetails {
         this.department = memberRegisterDto.getDepartment();
         this.registDate = LocalDateTime.now();
     }
-    public Member(MemberUpdateDto memberUpdateDto){
+
+    public Member(MemberUpdateDto memberUpdateDto) {
 
     }
 

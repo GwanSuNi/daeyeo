@@ -62,6 +62,8 @@ public class RentalController {
     @PostMapping("write.do")
     public String rentalStatusSend(@ModelAttribute("rentalStatus")RentalStatusFormDto rentalStatusFormDto){
 
+        RentalStatusDto rentalStatusDto =
+
         return "rental/rentalWrite";
     }
     @GetMapping("/getSubCategories")

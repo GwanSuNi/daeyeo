@@ -19,4 +19,10 @@ public class RentalStatusDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDate rentalDate;
+
+    public RentalStatus(RentalStatusFormDto rentalStatusFormDto) {
+        rentalStatusFormDto.getRentalDate();
+        rentalStatusFormDto.getStartTime();
+        rentalStatusFormDto.getEndTime();
+    }
 }
