@@ -29,7 +29,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="">       <!-- 이미지 바꾸기 -->
+            <img src="/css/assets/img/favicon.png" alt="아이콘">       <!-- 이미지 바꾸기 -->
             <span class="d-none d-lg-block">NoobGPT</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>  <!-- 메뉴 열고 닫는 버튼-->
@@ -41,19 +41,19 @@
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
     </div>
-<!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
-<!--    <div th:if="${session.loginUser ne null}">-->
-<!--        <div th:onclick="|location.href='${#request.contextPath}/logout'|">-->
-<!--            <i class="fa-solid fa-right-from-bracket logout_btn"-->
-<!--               style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:unless="${session.loginUser ne null}">-->
-<!--        <div th:onclick="|location.href='${#request.contextPath}/login'|">-->
-<!--            <i class="fa-solid fa-right-to-bracket logout_btn"-->
-<!--               style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
+    <!--    <div th:if="${session.loginUser ne null}">-->
+    <!--        <div th:onclick="|location.href='${#request.contextPath}/logout'|">-->
+    <!--            <i class="fa-solid fa-right-from-bracket logout_btn"-->
+    <!--               style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div th:unless="${session.loginUser ne null}">-->
+    <!--        <div th:onclick="|location.href='${#request.contextPath}/login'|">-->
+    <!--            <i class="fa-solid fa-right-to-bracket logout_btn"-->
+    <!--               style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
@@ -180,15 +180,15 @@
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="dash, status : ${dashBoard}">-->
-<!--                            <td th:text="${status.index}"></td>-->
-<!--                            <td th:text="${dash.registDate}"></td>-->
-<!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
-<!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
-<!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
-<!--                        </tr>-->
+                        <!--                        <tr th:each="dash, status : ${dashBoard}">-->
+                        <!--                            <td th:text="${status.index}"></td>-->
+                        <!--                            <td th:text="${dash.registDate}"></td>-->
+                        <!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
+                        <!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
+                        <!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
+                        <!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -206,15 +206,15 @@
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="dash, status : ${dashBoardMonthly}">-->
-<!--                            <td th:text="${status.index}"></td>-->
-<!--                            <td th:text="${dash.month}"></td>-->
-<!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
-<!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
-<!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
-<!--                        </tr>-->
+                        <!--                        <tr th:each="dash, status : ${dashBoardMonthly}">-->
+                        <!--                            <td th:text="${status.index}"></td>-->
+                        <!--                            <td th:text="${dash.month}"></td>-->
+                        <!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
+                        <!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
+                        <!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
+                        <!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -232,15 +232,15 @@
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="dash, status : ${dashBoardYearly}">-->
-<!--                            <td th:text="${status.index}"></td>-->
-<!--                            <td th:text="${dash.year}"></td>-->
-<!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
-<!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
-<!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
-<!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
-<!--                        </tr>-->
+                        <!--                        <tr th:each="dash, status : ${dashBoardYearly}">-->
+                        <!--                            <td th:text="${status.index}"></td>-->
+                        <!--                            <td th:text="${dash.year}"></td>-->
+                        <!--                            <td th:text="${dash.totalRentCount} + '회'"></td>-->
+                        <!--                            <td th:text="${dash.totalRentalPrice != null ? dash.totalRentalPrice + '원' : '0원'}"></td>-->
+                        <!--                            <td th:text="${dash.totalVisitCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalNewUserCount + '명'}"></td>-->
+                        <!--                            <td th:text="${dash.totalReviewCount + '개'}"></td>-->
+                        <!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>

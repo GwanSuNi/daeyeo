@@ -33,7 +33,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="">
+            <img src="/css/assets/img/favicon.png" alt="아이콘">
             <span class="d-none d-lg-block">NoobGPT</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -47,15 +47,15 @@
         </form>
     </div>
 
-<!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
-<!--    <div th:if="${session.loginUser != null}" onclick="/logout">-->
-<!--        <i class="fa-solid fa-right-from-bracket logout_btn"-->
-<!--           style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
-<!--    </div>-->
-<!--    <div th:unless="${session.loginUser != null}" onclick="/login">-->
-<!--        <i class="fa-solid fa-right-to-bracket logout_btn"-->
-<!--           style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
-<!--    </div>-->
+    <!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
+    <!--    <div th:if="${session.loginUser != null}" onclick="/logout">-->
+    <!--        <i class="fa-solid fa-right-from-bracket logout_btn"-->
+    <!--           style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--    </div>-->
+    <!--    <div th:unless="${session.loginUser != null}" onclick="/login">-->
+    <!--        <i class="fa-solid fa-right-to-bracket logout_btn"-->
+    <!--           style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--    </div>-->
 </header>
 <!-- End Header -->
 
@@ -101,7 +101,8 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
@@ -170,16 +171,16 @@
                             </tr>
                             </thead>
                             <tbody>
-<!--                            <tr th:each="rental, index : ${rentalObject}">-->
-<!--                                <td th:text="${index.count}"></td>-->
-<!--                                <td><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></td>-->
-<!--                                <td th:text="${rental.subCategory.scId}"></td>-->
-<!--                                <td th:text="${rental.userEntity.userName}"></td>-->
-<!--                                <td th:text="${rental.objectName}"></td>-->
-<!--                                <td th:text="${rental.createDate}"></td>-->
-<!--                                <td th:text="${rental.locationInfo}"></td>-->
-<!--                                <td th:text="${rental.userInfo}"></td>-->
-<!--                            </tr>-->
+                            <!--                            <tr th:each="rental, index : ${rentalObject}">-->
+                            <!--                                <td th:text="${index.count}"></td>-->
+                            <!--                                <td><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></td>-->
+                            <!--                                <td th:text="${rental.subCategory.scId}"></td>-->
+                            <!--                                <td th:text="${rental.userEntity.userName}"></td>-->
+                            <!--                                <td th:text="${rental.objectName}"></td>-->
+                            <!--                                <td th:text="${rental.createDate}"></td>-->
+                            <!--                                <td th:text="${rental.locationInfo}"></td>-->
+                            <!--                                <td th:text="${rental.userInfo}"></td>-->
+                            <!--                            </tr>-->
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
