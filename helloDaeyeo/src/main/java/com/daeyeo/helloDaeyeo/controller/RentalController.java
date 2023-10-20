@@ -2,10 +2,8 @@ package com.daeyeo.helloDaeyeo.controller;
 
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalListPageInfoDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
+import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.SubCategory;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
@@ -21,13 +19,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("rentals")
+@RequestMapping("/rental")
 public class RentalController {
     private final SubCategoryService subCategoryService;
     private final RentalObjectService rentalObjectService;
@@ -57,6 +56,11 @@ public class RentalController {
     @RequestMapping("write/{objectId}")
     public String rentalWrite(@PathVariable long objectId, Model model) {
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
+        model.addAttribute("rentalStatus", new RentalStatusFormDto());
+        return "rental/rentalWrite";
+    }
+    @PostMapping("write.do")
+    public String rentalStatusSend(@ModelAttribute("rentalStatus")RentalStatusFormDto rentalStatusFormDto){
 
         return "rental/rentalWrite";
     }
@@ -68,27 +72,31 @@ public class RentalController {
         return subCategoryList;
     }
 
-    @GetMapping("register")
-    public String showRentalRegistrationForm(HttpServletRequest request, Model model) {
-
-//        memberService.validateMember(request);
+    @GetMapping("rentalRegistrationForm")
+    public String showRentalRegistrationForm(Model model) {
+//      memberService.validateMember(request);
         List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
-        model.addAttribute("registerDto", new RentalRegisterDto());
+        model.addAttribute("rentalRegister", new RentalRegisterFormDto());
         model.addAttribute("mainCategoryList",mainCategoryList);
-//        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-//        response.setHeader("Pragma", "no-cache");
-//        response.setHeader("Expires", "0");
-
         return "rental/rentalRegistrationForm";
     }
 
 
-    @RequestMapping("register.do")
-    public String register(@Valid RentalRegisterDto dto, HttpServletRequest request) {
-        memberService.validateMember(request);
-        rentalObjectService.insertRentalObject(dto);
 
-        return "redirect:/rentals/list";
+    @PostMapping("rentalRegistrationForm")
+    public String register(@Valid @ModelAttribute("rentalRegister")RentalRegisterFormDto rentalRegisterFormDto , BindingResult bindingResult,Model model) {
+        if(bindingResult.hasErrors()){
+            return "rental/rentalRegistrationForm";
+        }else if (rentalRegisterFormDto.getScId()==null){
+            model.addAttribute("scIdChoice","장소를 선택해주세요");
+            return "rental/rentalRegistrationForm";
+        }
+        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
+        rentalRegisterDto.setUserId("test@test.com");
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+        rentalObjectService.insertRentalObject(rentalRegisterDto);
+//        memberService.validateMember(request);
+        return "rental/rentalRegistrationForm";
     }
     /*
     @RequestMapping("/rental.do")

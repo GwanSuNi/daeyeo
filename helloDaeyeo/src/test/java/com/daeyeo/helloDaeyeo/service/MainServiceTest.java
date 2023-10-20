@@ -1,13 +1,14 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.*;
+import com.daeyeo.helloDaeyeo.dto.PeriodDto.ApplicationPeriodDto;
+import com.daeyeo.helloDaeyeo.dto.PeriodDto.UsagePeriodDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
+import com.daeyeo.helloDaeyeo.dto.rental.*;
 import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.embedded.ApplicationPeriod;
 import com.daeyeo.helloDaeyeo.embedded.Phone;
 import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
 import com.daeyeo.helloDaeyeo.entity.Member;
@@ -80,7 +81,6 @@ public class MainServiceTest {
         System.out.println(subCategoryList.get(3).getScId());
 
 
-        Address address = new Address("가주소입니다", "01610", "가계동", "detailAddress","가도","가군구");
         Address address1 = new Address("나주소입니다", "01610", "나계동", "detailAddress","나도","나군구");
         Address address2 = new Address("다주소입니다", "01610", "다계동", "detailAddress","다도","다군구");
         Address address3 = new Address("라주소입니다", "01610", "라계동", "detailAddress","라도","라군구");
@@ -92,6 +92,9 @@ public class MainServiceTest {
         Address address9 = new Address("차주소입니다", "01610", "차계동", "detailAddress","차도","차군구");
         Address address10 = new Address("파주소입니다", "01610", "파계동", "detailAddress","파도","파군구");
 
+        Address address = new Address("서울노원구동일로237바길17","01610","(상계동)","802호","서울","노원구");
+
+
         Member member = new Member();
         member.setUserEmail("test@test.com");
         member.setUserPw("1111");
@@ -100,7 +103,17 @@ public class MainServiceTest {
         member.setDepartment("부서");
         member.setMemberAddress(address);
         memberRepository.save(member);
-        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto("강의실", "test@test.com", "testObjectName강의실", address);
+
+
+        ApplicationPeriodDto applicationPeriodDto = new ApplicationPeriodDto("2023-10-01","2023-10-31");
+        UsagePeriodDto usagePeriodDto = new UsagePeriodDto("2023-10-01","2023-10-31","09:00","22:00");
+        RentalRegisterFormDto rentalRegisterFormDto = new RentalRegisterFormDto("강의실","테스트아이디","오브젝트네임테스트",
+                address,1000,applicationPeriodDto,usagePeriodDto,1,1,"웹사이트테스트","01099481901");
+        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
+        rentalRegisterDto.setUserId("test@test.com");
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+        rentalObjectService.insertRentalObject(rentalRegisterDto);
+
         RentalRegisterDto rentalRegisterDto11 = new RentalRegisterDto("강의실", "test@test.com", "testObjectName강의실1", address1);
         RentalRegisterDto rentalRegisterDto1 = new RentalRegisterDto("도서관", "test@test.com", "testObjectName도서관", address2);
         RentalRegisterDto rentalRegisterDto2 = new RentalRegisterDto("회의실", "test@test.com", "testObjectName회의실", address3);
@@ -108,6 +121,7 @@ public class MainServiceTest {
         RentalRegisterDto rentalRegisterDto4 = new RentalRegisterDto("운동장", "test@test.com", "testObjectName운동장", address5);
         RentalRegisterDto rentalRegisterDto5 = new RentalRegisterDto("체육관", "test@test.com", "testObjectName체육관", address6);
         RentalRegisterDto rentalRegisterDto6 = new RentalRegisterDto("수영장", "test@test.com", "testObjectName수영장", address7);
+
         rentalObjectService.insertRentalObject(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto1);
         rentalObjectService.insertRentalObject(rentalRegisterDto2);
