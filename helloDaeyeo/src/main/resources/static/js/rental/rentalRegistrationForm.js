@@ -1,28 +1,67 @@
-const category0 = ['공간시설', '개인대여'];
-const category1 = ['강의실', '회의실', 'scIdTest'];
-const category2 = [];
-const category = {
-    'category1': category1,
-    'category2': category2
-}
-const mainCate = document.querySelector('.main-cate');
-const subCate = document.querySelector('.sub-cate');
 
-category0.forEach((value) => {
-    mainCate.options[mainCate.options.length] = new Option(value, value);
+let subCategorySelect = document.getElementById('subCategorySelect');
+let mainCategorySelect = document.getElementById('mainCategorySelect');
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 위의 JavaScript 코드를 여기에 래핑
+    subCategorySelect.addEventListener('change', function() {
+// html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
+        let selectedValue = subCategorySelect.value;
+        document.getElementById("scId").value = selectedValue;
+
+
+    })
 });
 
-mainCate.addEventListener('change', () => {
-    const select = mainCate.options[mainCate.selectedIndex].index;
-
-    subCate.options.length = 1;
-
-    if (select !== 0) {
-        category['category' + select].forEach((value) => {
-            subCate.options[subCate.options.length] = new Option(value, value);
+mainCategorySelect.addEventListener('change', () => {
+    let selectedMainCategoryId = mainCategorySelect.value;
+    // 서버로부터 선택한 MainCategory에 대한 SubCategory 데이터를 가져오는 AJAX 요청을 보냅니다.
+    // 서버에서 JSON 형식의 SubCategory 데이터를 받은 후 SubCategory select box를 업데이트합니다.
+    // 예: jQuery AJAX를 사용한 AJAX 요청
+    $.get('/rental/getSubCategories?mainCategoryId=' + selectedMainCategoryId, (data) => {
+        // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
+        subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
+        data.forEach((subcategory) => {
+            let option = document.createElement('option');
+            option.value = subcategory.scId;
+            option.text = subcategory.scId;
+            subCategorySelect.appendChild(option);
         });
-    }
+    });
 });
+subCategorySelect.addEventListener('change', () => {
+    // 선택한 옵션의 값을 firstName 필드에 추가
+    let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];
+    let selectedValue = selectedOption.value;
+    document.getElementById('firstName').value = dynamicData[selectedValue];
+});
+
+
+// const category0 = ['공간시설', '개인대여'];
+// const category1 = ['강의실', '회의실', 'scIdTest'];
+// const category2 = [];
+// const category = {
+//     'category1': category1,
+//     'category2': category2
+// }
+// const mainCate = document.querySelector('.main-cate');
+// const subCate = document.querySelector('.sub-cate');
+//
+// category0.forEach((value) => {
+//     mainCate.options[mainCate.options.length] = new Option(value, value);
+// });
+
+// mainCate.addEventListener('change', () => {
+//     const select = mainCate.options[mainCate.selectedIndex].index;
+//
+//     subCate.options.length = 1;
+//
+//     if (select !== 0) {
+//         category['category' + select].forEach((value) => {
+//             subCate.options[subCate.options.length] = new Option(value, value);
+//         });
+//     }
+// });
 
 
 Dropzone.options.myDropzone = {
@@ -116,11 +155,17 @@ findAddressBtn.addEventListener('click', (event) => {
             let address = data.address;
             let jibunAddress = data.jibunAddress;
             if (address !== '' || jibunAddress !== '') {
-                document.querySelector("input[name=roadAddress]").value = address;
-                document.querySelector("input[name=jibunAddress]").value = jibunAddress;
-                document.querySelector("input[name=zipCode]").value = data.zonecode;
-                document.querySelector("input[name=sido]").value = data.sido;
-                document.querySelector("input[name=sigungu]").value = data.sigungu;
+                // document.querySelector("input[name=roadAddress]").value = address;
+                // document.getElementById("address.extraAddress").value = extraAddr;
+                // document.getElementById("address.postcode").value = data.zonecode;
+                // document.getElementById("address.sido").value = data.sido;
+                // document.getElementById("address.sigungu").value = data.sigungu;
+                // document.getElementById("address.sigungu").value = data.sigungu;
+
+                document.querySelector("input[name='address.address']").value = address;
+                document.querySelector("input[name='address.postcode']").value = data.zonecode;
+                document.querySelector("input[name='address.sido']").value = data.sido;
+                document.querySelector("input[name='address.sigungu']").value = data.sigungu;
                 document.querySelector('.btn-close').click();
             }
         },

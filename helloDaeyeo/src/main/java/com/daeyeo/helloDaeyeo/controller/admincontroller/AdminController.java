@@ -1,10 +1,12 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.Role;
 import com.daeyeo.helloDaeyeo.service.MemberService;
+import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -13,7 +15,10 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import javax.swing.text.DateFormatter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +29,7 @@ import java.util.Set;
 public class AdminController {
     private final MemberService memberService;
     private final UserService userService;
+    private final PeriodTestService periodTestService;
 
     @RequestMapping("/")
     public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
@@ -86,6 +92,29 @@ public class AdminController {
         model.addAttribute("currentRoles", currentRoles);
         // TODO: 어디에 보여줄거?
         return "/admin/updateRolesForm";
+    }
+
+    @PostMapping("cal")
+    public String calpost(RentalForm rentalForm) {
+        // 매개변수로 선택된날짜랑 시작시간 끝나는시간 RentalStatus
+        // 하나의 메서드에서 다 형변환을 시켜주고 RentalStatus 안에 집어넣을생각
+        String dateString = rentalForm.getSelectedDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDate selectedDate = LocalDate.parse(dateString, formatter);
+        LocalDateTime startTime = rentalForm.castTime(rentalForm.getSelectedDate(), rentalForm.getStartTime());
+        LocalDateTime endTime = rentalForm.castTime(rentalForm.getSelectedDate(), rentalForm.getEndTime());
+        if (startTime.isBefore(endTime)) {
+            // 값 검증함
+            if (periodTestService.validPeriod(startTime, endTime)) {
+                // 값넣기
+                periodTestService.insertPeriod(startTime, endTime);
+            } else {
+                // 에러
+                System.out.println("시간이겹친다!");
+            }
+        }
+        return "test";
     }
 
     // 어드민이 유저의 권한을 변경하는 메서드

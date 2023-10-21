@@ -2,16 +2,16 @@ package com.daeyeo.helloDaeyeo.embedded;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Embeddable
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
 public class ApplicationPeriod {
     @Column(name = "application_start_date")
     private LocalDate startDate;

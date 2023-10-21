@@ -8,17 +8,58 @@
     <link th:href="@{/css/rental/rental_write.css}" rel="stylesheet">
 
     <meta charset="UTF-8">
+    <!-- FullCalendar JS File -->
+    <script th:src="@{/js/rental/index.global.js}"></script>
+    <script th:src="@{/js/rental/ko.global.js}"></script>
+    <script th:src="@{/js/rental/rentalWrite.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src='fullcalendar/dist/index.global.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var startDate = /*[[${rentalObject.usagePeriod.startDate}]]*/;
+        var endDate = /*[[${rentalObject.usagePeriod.endDate}]]*/;
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                selectable: true,
+                local: "ko",
+                validRange: {
+                    start: startDate, // startDuration
+                    end: endDate // endDuration
+                },
+                select: function(info) {
+                    // Calculate the difference between the selected start and end dates
+                    var start = moment(info.start); // Convert to Moment object
+                    var end = moment(info.end);     // Convert to Moment object
+
+                    if (end.diff(start, 'days') === 1) {
+                        var selectedDate = start.format('YYYY-MM-DD');
+                        $('#rentalDate').val(selectedDate);
+                    } else {
+                        // If the selected range is not one day, you can show an error message or take another action.
+                        alert('강의실 사용하실 날짜 하루만 입력해주세요.');
+                        calendar.unselect(); // Deselect the range
+                    }
+                }
+            });
+            calendar.render();
+        });
+        /*]]>*/
+    </script>
     <title>대여글 작성 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">
-    <!--    <div th:replace="../includes/header :: header"></div>-->
+    <div th:replace="/includes/header"></div>
     <div class="container">
         <div class="top_container">
             <div class="contents">
                 <div class="top_contents">
                     <div class="state">대여가능</div>
-<!--                    <div class="title" th:text="${rentalObject.getObjectName()}"></div>-->
+                    <div class="title" th:text="${rentalObject.getObjectName()}"></div>
                 </div>
                 <div class="bot_contents">
                     <div class="left_box">
@@ -109,7 +150,7 @@
                         <div class="func_box">
                             <div class="icon_box">
                                 <div class="icon hits_box">
-<!--                                    <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>-->
+                                    <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>
                                 </div>
                                 <div class="rating">
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
@@ -125,57 +166,66 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-<!--                        <form th:action="@{/rental/rental.do}" id="reservation-form">-->
-<!--                            <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">-->
+                        <form th:action="@{/rental/write.do}" th:object="${rentalStatus}" id="reservation-form">
+                            <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">
                             <table class="description">
                                 <tr>
                                     <th>장소</th>
-<!--                                    <td th:text="${rentalObject.location}"></td>-->
-                                </tr>
-                                <tr>
-                                    <th>대상</th>
-<!--                                    <td th:text="${rentalObject.target}"></td>-->
+                                    <td th:text="${rentalObject.address.address}"></td>
                                 </tr>
                                 <tr>
                                     <th>이용요금</th>
-<!--                                    <td><input type="text" name="price" th:value="${rentalObject.price}" tabindex="-1"-->
+                                    <td><input type="text" name="price" th:value="${rentalObject.usageFee}"
+                                               tabindex="-1"
                                                readonly></td>
                                 </tr>
                                 <tr>
                                     <th>접수기간</th>
                                     <td>
-<!--                                        <span class="receipt-start-duration"-->
-<!--                                              th:text="${rentalObject.receiptStartDuration}"></span>-->
-<!--                                        ~-->
-<!--                                        <span class="receipt-end-duration"-->
-<!--                                              th:text="${rentalObject.receiptEndDuration}"></span>-->
+                                        <span class="receipt-start-duration"
+                                              th:text="${rentalObject.applicationPeriod.startDate}"></span>
+                                        ~
+                                        <span class="receipt-end-duration"
+                                              th:text="${rentalObject.applicationPeriod.endDate}"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용기간</th>
-<!--                                    <td th:text="${rentalObject.startDuration} + ' ~ ' + ${rentalObject.endDuration}"></td>-->
+                                    <td th:text="${rentalObject.usagePeriod.startDate} + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></td>
                                 </tr>
                                 <tr>
-                                    <th>사용기간</th>
+                                    <th>사용 가능한 시간</th>
+                                    <td th:text="${rentalObject.usagePeriod.startTime} + ' ~ ' + ${rentalObject.usagePeriod.endTime}"></td>
+                                </tr>
+                                <tr>
+                                    <th>이용할날짜</th>
                                     <td>
                                         <div class="user-duration">
-                                            <input type="text" name="startDuration" value="" tabindex="-1" readonly>
+                                            <input type="text" th:field="*{rentalDate}" readonly>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사용할시간</th>
+                                    <td>
+                                        <div class="user-duration">
+                                            <input type="time" class="form-control" th:field="*{startTime}">
                                             ~
-                                            <input type="text" name="endDuration" value="" tabindex="-1" readonly>
+                                            <input type="time" class="form-control" th:field="*{endTime}">
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>모집인원</th>
-<!--                                    <td th:text="${rentalObject.capacity} + ' 명'"></td>-->
+                                    <td th:text="${rentalObject.maxPerson} + ' 명'"></td>
                                 </tr>
                                 <tr>
                                     <th>웹사이트</th>
-<!--                                    <td th:text="${rentalObject.website}"></td>-->
+                                    <td th:text="${rentalObject.webSite}"></td>
                                 </tr>
                                 <tr>
                                     <th>문의전화</th>
-<!--                                    <td th:text="${rentalObject.representNum}"></td>-->
+                                    <td th:text="${rentalObject.inquiryPhone}"></td>
                                 </tr>
                             </table>
                         </form>
@@ -212,7 +262,7 @@
             <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                 <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel"
                      aria-labelledby="guide-tab">
-<!--                    <div th:text="${rentalObject.useInfo}"></div>-->
+                    <!--                    <div th:text="${rentalObject.useInfo}"></div>-->
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-place" role="tabpanel" aria-labelledby="place-tab">
                     <div class="sub_box">
@@ -221,11 +271,11 @@
                     </div>
                     <div class="sub_box">
                         <h3>주소</h3>
-<!--                        <div th:text="${rentalObject.address.roadAddress}"></div>-->
+                        <div th:text="${rentalObject.address.address}"></div>
                     </div>
                     <div class="sub_box">
                         <h3>오시는 길</h3>
-<!--                        <div th:text="${rentalObject.locationInfo}"></div>-->
+                        <div th:text="${rentalObject.address.detailAddress}"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-review" role="tabpanel" aria-labelledby="review-tab">
@@ -252,41 +302,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
-                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
-                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
-                                repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
-                                Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
-                                Consequatur rerum in.
-                                <a href="" class="btn btn-primary">Button</a>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
-                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
-                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
-                                repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
-                                Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
-                                Consequatur rerum in.
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Default Card</h5>
-                                Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti
-                                inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est
-                                esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint
-                                repellendus voluptas.
-                                Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam.
-                                Enim fuga ipsum dolor nulla quia ut.
-                                Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut.
-                                Consequatur rerum in.
                             </div>
                         </div>
                     </div>
@@ -294,7 +319,7 @@
             </div> <!-- End Bordered Tabs Justified -->
         </div>
     </div>
-    <div th:replace="~{/includes/footer :: footer}"></div>
+    <div th:replace="/includes/footer"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->
@@ -302,10 +327,54 @@
 <!-- Slider JS File -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
-<!-- FullCalendar JS File -->
-<script th:src="@{/js/rental/index.global.js}"></script>
-<!-- Kakao Maps API -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0e9e66db9f3843b34b9c3a178aaae77d"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb2580abb9ad006dfbbb928129fffcd9&libraries=services,clusterer,drawing">
+</script>
 <!-- JS File -->
-<script th:src="@{/js/rental/rentalWrite.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var detailAddress = /*[[${rentalObject.address.detailAddress}]]*/;
+    var address = /*[[${rentalObject.address.address}]]*/;
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다
+    const placeTab = document.querySelector('#place-tab');
+    placeTab.addEventListener('click', () => map.relayout());
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(address, function (result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: detailAddress
+            });
+            infowindow.open(map, marker);
+            map.relayout();
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+
+        }
+    });
+    /*]]>*/
+</script>
 </html>
