@@ -1,5 +1,7 @@
 package com.daeyeo.helloDaeyeo.entity;
 
 public enum Status {
-    대기,수락,사용완료
+    PENDING, // 대기
+    ACCEPTED, // 수락
+    COMPLETED // 완료
 }
