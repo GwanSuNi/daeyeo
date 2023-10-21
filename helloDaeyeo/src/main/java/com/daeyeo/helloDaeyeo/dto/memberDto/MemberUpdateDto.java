@@ -13,14 +13,14 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class MemberUpdateDto {
-    private String userName;
+    private String nickname;
     private String department;
     private Address address;
     private String phone;
 
-    public Member memberUpdate(Member member){
-        if (this.userName != "") {
-            member.setUserName(this.userName);
+    public Member memberUpdate(Member member) {
+        if (this.nickname != "") {
+            member.setNickname(this.nickname);
         }
         if (this.department != "") {
             member.setDepartment(this.department);

@@ -2,19 +2,15 @@ package com.daeyeo.helloDaeyeo.entity;
 
 
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -35,7 +31,7 @@ public class Member implements UserDetails {
     private Address memberAddress;
     private String phone;
     private String userPw;
-    private String userName;
+    private String nickname;
     // 등록 날짜
     private LocalDateTime registDate;
     private String department;
@@ -45,32 +41,34 @@ public class Member implements UserDetails {
     private int paySum;
     // 유저가 벌은 돈
     private int moneyEarned;
+    // TODO: 정지, 밴 기간 먹이는 프레젠테이션 레이어 필요
+    // 계정 정지 굳이 필요할까...?
+//    private LocalDateTime lockEndDate = null;
+    // 계정 밴
+    private LocalDateTime banEndDate = LocalDateTime.of(1990, 1, 1, 0, 0);
 
     // 사용자 역할 정보
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public Member(MemberRegisterDto memberRegisterDto){
+    public Member(MemberRegisterDto memberRegisterDto) {
         this.userEmail = memberRegisterDto.getUserEmail();
         this.userPw = memberRegisterDto.getUserPw();
-        this.userName = memberRegisterDto.getUserName();
+        this.nickname = memberRegisterDto.getUserName();
         this.memberAddress = memberRegisterDto.getAddress();
         this.phone = memberRegisterDto.getPhone();
         this.department = memberRegisterDto.getDepartment();
         this.registDate = LocalDateTime.now();
     }
-    public Member(MemberUpdateDto memberUpdateDto){
-
-    }
 
     @Builder
-    public Member(String userEmail, Address memberAddress, String phone, String userPw, String userName, String department, LocalDateTime registDate, Set<Role> roles, String auth) {
+    public Member(String userEmail, Address memberAddress, String phone, String userPw, String nickname, String department, LocalDateTime registDate, Set<Role> roles, String auth) {
         this.userEmail = userEmail;
         this.memberAddress = memberAddress;
         this.phone = phone;
         this.userPw = userPw;
-        this.userName = userName;
+        this.nickname = nickname;
         this.department = department;
         this.registDate = registDate;
         this.roles = roles;
@@ -108,7 +106,7 @@ public class Member implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        // TODO: 계정이 잠금되었는 지 확인하는 로직
+//        return LocalDateTime.now().isAfter(lockEndDate);
         return true;
     }
 
@@ -118,9 +116,9 @@ public class Member implements UserDetails {
         return true;
     }
 
+    // TODO: 계정이 잠겨서 로그인이 불가능할 때 프론트에 알려줄 필요가 있음 현재 : ?error
     @Override
     public boolean isEnabled() {
-        // TODO: 계정이 사용가능한 지 확인하는 로직
-        return true;
+        return LocalDateTime.now().isAfter(banEndDate);
     }
 }

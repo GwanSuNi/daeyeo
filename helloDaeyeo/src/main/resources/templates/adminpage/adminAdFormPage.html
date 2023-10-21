@@ -11,7 +11,8 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -33,7 +34,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt=""> <!-- 이미지 바꾸기 -->
+            <img src="/css/assets/img/favicon.png" alt="아이콘"> <!-- 이미지 바꾸기 -->
             <span class="d-none d-lg-block">NoobGPT</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i> <!-- 메뉴 열고닫는 버튼-->
@@ -47,19 +48,19 @@
         </form>
     </div>
 
-<!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
-<!--    <div th:if="${session.loginUser != null}">-->
-<!--        <div th:onclick="'location.href=\'' + @{${path}/logout} + '\''">-->
-<!--            <i class="fa-solid fa-right-from-bracket logout_btn"-->
-<!--               style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:unless="${session.loginUser != null}">-->
-<!--        <div th:onclick="'location.href=\'' + @{${path}/login} + '\''">-->
-<!--            <i class="fa-solid fa-right-to-bracket logout_btn"-->
-<!--               style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    &lt;!&ndash; End Search Bar &ndash;&gt;-->
+    <!--    <div th:if="${session.loginUser != null}">-->
+    <!--        <div th:onclick="'location.href=\'' + @{${path}/logout} + '\''">-->
+    <!--            <i class="fa-solid fa-right-from-bracket logout_btn"-->
+    <!--               style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div th:unless="${session.loginUser != null}">-->
+    <!--        <div th:onclick="'location.href=\'' + @{${path}/login} + '\''">-->
+    <!--            <i class="fa-solid fa-right-to-bracket logout_btn"-->
+    <!--               style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </header>
 <!-- End Header -->
 
@@ -115,7 +116,8 @@
         <!-- Start Statistics Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#statistics-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>통계</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="statistics-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>

@@ -8,8 +8,11 @@ import com.daeyeo.helloDaeyeo.entity.Review;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +26,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
 @RequestMapping("/myPage")
 public class MyPageController {
@@ -45,83 +49,90 @@ public class MyPageController {
      * @param model
      * @return
      */
-    @GetMapping("")
-    public String myPageGetForm(Model model){
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
-        model.addAttribute("member",member);
-        model.addAttribute("memberUpdatePw",new MemberUpdatePwDto());
-        model.addAttribute("memberUpdateForm",new MemberUpdateDto());
+    // TODO: Member에 대해 null 검사
+    @GetMapping("/")
+    public String myPageGetForm(Model model, @CurrentSecurityContext Authentication authentication) {
+        Member member = memberService.findMember(authentication.getName()).orElse(null);
+        log.info("인증 정보 {}", authentication.getName());
+        model.addAttribute("member", member);
+        model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
+        model.addAttribute("memberUpdateForm", new MemberUpdateDto());
         model.addAttribute("memberDelete", new MemberDeleteDto());
         return "/myPage/myPage";
     }
+
     @PostMapping("/updateInfo")
-    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto , BindingResult bindingResult,Model model){
-        String memberId = "test@test.com"; // session 으로 값을 받아왔다 치고 만든거임
-        Member member = memberService.findMember(memberId).get();
-        memberService.updateMember(memberId,memberUpdateDto);
-        model.addAttribute("member",member);
+    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
+        memberService.updateMember(memberEmail, memberUpdateDto);
+        model.addAttribute("member", member);
         return "redirect:/myPage";
 //        "redirect:/login/memberRegister"
     }
 
     @PostMapping("/updatePw")
-    public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto , BindingResult bindingResult,
-    Model model , RedirectAttributes redirectAttributes){
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
-        if(!member.getUserPw().equals(memberUpdatePwDto.getPw())){
+    public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult,
+                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
+        if (!member.getUserPw().equals(memberUpdatePwDto.getPw())) {
             redirectAttributes.addFlashAttribute("member", member);
             redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다 다시 입력해주세요");
             return "redirect:/myPage";
-        }else if(!memberUpdatePwDto.getNewPw1().equals(memberUpdatePwDto.getNewPw())){
-            redirectAttributes.addFlashAttribute("member",member);
-            redirectAttributes.addFlashAttribute("notSamePwConfirm","비밀번호 확인이 둘다 다릅니다. 다시 입력해주세요");
+        } else if (!memberUpdatePwDto.getNewPw1().equals(memberUpdatePwDto.getNewPw())) {
+            redirectAttributes.addFlashAttribute("member", member);
+            redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호 확인이 둘다 다릅니다. 다시 입력해주세요");
             return "redirect:/myPage";
-        }else{
-            memberService.updateMemberPw(memberId,memberUpdatePwDto);
-            model.addAttribute("member",member);
+        } else {
+            memberService.updateMemberPw(memberEmail, memberUpdatePwDto);
+            model.addAttribute("member", member);
             return "redirect:/myPage";
         }
     }
+
     @PostMapping("/delete")
-    public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto , BindingResult bindingResult,
-                               Model model){
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
-        if(member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
-           memberId.equals(memberDeleteDto.getMemberId())){
-        memberService.deleteMember(memberId,memberDeleteDto);
+    public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult,
+                               Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
+        if (member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
+                memberEmail.equals(memberDeleteDto.getMemberId())) {
+            memberService.deleteMember(memberEmail, memberDeleteDto);
             return "redirect:/myPage"; // 로그아웃되는 로직을 짜야함
         } else if (bindingResult.hasErrors()) {
             return "/myPage/myPage";
-        } else{
-            model.addAttribute("idpwerror","아이디 혹은 비밀번호가 틀립니다.");
+        } else {
+            model.addAttribute("idpwerror", "아이디 혹은 비밀번호가 틀립니다.");
             return "redirect:/myPage";
         }
     }
+
     @RequestMapping("myWishList")
-    public String wishList(Model model){
-        String memberId = null;
-        List<Review> reviewList = memberService.reviewList(memberId);
-        model.addAttribute("reviewList",reviewList);
+    public String wishList(Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        List<Review> reviewList = memberService.reviewList(memberEmail);
+        model.addAttribute("reviewList", reviewList);
         return "/myPage/myWishList";
     }
 
     @RequestMapping("reservation")
-    public String reservation(){
+    public String reservation() {
         return "/myPage/reservation";
     }
+
     @RequestMapping("rentalManage")
-    public String rentalManage(){
+    public String rentalManage() {
         return "/myPage/rentalManage";
     }
+
     @RequestMapping("rentalLog")
-    public String rentalLog(){
+    public String rentalLog() {
         return "/myPage/rentalLog";
     }
+
     @RequestMapping("memberManage")
-    public String memberManage(){
+    public String memberManage() {
         return "/myPage/memberManage";
     }
 

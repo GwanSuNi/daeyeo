@@ -9,8 +9,9 @@ import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,15 @@ public class AdminController {
     private final UserService userService;
     private final PeriodTestService periodTestService;
 
-    @RequestMapping("adminMain")
-    public String mainPage(Model model) {
+    @RequestMapping("/")
+    public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("name", authentication.getName());
         return "adminpage/adminMainPage";
     }
 
     @RequestMapping("adminMember")
-    public String memberPage(Model model) {
+    public String memberPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("name", authentication.getName());
         List<Member> memberList = memberService.findAll();
         List<AdminMemberDto> adminMemberDtos = memberService.adminMemberPage(memberList);
         model.addAttribute("adminMemberDtos", adminMemberDtos);
