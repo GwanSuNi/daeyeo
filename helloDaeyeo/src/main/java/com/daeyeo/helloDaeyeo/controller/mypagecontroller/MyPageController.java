@@ -7,7 +7,10 @@ import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
 @RequestMapping("/myPage")
 public class MyPageController {
@@ -40,10 +44,11 @@ public class MyPageController {
      * @param model
      * @return
      */
-    @GetMapping("")
-    public String myPageGetForm(Model model) {
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
+    // TODO: Member에 대해 null 검사
+    @GetMapping("/")
+    public String myPageGetForm(Model model, @CurrentSecurityContext Authentication authentication) {
+        Member member = memberService.findMember(authentication.getName()).orElse(null);
+        log.info("인증 정보 {}", authentication.getName());
         model.addAttribute("member", member);
         model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
         model.addAttribute("memberUpdateForm", new MemberUpdateDto());
@@ -52,10 +57,10 @@ public class MyPageController {
     }
 
     @PostMapping("/updateInfo")
-    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model) {
-        String memberId = "test@test.com"; // session 으로 값을 받아왔다 치고 만든거임
-        Member member = memberService.findMember(memberId).get();
-        memberService.updateMember(memberId, memberUpdateDto);
+    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
+        memberService.updateMember(memberEmail, memberUpdateDto);
         model.addAttribute("member", member);
         return "redirect:/myPage";
 //        "redirect:/login/memberRegister"
@@ -63,9 +68,9 @@ public class MyPageController {
 
     @PostMapping("/updatePw")
     public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult,
-                                 Model model, RedirectAttributes redirectAttributes) {
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
+                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
         if (!member.getUserPw().equals(memberUpdatePwDto.getPw())) {
             redirectAttributes.addFlashAttribute("member", member);
             redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다 다시 입력해주세요");
@@ -75,7 +80,7 @@ public class MyPageController {
             redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호 확인이 둘다 다릅니다. 다시 입력해주세요");
             return "redirect:/myPage";
         } else {
-            memberService.updateMemberPw(memberId, memberUpdatePwDto);
+            memberService.updateMemberPw(memberEmail, memberUpdatePwDto);
             model.addAttribute("member", member);
             return "redirect:/myPage";
         }
@@ -83,12 +88,12 @@ public class MyPageController {
 
     @PostMapping("/delete")
     public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult,
-                               Model model) {
-        String memberId = "test@test.com";
-        Member member = memberService.findMember(memberId).get();
+                               Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
         if (member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
-                memberId.equals(memberDeleteDto.getMemberId())) {
-            memberService.deleteMember(memberId, memberDeleteDto);
+                memberEmail.equals(memberDeleteDto.getMemberId())) {
+            memberService.deleteMember(memberEmail, memberDeleteDto);
             return "redirect:/myPage"; // 로그아웃되는 로직을 짜야함
         } else if (bindingResult.hasErrors()) {
             return "/myPage/myPage";
@@ -99,9 +104,10 @@ public class MyPageController {
     }
 
     @RequestMapping("myWishList")
-    public String wishList(Model model) {
-//        String memberId = null;
-//        model.addAttribute("reviewList",reviewList);
+    public String wishList(Model model, @CurrentSecurityContext Authentication authentication) {
+        String memberEmail = authentication.getName();
+//        List<Review> reviewList = memberService.reviewList(memberEmail);
+//        model.addAttribute("reviewList", reviewList);
         return "/myPage/myWishList";
     }
 

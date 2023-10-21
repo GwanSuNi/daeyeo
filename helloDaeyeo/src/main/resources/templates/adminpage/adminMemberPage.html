@@ -34,7 +34,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="">
+            <img src="/css/assets/img/favicon.png" alt="아이콘">
             <span class="d-none d-lg-block">NoobGPT</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -204,7 +204,7 @@
                         <table class="table datatable">
                             <thead>
                             <tr>
-                                <th scope="col">index</th>
+<!--                                <th scope="col">index</th>-->
                                 <th scope="col">회원유형</th>
                                 <th scope="col">이메일</th>
                                 <th scope="col">회원이름</th>
@@ -220,23 +220,25 @@
                             <tbody>
                             <tr th:each="member:${adminMemberDtos}">
 <!--                                <td th:text="${index}"></td>-->
-<!--                                <td>-->
-<!--                                    <span th:style="${manage.userCategory == '고급'} ? 'color: gold;' : ${manage.userCategory == '일반'} ? 'color: black;' : ''"-->
-<!--                                          th:text="${manage.userCategory}"></span>-->
-<!--                                </td>-->
-                                <td th:text="${member.reviewCount}"></td>
-                                <td th:text="${member.rentalCount}"></td>
+                                <td>
+<!--                                    TODO: 등급이 다양해졌을 시 구별 추가 -->
+                                    <span th:style="'color: ' + (${#strings.equals(member.topRole, 'ADMIN')} ? 'red' : 'black') + ';'"
+                                          th:text="${member.topRole}"></span>
+                                </td>
+                                <td th:text="${member.userEmail}"></td>
+                                <td th:text="${member.userName}"></td>
+                                <td th:text="${member.phone}"></td>
+                                <td th:text="${member.registDate}"></td>
                                 <td th:text="${member.objectCount}"></td>
-                                <td th:text="${member.userName}"></td>
-                                <td th:text="${member.phone}"></td>
-                                <td th:text="${member.phone}"></td>
-                                <td th:text="${member.phone}"></td>
-                                <td th:text="${member.userName}"></td>
-                                <td th:text="${manage.phoneNum}"></td>
-                                <td th:text="${manage.registerDate}"></td>
-                                <td th:text="${manage.totalObject}"></td>
-                                <td th:text="${manage.totalRent}"></td>
-                                <td th:text="${manage.totalReview}"></td>
+                                <td th:text="${member.rentalCount}"></td>
+                                <td th:text="${member.reviewCount}"></td>
+                                <td th:text="${member.moneyEarned}"></td>
+                                <td th:text="${member.paySum}"></td>
+<!--                                <td th:text="${manage.phoneNum}"></td>-->
+<!--                                <td th:text="${manage.registerDate}"></td>-->
+<!--                                <td th:text="${manage.totalObject}"></td>-->
+<!--                                <td th:text="${manage.totalRent}"></td>-->
+<!--                                <td th:text="${manage.totalReview}"></td>-->
 <!--                                <td>-->
 <!--                                    <span th:if="${manage.totalPay != null}" th:text="${manage.totalPay}"></span>-->
 <!--                                    <span th:unless="${manage.totalPay != null}">0</span>-->

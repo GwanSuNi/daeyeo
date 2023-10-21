@@ -82,6 +82,11 @@ public class MemberService {
         }
     }
 
+    /***
+     * myPage의 wishList 에서 유저의 리뷰에 대한 리스트를 반환하는 메서드
+     * @param memberId
+     * @return
+     */
     public Optional<Member> findMember(String memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         return member;
@@ -97,9 +102,9 @@ public class MemberService {
     }
 
     public List<AdminMemberDto> adminMemberPage(List<Member> member) {
-        List<AdminMemberDto> adminMemberDtos = new ArrayList<AdminMemberDto>();
-        for (int i = 0; i < member.size(); i++) {
-            AdminMemberDto adminMemberDto = new AdminMemberDto(member.get(i));
+        List<AdminMemberDto> adminMemberDtos = new ArrayList<>();
+        for (Member value : member) {
+            AdminMemberDto adminMemberDto = new AdminMemberDto(value);
             adminMemberDtos.add(adminMemberDto);
         }
         return adminMemberDtos;
