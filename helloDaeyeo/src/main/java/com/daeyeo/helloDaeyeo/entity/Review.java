@@ -20,7 +20,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int reviewIndex;
-    @OneToOne(mappedBy = "review")
+    @OneToOne
     private RentalStatus rentalStatus;
     LocalDateTime writeDate;
     String content;

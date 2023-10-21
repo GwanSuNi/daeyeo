@@ -3,7 +3,6 @@ package com.daeyeo.helloDaeyeo.service;
 import com.daeyeo.helloDaeyeo.dto.memberDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
-import com.daeyeo.helloDaeyeo.entity.Review;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
@@ -33,17 +32,18 @@ public class MemberService {
     private final MemberMapper mapper;
 
     @Transactional
-    public void insertMember(MemberRegisterDto memberRegisterDto){
+    public void insertMember(MemberRegisterDto memberRegisterDto) {
         Optional<Member> member = memberRepository.findById(memberRegisterDto.getUserEmail());
-         // 멤버의 갯수를 세서 멤버의 갯수가 0이면 허용 1이면 허용 x 해서 최적화하기 ?
-         if(member.isPresent()){
+        // 멤버의 갯수를 세서 멤버의 갯수가 0이면 허용 1이면 허용 x 해서 최적화하기 ?
+        if (member.isPresent()) {
             throw new IdAlreadyExistsException("이미 아이디가 존재합니다.");
-        }else{
+        } else {
             Member insertMember = new Member(memberRegisterDto);
             memberRepository.save(insertMember);
         }
     }
 //TODO 현재는 급하게 만들었지만 나중에 값을 검증하는 로직도 추가해야함 ex) 주소값을 이상하게 적었다던지 , 번호형식이 이상하던지 등등 ..
+
     /***
      * myPage 에서 유저의 정보를 변환하는 메서드 MemberUpdateDto 로 값을 다 받아오고 클라이언트가 빈칸으로 정보를 보내면 원래 있던 정보로 저장하고
      * 그렇지 않으면 바꾸려는 정보로 저장해서 유저의 값을 변경함
@@ -52,7 +52,7 @@ public class MemberService {
      *                        Dto 를 사용해서 rest하게 바꾸었을때 코드변환을 자유롭게 하기위해
      */
     @Transactional
-    public void updateMember(String memberId, MemberUpdateDto memberUpdateDto){
+    public void updateMember(String memberId, MemberUpdateDto memberUpdateDto) {
         Optional<Member> member = memberRepository.findById(memberId);
         memberRepository.save(memberUpdateDto.memberUpdate(member.get()));
     }
@@ -64,33 +64,25 @@ public class MemberService {
      * @return
      */
     @Transactional
-    public void updateMemberPw(String memberId , MemberUpdatePwDto memberUpdatePwDto){
+    public void updateMemberPw(String memberId, MemberUpdatePwDto memberUpdatePwDto) {
         Member member = findMember(memberId).get();
         member.setUserPw(memberUpdatePwDto.getNewPw());
         memberRepository.save(member);
     }
+
     @Transactional
-    public String deleteMember(String memberId , MemberDeleteDto memberDeleteDto){
+    public String deleteMember(String memberId, MemberDeleteDto memberDeleteDto) {
         Optional<Member> member = memberRepository.findById(memberId);
-        if(member.get().getUserPw() == memberDeleteDto.getMemberPw() &&
-           member.get().getUserEmail() == memberDeleteDto.getMemberId()){
+        if (member.get().getUserPw() == memberDeleteDto.getMemberPw() &&
+                member.get().getUserEmail() == memberDeleteDto.getMemberId()) {
             memberRepository.delete(member.get());
             return "Success";
-        }else {
+        } else {
             return "Fail";
         }
     }
 
-    /***
-     * myPage의 wishList 에서 유저의 리뷰에 대한 리스트를 반환하는 메서드
-     * @param memberId
-     * @return
-     */
-    public List<Review> reviewList(String memberId){
-        List<Review> reviewList = memberRepository.findById(memberId).get().getReviews();
-        return reviewList;
-    }
-    public Optional<Member> findMember(String memberId){
+    public Optional<Member> findMember(String memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         return member;
     }
@@ -103,8 +95,9 @@ public class MemberService {
         List<Member> memberList = memberRepository.findAll();
         return memberList;
     }
-    public List<AdminMemberDto> adminMemberPage(List<Member> member){
-            List<AdminMemberDto> adminMemberDtos = new ArrayList<AdminMemberDto>();
+
+    public List<AdminMemberDto> adminMemberPage(List<Member> member) {
+        List<AdminMemberDto> adminMemberDtos = new ArrayList<AdminMemberDto>();
         for (int i = 0; i < member.size(); i++) {
             AdminMemberDto adminMemberDto = new AdminMemberDto(member.get(i));
             adminMemberDtos.add(adminMemberDto);

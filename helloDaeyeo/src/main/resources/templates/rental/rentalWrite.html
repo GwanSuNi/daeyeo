@@ -9,8 +9,6 @@
 
     <meta charset="UTF-8">
     <!-- FullCalendar JS File -->
-    <script th:src="@{/js/rental/index.global.js}"></script>
-    <script th:src="@{/js/rental/ko.global.js}"></script>
     <script th:src="@{/js/rental/rentalWrite.js}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src='fullcalendar/dist/index.global.js'></script>
@@ -18,14 +16,14 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var startDate = /*[[${rentalObject.usagePeriod.startDate}]]*/;
-        var endDate = /*[[${rentalObject.usagePeriod.endDate}]]*/;
+        var startDate = /*[[@{${rentalObject.usagePeriod.startDate}}]]*/;
+        var endDate = /*[[@{${rentalObject.usagePeriod.endDate}}]]*/;
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 selectable: true,
-                local: "ko",
+                locale: "ko",
                 validRange: {
                     start: startDate, // startDuration
                     end: endDate // endDuration
@@ -166,7 +164,7 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-                        <form th:action="@{/rental/write.do}" th:object="${rentalStatus}" id="reservation-form">
+                        <form th:action="@{/rental/write/status.do}" method="post" th:object="${rentalStatus}" id="reservation-form">
                             <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">
                             <table class="description">
                                 <tr>
@@ -206,7 +204,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>사용할시간</th>
+                                    <th>사용할시간</th>용
                                     <td>
                                         <div class="user-duration">
                                             <input type="time" class="form-control" th:field="*{startTime}">
@@ -228,11 +226,14 @@
                                     <td th:text="${rentalObject.inquiryPhone}"></td>
                                 </tr>
                             </table>
-                        </form>
                         <div class="btn_box">
                             <a href="" class="reservation">예약하기</a>
+                            <button type="submit" class="btn btn-primary">예약하기</button>
                             <a href="/rentals/list" class="list">목록</a>
+                                    <div th:if="${notPermitTimeError}" th:text="${notPermitTimeError}" style="color: red;"></div>
+                                    <div th:if="${overlapInTime}" th:text="${overlapInTime}" style="color: red;"></div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

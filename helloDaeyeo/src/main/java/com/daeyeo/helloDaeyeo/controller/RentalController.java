@@ -3,15 +3,10 @@ package com.daeyeo.helloDaeyeo.controller;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
-import com.daeyeo.helloDaeyeo.embedded.Address;
-import com.daeyeo.helloDaeyeo.entity.RentalObject;
-import com.daeyeo.helloDaeyeo.entity.SubCategory;
+import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
+import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
-import com.daeyeo.helloDaeyeo.service.MainCategoryService;
-import com.daeyeo.helloDaeyeo.service.MemberService;
-import com.daeyeo.helloDaeyeo.service.RentalObjectService;
-import com.daeyeo.helloDaeyeo.service.SubCategoryService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.daeyeo.helloDaeyeo.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -33,6 +29,7 @@ public class RentalController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final MainCategoryService mainCategoryService;
+    private final RentalStatusService rentalStatusService;
 
 
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
@@ -53,19 +50,43 @@ public class RentalController {
         return "rental/rentalList";
     }
 
-    @RequestMapping("write/{objectId}")
+    @GetMapping("write/{objectId}")
     public String rentalWrite(@PathVariable long objectId, Model model) {
+        RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
+        rentalStatusFormDto.setObjectId(objectId);
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
-        model.addAttribute("rentalStatus", new RentalStatusFormDto());
+        model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
     }
-    @PostMapping("write.do")
-    public String rentalStatusSend(@ModelAttribute("rentalStatus")RentalStatusFormDto rentalStatusFormDto){
 
-        RentalStatusDto rentalStatusDto =
-
-        return "rental/rentalWrite";
+    @PostMapping("write/status.do")
+    public String rentalStatusSend(@ModelAttribute("rentalStatus") RentalStatusFormDto rentalStatusFormDto,
+                                   Model model, RedirectAttributes redirectAttributes) {
+        // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
+        try {
+            // 현재 로그인한 유저의 아이디값을 받아서 넣어야함
+            String userEmail = "test@test.com";
+            // 값을 넣은 후에 날짜가 올바른지 확인하고 insertStatus 하는과정
+            System.out.println(rentalStatusFormDto.getObjectId() + "=========================================");
+            RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto);
+            rentalStatusDto.setUserEmail(userEmail);
+            if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
+                    rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
+                // 시간이 겹치지 않으므로 validPeriod는 true를 반환
+                rentalStatusService.insertRentalStatus(rentalStatusDto);
+            }
+        } catch (NotPermitTime e) {
+            String errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("notPermitTimeError", errorMessage);
+            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+        } catch (OverlapInTime o) {
+            String errorMessage = o.getMessage();
+            redirectAttributes.addFlashAttribute("overlapInTime", errorMessage);
+            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+        }
+        return "redirect:rental/list";
     }
+
     @GetMapping("/getSubCategories")
     @ResponseBody
     public List<SubCategoryDto> getSubCategories(@RequestParam("mainCategoryId") String mainCategoryId) {
@@ -79,18 +100,17 @@ public class RentalController {
 //      memberService.validateMember(request);
         List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
         model.addAttribute("rentalRegister", new RentalRegisterFormDto());
-        model.addAttribute("mainCategoryList",mainCategoryList);
+        model.addAttribute("mainCategoryList", mainCategoryList);
         return "rental/rentalRegistrationForm";
     }
 
 
-
     @PostMapping("rentalRegistrationForm")
-    public String register(@Valid @ModelAttribute("rentalRegister")RentalRegisterFormDto rentalRegisterFormDto , BindingResult bindingResult,Model model) {
-        if(bindingResult.hasErrors()){
+    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             return "rental/rentalRegistrationForm";
-        }else if (rentalRegisterFormDto.getScId()==null){
-            model.addAttribute("scIdChoice","장소를 선택해주세요");
+        } else if (rentalRegisterFormDto.getScId() == null) {
+            model.addAttribute("scIdChoice", "장소를 선택해주세요");
             return "rental/rentalRegistrationForm";
         }
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);

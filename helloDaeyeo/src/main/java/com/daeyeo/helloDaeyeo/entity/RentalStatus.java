@@ -28,7 +28,7 @@ public class RentalStatus {
     @ManyToOne(fetch = FetchType.LAZY)
     RentalObject rentalObject;
 
-    @OneToOne
+    @OneToOne(mappedBy = "rentalStatus")
     private Review review;
 
     @OneToMany(mappedBy = "rentalStatus")
