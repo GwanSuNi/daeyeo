@@ -7,16 +7,19 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @Slf4j
 public class AdminMemberDto {
-
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm");
     private String userEmail;
     private String userName;
     private String phone;
+    // LocalDateTime으로 저장 돼있는 날짜를 포맷해서 프레젠테이션 레이어로 보내기 위한 변수
     private LocalDateTime registDate;
+    private String formattedRegistDate;
     private int rentalCount;
     private int objectCount;
     private int reviewCount;
@@ -29,9 +32,10 @@ public class AdminMemberDto {
 
     public AdminMemberDto(Member member) {
         this.userEmail = member.getUserEmail();
-        this.userName = member.getUsername();
+        this.userName = member.getNickname();
         this.phone = member.getPhone();
         this.registDate = member.getRegistDate();
+        this.formattedRegistDate = this.registDate.format(formatter);
         this.objectCount = member.getRentalObjects().size();
         this.reviewCount = member.getReviews().size();
         this.rentalCount = member.getRentalStatuses().size();

@@ -80,7 +80,7 @@ public class MemberApiController {
     }
 
     // 로그인 페이지
-    // TODO: DTO가 없어도 동작하고, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
+    // TODO: DTO가 없어도 동작함, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
     @GetMapping("/memberLogin")
     public String loginPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
 //        model.addAttribute("memberLoginDto", new MemberLoginDto());
