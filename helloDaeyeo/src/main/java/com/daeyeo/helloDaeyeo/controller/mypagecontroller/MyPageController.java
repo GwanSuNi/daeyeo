@@ -46,8 +46,9 @@ public class MyPageController {
      */
     // TODO: Member에 대해 null 검사
     @GetMapping("/")
-    public String myPageGetForm(Model model, @CurrentSecurityContext Authentication authentication) {
-        Member member = memberService.findMember(authentication.getName()).orElse(null);
+    public String myPageGetForm(Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).orElse(null);
         log.info("인증 정보 {}", authentication.getName());
         model.addAttribute("member", member);
         model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
@@ -57,7 +58,7 @@ public class MyPageController {
     }
 
     @PostMapping("/updateInfo")
-    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext Authentication authentication) {
+    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         memberService.updateMember(memberEmail, memberUpdateDto);
@@ -68,7 +69,7 @@ public class MyPageController {
 
     @PostMapping("/updatePw")
     public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult,
-                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext Authentication authentication) {
+                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         if (!member.getUserPw().equals(memberUpdatePwDto.getPw())) {
@@ -88,7 +89,7 @@ public class MyPageController {
 
     @PostMapping("/delete")
     public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult,
-                               Model model, @CurrentSecurityContext Authentication authentication) {
+                               Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         if (member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
@@ -98,13 +99,13 @@ public class MyPageController {
         } else if (bindingResult.hasErrors()) {
             return "/myPage/myPage";
         } else {
-            model.addAttribute("idpwerror", "아이디 혹은 비밀번호가 틀립니다.");
+            model.addAttribute("idpwError", "아이디 혹은 비밀번호가 틀립니다.");
             return "redirect:/myPage";
         }
     }
 
     @RequestMapping("myWishList")
-    public String wishList(Model model, @CurrentSecurityContext Authentication authentication) {
+    public String wishList(Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
         String memberEmail = authentication.getName();
 //        List<Review> reviewList = memberService.reviewList(memberEmail);
 //        model.addAttribute("reviewList", reviewList);

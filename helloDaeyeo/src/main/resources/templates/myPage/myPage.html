@@ -128,7 +128,7 @@
                                         <h5 class="card-title">상세 정보</h5>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">이름</div>
-                                            <div class="col-lg-9 col-md-8"><td th:text="${member.userName}"></td></div>
+                                            <div class="col-lg-9 col-md-8"><td th:text="${member.nickname}"></td></div>
                                         </div>
 
                                         <div class="row">
@@ -181,7 +181,7 @@
                                             <div class="row mb-3">
                                                 <label class="col-md-4 col-lg-3 col-form-label">이름</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input type="text" class="form-control" th:field="*{userName}"
+                                                    <input type="text" class="form-control" th:field="*{nickname}"
                                                            placeholder="이름을 입력하세요">
                                                 </div>
                                             </div>
@@ -279,7 +279,7 @@
                                                         <div class="col-md-8 col-lg-9">
                                                             <input type="password" class="form-control" th:field="*{memberPw}">
                                                             <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>
-                                                            <div th:if="${idpwerror}" th:text="${idpwerror}" style="color: red;"></div>
+                                                            <div th:if="${idpwError}" th:text="${idpwError}" style="color: red;"></div>
                                                         </div>
                                                     </div>
                                                     <button type="button" class="btn btn-danger">회원 탈퇴하기</button>
