@@ -55,31 +55,33 @@ sido.addEventListener('change', () => {
     }
 });
 
+// 카테고리
+const categoryTab = document.querySelectorAll('.category');
+const mainCategory = document.querySelector('#main-cate');
+const subCategories = document.querySelectorAll('.sub-category option:not(:first-child)')
 
-// 분류 선택
-const cate0 = ['강의실', '강당', '회의실', '축구장', '농구장', '야구장'];
-const cate1 = [];
-const cate = {'cate0': cate0, 'cate1': cate1};
-const activeCate = document.querySelector('.category.active');
-const initCate = cate['cate' + activeCate.value];
-const tab = document.querySelectorAll('.category');
-const category = document.querySelector('.sub-category');
-const mainCate = document.querySelector('#main-cate');
-
-initCate.forEach((item) => {
-    category.options[category.options.length] = new Option(item, item);
+// 페이지 로드 시
+window.addEventListener('load', () => {
+    showSubCategory('');
 });
 
-tab.forEach((e, num) => {
-    e.addEventListener('click', () => {
-        category.options.length = 1;
-        cate['cate' + num].forEach((value) => {
-            category.options[category.options.length] = new Option(value, value);
-        });
-        mainCate.value = e.innerText;
+// 카테고리 탭 클릭 시
+categoryTab.forEach((element) => {
+    element.addEventListener('click', () => {
+        mainCategory.value = element.textContent;
+        showSubCategory(element.textContent);
     });
 });
 
+// subCategory select option의 data-category가 str과 같을 때만 보이게 함
+function showSubCategory(str) {
+    subCategories.forEach((option) => {
+        if (option.dataset.category === str)
+            option.style.display = 'block';
+        else
+            option.style.display = 'none';
+    });
+}
 
 // 가로 스크롤
 const sliderBox = document.querySelector('.slider-box');
