@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:fragment="header(isLogined, isAdmin)">
+      th:fragment="header(isLogined, isAdmin)">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -80,7 +80,7 @@
         </li>
         <li th:if="${isLogined}"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>
-        <div th:if="${isLogined} and ${!isAdmin}" th:onclick="|location.href='/myPage'|">
+        <div th:if="${isLogined} and ${!isAdmin}" th:onclick="|location.href='/myPage/'|">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
         <div th:if="${isAdmin}" th:onclick="|location.href='/adminpage/'|">
