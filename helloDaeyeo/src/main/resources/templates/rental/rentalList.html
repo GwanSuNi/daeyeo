@@ -100,10 +100,16 @@
             </h5>
             <div class="object-form">
                 <ul id="rental-list" class="list-type">
-                    <li th:each="rentalObject : ${rentalObjects}">
-                        <a href="#" th:data-id="${rentalObject.objectIndex}" class="rental-object">
+                    <li th:each="isAbleList: ${isAbleList}">
+                        <a href="#" th:data-id="${isAbleList.dto.objectIndex}" class="rental-object">
+
                             <div class="img_box">
-                                <span class="board-state">대여가능</span>
+                                <div th:if="${isAbleList.isAble}">
+                                    <span class="board-state">대여가능</span>
+                                </div>
+                                <div th:unless="${!isAbleList.isAble}">
+                                    <span class="board-state">대여 불가능</span>
+                                </div>
                                 <img th:src="@{/img/rental/image_icon.png}" alt="사진">
                             </div>
                             <div class="description">
@@ -114,25 +120,25 @@
                                         <li class="breadcrumb-item" th:text="${rentalObject.scId}"></li>
                                     </ol>
                                 </div>
-                                <div class="title" th:text="${rentalObject.objectName}"></div>
+                                <div class="title" th:text="${isAbleList.dto.objectName}"></div>
                                 <ul class="obj_info">
                                     <li>
                                         <span class="place icon">장소</span>
-                                        <span class="obj" th:text="${rentalObject.address.detailAddress}"></span>
+                                        <span class="obj" th:text="${isAbleList.dto.address.detailAddress}"></span>
                                     </li>
                                     <li>
                                         <span class="price icon">이용요금</span>
-                                        <span class="obj" th:text="${rentalObject.usageFee}"></span>
+                                        <span class="obj" th:text="${isAbleList.dto.usageFee}"></span>
                                     </li>
                                     <li>
                                         <span class="reception_period icon">접수기간</span>
-                                        <span th:text="${rentalObject.applicationPeriod.startDate}
-                                        + ' ~ ' + ${rentalObject.applicationPeriod.endDate}"></span>
+                                        <span th:text="${isAbleList.dto.applicationPeriod.startDate}
+                                        + ' ~ ' + ${isAbleList.dto.applicationPeriod.endDate}"></span>
                                     </li>
                                     <li>
                                         <span class="use_period icon">이용기간</span>
-                                        <span th:text="${rentalObject.usagePeriod.startDate}
-                                        + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></span>
+                                        <span th:text="${isAbleList.dto.usagePeriod.startDate}
+                                        + ' ~ ' + ${isAbleList.dto.usagePeriod.endDate}"></span>
                                     </li>
                                 </ul>
                             </div>
