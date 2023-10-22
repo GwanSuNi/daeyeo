@@ -4,7 +4,6 @@ import com.daeyeo.helloDaeyeo.dto.memberDto.MemberDeleteDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdatePwDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
-import com.daeyeo.helloDaeyeo.entity.Review;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -111,7 +108,7 @@ public class MyPageController {
         } else if (bindingResult.hasErrors()) {
             return "/myPage/myPage";
         } else {
-            model.addAttribute("idpwerror", "아이디 혹은 비밀번호가 틀립니다.");
+            model.addAttribute("idpwError", "아이디 혹은 비밀번호가 틀립니다.");
             return "redirect:/myPage";
         }
     }
@@ -119,8 +116,8 @@ public class MyPageController {
     @RequestMapping("myWishList")
     public String wishList(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
-        List<Review> reviewList = memberService.reviewList(memberEmail);
-        model.addAttribute("reviewList", reviewList);
+//        List<Review> reviewList = memberService.reviewList(memberEmail);
+//        model.addAttribute("reviewList", reviewList);
         return "/myPage/myWishList";
     }
 

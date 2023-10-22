@@ -34,7 +34,6 @@ public class RentalObjectService {
 
     //    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
-        System.out.println("insertChapterStart");
         Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
@@ -60,11 +59,22 @@ public class RentalObjectService {
         return rentalObjectMapper.toDto(rentalObject);
     }
 
+    public RentalObject getOneRentalObject(long objectIndex) {
+        RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
+                .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
+        return rentalObject;
+    }
+
 
     public Page<RentalObjectDto> findListBySearchSpec(SearchSpecDto dto, Pageable pageable) {
         List<RentalObject> rentalObjects = rentalObjectRepository.findRentalObjectsByDto(dto);
         Page<RentalObject> pagedRentalObjects = rentalObjectRepository.findRentalObjectsByPage(pageable, rentalObjects);
 
         return pagedRentalObjects.map(rentalObjectMapper::toDto);
+    }
+
+    public List<RentalObject> findAll() {
+        List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
+        return rentalObjectList;
     }
 }

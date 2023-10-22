@@ -3,7 +3,6 @@ package com.daeyeo.helloDaeyeo.service;
 import com.daeyeo.helloDaeyeo.dto.memberDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
-import com.daeyeo.helloDaeyeo.entity.Review;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
@@ -88,11 +87,6 @@ public class MemberService {
      * @param memberId
      * @return
      */
-    public List<Review> reviewList(String memberId) {
-        List<Review> reviewList = memberRepository.findById(memberId).get().getReviews();
-        return reviewList;
-    }
-
     public Optional<Member> findMember(String memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         return member;

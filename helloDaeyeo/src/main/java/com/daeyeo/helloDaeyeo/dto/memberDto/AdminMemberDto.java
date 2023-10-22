@@ -37,7 +37,6 @@ public class AdminMemberDto {
         this.registDate = member.getRegistDate();
         this.formattedRegistDate = this.registDate.format(formatter);
         this.objectCount = member.getRentalObjects().size();
-        this.reviewCount = member.getReviews().size();
         this.rentalCount = member.getRentalStatuses().size();
         this.paySum = member.getPaySum();
         this.moneyEarned = member.getMoneyEarned();

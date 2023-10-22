@@ -12,27 +12,20 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter@Setter
+@Getter
+@Setter
 public class Review {
-
+    // 연관관계의 주인 OneToOne 양방향 관계에서 키의 주인을 설정해야하는데 키의 주인을 Review로 설정함
+    // mappedBy 속성이 없는 곳이 키의 주인이라고 생각하면 됨
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int reviewIndex;
-    @ManyToOne(fetch = FetchType.LAZY)
-    Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
-    RentalObject rentalObject;
+    @OneToOne
+    private RentalStatus rentalStatus;
     LocalDateTime writeDate;
     String content;
-    public void setMember(Member member) {
-        this.member = member;
-        member.getReviews().add(this);
-    }
-    public void setRentalObject(RentalObject rentalObject) {
-        this.rentalObject = rentalObject;
-        rentalObject.getReviews().add(this);
-    }
-    public Review(ReviewDto reviewDto){
+
+    public Review(ReviewDto reviewDto) {
         this.writeDate = reviewDto.getWriteDate();
         this.content = reviewDto.getContent();
     }

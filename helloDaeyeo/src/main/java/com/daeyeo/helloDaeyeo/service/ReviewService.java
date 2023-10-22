@@ -24,22 +24,25 @@ public class ReviewService {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public void insertReview(ReviewDto reviewDto ,String userId, long rentalId){
+    public void insertReview(ReviewDto reviewDto, String userId, long rentalId) {
         Optional<Member> member = memberRepository.findById(userId);
         Optional<RentalObject> rentalObject = rentalObjectRepository.findById(rentalId);
         Review review = new Review(reviewDto);
-        review.setMember(member.get());
-        review.setRentalObject(rentalObject.get());
+//        review.setMember(member.get());
+//        review.setRentalObject(rentalObject.get());
         reviewRepository.save(review);
     }
-    public List<Review> findAll(){
+
+    public List<Review> findAll() {
         List<Review> reviewList = reviewRepository.findAll();
         return reviewList;
     }
-    public void deleteReview(){
+
+    public void deleteReview() {
 
     }
-    public void updateReview(){
+
+    public void updateReview() {
 
     }
 }
