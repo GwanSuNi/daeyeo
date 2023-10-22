@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
@@ -46,10 +47,16 @@ public class MyPageController {
      */
     // TODO: Member에 대해 null 검사
     @GetMapping("/")
-    public String myPageGetForm(Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
-        String memberEmail = authentication.getName();
-        Member member = memberService.findMember(memberEmail).orElse(null);
+    public String myPageGetForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        Member member = memberService.findMember(authentication.getName()).orElse(null);
         log.info("인증 정보 {}", authentication.getName());
+        // TODO: 코드 중복
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         model.addAttribute("member", member);
         model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
         model.addAttribute("memberUpdateForm", new MemberUpdateDto());
@@ -58,7 +65,7 @@ public class MyPageController {
     }
 
     @PostMapping("/updateInfo")
-    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
+    public String myPageUpdateInfo(@Valid MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         memberService.updateMember(memberEmail, memberUpdateDto);
@@ -67,9 +74,10 @@ public class MyPageController {
 //        "redirect:/login/memberRegister"
     }
 
+    // TODO: Gwan이 할게
     @PostMapping("/updatePw")
     public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult,
-                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
+                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         if (!member.getUserPw().equals(memberUpdatePwDto.getPw())) {
@@ -87,9 +95,10 @@ public class MyPageController {
         }
     }
 
+    // TODO: 얘도 시큐리티로 해야함
     @PostMapping("/delete")
     public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult,
-                               Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
+                               Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).orElse(null);
         if (member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
@@ -105,7 +114,7 @@ public class MyPageController {
     }
 
     @RequestMapping("myWishList")
-    public String wishList(Model model, @CurrentSecurityContext(expression = "authentiacation") Authentication authentication) {
+    public String wishList(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
 //        List<Review> reviewList = memberService.reviewList(memberEmail);
 //        model.addAttribute("reviewList", reviewList);
