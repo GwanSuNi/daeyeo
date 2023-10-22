@@ -98,7 +98,7 @@ public class MainServiceTest {
         Member member = new Member();
         member.setUserEmail("test@test.com");
         member.setUserPw("1111");
-        member.setUserName("서상현");
+        member.setNickname("서상현");
         member.setPhone("010-9948-1901");
         member.setDepartment("부서");
         member.setMemberAddress(address);
