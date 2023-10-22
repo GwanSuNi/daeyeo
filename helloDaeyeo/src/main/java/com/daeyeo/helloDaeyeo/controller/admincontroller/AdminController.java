@@ -91,7 +91,7 @@ public class AdminController {
         model.addAttribute("userEmail", userEmail);
         model.addAttribute("currentRoles", currentRoles);
         // TODO: 어디에 보여줄거?
-        return "/admin/updateRolesForm";
+        return "/adminpage/updateRolesForm";
     }
 
     @PostMapping("cal")

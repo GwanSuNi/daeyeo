@@ -40,6 +40,7 @@ public class RentalStatus {
     // 대여 신청 날짜
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
     // 대여하는 날짜
     private LocalDate rentalDate;
 
