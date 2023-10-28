@@ -8,8 +8,12 @@ import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.session.SessionUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -109,6 +113,24 @@ public class MemberService {
         }
         return adminMemberDtos;
     }
+
+    // Member들을 JSON 타입으로 반환해주는 메서드
+    public List<String> adminMemberPageJson(List<Member> member) {
+        List<String> adminMemberJsons = new ArrayList<>();
+        Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+        builder.modulesToInstall(new JavaTimeModule());
+        ObjectMapper objectMapper = builder.build();
+        for (Member value : member) {
+            try {
+                String memberJson = objectMapper.writeValueAsString(value);
+                adminMemberJsons.add(memberJson);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return adminMemberJsons;
+    }
+
 
     public MemberDto getMember(String userId) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));

@@ -26,6 +26,7 @@
     <!-- Template Main CSS File -->
     <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
 
+    <link rel="stylesheet" th:href="@{/css/adminpage/modal.css}">
     <meta charset="UTF-8">
     <title>어드민 메인페이지</title>
 </head>
@@ -50,17 +51,17 @@
 
     <!-- End Search Bar -->
 
-<!--    <div th:if="${session.getAttribute('loginUser') != null}"-->
-<!--         onclick="location.href='${path}/logout'">-->
-<!--        <i class="fa-solid fa-right-from-bracket logout_btn"-->
-<!--           style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
-<!--    </div>-->
+    <!--    <div th:if="${session.getAttribute('loginUser') != null}"-->
+    <!--         onclick="location.href='${path}/logout'">-->
+    <!--        <i class="fa-solid fa-right-from-bracket logout_btn"-->
+    <!--           style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--    </div>-->
 
-<!--    <div th:unless="${session.getAttribute('loginUser') != null}"-->
-<!--         onclick="location.href='${path}/login'">-->
-<!--        <i class="fa-solid fa-right-to-bracket logout_btn"-->
-<!--           style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
-<!--    </div>-->
+    <!--    <div th:unless="${session.getAttribute('loginUser') != null}"-->
+    <!--         onclick="location.href='${path}/login'">-->
+    <!--        <i class="fa-solid fa-right-to-bracket logout_btn"-->
+    <!--           style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
+    <!--    </div>-->
 </header>
 <!-- End Header -->
 
@@ -203,56 +204,127 @@
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
-                            <tr>
-<!--                                <th scope="col">index</th>-->
+                            <tr th:attr="data-target='#myModal'">
+                                <!--                                <th scope="col">index</th>-->
                                 <th scope="col">회원유형</th>
                                 <th scope="col">이메일</th>
-                                <th scope="col">회원이름</th>
-                                <th scope="col">번호</th>
+                                <th scope="col">닉네임</th>
+                                <th scope="col">전화번호</th>
                                 <th scope="col">가입일</th>
-                                <th scope="col">대여 글 횟수</th>
+                                <th scope="col">이용 정지</th>
+                                <th scope="col">등록한 장소 개수</th>
                                 <th scope="col">대여 횟수</th>
-                                <th scope="col">이용 후기</th>
+                                <th scope="col">리뷰 개수</th>
                                 <th scope="col">누적 결제 금액</th>
-                                <th scope="col">누적 수수료</th>
+                                <th scope="col">누적 소득 금액</th>
+                                <!--                                <th scope="col">이용 정지 여부</th>-->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="member:${adminMemberDtos}">
-<!--                                <td th:text="${index}"></td>-->
+<!--                            for (int i =9; i < dtos.length(); i++) { member = dtos[i]; memberjson = jsons[i] } -->
+                            <tr th:each="member, iterStat :${adminMemberDtos}" >
+                                <!--                                <td th:text="${index}"></td>-->
                                 <td>
-<!--                                    TODO: 등급이 다양해졌을 시 구별 추가 -->
+                                    <!--                                    TODO: 등급이 다양해졌을 시 구별 추가 -->
                                     <span th:style="'color: ' + (${#strings.equals(member.topRole, 'ADMIN')} ? 'red' : 'black') + ';'"
                                           th:text="${member.topRole}"></span>
                                 </td>
-                                <td th:text="${member.userEmail}"></td>
-                                <td th:text="${member.userName}"></td>
+                                <td>
+                                    <button class="modal-trigger" th:text="${member.userEmail}" th:attr="data-user-info=${adminMemberJsons[iterStat.index]}"></button>
+                                </td>
+                                <td th:text="${member.nickname}"></td>
                                 <td th:text="${member.phone}"></td>
-                                <td th:text="${member.registDate}"></td>
+                                <td th:text="${member.formattedRegistDate}"></td>
+                                <td th:if="${member.isEnabled}">X</td>
+                                <td th:unless="${member.isEnabled}">O</td>
                                 <td th:text="${member.objectCount}"></td>
                                 <td th:text="${member.rentalCount}"></td>
                                 <td th:text="${member.reviewCount}"></td>
-                                <td th:text="${member.moneyEarned}"></td>
                                 <td th:text="${member.paySum}"></td>
-<!--                                <td th:text="${manage.phoneNum}"></td>-->
-<!--                                <td th:text="${manage.registerDate}"></td>-->
-<!--                                <td th:text="${manage.totalObject}"></td>-->
-<!--                                <td th:text="${manage.totalRent}"></td>-->
-<!--                                <td th:text="${manage.totalReview}"></td>-->
-<!--                                <td>-->
-<!--                                    <span th:if="${manage.totalPay != null}" th:text="${manage.totalPay}"></span>-->
-<!--                                    <span th:unless="${manage.totalPay != null}">0</span>-->
-<!--                                </td>-->
-<!--                                <td th:text="${manage.commissionSum}"></td>-->
-<!--                                <td th:text="${manage.rate}"></td>-->
-<!--                                <td>-->
-<!--                                    <span th:if="${manage.isBan}" style="color: red">O</span>-->
-<!--                                    <span th:unless="${manage.isBan}">X</span>-->
+                                <td th:text="${member.moneyEarned}"></td>
+                                <!--                                <td th:text="밴 여부 계산 로직"></td>-->
+                                <!--                                <td th:text="${manage.phoneNum}"></td>-->
+                                <!--                                <td th:text="${manage.registerDate}"></td>-->
+                                <!--                                <td th:text="${manage.totalObject}"></td>-->
+                                <!--                                <td th:text="${manage.totalRent}"></td>-->
+                                <!--                                <td th:text="${manage.totalReview}"></td>-->
+                                <!--                                <td>-->
+                                <!--                                    <span th:if="${manage.totalPay != null}" th:text="${manage.totalPay}"></span>-->
+                                <!--                                    <span th:unless="${manage.totalPay != null}">0</span>-->
+                                <!--                                </td>-->
+                                <!--                                <td th:text="${manage.commissionSum}"></td>-->
+                                <!--                                <td th:text="${manage.rate}"></td>-->
+                                <!--                                <td>-->
+                                <!--                                    <span th:if="${manage.isBan}" style="color: red">O</span>-->
+                                <!--                                    <span th:unless="${manage.isBan}">X</span>-->
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
+                        <!--                        TODO: 팝업 내용 -->
+                        <div th:fragment="modal" id="myModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" th:text="'&times;'">X</span>
+                                <p>사용자 정보</p>
+                                <p>닉네임: <span id="userName"></span></p>
+                                <p>이메일: <span id="userEmail"></span></p>
+                                <p>전화번호: <span id="userPhone"></span></p>
+                                <p>등급: <span id="topRole"></span></p>
+                                <p>가입일: <span id="registdate"></span></p>
+<!--                                TODO: 정지 유무도 표시, 클릭하면 내역까지-->
+                                <p>이용 정지: <span id="isEnabled"></span> <span id="banEndDate"></span></p>
+<!--                                TODO: 테이블로 리스트 전부 출력-->
+                                <p>등록한 장소 개수: <span id="objectCount"></span></p>
+                                <p>대여 횟수: <span id="rentalCount"></span></p>
+                                <p>리뷰 개수: <span id="reviewCount"></span></p>
+                                <p>누적 결제 금액: <span id="paySum"></span></p>
+                                <p>누적 소득 금액: <span id="moneyEarned"></span></p>
+                                <!-- 다른 사용자 정보 필드를 추가 -->
+                            </div>
+                        </div>
+                        <script th:inline="javascript">
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const modalTriggerButtons = document.querySelectorAll('.modal-trigger');
+
+                                modalTriggerButtons.forEach(function (button) {
+                                    button.addEventListener('click', function () {
+                                        const modal = document.querySelector('.modal');
+                                        modal.style.display = 'block';
+
+                                        // 클릭한 행의 사용자 정보를 가져와서 모달 내용을 업데이트
+                                        console.log(JSON.parse(button.getAttribute('data-user-info')));
+
+                                        const userInfo = JSON.parse(button.getAttribute('data-user-info'));
+                                        // const  userInfo = button.getAttribute('data-user-info');
+                                        document.getElementById('userName').textContent = userInfo.nickname;
+                                        document.getElementById('userEmail').textContent = userInfo.userEmail;
+                                        document.getElementById('userPhone').textContent = userInfo.phone;
+                                        document.getElementById('topRole').textContent = userInfo.topRole;
+                                        document.getElementById('registdate').textContent = userInfo.formattedRegistDate;
+                                        if (userInfo.isEnabled == false) {
+                                            document.getElementById('isEnabled').textContent = userInfo.isEnabled;
+                                            document.getElementById('banEndDate').textContent = userInfo.formattedBanEndDate;
+                                        } else {
+                                            document.getElementById('isEnabled').textContent = userInfo.isEnabled;
+                                        }
+                                        document.getElementById('objectCount').textContent = userInfo.objectCount;
+                                        document.getElementById('rentalCount').textContent = userInfo.rentalCount;
+                                        document.getElementById('reviewCount').textContent = userInfo.reviewCount;
+                                        document.getElementById('paySum').textContent = userInfo.paySum;
+                                        document.getElementById('moneyEarned').textContent = userInfo.moneyEarned;
+
+                                    });
+                                });
+
+                                const closeBtn = document.querySelector('.close');
+
+                                closeBtn.addEventListener('click', function () {
+                                    const modal = document.querySelector('.modal');
+                                    modal.style.display = 'none';
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

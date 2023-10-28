@@ -15,11 +15,13 @@ import java.time.format.DateTimeFormatter;
 public class AdminMemberDto {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm");
     private String userEmail;
-    private String userName;
+    private String nickname;
     private String phone;
     // LocalDateTime으로 저장 돼있는 날짜를 포맷해서 프레젠테이션 레이어로 보내기 위한 변수
     private LocalDateTime registDate;
     private String formattedRegistDate;
+    private LocalDateTime banEndDate;
+    private String formattedBanEndDate;
     private int rentalCount;
     private int objectCount;
     private int reviewCount;
@@ -29,13 +31,16 @@ public class AdminMemberDto {
     private String topRole;
     // 어드민 여부
     private boolean isAdmin = false;
+    private boolean isEnabled;
 
     public AdminMemberDto(Member member) {
         this.userEmail = member.getUserEmail();
-        this.userName = member.getNickname();
+        this.nickname = member.getNickname();
         this.phone = member.getPhone();
         this.registDate = member.getRegistDate();
         this.formattedRegistDate = this.registDate.format(formatter);
+        this.banEndDate = member.getBanEndDate();
+        this.formattedBanEndDate = this.banEndDate.format(formatter);
         this.objectCount = member.getRentalObjects().size();
         this.rentalCount = member.getRentalStatuses().size();
         this.paySum = member.getPaySum();
@@ -49,5 +54,6 @@ public class AdminMemberDto {
                 this.topRole = Role.MEMBER.name();
             }
         }
+        this.isEnabled = member.isEnabled();
     }
 }

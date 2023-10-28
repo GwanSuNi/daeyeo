@@ -43,6 +43,9 @@ public class AdminController {
         List<Member> memberList = memberService.findAll();
         List<AdminMemberDto> adminMemberDtos = memberService.adminMemberPage(memberList);
         model.addAttribute("adminMemberDtos", adminMemberDtos);
+        // JSON 타입으로 전달하기 위한 속성
+        List<String> adminMemberJsons = memberService.adminMemberPageJson(memberList);
+        model.addAttribute("adminMemberJsons", adminMemberJsons);
         return "adminpage/adminMemberPage";
     }
 

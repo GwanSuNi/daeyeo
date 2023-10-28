@@ -24,9 +24,10 @@ public class Member implements UserDetails {
     @Id
     private String userEmail;
     @OneToMany(mappedBy = "member")
-    Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
+    Set<RentalObject> rentalObjects = new HashSet<>();
     @OneToMany(mappedBy = "member")
-    Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
+    Set<RentalStatus> rentalStatuses = new HashSet<>();
+    
     @Embedded
     private Address memberAddress;
     private String phone;
