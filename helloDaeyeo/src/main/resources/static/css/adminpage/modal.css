@@ -30,3 +30,22 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.modal-table {
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid;
+    line-height: 100%;
+}
+
+.modal-th {
+    background-color: lightcyan;
+    text-align: center;
+    border: 1px solid;
+}
+
+.modal-td {
+    border: 1px solid;
+    text-align: center;
+    padding: 2px;
+}
