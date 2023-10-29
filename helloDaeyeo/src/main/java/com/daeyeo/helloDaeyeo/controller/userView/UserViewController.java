@@ -2,7 +2,11 @@ package com.daeyeo.helloDaeyeo.controller.userView;
 
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalStatusDto;
 import com.daeyeo.helloDaeyeo.service.MainCategoryService;
+import com.daeyeo.helloDaeyeo.service.RentalObjectService;
+import com.daeyeo.helloDaeyeo.service.RentalStatusService;
 import com.daeyeo.helloDaeyeo.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +29,8 @@ import java.util.stream.Collectors;
 public class UserViewController {
     private final MainCategoryService mainCategoryService;
     private final SubCategoryService subCategoryService;
+    private final RentalStatusService rentalStatusService;
+    private final RentalObjectService rentalObjectService;
 
     // TODO: 타임리프에서 sec:authentication이 작동하지 않아서 이런 방식으로 해봤는데, 코드 중복이 많아서 AOP를 적용해야하나 하는...
     @GetMapping("/login")
@@ -57,7 +63,12 @@ public class UserViewController {
             categories.put(mainCategory.getMcId(), subCategories.stream().map(SubCategoryDto::getScId).collect(Collectors.toList()));
         }
 
+        List<RentalStatusDto> rentalStatusDtos = rentalStatusService.getRentalStatuses(authentication.getName());
+        List<RentalObjectDto> rentalObjectDtos = rentalObjectService.getRentalObjects(rentalStatusDtos);
+
         model.addAttribute("categories", categories);
+        model.addAttribute("rentalStatuses", rentalStatusDtos);
+        model.addAttribute("rentalObjects", rentalObjectDtos);
 
         return "/mainPage";
     }
