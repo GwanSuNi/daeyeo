@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <!-- Favicons -->
     <link th:href="@{/css/assets/img/favicon.png}" rel="icon">
     <link th:href="@{/css/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
@@ -198,11 +198,9 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"></h5>
-                        
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -223,8 +221,8 @@
                             </tr>
                             </thead>
                             <tbody>
-<!--                            for (int i =9; i < dtos.length(); i++) { member = dtos[i]; memberjson = jsons[i] } -->
-                            <tr th:each="member, iterStat :${adminMemberDtos}" >
+                            <!--                            for (int i =9; i < dtos.length(); i++) { member = dtos[i]; memberjson = jsons[i] } -->
+                            <tr th:each="member, iterStat :${adminMemberDtos}">
                                 <!--                                <td th:text="${index}"></td>-->
                                 <td>
                                     <!--                                    TODO: 등급이 다양해졌을 시 구별 추가 -->
@@ -232,7 +230,8 @@
                                           th:text="${member.topRole}"></span>
                                 </td>
                                 <td>
-                                    <button class="modal-trigger" th:text="${member.userEmail}" th:attr="data-user-info=${adminMemberJsons[iterStat.index]}"></button>
+                                    <button class="modal-trigger" th:text="${member.userEmail}"
+                                            th:attr="data-user-info=${adminMemberJsons[iterStat.index]}"></button>
                                 </td>
                                 <td th:text="${member.nickname}"></td>
                                 <td th:text="${member.phone}"></td>
@@ -244,22 +243,6 @@
                                 <td th:text="${member.reviewCount}"></td>
                                 <td th:text="${member.paySum}"></td>
                                 <td th:text="${member.moneyEarned}"></td>
-                                <!--                                <td th:text="밴 여부 계산 로직"></td>-->
-                                <!--                                <td th:text="${manage.phoneNum}"></td>-->
-                                <!--                                <td th:text="${manage.registerDate}"></td>-->
-                                <!--                                <td th:text="${manage.totalObject}"></td>-->
-                                <!--                                <td th:text="${manage.totalRent}"></td>-->
-                                <!--                                <td th:text="${manage.totalReview}"></td>-->
-                                <!--                                <td>-->
-                                <!--                                    <span th:if="${manage.totalPay != null}" th:text="${manage.totalPay}"></span>-->
-                                <!--                                    <span th:unless="${manage.totalPay != null}">0</span>-->
-                                <!--                                </td>-->
-                                <!--                                <td th:text="${manage.commissionSum}"></td>-->
-                                <!--                                <td th:text="${manage.rate}"></td>-->
-                                <!--                                <td>-->
-                                <!--                                    <span th:if="${manage.isBan}" style="color: red">O</span>-->
-                                <!--                                    <span th:unless="${manage.isBan}">X</span>-->
-                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -299,7 +282,8 @@
                                     </tbody>
                                 </table>
                                 <form id="suspendForm">
-                                    <input type="number" id="banDuration" name="banDuration" placeholder="날짜 수 입력" required>
+                                    <input type="number" id="banDuration" name="banDuration" placeholder="날짜 수 입력"
+                                           required>
                                     <select id="banUnit" name="banUnit" required>
                                         <option value="hour">시간</option>
                                         <option value="day">일</option>
@@ -307,7 +291,7 @@
                                     </select>
                                     <button type="submit">이용 정지</button>
                                 </form>
-                                    <button onclick="">등급 변경</button>
+                                <button onclick="">등급 변경</button>
                                 <table>
                                     <tbody>
                                     <tr>
@@ -318,9 +302,6 @@
                                         <td class="modal-td">누적 소득 금액: <span id="moneyEarned"></span></td>
                                     </tr>
                                     </tbody>
-                                    <tfoot>
-
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
