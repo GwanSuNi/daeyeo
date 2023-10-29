@@ -17,6 +17,7 @@ public class AdminMemberDto {
     private String userEmail;
     private String nickname;
     private String phone;
+    private String formattedAddress;
     // LocalDateTime으로 저장 돼있는 날짜를 포맷해서 프레젠테이션 레이어로 보내기 위한 변수
     private LocalDateTime registDate;
     private String formattedRegistDate;
@@ -38,6 +39,7 @@ public class AdminMemberDto {
         this.nickname = member.getNickname();
         this.phone = member.getPhone();
         this.registDate = member.getRegistDate();
+        this.formattedAddress = "(" + member.getMemberAddress().getPostcode() + ") " + member.getMemberAddress().getAddress() + " " + member.getMemberAddress().getDetailAddress();
         this.formattedRegistDate = this.registDate.format(formatter);
         this.banEndDate = member.getBanEndDate();
         this.formattedBanEndDate = this.banEndDate.format(formatter);

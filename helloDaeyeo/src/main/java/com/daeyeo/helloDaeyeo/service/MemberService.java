@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.service;
 
+import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
@@ -13,10 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 /*
   readOnly 속성은 값에대한 변화가 없을때 true 설정
   default 는 값에대한 변화가 있을때인 false 라서 값에대한 변화가 있는것들은 @Transactional만 적어줌
@@ -115,12 +119,13 @@ public class MemberService {
     }
 
     // Member들을 JSON 타입으로 반환해주는 메서드
-    public List<String> adminMemberPageJson(List<Member> member) {
+    // 가공한 데이터는 Member 엔티티가 아닌 AdminMemberDto가 갖고 있기 때문에 이 dto 타입으로 수정
+    public List<String> adminMemberPageJson(List<AdminMemberDto> member) {
         List<String> adminMemberJsons = new ArrayList<>();
         Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
         builder.modulesToInstall(new JavaTimeModule());
         ObjectMapper objectMapper = builder.build();
-        for (Member value : member) {
+        for (AdminMemberDto value : member) {
             try {
                 String memberJson = objectMapper.writeValueAsString(value);
                 adminMemberJsons.add(memberJson);
@@ -131,6 +136,58 @@ public class MemberService {
         return adminMemberJsons;
     }
 
+    // 유저 밴 기간을 업데이트 하는 로직
+//    public boolean suspendUser(String userEmail) {
+//        Optional<Member> optionalMember = memberRepository.findById(userEmail);
+//        if (optionalMember.isPresent()) {
+//            Member member = optionalMember.get();
+//            // banEndDate 필드를 업데이트
+//            // member.setBanEndDate(새로운 날짜);  // 필요한 업데이트 로직을 구현
+//            memberRepository.save(member);
+//            return true;
+//        }
+//        return false;
+//    }
+    @Transactional
+    public boolean suspendUser(SuspendRequestDto request) {
+        // SuspendRequest에서 필요한 데이터 추출
+        String userEmail = request.getEmail();
+        int duration = request.getDuration();
+        String timeUnit = request.getBanUnit();
+//        String reason = request.getReason();
+
+        // 정지 기간 및 단위를 기반으로 정지 일자 계산
+        LocalDateTime endDate = calculateEndDate(duration, timeUnit);
+
+        // 사용자 정지 처리 (예를 들어, DB 업데이트)
+        Optional<Member> optionalMember = memberRepository.findById(userEmail);
+        if (optionalMember.isPresent()) {
+            // 사용자 정지 일자 및 사유를 저장하고 정지 상태를 업데이트
+            Member member = optionalMember.get();
+            member.setBanEndDate(endDate);
+            memberRepository.save(member);
+            log.info("{}에 {}까지의 밴 적용", userEmail, endDate);
+            return true;
+        } else {
+            log.warn(userEmail + "이 null");
+            return false;
+        }
+
+    }
+
+    // 정지 기간과 단위를 기반으로 정지 종료일을 계산하는 메서드
+    private LocalDateTime calculateEndDate(int duration, String timeUnit) {
+        LocalDateTime currentDate = LocalDateTime.now();
+        if ("hour".equalsIgnoreCase(timeUnit)) {
+            return currentDate.plusHours(duration);
+        } else if ("day".equalsIgnoreCase(timeUnit)) {
+            return currentDate.plusDays(duration);
+        } else if ("month".equalsIgnoreCase(timeUnit)) {
+            return currentDate.plusMonths(duration);
+        } else {
+            throw new IllegalArgumentException("지원하지 않는 시간 단위입니다.");
+        }
+    }
 
     public MemberDto getMember(String userId) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));

@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
+import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
@@ -9,13 +10,15 @@ import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import javax.swing.text.DateFormatter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +47,7 @@ public class AdminController {
         List<AdminMemberDto> adminMemberDtos = memberService.adminMemberPage(memberList);
         model.addAttribute("adminMemberDtos", adminMemberDtos);
         // JSON 타입으로 전달하기 위한 속성
-        List<String> adminMemberJsons = memberService.adminMemberPageJson(memberList);
+        List<String> adminMemberJsons = memberService.adminMemberPageJson(adminMemberDtos);
         model.addAttribute("adminMemberJsons", adminMemberJsons);
         return "adminpage/adminMemberPage";
     }
@@ -125,6 +128,18 @@ public class AdminController {
     public String updateRoles(@RequestParam String userEmail, @RequestParam Set<Role> roles) {
         userService.updateMemberRoles(userEmail, roles);
         return "redirect:/adminMember"; // 사용자 목록 페이지로 리다이렉트
+    }
+
+    // 어드민이 유저의 밴 기간을 변경하는 메서드
+    @PostMapping("/suspendUser")
+    public ResponseEntity<String> suspendUser(@RequestBody SuspendRequestDto request) {
+        boolean result = memberService.suspendUser(request);
+
+        if (result) {
+            return ResponseEntity.ok("변경이 반영되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 변경에 실패했습니다. 다시 시도해 주세요.");
+        }
     }
 
 }
