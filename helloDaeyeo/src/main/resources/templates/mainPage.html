@@ -60,7 +60,8 @@
                             <span class="nav-link">지역 기반</span>
                         </li>
                         <li class="nav-item" role="presentation" th:each="category : ${categories}">
-                            <button class="category nav-link" data-bs-toggle="tab" type="button" th:text="${category.key}"></button>
+                            <button class="category nav-link" data-bs-toggle="tab" type="button"
+                                    th:text="${category.key}"></button>
                         </li>
                         <input type="hidden" id="main-cate" name="mainCategory">
                     </ul>
@@ -75,7 +76,8 @@
                             <option value="">하위 카테고리 선택</option>
                             <th:block th:each="categoryEntry: ${categories}">
                                 <th:block th:each="value : ${categoryEntry.value}">
-                                    <option th:data-category="${categoryEntry.key}" th:value="${value}" th:text="${value}"></option>
+                                    <option th:data-category="${categoryEntry.key}" th:value="${value}"
+                                            th:text="${value}"></option>
                                 </th:block>
                             </th:block>
                         </select>
@@ -88,64 +90,17 @@
             <div class="recent-service">
                 <h3>최근 사용 <span>서비스</span></h3>
                 <div class="slider-box">
-                    <div class="slider">
-                        <a href="" class="card">
-                            <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
+                    <div class="slider" th:if="${rentalStatuses.size() > 0}"
+                         th:each="i : ${#numbers.sequence(0, rentalStatuses.size()-1)}">
+                        <a th:href="@{'rentals/write/' + ${rentalStatuses.get(i).objectIndex}}" class="card">
+                        <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
                                  onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
                             <div class="card-body">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
+                                    <li class="breadcrumb-item" th:text="${rentalObjects.get(i).mcId}"/>
+                                    <li class="breadcrumb-item" th:text="${rentalObjects.get(i).scId}"/>
                                 </ol>
-                                <p class="card-text">[경민대] 404호 강의실</p>
-                            </div>
-                        </a>
-                        <a href="" class="card">
-                            <img th:src="@{/img/rental/a.png}" class="card-img-top"
-                                 onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
-                            <div class="card-body">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                            </div>
-                        </a>
-                        <a href="" class="card">
-                            <img th:src="@{/img/rental/airplane.jfif}" class="card-img-top"
-                                 onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
-                            <div class="card-body">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                            </div>
-                        </a>
-                        <a href="" class="card">
-                            <img th:src="@{/img/rental/sea.jpg}" class="card-img-top"
-                                 onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
-                            <div class="card-body">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                            </div>
-                        </a>
-                        <a href="" class="card">
-                            <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
-                                 onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
-                            <div class="card-body">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">공간시설</li>
-                                    <li class="breadcrumb-item">강의실</li>
-                                </ol>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
+                                <p class="card-text" th:text="${rentalObjects.get(i).objectName}"/>
                             </div>
                         </a>
                     </div>
@@ -158,52 +113,30 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">공유하고 싶은 것이 있으신가요?<br>대여 등록을 통해 다른 사람들과 공유해 보세요.</h5>
-                        <div class="registration"><a th:href="@{/rentals/rentalRegistrationForm}" class="a-btn">대여 등록</a></div>
+                        <div class="registration"><a th:href="@{/rentals/rentalRegistrationForm}" class="a-btn">대여
+                            등록</a></div>
                     </div>
                     <div class="card-header">
                         <h5 class="card-title">대여 상품을 등록하셨나요?<br>등록한 상품을 편리하게 관리할 수 있습니다.</h5>
-                        <div class="management"><a th:href="@{/myPage}" class="a-btn">대여 관리</a></div>
+                        <div class="management"><a th:href="@{/myPage/}" class="a-btn">대여 관리</a></div>
                     </div>
                 </div>
                 <div class="reservation-info card">
                     <div class="card-body">
-                        <a href="" class="detail">
+                        <a href="myPage/" class="detail">
                             <h4 class="card-title">나의 <span>예약 정보</span></h4>
                         </a>
-                        <div class="news">
-                            <a href="" class="item">
+                        <div class="news" th:if="${rentalObjects.size() > 0}"
+                             th:each="i : ${#numbers.sequence(0, T(java.lang.Math).min(rentalObjects.size(), 3) - 1)}">
+                            <a th:href="@{'rentals/write/' + ${rentalObjects.get(i).objectIndex}}" class="item">
                                 <img th:src="@{/img/rental/image_icon.png}"
                                      onerror="this.onerror=null; this.src='@{/img/rental/image_icon.png}';">
                                 <div class="card-body">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">공간시설</li>
-                                        <li class="breadcrumb-item">강의실</li>
+                                        <li class="breadcrumb-item" th:text="${rentalObjects.get(i).mcId}"/>
+                                        <li class="breadcrumb-item" th:text="${rentalObjects.get(i).scId}"/>
                                     </ol>
-                                    <p class="card-text">[경민대] 404호 강의실</p>
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <img th:src="@{/img/rental/image_icon.png}"
-                                     onerror="this.onerror=null; this.src='@{/img/rental/image_icon.png}';">
-                                <div class="card-body">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">공간시설</li>
-                                        <li class="breadcrumb-item">강의실</li>
-                                    </ol>
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <img th:src="@{/img/rental/image_icon.png}"
-                                     onerror="this.onerror=null; this.src='@{/img/rental/image_icon.png}';">
-                                <div class="card-body">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">공간시설</li>
-                                        <li class="breadcrumb-item">강의실</li>
-                                    </ol>
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
+                                    <p class="card-text" th:text="${rentalObjects.get(i).objectName}"/>
                                 </div>
                             </a>
                         </div>
@@ -213,13 +146,13 @@
                     <div href="" class="balloon left">
                         자주 묻는 질문
                     </div>
-                    <a href="" class="balloon right">
-                        <span>Q.</span>예약 변경은 어떻게 하나요?
+                    <a href="guidebook" class="balloon right">
+                        <span>Q.</span>질문1
                     </a>
-                    <a href="" class="balloon left">
+                    <a href="guidebook" class="balloon left">
                         <span>Q.</span>질문2
                     </a>
-                    <a href="" class="balloon right">
+                    <a href="guidebook" class="balloon right">
                         <span>Q.</span>질문3
                     </a>
                 </div>

@@ -30,10 +30,11 @@
 </head>
 <body>
 <div id="wrapper">
-    <div th:replace="includes/header :: header"></div>
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
     <div id="container">
         <div class="content_title">자주 묻는 질문</div>
         <div class="content">
+            <!--
             <div class="search_field">
                 <select class="form-select">
                     <option value="1" selected>전체</option>
@@ -45,50 +46,26 @@
                 </label>
                 <a href="" class="search_btn">검색</a>
             </div>
+            -->
             <div class="list_wrap">
-                <h5 class="total icon">총 <span class="emphasis" th:text="${totalCount}"></span> 건</h5>
+                <h5 class="total icon">총 <span class="emphasis">4</span> 건</h5>
                 <ul class="list">
-                    <li class="item" th:each="item : ${useInfos}">
+                    <li class="item" th:each="i : ${#numbers.sequence(1,4)}">
                         <div class="collapsible" onclick="toggleActive(this)">
                             <div class="question"><span>Q</span></div>
-                            <textarea class="item_title" oninput="resizeHeight(this)" th:disabled="true" th:text="${item.question}"></textarea>
+                            <textarea class="item_title" oninput="resizeHeight(this)" disabled th:text="질문 + ${i}"></textarea>
                             <div class="clps_icon"></div>
                         </div>
                         <div class="item_content">
                             <div class="answer"><span>A</span></div>
-                            <textarea class="item_txar" oninput="resizeHeight(this)" th:disabled="true" th:text="${item.answer}"></textarea>
+                            <textarea class="item_txar" oninput="resizeHeight(this)" disabled th:text="답변 + ${i}"></textarea>
                         </div>
-                    </li>
-                </ul>
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="">
-                            <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt="<<">
-                        </a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="">
-                            <img th:src="@{/img/rental/left_arrow_icon.png}" alt="<">
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="">1</a></li>
-                    <li class="page-item"><a class="page-link" href="">2</a></li>
-                    <li class="page-item"><a class="page-link" href="">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="">
-                            <img th:src="@{/img/rental/left_arrow_icon.png}" alt=">">
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="">
-                            <img th:src="@{/img/rental/double_left_arrow_icon.png}" alt=">>">
-                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div th:replace="includes/footer :: footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 
 <script th:src="@{/js/guidebook.js}"></script>
