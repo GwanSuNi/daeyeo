@@ -38,6 +38,8 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper;
+    private final Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().modulesToInstall(new JavaTimeModule());
+    private final ObjectMapper objectMapper = builder.build();
 
     @Transactional
     public void insertMember(MemberRegisterDto memberRegisterDto) {
@@ -122,18 +124,19 @@ public class MemberService {
     // 가공한 데이터는 Member 엔티티가 아닌 AdminMemberDto가 갖고 있기 때문에 이 dto 타입으로 수정
     public List<String> adminMemberPageJson(List<AdminMemberDto> member) {
         List<String> adminMemberJsons = new ArrayList<>();
-        Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-        builder.modulesToInstall(new JavaTimeModule());
-        ObjectMapper objectMapper = builder.build();
         for (AdminMemberDto value : member) {
-            try {
-                String memberJson = objectMapper.writeValueAsString(value);
-                adminMemberJsons.add(memberJson);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+            adminMemberJsons.add(adminMemberDtoToJson(value));
         }
         return adminMemberJsons;
+    }
+
+    // AdminMemberDto를 Json으로 변경해주는 과정을 메서드로 분리함 따라서 같은 기능 재활용 가능해짐
+    public String adminMemberDtoToJson(AdminMemberDto memberDto) {
+        try {
+            return objectMapper.writeValueAsString(memberDto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // 유저 밴 기간을 업데이트 하는 로직
