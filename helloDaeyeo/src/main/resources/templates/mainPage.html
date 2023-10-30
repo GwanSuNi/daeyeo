@@ -49,12 +49,12 @@
         <div class="search-container">
             <div class="search-content">
                 <div class="search-field">
-                    <form th:action="@{/rentals/list}" class="search">
+                    <form th:action="@{/rentals/list}" id="search">
                         <input type="text" name="searchWord" placeholder="검색어를 입력하세요.">
                         <button class="search-btn a-btn">검색하기</button>
                     </form>
                 </div>
-                <form th:action="@{/rentals/list}" class="reserve-tab">
+                <form th:action="@{/rentals/list}" id="reserve-tab" class="reserve-tab">
                     <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
                         <li class="regional-base">
                             <span class="nav-link">지역 기반</span>
@@ -92,7 +92,7 @@
                 <div class="slider-box">
                     <div class="slider" th:if="${rentalStatuses.size() > 0}"
                          th:each="i : ${#numbers.sequence(0, rentalStatuses.size()-1)}">
-                        <a th:href="@{'rentals/write/' + ${rentalStatuses.get(i).objectIndex}}" class="card">
+                        <a th:href="@{'/rentals/write/' + ${rentalStatuses.get(i).objectIndex}}" class="card">
                         <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
                                  onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
                             <div class="card-body">
@@ -123,12 +123,12 @@
                 </div>
                 <div class="reservation-info card">
                     <div class="card-body">
-                        <a href="myPage/" class="detail">
+                        <a href="/myPage/" class="detail">
                             <h4 class="card-title">나의 <span>예약 정보</span></h4>
                         </a>
                         <div class="news" th:if="${rentalObjects.size() > 0}"
                              th:each="i : ${#numbers.sequence(0, T(java.lang.Math).min(rentalObjects.size(), 3) - 1)}">
-                            <a th:href="@{'rentals/write/' + ${rentalObjects.get(i).objectIndex}}" class="item">
+                            <a th:href="@{'/rentals/write/' + ${rentalObjects.get(i).objectIndex}}" class="item">
                                 <img th:src="@{/img/rental/image_icon.png}"
                                      onerror="this.onerror=null; this.src='@{/img/rental/image_icon.png}';">
                                 <div class="card-body">
@@ -146,13 +146,13 @@
                     <div href="" class="balloon left">
                         자주 묻는 질문
                     </div>
-                    <a href="guidebook" class="balloon right">
+                    <a th:href="@{/guidebook}" class="balloon right">
                         <span>Q.</span>질문1
                     </a>
-                    <a href="guidebook" class="balloon left">
+                    <a th:href="@{/guidebook}" class="balloon left">
                         <span>Q.</span>질문2
                     </a>
-                    <a href="guidebook" class="balloon right">
+                    <a th:href="@{/guidebook}" class="balloon right">
                         <span>Q.</span>질문3
                     </a>
                 </div>

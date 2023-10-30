@@ -42,7 +42,7 @@ a {
     justify-content: center;
 }
 
-.search {
+#search {
     display: flex;
     width: 50%;
     background-color: #FFFFFF;
@@ -52,11 +52,11 @@ a {
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
 }
 
-.search:focus-within {
+#search:focus-within {
     outline: none;
 }
 
-.search > input {
+#search > input {
     width: 100%;
     border: 0;
     font-size: 17px;
