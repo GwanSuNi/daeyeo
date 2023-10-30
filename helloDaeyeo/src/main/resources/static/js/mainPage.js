@@ -55,10 +55,16 @@ sido.addEventListener('change', () => {
     }
 });
 
+// form
+const searchFrm = document.getElementById('search');
+const tabFrm = document.getElementById('reserve-tab');
 // 카테고리
 const categoryTab = document.querySelectorAll('.category');
 const mainCategory = document.querySelector('#main-cate');
 const subCategories = document.querySelectorAll('.sub-category option:not(:first-child)')
+// 검색 버튼
+const searchBtn = document.querySelector('.search-btn.a-btn');
+const reserveBtn = document.querySelector('.reserve-btn.a-btn');
 
 // 페이지 로드 시
 window.addEventListener('load', () => {
@@ -81,6 +87,28 @@ function showSubCategory(str) {
         else
             option.style.display = 'none';
     });
+}
+
+// 검색 버튼 이벤트 리스너
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    validateSubmit(searchFrm);
+});
+
+reserveBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    validateSubmit(tabFrm);
+});
+
+// get 요청으로 보낼 때 url이 지저분해져서 값이 있는 필드만 보내는 함수
+function validateSubmit(frm) {
+    let elements = frm.elements;
+
+    for (let i = 0; i < elements.length; i++)
+        if (elements[i].value === "")
+            elements[i].name = "";
+
+    frm.submit();
 }
 
 // 가로 스크롤

@@ -12,8 +12,6 @@ const listType = document.getElementById('list-type');
 const boardType = document.getElementById('board-type');
 // 정렬
 const selectSort = document.getElementById('sort');
-// rentalObjects
-const rentalObjects = document.querySelectorAll('.rental-object');
 // 페이징
 const pages = document.querySelectorAll('.page-link');
 
@@ -66,16 +64,6 @@ pages.forEach((page) => {
         e.preventDefault();
         frm.action = "/rentals/list/" + page.dataset.value;
         validateSubmit();
-    });
-});
-
-// rentalObject 클릭 시 rentalWrite로 이동
-rentalObjects.forEach((element) => {
-    element.addEventListener('click', (e) => {
-        e.preventDefault();
-        frm.action = "/rentals/write/" + element.dataset.id;
-        frm.method = 'POST';
-        frm.submit();
     });
 });
 
