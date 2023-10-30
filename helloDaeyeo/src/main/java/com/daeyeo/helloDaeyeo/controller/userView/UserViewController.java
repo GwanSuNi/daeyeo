@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class UserViewController {
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         List<MainCategoryDto> mainCategories = mainCategoryService.getAllCategories();
-        Map<String, List<String>> categories = new HashMap<>();
+        Map<String, List<String>> categories = new LinkedHashMap<>();
 
         for (MainCategoryDto mainCategory : mainCategories) {
             List<SubCategoryDto> subCategories = subCategoryService.getSubCategories(mainCategory.getMcId());
