@@ -250,9 +250,9 @@
                         <!--                        TODO: 팝업 내용 -->
                         <div th:fragment="modal" id="myModal" class="modal">
                             <div class="modal-content">
-                                <span class="close" th:text="'&times;'">X</span>
-                                <h5 style="text-align: center">사용자 정보</h5>
-                                <table class="modal-table">
+                                <div class="close" th:text="'&times;'">X</div>
+                                <h5 class="modal-title" style="text-align: center">사용자 정보</h5>
+                                <table class="modal-table modal-body">
                                     <tbody>
                                     <tr>
                                         <th scope="row" class="modal-th">닉네임</th>
@@ -282,7 +282,7 @@
                                     </tbody>
                                 </table>
                                 <form id="suspendForm">
-                                    <input type="number" id="banDuration" name="banDuration" placeholder="날짜 수 입력"
+                                    <input type="number" id="banDuration" name="banDuration" placeholder="숫자 입력"
                                            required>
                                     <select id="banUnit" name="banUnit" required>
                                         <option value="hour">시간</option>
@@ -291,10 +291,12 @@
                                     </select>
                                     <button type="submit">이용 정지</button>
                                 </form>
+                                <!--TODO: 등급 변경 기능, 표 디자인-->
                                 <button onclick="">등급 변경</button>
                                 <table>
                                     <tbody>
                                     <tr>
+                                        <!--TODO: 탭 + 리스트로 모두 조회할 수 있게-->
                                         <td class="modal-td">등록한 장소 개수: <span id="objectCount"></span></td>
                                         <td class="modal-td">대여 횟수: <span id="rentalCount"></span></td>
                                         <td class="modal-td">리뷰 개수: <span id="reviewCount"></span></td>

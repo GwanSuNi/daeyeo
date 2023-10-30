@@ -32,7 +32,33 @@ document.getElementById('suspendForm').addEventListener('submit', function (e) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             alert('변경이 반영되었습니다.');
-            // 모달 창 닫기 또는 다른 동작 수행
+
+            // 서버에서 반환한 JSON 응답을 파싱하여 데이터 업데이트
+            const updatedData = JSON.parse(xhr.responseText);
+
+            // 모달 내용 업데이트
+            document.getElementById('userName').textContent = updatedData.nickname;
+            document.getElementById('userEmail').textContent = updatedData.userEmail;
+            document.getElementById('userPhone').textContent = updatedData.phone;
+            document.getElementById('topRole').textContent = updatedData.topRole;
+            document.getElementById('registdate').textContent = updatedData.formattedRegistDate;
+            document.getElementById('address').textContent = updatedData.formattedAddress;
+
+            if (updatedData.enabled === false) {
+                document.getElementById('banEndDate').textContent = updatedData.formattedBanEndDate;
+                document.getElementById('isEnabled').textContent = "까지 정지";
+            } else {
+                document.getElementById('banEndDate').textContent = "";
+                document.getElementById('isEnabled').textContent = "X";
+            }
+
+            document.getElementById('objectCount').textContent = updatedData.objectCount;
+            document.getElementById('rentalCount').textContent = updatedData.rentalCount;
+            document.getElementById('reviewCount').textContent = updatedData.reviewCount;
+            document.getElementById('paySum').textContent = updatedData.paySum;
+            document.getElementById('moneyEarned').textContent = updatedData.moneyEarned;
+
+            document.getElementById('banDuration').value = null;
         } else {
             alert('정지 변경에 실패했습니다. 다시 시도해 주세요.');
         }

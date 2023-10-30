@@ -49,3 +49,28 @@
     text-align: center;
     padding: 2px;
 }
+
+.modal-dialog.modal-80size {
+    width: 80%;
+    height: 80%;
+    margin: 0;
+    padding: 0;
+}
+
+.modal-content.modal-80size {
+    height: auto;
+    min-height: 80%;
+}
+
+.modal.modal-center {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal.modal-center:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}

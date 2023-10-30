@@ -135,8 +135,13 @@ public class AdminController {
     public ResponseEntity<String> suspendUser(@RequestBody SuspendRequestDto request) {
         boolean result = memberService.suspendUser(request);
 
+        // 변경 후 결과값
+        AdminMemberDto memberDto = new AdminMemberDto(userService.findByUserEmail(request.getEmail()));
+        String jsonData = memberService.adminMemberDtoToJson(memberDto);
+
         if (result) {
-            return ResponseEntity.ok("변경이 반영되었습니다.");
+            return new ResponseEntity<>(jsonData, HttpStatus.OK);
+//            return ResponseEntity.ok("변경이 반영되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 변경에 실패했습니다. 다시 시도해 주세요.");
         }
