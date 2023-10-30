@@ -3,7 +3,7 @@ package com.daeyeo.helloDaeyeo.controller.logincontroller;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/login")
+@RequiredArgsConstructor
 public class LoginController {
-    @Autowired
-    MemberService memberService;
+    private final MemberService memberService;
 
     @RequestMapping("memberForgotPw")
     public String memberForgotPw(Model model) {
@@ -30,6 +30,7 @@ public class LoginController {
 
     /**
      * 멤버 등록하는 폼을 보내줌
+     *
      * @param model
      * @return
      */
@@ -38,7 +39,8 @@ public class LoginController {
         model.addAttribute("memberRegisterDto", new MemberRegisterDto());
         return "/login/memberRegister";
     }
-   //TODO 회원가입이 완료되었습니다 라는 팝업창같은거 만들으면 될듯 검증 또한 완벽한게 아니라서 검증을 추가해야할듯
+    //TODO 회원가입이 완료되었습니다 라는 팝업창같은거 만들으면 될듯 검증 또한 완벽한게 아니라서 검증을 추가해야할듯
+
     /***
      * 멤버 등록 폼 안에 값을 채운 Dto 를 받아온후에 그 Dto 로 값을 받아오고 bindingResult 로 값들에대한 검증을함
      * @param memberRegisterDto
@@ -47,7 +49,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("memberRegister")
-    public String insertMember(@Valid @ModelAttribute("memberRegisterDto") MemberRegisterDto  memberRegisterDto, BindingResult bindingResult,
+    public String insertMember(@Valid @ModelAttribute("memberRegisterDto") MemberRegisterDto memberRegisterDto, BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
             return "login/memberRegister";
