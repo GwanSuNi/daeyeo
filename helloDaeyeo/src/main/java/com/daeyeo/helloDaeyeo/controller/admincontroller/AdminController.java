@@ -141,7 +141,6 @@ public class AdminController {
 
         if (result) {
             return new ResponseEntity<>(jsonData, HttpStatus.OK);
-//            return ResponseEntity.ok("변경이 반영되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 변경에 실패했습니다. 다시 시도해 주세요.");
         }
