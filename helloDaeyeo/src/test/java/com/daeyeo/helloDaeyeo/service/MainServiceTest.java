@@ -1,13 +1,5 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.dto.PeriodDto.ApplicationPeriodDto;
-import com.daeyeo.helloDaeyeo.dto.PeriodDto.UsagePeriodDto;
-import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
-import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterFormDto;
-import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
-import com.daeyeo.helloDaeyeo.embedded.Address;
-import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.repository.CustomRentalObjectRepositoryImpl;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import org.junit.Test;
@@ -20,8 +12,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -67,73 +57,57 @@ public class MainServiceTest {
         subCategoryService.insertSub("체육시설", "운동장");
         subCategoryService.insertSub("체육시설", "체육관");
         subCategoryService.insertSub("체육시설", "수영장");
-        List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories("공간시설");
-        System.out.println("아시발");
-        System.out.println(subCategoryList.get(0).getScId() + "아시발");
-        System.out.println(subCategoryList.get(1).getScId());
-        System.out.println(subCategoryList.get(2).getScId());
-        System.out.println(subCategoryList.get(3).getScId());
-
-
-        Address address1 = new Address("나주소입니다", "01610", "나계동", "detailAddress", "나도", "나군구");
-        Address address2 = new Address("다주소입니다", "01610", "다계동", "detailAddress", "다도", "다군구");
-        Address address3 = new Address("라주소입니다", "01610", "라계동", "detailAddress", "라도", "라군구");
-        Address address4 = new Address("마주소입니다", "01610", "마계동", "detailAddress", "마도", "마군구");
-        Address address5 = new Address("바주소입니다", "01610", "바계동", "detailAddress", "바도", "바군구");
-        Address address6 = new Address("사주소입니다", "01610", "사계동", "detailAddress", "사도", "사군구");
-        Address address7 = new Address("아주소입니다", "01610", "아계동", "detailAddress", "아도", "아군구");
-        Address address8 = new Address("자주소입니다", "01610", "자계동", "detailAddress", "자도", "자군구");
-        Address address9 = new Address("차주소입니다", "01610", "차계동", "detailAddress", "차도", "차군구");
-        Address address10 = new Address("파주소입니다", "01610", "파계동", "detailAddress", "파도", "파군구");
-
-        Address address = new Address("서울노원구동일로237바길17", "01610", "(상계동)", "802호", "서울", "노원구");
-
-
-        Member member = new Member();
-        member.setUserEmail("test@test.com");
-        member.setUserPw("1111");
-        member.setUserName("서상현");
-        member.setPhone("010-9948-1901");
-        member.setDepartment("부서");
-        member.setMemberAddress(address);
-        memberRepository.save(member);
-
-
-        ApplicationPeriodDto applicationPeriodDto = new ApplicationPeriodDto("2023-10-01", "2023-10-31");
-        UsagePeriodDto usagePeriodDto = new UsagePeriodDto("2023-10-01", "2023-10-31", "09:00", "22:00");
-        RentalRegisterFormDto rentalRegisterFormDto = new RentalRegisterFormDto("강의실", "테스트아이디", "오브젝트네임테스트",
-                address, 1000, applicationPeriodDto, usagePeriodDto, 1, 1, "웹사이트테스트", "01099481901");
-        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
-        rentalRegisterDto.setUserId("test@test.com");
-        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
-        rentalObjectService.insertRentalObject(rentalRegisterDto);
-
-        RentalRegisterDto rentalRegisterDto11 = new RentalRegisterDto("강의실", "test@test.com", "testObjectName강의실1", address1);
-        RentalRegisterDto rentalRegisterDto1 = new RentalRegisterDto("도서관", "test@test.com", "testObjectName도서관", address2);
-        RentalRegisterDto rentalRegisterDto2 = new RentalRegisterDto("회의실", "test@test.com", "testObjectName회의실", address3);
-        RentalRegisterDto rentalRegisterDto3 = new RentalRegisterDto("강당", "test@test.com", "testObjectName강당", address4);
-        RentalRegisterDto rentalRegisterDto4 = new RentalRegisterDto("운동장", "test@test.com", "testObjectName운동장", address5);
-        RentalRegisterDto rentalRegisterDto5 = new RentalRegisterDto("체육관", "test@test.com", "testObjectName체육관", address6);
-        RentalRegisterDto rentalRegisterDto6 = new RentalRegisterDto("수영장", "test@test.com", "testObjectName수영장", address7);
-
-        rentalObjectService.insertRentalObject(rentalRegisterDto);
-        rentalObjectService.insertRentalObject(rentalRegisterDto1);
-        rentalObjectService.insertRentalObject(rentalRegisterDto2);
-        rentalObjectService.insertRentalObject(rentalRegisterDto3);
-        rentalObjectService.insertRentalObject(rentalRegisterDto4);
-        rentalObjectService.insertRentalObject(rentalRegisterDto5);
-        rentalObjectService.insertRentalObject(rentalRegisterDto6);
-        rentalObjectService.insertRentalObject(rentalRegisterDto11);
-
-        SearchSpecDto specDto = new SearchSpecDto();
-        specDto.setMainCategory("공간시설");
-        specDto.setSubCategory("강의실");
+//        List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories("공간시설");
+//        System.out.println("아시발");
+//        System.out.println(subCategoryList.get(0).getScId() + "아시발");
+//        System.out.println(subCategoryList.get(1).getScId());
+//        System.out.println(subCategoryList.get(2).getScId());
+//        System.out.println(subCategoryList.get(3).getScId());
+//
+//
+//        Address address1 = new Address("나주소입니다", "01610", "나계동", "detailAddress", "나도", "나군구");
+//        Address address2 = new Address("다주소입니다", "01610", "다계동", "detailAddress", "다도", "다군구");
+//        Address address3 = new Address("라주소입니다", "01610", "라계동", "detailAddress", "라도", "라군구");
+//        Address address4 = new Address("마주소입니다", "01610", "마계동", "detailAddress", "마도", "마군구");
+//        Address address5 = new Address("바주소입니다", "01610", "바계동", "detailAddress", "바도", "바군구");
+//        Address address6 = new Address("사주소입니다", "01610", "사계동", "detailAddress", "사도", "사군구");
+//        Address address7 = new Address("아주소입니다", "01610", "아계동", "detailAddress", "아도", "아군구");
+//        Address address8 = new Address("자주소입니다", "01610", "자계동", "detailAddress", "자도", "자군구");
+//        Address address9 = new Address("차주소입니다", "01610", "차계동", "detailAddress", "차도", "차군구");
+//        Address address10 = new Address("파주소입니다", "01610", "파계동", "detailAddress", "파도", "파군구");
+//
+//        Address address = new Address("서울노원구동일로237바길17", "01610", "(상계동)", "802호", "서울", "노원구");
+//
+//
+//        Member member = new Member();
+//        member.setUserEmail("test@test.com");
+//        member.setUserPw("1111");
+//        member.setNickname("서상현");
+//        member.setPhone("010-9948-1901");
+//        member.setDepartment("부서");
+//        member.setMemberAddress(address);
+//        memberRepository.save(member);
+//
+//
+//        ApplicationPeriodDto applicationPeriodDto = new ApplicationPeriodDto("2023-10-01", "2023-10-31");
+//        UsagePeriodDto usagePeriodDto = new UsagePeriodDto("2023-10-01", "2023-10-31", "09:00", "22:00");
+//        RentalRegisterFormDto rentalRegisterFormDto = new RentalRegisterFormDto("강의실", "테스트아이디", "오브젝트네임테스트",
+//                address, 1000, applicationPeriodDto, usagePeriodDto, 1, 1, "웹사이트테스트", "01099481901");
+//        RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
+//        rentalRegisterDto.setUserId("test@test.com");
+//        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+//        rentalObjectService.insertRentalObject(rentalRegisterDto);
+//        rentalObjectService.insertRentalObject(rentalRegisterDto);
+//
+//        SearchSpecDto specDto = new SearchSpecDto();
+//        specDto.setMainCategory("공간시설");
+//        specDto.setSubCategory("강의실");
 //        specDto.setSido("address");
-        specDto.setSearchWord("강의실");
+//        specDto.setSearchWord("강의실");
 //        specDto.setSort("addressName");
-
+//
 //        Pageable pageable = null;
-
+//
 //        Page<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto, pageable);
 //        System.out.println(rentalObjectDtos);
 //        System.out.println("chapter1");

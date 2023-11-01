@@ -1,6 +1,6 @@
 package com.daeyeo.helloDaeyeo.entity;
 
-import com.daeyeo.helloDaeyeo.dto.RentalLogDto;
+import com.daeyeo.helloDaeyeo.embedded.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,4 +20,9 @@ public class RentalLog {
     @ManyToOne(fetch = FetchType.LAZY)
     RentalStatus rentalStatus;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Embedded
+    private Address address;
 }

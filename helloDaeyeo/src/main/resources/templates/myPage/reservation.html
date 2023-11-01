@@ -90,26 +90,26 @@
                             <table class="table table-striped table-hover">
                                 <thead class="table-dark">
                                 <tr>
-                                    <th>objectName</th>
-                                    <th>price</th>
-                                    <th>website</th>
-                                    <th>representNum</th>
-                                    <th>locationInfo</th>
-                                    <th>startDuration</th>
-                                    <th>endDuration</th>
-                                    <th>예약 취소 요청</th>
+                                    <th>index</th>
+                                    <th>대여장소</th>
+                                    <th>대여주소</th>
+                                    <th>사용비용</th>
+                                    <th>이용날짜</th>
+                                    <th>이용시작시간</th>
+                                    <th>이용종료시간</th>
+                                    <th>대여상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!-- Thymeleaf의 반복문은 th:each 속성을 사용하여 처리합니다. -->
-<!--                                <tr th:each="rental, index : ${rentalObject1}">-->
-<!--                                    <td th:text="${index.count}"></td>-->
-<!--                                    <td th:text="${rental.price}"></td>-->
-<!--                                    <td th:text="${rental.website}"></td>-->
-<!--                                    <td th:text="${rental.representNum}"></td>-->
-<!--                                    <td th:text="${rental.locationInfo}"></td>-->
-<!--                                    <td th:text="${rental.startDuration}"></td>-->
-<!--                                    <td th:text="${rental.endDuration}"></td>-->
+                                <tr th:each="rentalStatus,index : ${rentalStatuses}">
+                                    <td th:text="${index.count}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getObjectName()}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getAddress().address}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getUsageFee()}"></td>
+                                    <td th:text="${rentalStatus.getRentalDate()}"></td>
+                                    <td th:text="${rentalStatus.getStartTime()}"></td>
+                                    <td th:text="${rentalStatus.getEndTime()}"></td>
+                                    <td th:text="${rentalStatus.getStatus().getLabel()}"></td>
                                 </tr>
                                 </tbody>
                             </table>
