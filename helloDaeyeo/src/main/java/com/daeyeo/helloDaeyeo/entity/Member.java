@@ -24,9 +24,10 @@ public class Member implements UserDetails {
     @Id
     private String userEmail;
     @OneToMany(mappedBy = "member")
-    Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
+    Set<RentalObject> rentalObjects = new HashSet<>();
     @OneToMany(mappedBy = "member")
-    Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
+    Set<RentalStatus> rentalStatuses = new HashSet<>();
+
     @Embedded
     private Address memberAddress;
     private String phone;
@@ -116,7 +117,6 @@ public class Member implements UserDetails {
         return true;
     }
 
-    // TODO: 계정이 잠겨서 로그인이 불가능할 때 프론트에 알려줄 필요가 있음 현재 : ?error
     @Override
     public boolean isEnabled() {
         return LocalDateTime.now().isAfter(banEndDate);

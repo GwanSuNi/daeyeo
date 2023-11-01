@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -82,8 +83,18 @@ public class MemberApiController {
     // 로그인 페이지
     // TODO: DTO가 없어도 동작함, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
     @GetMapping("/memberLogin")
-    public String loginPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-//        model.addAttribute("memberLoginDto", new MemberLoginDto());
+    public String loginPage(@RequestParam(value = "error", required = false) String error, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        // 로그인 실패 시 원인에 따른 분기
+        if ("idpw".equals(error)) {
+            // 아이디/비밀번호 불일치 에러 처리
+            model.addAttribute("errorMessage", "아이디나 비밀번호가 맞지 않습니다.");
+        } else if ("baned".equals(error)) {
+            // 계정 정지 에러 처리
+            model.addAttribute("errorMessage", "계정이 정지되었습니다. 관리자에게 문의하세요.");
+        } else if ("unknown".equals(error)) {
+            // 기타 에러 처리
+            model.addAttribute("errorMessage", "알 수 없는 이유로 로그인에 실패했습니다. 관리자에게 문의하세요.");
+        }
         model.addAttribute("isLogined", !authentication.getName().equals("anonymousUser"));
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
         return "/login/memberLogin";

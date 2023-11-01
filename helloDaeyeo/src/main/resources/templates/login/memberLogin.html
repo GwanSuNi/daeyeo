@@ -49,10 +49,13 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">로그인이 필요한 서비스입니다.</h1>
                                     </div>
                                     <form th:action="@{/login}" method="post"
                                           class="user">
+                                        <div th:if="${errorMessage}" style="color: red">
+                                            <script th:utext="'alert(\'' + ${errorMessage} + '\');'"></script>
+                                        </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                    placeholder="Enter Email Address..." lang="en" name="username">

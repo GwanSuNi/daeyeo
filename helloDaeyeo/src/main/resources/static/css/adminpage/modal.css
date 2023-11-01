@@ -1,0 +1,76 @@
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-table {
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid;
+    line-height: 100%;
+}
+
+.modal-th {
+    background-color: lightcyan;
+    text-align: center;
+    border: 1px solid;
+}
+
+.modal-td {
+    border: 1px solid;
+    text-align: center;
+    padding: 2px;
+}
+
+.modal-dialog.modal-80size {
+    width: 80%;
+    height: 80%;
+    margin: 0;
+    padding: 0;
+}
+
+.modal-content.modal-80size {
+    height: auto;
+    min-height: 80%;
+}
+
+.modal.modal-center {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal.modal-center:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}

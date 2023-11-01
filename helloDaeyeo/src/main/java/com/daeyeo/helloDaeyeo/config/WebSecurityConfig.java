@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.config;
 
+import com.daeyeo.helloDaeyeo.handler.security.CustomAuthenticationFailureHandler;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class WebSecurityConfig {
 
     private final UserDetailService userService;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 //    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
@@ -35,21 +37,22 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //        return http
-                http
-                        .userDetailsService(userService)
+        http
+                .userDetailsService(userService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user", "/login/**", "/memberApi/**", "/loginCheck").permitAll()
-                                .requestMatchers("/memberApi/memberLogin").anonymous()
-                                .requestMatchers("/memberApi/register").anonymous()
-                                .requestMatchers("/myPage/**").hasAnyRole("MEMBER", "ADMIN")
-                                .requestMatchers("/adminpage/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                        .requestMatchers("/memberApi/memberLogin").anonymous()
+                        .requestMatchers("/memberApi/register").anonymous()
+                        .requestMatchers("/myPage/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers("/adminpage/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/", true)
+                        .failureHandler(customAuthenticationFailureHandler)
                 )
                 .logout((logout) -> logout.permitAll())
                 .httpBasic(Customizer.withDefaults());
