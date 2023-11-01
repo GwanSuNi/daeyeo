@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <!-- BootStrap CSS File -->
     <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -8,45 +8,6 @@
     <link th:href="@{/css/rental/rental_write.css}" rel="stylesheet">
 
     <meta charset="UTF-8">
-    <!-- FullCalendar JS File -->
-    <script th:src="@{/js/rental/rentalWrite.js}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src='fullcalendar/dist/index.global.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var startDate = /*[[@{${rentalObject.usagePeriod.startDate}}]]*/;
-        var endDate = /*[[@{${rentalObject.usagePeriod.endDate}}]]*/;
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                locale: "ko",
-                validRange: {
-                    start: startDate, // startDuration
-                    end: endDate // endDuration
-                },
-                select: function(info) {
-                    // Calculate the difference between the selected start and end dates
-                    var start = moment(info.start); // Convert to Moment object
-                    var end = moment(info.end);     // Convert to Moment object
-
-                    if (end.diff(start, 'days') === 1) {
-                        var selectedDate = start.format('YYYY-MM-DD');
-                        $('#rentalDate').val(selectedDate);
-                    } else {
-                        // If the selected range is not one day, you can show an error message or take another action.
-                        alert('강의실 사용하실 날짜 하루만 입력해주세요.');
-                        calendar.unselect(); // Deselect the range
-                    }
-                }
-            });
-            calendar.render();
-        });
-        /*]]>*/
-    </script>
     <title>대여글 작성 | 대여대여</title>
 </head>
 <body>
@@ -76,16 +37,14 @@
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
-                            <button type="button" class="expand icon btn" data-bs-toggle="modal"
-                                    data-bs-target="#fullscreenModal"></button>
+                            <button type="button" class="expand icon btn" data-bs-toggle="modal" data-bs-target="#fullscreenModal"></button>
                             <!-- Full Screen Modal -->
                             <div class="modal fade" id="fullscreenModal" tabindex="-1">
                                 <div class="modal-dialog modal-fullscreen">
                                     <div class="modal-content">
                                         <!-- Slider -->
                                         <div class="carousel-wrap">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             <div class="carousel">
                                                 <div class="btn btn-back hidden">
                                                     <i class="fas left-arrow"></i>
@@ -102,24 +61,19 @@
                                                             <img class="images" th:src="@{/img/rental/image_icon.png}">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x803">
+                                                            <img class="images" src="https://source.unsplash.com/random/800x803">
                                                         </div>
                                                         <div class="slide active">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x804">
+                                                            <img class="images" src="https://source.unsplash.com/random/800x804">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/eADQs40WywY/800x805">
+                                                            <img class="images" src="https://source.unsplash.com/eADQs40WywY/800x805">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x806">
+                                                            <img class="images" src="https://source.unsplash.com/random/800x806">
                                                         </div>
                                                         <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/ArYjvKHVByg/800x807">
+                                                            <img class="images" src="https://source.unsplash.com/ArYjvKHVByg/800x807">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,6 +104,7 @@
                                 <div class="icon hits_box">
                                     <span class="hits" title="조회수" th:text="${rentalObject.visitCount}"></span>
                                 </div>
+                                <!--
                                 <div class="rating">
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
@@ -157,11 +112,14 @@
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
                                     <img th:src="@{/img/rental/star_icon.png}" alt="사진">
                                 </div>
+                                -->
                             </div>
                             <div class="icon_btn_box">
                                 <input type="button" class="want icon btn">
+                                <!--
                                 <input type="button" class="share icon btn">
                                 <input type="button" class="report icon btn">
+                                -->
                             </div>
                         </div>
                         <form th:action="@{/rental/write/status.do}" method="post" th:object="${rentalStatus}" id="reservation-form">
@@ -169,42 +127,42 @@
                             <table class="description">
                                 <tr>
                                     <th>장소</th>
-                                    <td th:text="${rentalObject.address.address}"></td>
+                                    <td th:text="${rentalObject.address.sido + ' ' + rentalObject.address.sigungu + ' ' + rentalObject.address.detailAddress}"></td>
                                 </tr>
                                 <tr>
                                     <th>이용요금</th>
-                                    <td><input type="text" name="price" th:value="${rentalObject.usageFee}"
-                                               tabindex="-1"
-                                               readonly></td>
+                                    <td><input type="text" name="price" th:value="${rentalObject.usageFee}" tabindex="-1" readonly></td>
                                 </tr>
                                 <tr>
                                     <th>접수기간</th>
                                     <td>
-                                        <span class="receipt-start-duration"
-                                              th:text="${rentalObject.applicationPeriod.startDate}"></span>
+                                        <span class="receipt-start-duration" th:text="${rentalObject.applicationPeriod.startDate}"></span>
                                         ~
-                                        <span class="receipt-end-duration"
-                                              th:text="${rentalObject.applicationPeriod.endDate}"></span>
+                                        <span class="receipt-end-duration" th:text="${rentalObject.applicationPeriod.endDate}"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용기간</th>
-                                    <td th:text="${rentalObject.usagePeriod.startDate} + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></td>
+                                    <td id="usage-period" th:text="${rentalObject.usagePeriod.startDate} + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></td>
                                 </tr>
                                 <tr>
-                                    <th>사용 가능한 시간</th>
+                                    <th>이용시간</th>
                                     <td th:text="${rentalObject.usagePeriod.startTime} + ' ~ ' + ${rentalObject.usagePeriod.endTime}"></td>
                                 </tr>
                                 <tr>
-                                    <th>이용할날짜</th>
+                                    <th>취소기간</th>
+                                    <td th:text="${'이용일 ' + rentalObject.cancellation + '일 전까지'}"></td>
+                                </tr>
+                                <tr>
+                                    <th>대여 신청일</th>
                                     <td>
                                         <div class="user-duration">
-                                            <input type="text" th:field="*{rentalDate}" readonly>
+                                            <input type="text" th:field="*{rentalDate}" tabindex="-1" placeholder="캘린더에서 대여할 날짜를 선택해 주세요." readonly>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>사용할시간</th>
+                                    <th>대여시간</th>
                                     <td>
                                         <div class="user-duration">
                                             <input type="time" class="form-control" th:field="*{startTime}">
@@ -214,7 +172,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>모집인원</th>
+                                    <th>최대인원</th>
                                     <td th:text="${rentalObject.maxPerson} + ' 명'"></td>
                                 </tr>
                                 <tr>
@@ -222,17 +180,20 @@
                                     <td th:text="${rentalObject.webSite}"></td>
                                 </tr>
                                 <tr>
+                                    <th>제공자</th>
+                                    <td th:text="${rentalObject.userEmail}"></td>
+                                </tr>
+                                <tr>
                                     <th>문의전화</th>
                                     <td th:text="${rentalObject.inquiryPhone}"></td>
                                 </tr>
                             </table>
-                        <div class="btn_box">
-                            <a href="" class="reservation">예약하기</a>
-                            <button type="submit" class="btn btn-primary">예약하기</button>
-                            <a href="/rentals/list" class="list">목록</a>
-                                    <div th:if="${notPermitTimeError}" th:text="${notPermitTimeError}" style="color: red;"></div>
-                                    <div th:if="${overlapInTime}" th:text="${overlapInTime}" style="color: red;"></div>
-                        </div>
+                            <div class="btn_box">
+                                <a href="#" class="reservation">예약하기</a>
+                                <a href="/rentals/list" class="list">목록</a>
+                                <div th:if="${notPermitTimeError}" th:text="${notPermitTimeError}" style="color: red;"></div>
+                                <div th:if="${overlapInTime}" th:text="${overlapInTime}" style="color: red;"></div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -241,14 +202,16 @@
         <!-- Bordered Tabs Justified -->
         <div class="bottom_container">
             <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                <!--
                 <li class="nav-item flex-fill" role="presentation">
                     <button class="nav-link w-100 active" id="guide-tab" data-bs-toggle="tab"
                             data-bs-target="#bordered-justified-guide" type="button" role="tab" aria-controls="guide"
                             aria-selected="true">이용안내
                     </button>
                 </li>
+                -->
                 <li class="nav-item flex-fill" role="presentation">
-                    <button class="nav-link w-100" id="place-tab" data-bs-toggle="tab"
+                    <button class="nav-link w-100 active" id="place-tab" data-bs-toggle="tab"
                             data-bs-target="#bordered-justified-place" type="button" role="tab" aria-controls="place"
                             aria-selected="false">장소안내
                     </button>
@@ -261,22 +224,17 @@
                 </li>
             </ul>
             <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel"
-                     aria-labelledby="guide-tab">
-                    <!--                    <div th:text="${rentalObject.useInfo}"></div>-->
-                </div>
-                <div class="tab-pane fade" id="bordered-justified-place" role="tabpanel" aria-labelledby="place-tab">
+                <!--
+                <div class="tab-pane fade show active" id="bordered-justified-guide" role="tabpanel" aria-labelledby="guide-tab"></div>
+                -->
+                <div class="tab-pane fade show active" id="bordered-justified-place" role="tabpanel" aria-labelledby="place-tab">
                     <div class="sub_box">
                         <h3>지도</h3>
-                        <div id="map"></div>
+                        <div id="map" th:data-address="${rentalObject.address.address}" th:data-detail-address="${rentalObject.address.detailAddress}"></div>
                     </div>
                     <div class="sub_box">
                         <h3>주소</h3>
-                        <div th:text="${rentalObject.address.address}"></div>
-                    </div>
-                    <div class="sub_box">
-                        <h3>오시는 길</h3>
-                        <div th:text="${rentalObject.address.detailAddress}"></div>
+                        <div th:text="${rentalObject.address.address + ' ' + rentalObject.address.detailAddress}"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-review" role="tabpanel" aria-labelledby="review-tab">
@@ -328,54 +286,10 @@
 <!-- Slider JS File -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
+<!-- FullCalendar JS File -->
+<script th:src="@{/js/rental/index.global.js}"></script>
+<!-- Kakao Maps API -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb2580abb9ad006dfbbb928129fffcd9&libraries=services,clusterer,drawing">
-</script>
 <!-- JS File -->
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    var detailAddress = /*[[${rentalObject.address.detailAddress}]]*/;
-    var address = /*[[${rentalObject.address.address}]]*/;
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-        };
-
-    // 지도를 생성합니다
-    const placeTab = document.querySelector('#place-tab');
-    placeTab.addEventListener('click', () => map.relayout());
-    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-
-
-    // 주소-좌표 변환 객체를 생성합니다
-    var geocoder = new kakao.maps.services.Geocoder();
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(address, function (result, status) {
-
-        // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
-
-            });
-
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-                content: detailAddress
-            });
-            infowindow.open(map, marker);
-            map.relayout();
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-
-        }
-    });
-    /*]]>*/
-</script>
+<script th:src="@{/js/rental/rentalWrite.js}"></script>
 </html>
