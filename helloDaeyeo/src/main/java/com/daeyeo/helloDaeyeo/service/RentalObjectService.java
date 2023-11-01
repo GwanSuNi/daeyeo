@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.service;
 
+import com.daeyeo.helloDaeyeo.dto.myPageDto.RentalObjectManageDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalStatusDto;
@@ -87,5 +88,25 @@ public class RentalObjectService {
     public List<RentalObject> findAll() {
         List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
         return rentalObjectList;
+    }
+
+    public List<RentalObject> findAllMyRental(String memberId) {
+        List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
+        List<RentalObject> myRentalObjectList = new ArrayList<>();
+        for (RentalObject rentalObject : rentalObjectList) {
+            if (rentalObject.getMember().getUserEmail().equals(memberId)) {
+                myRentalObjectList.add(rentalObject);
+            }
+        }
+        return myRentalObjectList;
+    }
+
+    public List<RentalObjectManageDto> rentalObjectManagePage(List<RentalObject> rentalObjectList) {
+        List<RentalObjectManageDto> rentalObjectManageDtoList = new ArrayList<>();
+        for (RentalObject rentalObject : rentalObjectList) {
+            RentalObjectManageDto rentalObjectManageDto = new RentalObjectManageDto(rentalObject);
+            rentalObjectManageDtoList.add(rentalObjectManageDto);
+        }
+        return rentalObjectManageDtoList;
     }
 }

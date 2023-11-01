@@ -3,6 +3,7 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.entity.Status;
 import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.service.MainCategoryService;
@@ -73,6 +74,7 @@ public class RentalController {
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
                     rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
                 // 시간이 겹치지 않으므로 validPeriod는 true를 반환
+                rentalStatusDto.setStatus(Status.PENDING);
                 rentalStatusService.insertRentalStatus(rentalStatusDto);
             }
         } catch (NotPermitTime e) {

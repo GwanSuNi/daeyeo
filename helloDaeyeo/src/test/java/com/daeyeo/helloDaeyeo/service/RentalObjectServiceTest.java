@@ -1,6 +1,7 @@
 package com.daeyeo.helloDaeyeo.service;
 
-import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.RentalStatus;
+import com.daeyeo.helloDaeyeo.entity.Status;
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 
 @SpringBootTest
@@ -25,6 +24,9 @@ public class RentalObjectServiceTest {
     SubCategoryService subCategoryService;
     @Autowired
     RentalObjectService rentalObjectService;
+    @Autowired
+    RentalStatusService rentalStatusService;
+
     /*
     @Test
     public void rentalTest(){
@@ -34,11 +36,9 @@ public class RentalObjectServiceTest {
 
      */
     @Test
-    public void memberTest(){
-        List<Member> entities = memberService.findAll();
-        for (Member entity : entities) {
-            System.out.println(entity.toString());
-        }
+    public void memberTest() {
+        RentalStatus rentalStatus = rentalStatusService.findOne(1);
+        System.out.println(rentalStatus.getStatus() == Status.PENDING);
     }
 
 }

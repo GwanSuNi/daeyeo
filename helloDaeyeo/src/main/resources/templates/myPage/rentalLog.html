@@ -89,24 +89,26 @@
                             <table class="table table-striped table-hover">
                                 <thead class="table-dark">
                                 <tr>
-                                    <th>rentalId</th>
-                                    <th>targetObject</th>
-                                    <th>targetUser</th>
-                                    <th>startDuration</th>
-                                    <th>endDuration</th>
-                                    <th>price</th>
-                                    <th>rentalDate</th>
+                                    <th>index</th>
+                                    <th>대여장소</th>
+                                    <th>대여주소</th>
+                                    <th>사용비용</th>
+                                    <th>이용날짜</th>
+                                    <th>이용시작시간</th>
+                                    <th>이용종료시간</th>
+                                    <th>대여상태</th>
                                 </tr>
                                 </thead>
                                 <!-- Thymeleaf의 반복문 사용 -->
-<!--                                <tr th:each="log, index : ${rentalLog}">-->
-<!--                                    <td th:text="${index.count}"></td>-->
-<!--                                    <td th:text="${log.rentalId}"></td>-->
-<!--                                    <td th:text="${log.userEntity.userEmail}"></td>-->
-<!--                                    <td th:text="${log.startDuration}"></td>-->
-<!--                                    <td th:text="${log.endDuration}"></td>-->
-<!--                                    <td th:text="${log.price}"></td>-->
-<!--                                    <td th:text="${log.rentalDate}"></td>-->
+                                <tr th:each="rentalStatus,index : ${rentalStatuses}">
+                                    <td th:text="${index.count}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getObjectName()}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getAddress().address}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getUsageFee()}"></td>
+                                    <td th:text="${rentalStatus.getRentalDate()}"></td>
+                                    <td th:text="${rentalStatus.getStartTime()}"></td>
+                                    <td th:text="${rentalStatus.getEndTime()}"></td>
+                                    <td th:text="${rentalStatus.getStatus().getLabel()}"></td>
                                 </tr>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -118,19 +120,19 @@
         </div>
     </div>
 </div>
-        <!-- Vendor JS Files -->
-        <script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
-        <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/css/assets/vendor/chart.js/chart.umd.js}"></script>
-        <script th:src="@{/css/assets/vendor/echarts/echarts.min.js}"></script>
-        <script th:src="@{/css/assets/vendor/quill/quill.min.jss}"></script>
-        <script th:src="@{/css/assets/vendor/simple-datatables/simple-datatables.js}"></script>
-        <script th:src="@{/css/assets/vendor/tinymce/tinymce.min.js}"></script>
-        <script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
+<!-- Vendor JS Files -->
+<script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/css/assets/vendor/chart.js/chart.umd.js}"></script>
+<script th:src="@{/css/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/css/assets/vendor/quill/quill.min.jss}"></script>
+<script th:src="@{/css/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/css/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
 
-        <!-- Template Main JS File -->
-        <script th:src="@{/css/assets/js/main.js}"></script>
-    <!-- footer -->
-    <div th:include="/includes/footer"></div>
+<!-- Template Main JS File -->
+<script th:src="@{/css/assets/js/main.js}"></script>
+<!-- footer -->
+<div th:include="/includes/footer"></div>
 </body>
 </html>

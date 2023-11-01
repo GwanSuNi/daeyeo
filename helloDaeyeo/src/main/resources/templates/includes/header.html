@@ -80,7 +80,7 @@
         </li>
         <li th:if="${isLogined}"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>
-        <div th:if="${isLogined} and ${!isAdmin}" th:onclick="|location.href='/myPage/'|">
+        <div th:if="${isLogined} and ${!isAdmin}" th:onclick="|location.href='/myPage'|">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
         <div th:if="${isAdmin}" th:onclick="|location.href='/adminpage/'|">
