@@ -2,6 +2,7 @@ package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
+import com.daeyeo.helloDaeyeo.dto.rental.RentalStatusDto;
 import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +59,15 @@ public class RentalObjectService {
                 .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
 
         return rentalObjectMapper.toDto(rentalObject);
+    }
+
+    public List<RentalObjectDto> getRentalObjects(List<RentalStatusDto> rentalStatusDtos) {
+        List<RentalObjectDto> rentalObjectDtos = new ArrayList<>();
+
+        for (RentalStatusDto rentalStatusDto : rentalStatusDtos)
+            rentalObjectDtos.add(getRentalObject(rentalStatusDto.getObjectIndex()));
+
+        return rentalObjectDtos;
     }
 
     public RentalObject getOneRentalObject(long objectIndex) {

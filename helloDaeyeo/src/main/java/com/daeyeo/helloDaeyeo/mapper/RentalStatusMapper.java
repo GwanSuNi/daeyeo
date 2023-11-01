@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface RentalStatusMapper {
     @Mapping(source = "member.userEmail", target = "userEmail")
@@ -16,6 +18,8 @@ public interface RentalStatusMapper {
     RentalStatusDto toDto(RentalStatus rentalStatus);
 
     RentalStatus toEntity(RentalStatusDto rentalStatusDto, Member member, RentalObject rentalObject);
+
+    List<RentalStatusDto> toDtoList(List<RentalStatus> rentalStatuses);
 
     @AfterMapping
     default void setMember(Member member, @MappingTarget RentalStatus rentalStatus) {

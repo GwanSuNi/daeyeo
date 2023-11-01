@@ -13,17 +13,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RentalStatusService {
-    final private MemberMapper memberMapper;
     final private RentalStatusRepository rentalStatusRepository;
-    final private RentalStatusMapper rentalStatusMapper;
-    final private RentalObjectMapper rentalObjectMapper;
-    final private MemberService memberService;
+
     final private RentalObjectService rentalObjectService;
+    final private MemberService memberService;
+
+    final private RentalStatusMapper rentalStatusMapper;
+    final private MemberMapper memberMapper;
 
     public void insertRentalStatus(RentalStatusDto rentalStatusDto) {
         Member member = memberMapper.toEntity(memberService.getMember(rentalStatusDto.getUserEmail()));
@@ -31,6 +34,13 @@ public class RentalStatusService {
         RentalStatus rentalStatus = rentalStatusMapper.toEntity(rentalStatusDto, member, rentalObject);
 
         rentalStatusRepository.save(rentalStatus);
+    }
+
+    public List<RentalStatusDto> getRentalStatuses(String userEmail) {
+        Member member = memberMapper.toEntity(memberService.getMember(userEmail));
+        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByMember(member);
+
+        return rentalStatusMapper.toDtoList(rentalStatuses);
     }
 
     public boolean validPeriod(long rentalObjectId, LocalDateTime startTime, LocalDateTime endTime) {

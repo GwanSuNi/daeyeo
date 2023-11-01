@@ -99,13 +99,13 @@ public class CustomRentalObjectRepositoryImpl implements CustomRentalObjectRepos
      */
     private OrderSpecifier<?> getOrderSpecifier(String sort) {
         Order order = Order.DESC;
-        if ("registerPeriod".equals(sort)) {
+        if ("receipt".equals(sort)) {
             // 정렬 조건 - 접수 기간
             return new OrderSpecifier<>(order, rentalObject.applicationPeriod.startDate);
-        } else if ("servicePeriod".equals(sort)) {
+        } else if ("usage".equals(sort)) {
             // 정렬 조건 - 이용 기간
             return new OrderSpecifier<>(order, rentalObject.usagePeriod.startDate);
-        } else if ("addressName".equals(sort)) {
+        } else if ("region".equals(sort)) {
             // 동적 정렬 조건 - 주소명
             return new OrderSpecifier<>(order, rentalObject.address.sido);
         } else {

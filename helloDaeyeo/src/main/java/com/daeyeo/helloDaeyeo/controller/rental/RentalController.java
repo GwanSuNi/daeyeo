@@ -1,12 +1,14 @@
-package com.daeyeo.helloDaeyeo.controller;
+package com.daeyeo.helloDaeyeo.controller.rental;
 
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
 import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
-import com.daeyeo.helloDaeyeo.repository.MemberRepository;
-import com.daeyeo.helloDaeyeo.service.*;
+import com.daeyeo.helloDaeyeo.service.MainCategoryService;
+import com.daeyeo.helloDaeyeo.service.RentalObjectService;
+import com.daeyeo.helloDaeyeo.service.RentalStatusService;
+import com.daeyeo.helloDaeyeo.service.SubCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,24 +24,22 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/rental")
+@RequestMapping("/rentals")
 public class RentalController {
     private final SubCategoryService subCategoryService;
     private final RentalObjectService rentalObjectService;
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
     private final MainCategoryService mainCategoryService;
     private final RentalStatusService rentalStatusService;
 
 
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
+    // TODO: rentalObject가 하나도 없을 때 '검색 결과가 없습니다.'라고 보여주고 html에 페이징도 안 보이게 해야함
     @GetMapping({"list", "list/{page}"})
     public String rentalList(SearchSpecDto specDto, @PathVariable(required = false) Integer page, Model model) {
         if (page == null)
             page = 1;
 
         Pageable pageable = PageRequest.of(page - 1, 9);
-
         List<String> categories = subCategoryService.getCategories(specDto.getMainCategory());
         Page<RentalObjectDto> rentalObjectDtos = rentalObjectService.findListBySearchSpec(specDto, pageable);
 

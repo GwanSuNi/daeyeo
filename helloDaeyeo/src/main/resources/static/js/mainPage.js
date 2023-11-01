@@ -55,31 +55,61 @@ sido.addEventListener('change', () => {
     }
 });
 
+// form
+const searchFrm = document.getElementById('search');
+const tabFrm = document.getElementById('reserve-tab');
+// 카테고리
+const categoryTab = document.querySelectorAll('.category');
+const mainCategory = document.querySelector('#main-cate');
+const subCategories = document.querySelectorAll('.sub-category option:not(:first-child)')
+// 검색 버튼
+const searchBtn = document.querySelector('.search-btn.a-btn');
+const reserveBtn = document.querySelector('.reserve-btn.a-btn');
 
-// 분류 선택
-const cate0 = ['강의실', '강당', '회의실', '축구장', '농구장', '야구장'];
-const cate1 = [];
-const cate = {'cate0': cate0, 'cate1': cate1};
-const activeCate = document.querySelector('.category.active');
-const initCate = cate['cate' + activeCate.value];
-const tab = document.querySelectorAll('.category');
-const category = document.querySelector('.sub-category');
-const mainCate = document.querySelector('#main-cate');
-
-initCate.forEach((item) => {
-    category.options[category.options.length] = new Option(item, item);
+// 페이지 로드 시
+window.addEventListener('load', () => {
+    showSubCategory('');
 });
 
-tab.forEach((e, num) => {
-    e.addEventListener('click', () => {
-        category.options.length = 1;
-        cate['cate' + num].forEach((value) => {
-            category.options[category.options.length] = new Option(value, value);
-        });
-        mainCate.value = e.innerText;
+// 카테고리 탭 클릭 시
+categoryTab.forEach((element) => {
+    element.addEventListener('click', () => {
+        mainCategory.value = element.textContent;
+        showSubCategory(element.textContent);
     });
 });
 
+// subCategory select option의 data-category가 str과 같을 때만 보이게 함
+function showSubCategory(str) {
+    subCategories.forEach((option) => {
+        if (option.dataset.category === str)
+            option.style.display = 'block';
+        else
+            option.style.display = 'none';
+    });
+}
+
+// 검색 버튼 이벤트 리스너
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    validateSubmit(searchFrm);
+});
+
+reserveBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    validateSubmit(tabFrm);
+});
+
+// get 요청으로 보낼 때 url이 지저분해져서 값이 있는 필드만 보내는 함수
+function validateSubmit(frm) {
+    let elements = frm.elements;
+
+    for (let i = 0; i < elements.length; i++)
+        if (elements[i].value === "")
+            elements[i].name = "";
+
+    frm.submit();
+}
 
 // 가로 스크롤
 const sliderBox = document.querySelector('.slider-box');

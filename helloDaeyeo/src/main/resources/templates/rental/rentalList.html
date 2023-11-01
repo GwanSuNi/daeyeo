@@ -41,7 +41,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <div th:replace="/includes/header"></div>
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
     <form id="rentalListFrm" class="contents" action="/rentals/list" method="get" th:object="${searchSpec}">
         <input type="hidden" th:field="*{sido}">
         <input type="hidden" th:field="*{sigungu}">
@@ -101,7 +101,7 @@
             <div class="object-form">
                 <ul id="rental-list" class="list-type">
                     <li th:each="rentalObject : ${rentalObjects}">
-                        <a href="#" th:data-id="${rentalObject.objectIndex}" class="rental-object">
+                        <a th:href="@{'/rentals/write/' + ${rentalObject.objectIndex}}" class="rental-object">
                             <div class="img_box">
                                 <span class="board-state">대여가능</span>
                                 <img th:src="@{/img/rental/image_icon.png}" alt="사진">
@@ -126,13 +126,15 @@
                                     </li>
                                     <li>
                                         <span class="reception_period icon">접수기간</span>
-                                        <span th:text="${rentalObject.applicationPeriod.startDate}
-                                        + ' ~ ' + ${rentalObject.applicationPeriod.endDate}"></span>
+                                        <span th:text="${rentalObject.applicationPeriod != null} ?
+                                        ${rentalObject.applicationPeriod.startDate} + ' ~ ' +
+                                        ${rentalObject.applicationPeriod.endDate} : '기간을 정하지 않았습니다.'"></span>
                                     </li>
                                     <li>
                                         <span class="use_period icon">이용기간</span>
-                                        <span th:text="${rentalObject.usagePeriod.startDate}
-                                        + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></span>
+                                        <span th:text="${rentalObject.usagePeriod != null} ?
+                                        ${rentalObject.usagePeriod.startDate} + ' ~ ' +
+                                        ${rentalObject.usagePeriod.endDate} : '기간을 정하지 않았습니다.'"></span>
                                     </li>
                                 </ul>
                             </div>
@@ -172,7 +174,7 @@
             </ul>
         </div>
     </form>
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 <!-- Google Tag Manager (noscript) -->
