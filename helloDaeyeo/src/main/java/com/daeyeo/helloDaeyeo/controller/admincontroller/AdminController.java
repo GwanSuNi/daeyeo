@@ -9,7 +9,9 @@ import com.daeyeo.helloDaeyeo.entity.Role;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -23,10 +25,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/adminpage")
 @Secured("ROLE_ADMIN")
 public class AdminController {
@@ -34,13 +39,13 @@ public class AdminController {
     private final UserService userService;
     private final PeriodTestService periodTestService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("name", authentication.getName());
         return "adminpage/adminMainPage";
     }
 
-    @RequestMapping("adminMember")
+    @GetMapping("adminMember")
     public String memberPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("name", authentication.getName());
         List<Member> memberList = memberService.findAll();
@@ -49,6 +54,8 @@ public class AdminController {
         // JSON 타입으로 전달하기 위한 속성
         List<String> adminMemberJsons = memberService.adminMemberPageJson(adminMemberDtos);
         model.addAttribute("adminMemberJsons", adminMemberJsons);
+        // Role 종류 전달
+        model.addAttribute("roles", Role.values());
         return "adminpage/adminMemberPage";
     }
 
@@ -125,10 +132,28 @@ public class AdminController {
 
     // 어드민이 유저의 권한을 변경하는 메서드
     @PostMapping("/updateRoles")
-    public String updateRoles(@RequestParam String userEmail, @RequestParam Set<Role> roles) {
-        userService.updateMemberRoles(userEmail, roles);
-        return "redirect:/adminMember"; // 사용자 목록 페이지로 리다이렉트
+    public ResponseEntity<String> updateRoles(@RequestBody @NotNull Map<String, Object> requestBody) {
+        // JSON 데이터에서 roles 값을 가져와서 배열로 변환
+        List<String> roles = (List<String>) requestBody.get("roles");
+        String userEmail = requestBody.get("userEmail").toString();
+        log.warn("{}", userEmail);
+        // 열거형으로 변환
+        Set<Role> roleSet = roles.stream()
+                .map(Role::valueOf) // 열거형의 이름과 일치하는 문자열을 열거형으로 변환
+                .collect(Collectors.toSet());
+
+        Member member = userService.updateMemberRoles(userEmail, roleSet);
+        if (member == null) {
+            log.warn("Member가 null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("권한 변경에 실패했습니다. 다시 확인해주세요.");
+        }
+
+        AdminMemberDto adminMemberDto = new AdminMemberDto(member);
+        String resultMember = memberService.adminMemberDtoToJson(adminMemberDto);
+        log.info("변경된 후: {}", resultMember);
+        return new ResponseEntity<>(resultMember, HttpStatus.OK);
     }
+
 
     // 어드민이 유저의 밴 기간을 변경하는 메서드
     @PostMapping("/suspendUser")
