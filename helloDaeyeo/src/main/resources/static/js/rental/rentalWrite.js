@@ -124,50 +124,117 @@ navIndicator.addEventListener('click', (e) => {
 }); /* End Slider*/
 
 /* FullCalendar */
-// document.addEventListener('DOMContentLoaded', function () {
-//
-//     const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText; // 접수기간시작
-//     const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;     // 접수시간끝
-//     let calendarEl = document.getElementById('calendar');
-//     let calendar = new FullCalendar.Calendar(calendarEl, {
-//         headerToolbar: {
-//             left: 'prev',
-//             center: 'title',
-//             right: 'next'
-//         },
-//         selectable: true,
-//         locale: 'ko',
-//         validRange: {
-//             start: receiptStartDuration,
-//             end: receiptEndDuration
-//         },
-//         selectOverlap: false,
-//         select: function (arg) {
-//             var start = moment(info.start)
-//             if (end.diff(start, 'days') === 1) {
-//                 var selectedDate = start.format('YYYY-MM-DD');
-//                 $('#rentalDate').val(selectedDate)
-//             }else{
-//                 alert('강의실 사용하실 날짜 하루만 입력해주세요.');
-//                 calendar.unselect();
-//             }
-//         },
-//     });
-//
-//     calendar.render();
-// }); /* End FullCalendar */
+document.addEventListener('DOMContentLoaded', function () {
+    const rentalDate = document.getElementById('rentalDate');
+    const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText;
+    const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        headerToolbar: {
+            left: 'prev',
+            center: 'title',
+            right: 'next'
+        },
+        selectable: false,
+        businessHours: true,
+        dayMaxEvents: true,
+        locale: 'ko',
+        validRange: {
+            start: receiptStartDuration,
+            end: receiptEndDuration
+        },
+        selectOverlap: false,
+        showNonCurrentDates: true,
+        height: 450,
+        dateClick: function (arg) {
+            // 사용자가 생성한 이벤트 제거
+            calendar.getEvents().forEach(function (event) {
+                if (event.groupId === 'user-event') {
+                    event.remove();
+                }
+            });
 
-// /* Kakao Maps */
-// let container = document.getElementById('map');
-// let options = {
-//     center: new kakao.maps.LatLng(33.450701, 126.570667),
-//     level: 3
-// };
-// let map = new kakao.maps.Map(container, options);
-// const placeTab = document.querySelector('#place-tab');
-// tab 안에 지도가 있을 경우 처음 로딩시 지도가 깨져서 relayout() 함수를 호출해 크기 조정
-// placeTab.addEventListener('click', () => map.relayout());
-// /* End Kakao Maps */
+            // 새 이벤트 추가
+            calendar.addEvent({
+                title: '신청일',
+                start: arg.date,
+                allDay: arg.allDay,
+                backgroundColor: '#3B71CA',
+                groupId: 'user-event' // groupId 설정
+            });
+
+            rentalDate.value = arg.dateStr;
+            calendar.unselect();
+        },
+        eventClick: function (arg) {
+            // 이벤트 제거
+            arg.event.remove();
+            rentalDate.value = '';
+        }
+    });
+
+    calendar.render();
+}); /* End FullCalendar */
+
+/* Kakao Maps */
+const container = document.getElementById('map');
+const address = container.dataset.address;
+const detailAddress = container.dataset.detailAddress;
+let options = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    level: 3
+};
+let map = new kakao.maps.Map(container, options);
+// 주소-좌표 변환 객체를 생성
+let geocoder = new kakao.maps.services.Geocoder();
+// 주소로 좌표를 검색
+geocoder.addressSearch(address, function (result, status) {
+    // 정상적으로 검색이 완료됐으면
+    if (status === kakao.maps.services.Status.OK) {
+        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        // 마커를 생성
+        let marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+        // 마커에 표시할 인포윈도우를 생성
+        let content = '<div id="infowindow">' + detailAddress + '</div>';
+        // 커스텀 오버레이가 표시될 위치
+        let position = coords;
+        // 커스텀 오버레이를 생성
+        let customOverlay = new kakao.maps.CustomOverlay({
+            position: position,
+            content: content,
+            yAnchor: 2.5
+        });
+        // 지도의 중심을 결과값으로 받은 위치로 이동
+        map.setCenter(coords);
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록
+        kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, customOverlay));
+        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(customOverlay));
+        const placeTab = document.querySelector('#place-tab');
+        placeTab.addEventListener('click', () => {
+            // tab 안에 지도가 있을 경우 처음 로딩시 지도가 깨져서 relayout() 함수를 호출해 크기 조정
+            map.relayout();
+            // 마커의 위치로 지도의 중심을 다시 설정
+            map.setCenter(marker.getPosition());
+        });
+    }
+});
+
+// 인포윈도우를 표시하는 함수
+function makeOverListener(map, marker, customOverlay) {
+    return function () {
+        customOverlay.setMap(map);
+    };
+}
+
+// 인포윈도우를 닫는 함수
+function makeOutListener(customOverlay) {
+    return function () {
+        customOverlay.setMap(null);
+    };
+} /* End Kakao Maps */
 
 const reviewTxar = document.querySelector('.review_input');
 reviewTxar.oninput = () => {
@@ -177,7 +244,7 @@ reviewTxar.oninput = () => {
     reviewTxar.style.height = 'auto'; // 높이 초기화
     reviewTxar.style.height = reviewTxar.scrollHeight;
     root.style.setProperty('--reviewHeight', -review.scrollHeight + 'px');
-};
+}; /* End Kakao Maps */
 
 
 const reservationForm = document.querySelector('#reservation-form');
