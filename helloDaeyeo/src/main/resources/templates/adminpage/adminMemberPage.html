@@ -258,7 +258,7 @@
                                         <th scope="row" class="modal-th">닉네임</th>
                                         <td class="modal-td"><span id="userName"></span></td>
                                         <th scope="row" class="modal-th">등급</th>
-                                        <td class="modal-td"><span id="topRole"></span></td>
+                                        <td class="modal-td"><span id="roles"></span></td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="modal-th">이메일</th>
@@ -279,20 +279,37 @@
                                         <th scope="row" class="modal-th">주소</th>
                                         <td colspan="3" class="modal-td"><span id="address"></span></td>
                                     </tr>
+                                    <!--이용정지와 등급 변경 항목을 묶은 테이블-->
+                                    <tr>
+                                        <td colspan="2" class="modal-td">
+                                            <form id="suspendForm">
+                                                <input type="number" id="banDuration" name="banDuration"
+                                                       placeholder="숫자 입력" required>
+                                                <select id="banUnit" name="banUnit" required>
+                                                    <option value="hour">시간</option>
+                                                    <option value="day">일</option>
+                                                    <option value="month">개월</option>
+                                                </select>
+                                                <button type="submit">이용 정지</button>
+                                            </form>
+                                        </td>
+                                        <td colspan="2" class="modal-td">
+                                            <form id="updateRolesForm">
+                                                <label>등급 선택:</label>
+                                                <span th:each="role : ${roles}">
+                                                    <input th:id="${role.toString()}" id="${role.toString()}"
+                                                           type="checkbox" name="roles"
+                                                           th:value="${role.toString()}">
+                                                    <label th:for="${role.toString()}"
+                                                           th:text="${role.toString()}"></label>
+                                                </span>
+                                                <button type="button" id="updateRolesButton">등급 변경</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
-                                <form id="suspendForm">
-                                    <input type="number" id="banDuration" name="banDuration" placeholder="숫자 입력"
-                                           required>
-                                    <select id="banUnit" name="banUnit" required>
-                                        <option value="hour">시간</option>
-                                        <option value="day">일</option>
-                                        <option value="month">개월</option>
-                                    </select>
-                                    <button type="submit">이용 정지</button>
-                                </form>
-                                <!--TODO: 등급 변경 기능, 표 디자인-->
-                                <button onclick="">등급 변경</button>
+
                                 <table>
                                     <tbody>
                                     <tr>
@@ -332,6 +349,8 @@
 
 <!--사용자 정지 ajax-->
 <script defer src="/js/adminpage/banUser.js"></script>
+<!--권한 변경 ajax-->
+<script defer src="/js/adminpage/updateRoles.js"></script>
 <!--modal-->
 <script defer src="/js/adminpage/memberModal.js"></script>
 </html>
