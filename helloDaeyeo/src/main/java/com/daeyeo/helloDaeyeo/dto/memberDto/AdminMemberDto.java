@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,6 +31,7 @@ public class AdminMemberDto {
     private int moneyEarned;
     // 가장 최상위의 권한만 가짐 (View에서 검사하지 않게 하기 위해서)
     private String topRole;
+    private Set<Role> roles;
     // 어드민 여부
     private boolean isAdmin = false;
     private boolean isEnabled;
@@ -47,15 +49,8 @@ public class AdminMemberDto {
         this.rentalCount = member.getRentalStatuses().size();
         this.paySum = member.getPaySum();
         this.moneyEarned = member.getMoneyEarned();
-        for (Role role : member.getRoles()) {
-            if (role.equals(Role.ADMIN)) {
-                this.isAdmin = true;
-                this.topRole = Role.ADMIN.name();
-                break;
-            } else if (role.equals(Role.MEMBER)) {
-                this.topRole = Role.MEMBER.name();
-            }
-        }
+        this.topRole = Role.getClosestToRank0RoleName(member.getRoles());
+        this.roles = member.getRoles();
         this.isEnabled = member.isEnabled();
     }
 }
