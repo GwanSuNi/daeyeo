@@ -7,8 +7,10 @@ import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 // 시큐리티 세션 방식으로 유저 회원가입해주는 서비스
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class UserService {
     private final MemberRepository memberRepository;
@@ -42,8 +45,10 @@ public class UserService {
     }
 
     // 관리자가 사용자 역할을 업데이트 하는 서비스
+    @Transactional
     public Member updateMemberRoles(String userEmail, Set<Role> roles) {
         Member member = memberRepository.findByUserEmail(userEmail).orElse(null);
+        log.info("updateMemberRoles에서 Member: {}", member);
         if (member != null) {
             member.setRoles(roles);
             memberRepository.save(member);

@@ -31,7 +31,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
+@Secured({"ROLE_ADMIN", "ROLE_OWNER", "ROLE_VIP_MEMBER", "ROLE_MEMBER"})
 @RequestMapping("/myPage")
 public class MyPageController {
     private final MemberService memberService;

@@ -3,6 +3,7 @@ package com.daeyeo.helloDaeyeo.controller.logincontroller;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +34,9 @@ public class MemberApiController {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @RequestMapping("/forgotPw")
+    // TODO: 비밀번호 찾는 로직 구현
+    @Operation(summary = "비밀번호 찾기 화면으로 이동")
+    @GetMapping("/forgotPw")
     public String memberForgotPw(Model model) {
         return "/login/memberForgotPw";
     }
@@ -49,6 +52,7 @@ public class MemberApiController {
      * @param model
      * @return
      */
+    @Operation(summary = "회원가입 화면 이동")
     @GetMapping("/register")
     public String memberRegister(Model model) {
         model.addAttribute("memberRegisterDto", new MemberRegisterDto());
@@ -63,6 +67,7 @@ public class MemberApiController {
      * @param model
      * @return
      */
+    @Operation(summary = "회원가입 수행", description = "MemberRegisterDto를 통해 UserService에서 save")
     @PostMapping("/register")
     public String insertMember(@Valid MemberRegisterDto memberRegisterDto, BindingResult bindingResult,
                                Model model) {
@@ -82,6 +87,7 @@ public class MemberApiController {
 
     // 로그인 페이지
     // TODO: DTO가 없어도 동작함, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
+    @Operation(summary = "로그인 화면")
     @GetMapping("/memberLogin")
     public String loginPage(@RequestParam(value = "error", required = false) String error, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         // 로그인 실패 시 원인에 따른 분기
@@ -123,7 +129,7 @@ public class MemberApiController {
 //        log.info("로그인 성공");
 //        return "redirect:/memberApi/mainPage";
 //    }
-
+    @Operation(summary = "로그아웃", description = "시큐리티 컨텍스트에서 로그아웃")
     @GetMapping("/logout")
     @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
     public String logout(HttpServletRequest request, HttpServletResponse response) {

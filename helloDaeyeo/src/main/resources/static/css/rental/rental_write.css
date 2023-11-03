@@ -112,7 +112,7 @@ th, td {
 .expand {
     position: absolute;
     z-index: 2;
-    background-color: rgba( 255, 255, 255, 0.3 );
+    background-color: rgba(255, 255, 255, 0.3);
     background-image: url("../../img/rental/expand_icon.png");
     top: 95%;
     left: 95%;
@@ -316,17 +316,27 @@ th, td {
     line-height: 32px;
 }
 
+.fc-view-harness.fc-view-harness-active a:hover {
+    color: inherit;
+}
+
 .fc-scrollgrid-sync-table td,
 .fc .fc-non-business {
     background-color: #FFFFFF;
 }
 
-.fc-day-sun a {
+.fc .fc-non-business {
+    background-color: rgba(255, 255, 255, .3);
+}
+
+.fc-day-sun a,
+.fc-view-harness.fc-view-harness-active .fc-day-sun a:hover {
     color: red;
     text-decoration: none;
 }
 
-.fc-day-sat a {
+.fc-day-sat a,
+.fc-view-harness.fc-view-harness-active .fc-day-sat a:hover {
     color: blue;
     text-decoration: none;
 }
@@ -364,7 +374,7 @@ th, td {
     line-height: 32px;
     box-shadow: 1px 1px 3px 1px #808080;
     border-radius: 15px;
-    padding: 5px  10px;
+    padding: 5px 10px;
     margin-left: 5px;
 }
 
@@ -426,18 +436,18 @@ th, td {
 }
 
 input[name='price'],
-input[name='startDuration'],
-input[name='endDuration'] {
+.user-duration > input {
+    width: 100%;
+    text-align: center;
     background-color: inherit;
     border: none;
+    outline: none;
 }
 
-input[name='price'] {
-    text-align: center;
-}
-
-input[name='startDuration'] {
-    text-align: right;
+#startTime:focus,
+#endTime:focus {
+    background-color: inherit;
+    box-shadow: none;
 }
 
 .user-duration {
@@ -501,6 +511,16 @@ input[name='startDuration'] {
     height: 470px;
     margin: auto;
 }
+
+#infowindow {
+    text-align: center;
+    border-radius: 15px;
+    background-color: rgba(59, 133, 202, .9);
+    color: rgba(255, 255, 255, .9);
+    padding: 3px 8px;
+    border: none;
+}
+
 
 .user_review {
     position: sticky;

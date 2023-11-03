@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('userName').textContent = userInfo.nickname;
             document.getElementById('userEmail').textContent = userInfo.userEmail;
             document.getElementById('userPhone').textContent = userInfo.phone;
-            document.getElementById('topRole').textContent = userInfo.topRole;
+            document.getElementById('roles').textContent = userInfo.roles;
             document.getElementById('registdate').textContent = userInfo.formattedRegistDate;
             document.getElementById('address').textContent = userInfo.formattedAddress;
             if (userInfo.enabled === false) {
