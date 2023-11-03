@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <style>
         .fieldError {
@@ -39,77 +39,98 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
                                     </div>
-                                    <form th:action="@{/memberApi/register}" th:object="${memberRegisterDto}" method="post"
+                                    <form th:action="@{/memberApi/register}" th:object="${memberRegisterDto}"
+                                          method="post"
                                           class="user">
                                         <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
                                         <div class="form-group">
                                             <input type="text" th:field="*{userName}" placeholder="이름 입력"
                                                    class="form-control form-control-user"
-                                                    th:class="${#fields.hasErrors('userName')}? 'form-control form-control-user fieldError' : 'form-control form-control-user'">
-                                            <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Incorrect date</p>
+                                                   th:class="${#fields.hasErrors('userName')}? 'form-control form-control-user fieldError' : 'form-control form-control-user'">
+                                            <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">
+                                                Incorrect date</p>
                                         </div>
 
                                         <div class="form-group">
                                             <input type="email" th:field="*{userEmail}"
                                                    class="form-control form-control-user"
                                                    placeholder="이메일 입력">
-                                            <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}">Incorrect date</p>
-                                            <div th:if="${alreadyExistsId}" th:text="${alreadyExistsId}" style="color: red;"></div>
+                                            <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}">
+                                                Incorrect date</p>
+                                            <div th:if="${alreadyExistsId}" th:text="${alreadyExistsId}"
+                                                 style="color: red;"></div>
                                         </div>
 
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="password" th:field="*{userPw}" class="form-control form-control-user" placeholder="비밀번호 입력">
-                                                <p th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}">Incorrect date</p>
+                                                <input type="password" th:field="*{userPw}"
+                                                       class="form-control form-control-user" placeholder="비밀번호 입력">
+                                                <p th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}">
+                                                    Incorrect date</p>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="password" th:field="*{userPw1}" class="form-control form-control-user" placeholder="비밀번호 일치 확인">
-                                                <p th:if="${#fields.hasErrors('userPw1')}" th:errors="*{userPw1}">Incorrect date</p>
-                                                <div th:if="${passwordMatchError}" th:text="${passwordMatchError}" style="color: red;"></div>
+                                                <input type="password" th:field="*{userPw1}"
+                                                       class="form-control form-control-user" placeholder="비밀번호 일치 확인">
+                                                <p th:if="${#fields.hasErrors('userPw1')}" th:errors="*{userPw1}">
+                                                    Incorrect date</p>
+                                                <div th:if="${passwordMatchError}" th:text="${passwordMatchError}"
+                                                     style="color: red;"></div>
                                             </div>
                                         </div>
 
-<!--                                        <div class="form-group">-->
-<!--                                            <input type="text" th:field="*{address}" id="userAddress"-->
-<!--                                                   class="form-control form-control-user"-->
-<!--                                                   placeholder="주소 입력" onclick="execDaumPostcode();"-->
-<!--                                                   onfocus="execDaumPostcode()">-->
+                                        <!--                                        <div class="form-group">-->
+                                        <!--                                            <input type="text" th:field="*{address}" id="userAddress"-->
+                                        <!--                                                   class="form-control form-control-user"-->
+                                        <!--                                                   placeholder="주소 입력" onclick="execDaumPostcode();"-->
+                                        <!--                                                   onfocus="execDaumPostcode()">-->
 
-<!--                                            <input type="hidden" id="zipCode" th:name="zipCode"/>-->
-<!--                                            <input type="hidden" id="jibunAddress" th:name="jibunAddress"/>-->
-<!--                                            <input type="hidden" id="sido" th:name="sido"/>-->
-<!--                                            <input type="hidden" id="sigungu" th:name="sigungu"/>-->
+                                        <!--                                            <input type="hidden" id="zipCode" th:name="zipCode"/>-->
+                                        <!--                                            <input type="hidden" id="jibunAddress" th:name="jibunAddress"/>-->
+                                        <!--                                            <input type="hidden" id="sido" th:name="sido"/>-->
+                                        <!--                                            <input type="hidden" id="sigungu" th:name="sigungu"/>-->
 
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="hidden" th:field="*{address.postcode}"  placeholder="우편번호">
-                                                <input type="hidden" th:field="*{address.extraAddress}" placeholder="참고항목">
-<!--                                                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>-->
-                                                <input type="text" onclick="execDaumPostcode()" onfocus="execDaumPostcode()"
-                                                       class="form-control form-control-user" th:field="*{address.address}" placeholder="주소"><br>
-                                                <p th:if="${#fields.hasErrors('address.address')}" th:errors="*{address.address}">Incorrect date</p>
+                                                <input type="hidden" th:field="*{address.postcode}" placeholder="우편번호">
+                                                <input type="hidden" th:field="*{address.extraAddress}"
+                                                       placeholder="참고항목">
+                                                <!--                                                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>-->
+                                                <input type="text" onclick="execDaumPostcode()"
+                                                       onfocus="execDaumPostcode()"
+                                                       class="form-control form-control-user"
+                                                       th:field="*{address.address}" placeholder="주소"><br>
+                                                <p th:if="${#fields.hasErrors('address.address')}"
+                                                   th:errors="*{address.address}">Incorrect date</p>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control form-control-user" th:field="*{address.detailAddress}" placeholder="상세주소">
-                                                <p th:if="${#fields.hasErrors('address.address')}" th:errors="*{address.detailAddress}">Incorrect date</p>
+                                                <input type="text" class="form-control form-control-user"
+                                                       th:field="*{address.detailAddress}" placeholder="상세주소">
+                                                <p th:if="${#fields.hasErrors('address.address')}"
+                                                   th:errors="*{address.detailAddress}">Incorrect date</p>
                                             </div>
                                         </div>
 
-                                        <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                                        <div id="wrap"
+                                             style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
                                             <img src="/postcode/resource/images/close.png" id="btnFoldWrap"
                                                  style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1"
                                                  alt="접기 버튼" onclick="foldDaumPostcode()"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="text" th:field="*{phone}" class="form-control form-control-user"  placeholder="전화번호 입력 : _ _ _-_ _ _ _-_ _ _ _" th:maxlength="14">
-                                            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect date</p>
+                                            <input type="text" th:field="*{phone}"
+                                                   class="form-control form-control-user"
+                                                   placeholder="전화번호 입력 : _ _ _-_ _ _ _-_ _ _ _" th:maxlength="14">
+                                            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect
+                                                date</p>
                                         </div>
 
 
                                         <div class="form-group">
-                                            <input type="text" th:field="*{department}" class="form-control form-control-user" placeholder="소속 입력">
-                                            <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}">Incorrect date</p>
+                                            <input type="text" th:field="*{department}"
+                                                   class="form-control form-control-user" placeholder="소속 입력">
+                                            <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}">
+                                                Incorrect date</p>
                                         </div>
 
                                         <input type="submit" class="btn btn-primary btn-user btn-block"
@@ -139,36 +160,7 @@
 </div>
 <script th:src="@{/js/login/memberRegister.js}"></script>
 <script th:src="@{/js/myPage/myPage.js}"></script>
-<script defer> // 전화번호 마스킹
-    document.getElementById('phone').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
-
-        if (value.startsWith('02')) { // 지역번호가 '02'로 시작하는 경우
-            if (value.length >= 1) {
-                formattedValue = value.substring(0, 2); // 앞에 2자리 (지역번호)
-            }
-            if (value.length >= 3) {
-                formattedValue = formattedValue + '-' + value.substring(2, 6); // 가운데 4자리
-            }
-            if (value.length >= 7) {
-                formattedValue = formattedValue + '-' + value.substring(6, 10); // 뒤에 4자리
-            }
-        } else { // 그 외의 경우
-            if (value.length >= 1) {
-                formattedValue = value.substring(0, 3); // 앞에 3자리
-            }
-            if (value.length >= 4) {
-                formattedValue = formattedValue + '-' + value.substring(3, 7); // 가운데 4자리
-            }
-            if (value.length >= 8) {
-                formattedValue = formattedValue + '-' + value.substring(7, 11); // 뒤에 4자리
-            }
-        }
-
-        e.target.value = formattedValue.substring(0, 14);
-    });
-</script>
-
+<!--전화번호 마스킹-->
+<script defer th:src="@{/js/login/phoneNumberMasking.js}"></script>
 </body>
 </html>
