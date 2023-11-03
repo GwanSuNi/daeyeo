@@ -24,7 +24,7 @@
 <body>
 
 <div class="body_container">
-    <div th:replace="/includes/header"></div>
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
     <div class="main_content">
         <!-- ======= Sidebar ======= -->
         <div class="my_content">
@@ -35,22 +35,28 @@
                         <th colspan="2">이동하기</th>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage}"><i class="bi bi-person"></i> 내 정보</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage}"><i class="bi bi-person"></i> 내 정보</a>
+                        </td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/myWishList}"><i class="bi-cart"></i> 찜한 목록</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/myWishList}"><i class="bi-cart"></i> 찜한 목록</a>
+                        </td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/reservation}"><i class="bi-calendar-week"></i> 예약 기록</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/reservation}"><i
+                                class="bi-calendar-week"></i> 예약 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalManage}"><i class="bi-table"></i> 대여 관리</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalManage}"><i class="bi-table"></i> 대여
+                            관리</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalLog}"><i class="bi-cart-check"></i> 대여 기록</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/rentalLog}"><i class="bi-cart-check"></i>
+                            대여 기록</a></td>
                     </tr>
                     <tr>
-                        <td><a class="nav-link collapsed" th:href="@{/myPage/memberManage}"><i class="bi-person-lines-fill"></i> 회원 관리</a></td>
+                        <td><a class="nav-link collapsed" th:href="@{/myPage/memberManage}"><i
+                                class="bi-person-lines-fill"></i> 회원 관리</a></td>
                     </tr>
                 </table>
             </div>

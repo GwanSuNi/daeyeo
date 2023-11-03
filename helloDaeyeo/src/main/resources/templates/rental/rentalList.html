@@ -8,6 +8,9 @@
     <link th:href="@{/css/rental/rental_list.css}" rel="stylesheet" type="text/css">
 
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>공간시설 목록 | 대여대여</title>
 
     <script>

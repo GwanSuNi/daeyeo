@@ -13,9 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +45,7 @@ public class RentalStatusService {
     public boolean validPeriod(long rentalObjectId, LocalDateTime startTime, LocalDateTime endTime) {
         // 해당 rentalObject 의 id를 갖고 와서 rentalObject의 Set<RentalStatus>를 갖고와서
         // 현재 고객이 고른시간이랑 rentalStatus 랑 비교하기 ( 시간이 안겹치는지 비교하기 )
-        Set<RentalStatus> rentalStatusList = rentalObjectService.getOneRentalObject(rentalObjectId).getRentalStatuses();
+        List<RentalStatus> rentalStatusList = rentalObjectService.getOneRentalObject(rentalObjectId).getRentalStatuses();
         for (RentalStatus rentalStatus : rentalStatusList) { // rentalStatus 의 시작시간과 끝나는시간을 다 갖고오는거지
             System.out.println(rentalStatusList.size());
             System.out.println("시간검증횟수");
@@ -72,12 +71,14 @@ public class RentalStatusService {
     }
 
     /***
-     * 대여 상태 기록 메서드 대여했을때 빌려준 입장에서 대여를 허락할지 안할지 보여주는 리스트
+     * 대여 신청 목록
+     * 대여 상태 기록 메서드
+     * 대여했을때 빌려준 입장에서 대여를 허락할지 안할지 보여주는 리스트
      * 값 검증을 위해 메서드를 따로만듬 현재시간보다 endDate가 앞서있으면 rentalStatus로 등록
      * @return
      */
-    public Set<RentalStatus> beforeUse(List<RentalObject> rentalObjectList) {
-        Set<RentalStatus> rentalStatuses = new HashSet<>();
+    public List<RentalStatus> beforeUse(List<RentalObject> rentalObjectList) {
+        List<RentalStatus> rentalStatuses = new ArrayList<>();
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
@@ -85,23 +86,31 @@ public class RentalStatusService {
                 }
             }
         }
-        return rentalStatuses;
+        return rentalStatusRepository.statusSortPending(rentalStatuses);
     }
-
-    //           if (rentalStatus.getEndTime().isAfter(LocalDateTime.now())) {
 
     /***
      * 대여 상태 기록 메서드 대여 했을때 빌려준 입장에서 대여가 끝난 상황에서의 기록
-     * 누가 빌렸고 내가 대여를 허락해줬는지 안해줬는지 확인할 수 있음
+     * 누가 빌렸고 내가 대여를 허락해줬는지 안해줬는지 확인할 수 있음 리펙토링 나중에 하겠습니다
      * @param rentalObjectList
      * @return
      */
-    public Set<RentalStatus> afterUse(List<RentalObject> rentalObjectList) {
-        Set<RentalStatus> rentalStatuses = new HashSet<>();
+    public List<RentalStatus> afterUse(List<RentalObject> rentalObjectList) {
+        List<RentalStatus> rentalStatuses = new ArrayList<>();
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
-                    rentalStatuses.add(rentalStatus);
+                    if (rentalStatus.getStatus() == Status.PENDING) {
+                        rentalStatus.setStatus(Status.HOLD);
+                        rentalStatusRepository.save(rentalStatus);
+                        rentalStatuses.add(rentalStatus);
+                    } else if (rentalStatus.getStatus() == Status.ACCEPTED) {
+                        rentalStatus.setStatus(Status.COMPLETED);
+                        rentalStatusRepository.save(rentalStatus);
+                        rentalStatuses.add(rentalStatus);
+                    } else {
+                        rentalStatuses.add(rentalStatus);
+                    }
                 }
             }
         }
@@ -111,33 +120,38 @@ public class RentalStatusService {
     public void cancelStatus(int statusId) {
         RentalStatus rentalStatus = rentalStatusRepository.findById(statusId).get();
         rentalStatus.setStatus(Status.CANCELED);
+        rentalStatusRepository.save(rentalStatus);
         // rentalLog 생성로직 작성해야함
     }
 
     public void permitStatus(int statusId) {
         RentalStatus rentalStatus = rentalStatusRepository.findById(statusId).get();
         rentalStatus.setStatus(Status.ACCEPTED);
+        rentalStatusRepository.save(rentalStatus);
         // rentalLog 생성로직 작성해야함
     }
 
-    public Set<RentalStatus> rentalStatusBefore(Member member) {
-        Set<RentalStatus> rentalStatuses = member.getRentalStatuses();
+
+    public List<RentalStatus> rentalStatusBefore(Member member) {
+        List<RentalStatus> rentalStatuses = member.getRentalStatuses();
+        List<RentalStatus> rentalStatusSet = new ArrayList<>();
         for (RentalStatus rentalStatus : rentalStatuses) {
             if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
-                rentalStatuses.add(rentalStatus);
+                rentalStatusSet.add(rentalStatus);
             }
         }
-        return rentalStatuses;
+        return rentalStatusSet;
     }
 
-    public Set<RentalStatus> rentalStatusAfter(Member member) {
-        Set<RentalStatus> rentalStatuses = member.getRentalStatuses();
+    public List<RentalStatus> rentalStatusAfter(Member member) {
+        List<RentalStatus> rentalStatuses = member.getRentalStatuses();
+        List<RentalStatus> rentalStatusSet = new ArrayList<>();
         for (RentalStatus rentalStatus : rentalStatuses) {
             if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
-                rentalStatuses.add(rentalStatus);
+                rentalStatusSet.add(rentalStatus);
             }
         }
-        return rentalStatuses;
+        return rentalStatusSet;
     }
 
 

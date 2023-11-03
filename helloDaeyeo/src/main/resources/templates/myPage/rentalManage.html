@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/mypage/myPage.css}">
 
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>마이페이지</title>
 
     <!-- Custom fonts for this template-->
@@ -20,12 +22,14 @@
 
     <!-- Template Main CSS File -->
     <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
+
+
 </head>
 <body>
 
 <div class="body_container">
     <!-- include 문도 Thymeleaf에서 사용 가능하며, 태그의 th:include 속성을 사용하면 됩니다. -->
-    <div th:include="/includes/header"></div>
+    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
     <div class="main_content">
 
 
@@ -92,21 +96,29 @@
                                 <thead>
                                 <tr>
                                     <th>장소명</th>     <!-- rentalObjectname -->
-                                    <th>장소</th>       <!-- address -->
-                                    <th>사람들이 찜한 수</th> <!-- 상의 후 결정 -->
-                                    <th>예약 수</th>  <!-- rentalStatus 의 갯수 -->
+                                    <th>주소</th>       <!-- address -->
+                                    <th>세부주소</th>
+                                    <th>총 예약 수</th>  <!-- rentalStatus 의 갯수 -->
                                     <th>성사 수</th>  <!-- rentalStatus 의 Status 의 상태가 대여 완료 인 갯수  -->
                                     <th>예약 대기 수</th> <!-- rentalStatus 의 Status 의 상태가 대기 인 갯수 -->
+                                    <th>받지못한 예약 수(보류)</th> <!-- rentalStatus 의 예약대기인데 예약을 무시한경우 -->
+                                    <th>거절한 예약 수</th>
+                                    <th>수정</th>
+                                    <th>삭제</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="rentalObjectDto : ${rentalObjectManageDtoList}">
                                     <td th:text="${rentalObjectDto.objectName}"></td>
                                     <td th:text="${rentalObjectDto.address}"></td>
-                                    <td></td>
+                                    <td th:text="${rentalObjectDto.detailAddress}"></td>
                                     <td th:text="${rentalObjectDto.statusCount}"></td>
                                     <td th:text="${rentalObjectDto.statusCompleted}"></td>
                                     <td th:text="${rentalObjectDto.statusPending}"></td>
+                                    <td th:text="${rentalObjectDto.statusHold}"></td>
+                                    <td th:text="${rentalObjectDto.statusCancel}"></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -127,6 +139,7 @@
                                 <table class="table datatable">
                                     <thead>
                                     <tr>
+                                        <th>대여한게시물제목</th>
                                         <th>빌리고싶은사람</th>
                                         <th>빌리고싶은날짜</th>
                                         <th>빌리고싶은시간</th>
@@ -138,6 +151,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="rentalStatus : ${rentalStatusListBefore}">
+                                        <td th:text="${rentalStatus.getRentalObject().objectName}"></td>
                                         <td th:text="${rentalStatus.getMember().getNickname()}"></td>
                                         <td th:text="${rentalStatus.rentalDate}"></td>
                                         <td th:text="${rentalStatus.startTime}"></td>
@@ -150,7 +164,6 @@
                                                th:href="'javascript:cancel('+${rentalStatus.getRentalStatusId()}+')'"
                                                class="btn btn-danger">거절하기</a></td>
                                     </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -164,6 +177,7 @@
                                 <table class="table datatable">
                                     <thead>
                                     <tr>
+                                        <th>대여한게시물제목</th>
                                         <th>빌리고싶은사람</th>
                                         <th>빌리고싶은날짜</th>
                                         <th>빌리고싶은시간</th>
@@ -173,6 +187,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="rentalStatus : ${rentalStatusListAfter}">
+                                        <td th:text="${rentalStatus.getRentalObject().objectName}"></td>
                                         <td th:text="${rentalStatus.getMember().getNickname()}"></td>
                                         <td th:text="${rentalStatus.rentalDate}"></td>
                                         <td th:text="${rentalStatus.startTime}"></td>
@@ -185,27 +200,72 @@
                         </div>
                     </div>
 
-
                 </div>
             </section>
         </div>
     </div>
 </div>
 <script>
-    function cancel(id) {
-        let form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/myPage/rentalManage/" + id + "/cancel"); // 추후바꿔야함
-        document.body.appendChild(form);
-        form.submit();
+    // Ajax 요청을 보낼 때 CSRF 토큰과 인증 정보를 포함
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+
+    function refreshPage() {
+        location.reload();
     }
 
     function permit(id) {
-        let form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/myPage/rentalManage/" + id + "/permit"); // 추후 바꿔야함
-        document.body.appendChild(form);
-        form.submit();
+        // XMLHttpRequest 객체 생성
+        var xhr = new XMLHttpRequest();
+
+        // POST 요청 설정
+        xhr.open("POST", "/myPage/rentalManage/" + id + "/permit", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+        // 이벤트 핸들러 등록
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // 요청이 성공했을 때 실행할 코드
+                    console.log("POST 요청 성공");
+                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
+                } else {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("POST 요청 실패");
+                }
+            }
+        };
+        // 실제 요청 보내기
+        xhr.send();
+
+        setTimeout(refreshPage, 200);
+    }
+
+    function cancel(id) {
+        // XMLHttpRequest 객체 생성
+        var xhr = new XMLHttpRequest();
+
+        // POST 요청 설정
+        xhr.open("POST", "/myPage/rentalManage/" + id + "/cancel", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+        // 이벤트 핸들러 등록
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // 요청이 성공했을 때 실행할 코드
+                    console.log("POST 요청 성공");
+                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
+                } else {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("POST 요청 실패");
+                }
+            }
+        };
+        // 실제 요청 보내기
+        xhr.send();
+
+        setTimeout(refreshPage, 200);
     }
 </script>
 
@@ -221,7 +281,6 @@
 <script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
 <!-- Template Main JS File -->
 <script th:src="@{/css/assets/js/main.js}"></script>
-<%-- footer --%>
 <div th:include="/includes/footer"></div>
 </body>
 </html>

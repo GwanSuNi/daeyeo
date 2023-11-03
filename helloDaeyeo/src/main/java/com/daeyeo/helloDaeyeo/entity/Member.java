@@ -10,9 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -24,9 +22,9 @@ public class Member implements UserDetails {
     @Id
     private String userEmail;
     @OneToMany(mappedBy = "member")
-    Set<RentalObject> rentalObjects = new HashSet<>();
+    List<RentalObject> rentalObjects = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    Set<RentalStatus> rentalStatuses = new HashSet<>();
+    List<RentalStatus> rentalStatuses = new ArrayList<>();
 
     @Embedded
     private Address memberAddress;

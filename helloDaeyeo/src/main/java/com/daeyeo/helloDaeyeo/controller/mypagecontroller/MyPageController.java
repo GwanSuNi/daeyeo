@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -83,7 +82,6 @@ public class MyPageController {
         memberService.updateMember(memberEmail, memberUpdateDto);
         model.addAttribute("member", member);
         return "redirect:/myPage";
-//        "redirect:/login/memberRegister"
     }
 
     // TODO: Gwan이 할게
@@ -127,6 +125,13 @@ public class MyPageController {
 
     @RequestMapping("myWishList")
     public String wishList(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
         String memberEmail = authentication.getName();
 //        List<Review> reviewList = memberService.reviewList(memberEmail);
 //        model.addAttribute("reviewList", reviewList);
@@ -136,21 +141,45 @@ public class MyPageController {
     @RequestMapping("reservation") // 예약기록 내가 곧 사용할 기록 대여시간이 현재시간보다 앞서있다
     // rentalStatus 의 endtime 이 현재시간보다 앞서있다 내가 곧 사용할 rentalObject 갖고옴
     public String reservation(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).get();
-        Set<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusBefore(member);
+        List<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusBefore(member);
         model.addAttribute("rentalStatuses", rentalStatuses);
         return "/myPage/reservation";
     }
 
+    @RequestMapping("rentalLog")
+    public String rentalLog(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        String memberEmail = authentication.getName();
+        Member member = memberService.findMember(memberEmail).get();
+        List<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusAfter(member);
+        model.addAttribute("rentalStatuses", rentalStatuses);
+        return "/myPage/rentalLog";
+    }
+
     @RequestMapping("rentalManage") // 내가 빌려줄 대여에대해서 허가를 할지 안할지
     public String rentalManage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
+
         String memberEmail = authentication.getName();
         List<RentalObject> rentalObjectList = rentalObjectService.findAllMyRental(memberEmail);
         List<RentalObjectManageDto> rentalObjectManageDtoList = rentalObjectService.rentalObjectManagePage(rentalObjectList);
         // Status 를 걸러야 하는
-        Set<RentalStatus> rentalStatusListBefore = rentalStatusService.beforeUse(rentalObjectList);
-        Set<RentalStatus> rentalStatusListAfter = rentalStatusService.afterUse(rentalObjectList);
+        List<RentalStatus> rentalStatusListBefore = rentalStatusService.beforeUse(rentalObjectList);
+        List<RentalStatus> rentalStatusListAfter = rentalStatusService.afterUse(rentalObjectList);
         model.addAttribute("rentalObjectManageDtoList", rentalObjectManageDtoList);
         model.addAttribute("rentalStatusListBefore", rentalStatusListBefore);
         model.addAttribute("rentalStatusListAfter", rentalStatusListAfter);
@@ -158,13 +187,28 @@ public class MyPageController {
     }
 
     @PostMapping("rentalManage/{statusId}/cancel")
-    public String statusCancel(@PathVariable("statusId") int statusId, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String statusCancel(@PathVariable("statusId") int statusId, @CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
         rentalStatusService.cancelStatus(statusId);
+
         return "redirect:/myPage/rentalManage";
     }
 
     @PostMapping("rentalManage/{statusId}/permit")
-    public String statusPermit(@PathVariable("statusId") int statusId, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String statusPermit(@PathVariable("statusId") int statusId, @CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
         rentalStatusService.permitStatus(statusId);
         return "redirect:/myPage/rentalManage";
     }
@@ -174,14 +218,6 @@ public class MyPageController {
      * 내가 대여한 목록
      * @return
      */
-    @RequestMapping("rentalLog")
-    public String rentalLog(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        String memberEmail = authentication.getName();
-        Member member = memberService.findMember(memberEmail).get();
-        Set<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusAfter(member);
-        model.addAttribute("rentalStatuses", rentalStatuses);
-        return "/myPage/rentalLog";
-    }
 
     @RequestMapping("memberManage")
     public String memberManage() {

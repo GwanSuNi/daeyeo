@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,7 +20,7 @@ public class SubCategory {
     MainCategory mainCategory;
 
     @OneToMany(mappedBy = "subCategory")
-    Set<RentalObject> rentalObjects = new HashSet<RentalObject>();
+    List<RentalObject> rentalObjects = new ArrayList<>();
 
     public SubCategory(String scId, MainCategory mainCategory) {
         this.scId = scId;

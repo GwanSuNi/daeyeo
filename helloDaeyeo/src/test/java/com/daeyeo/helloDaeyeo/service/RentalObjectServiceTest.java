@@ -1,7 +1,7 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.entity.RentalStatus;
-import com.daeyeo.helloDaeyeo.entity.Status;
+import com.daeyeo.helloDaeyeo.repository.RentalStatusRepository;
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 
 @SpringBootTest
@@ -26,6 +28,9 @@ public class RentalObjectServiceTest {
     RentalObjectService rentalObjectService;
     @Autowired
     RentalStatusService rentalStatusService;
+    @Autowired
+    RentalStatusRepository rentalStatusRepository;
+
 
     /*
     @Test
@@ -37,8 +42,18 @@ public class RentalObjectServiceTest {
      */
     @Test
     public void memberTest() {
-        RentalStatus rentalStatus = rentalStatusService.findOne(1);
-        System.out.println(rentalStatus.getStatus() == Status.PENDING);
+        List<RentalStatus> rentalStatusList = rentalStatusRepository.findPendingRentalStatus();
+        List<RentalStatus> findall = rentalStatusRepository.findAll();
+//        List<RentalStatus> rentalStatusList1 = rentalStatusRepository.statusSort(findall);
+        List<RentalStatus> rentalStatusList2 = rentalStatusRepository.statusSortPending(findall);
+        for (RentalStatus rentalStatus : rentalStatusList2) {
+            System.out.println(rentalStatus.getStatus() + "====" + rentalStatus.getRentalDate());
+            System.out.println(rentalStatus.getStatus().getLabel());
+
+        }
+//        for (RentalStatus rentalStatus : rentalStatusList2) {
+//            System.out.println(rentalStatus.getStatus() + "====" + rentalStatus.getRentalDate());
+//        }
     }
 
 }

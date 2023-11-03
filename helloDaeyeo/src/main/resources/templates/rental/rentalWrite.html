@@ -8,6 +8,10 @@
     <link th:href="@{/css/rental/rental_write.css}" rel="stylesheet">
 
     <meta charset="UTF-8">
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- FullCalendar JS File -->
     <script th:src="@{/js/rental/rentalWrite.js}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -164,7 +168,7 @@
                                 <input type="button" class="report icon btn">
                             </div>
                         </div>
-                        <form th:action="@{/rental/write/status.do}" method="post" th:object="${rentalStatus}" id="reservation-form">
+                        <form th:action="@{/rentals/write/status.do}" method="post" th:object="${rentalStatus}" id="reservation-form">
                             <input type="hidden" name="objectId" th:value="${rentalObject.objectIndex}">
                             <table class="description">
                                 <tr>

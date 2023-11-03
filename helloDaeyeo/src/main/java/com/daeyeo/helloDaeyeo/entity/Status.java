@@ -4,7 +4,8 @@ public enum Status {
     PENDING("대기"),
     ACCEPTED("수락"),
     COMPLETED("완료"),
-    CANCELED("거절");
+    CANCELED("거절"),
+    HOLD("보류");
     private final String label;
 
     Status(String label) {

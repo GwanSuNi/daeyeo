@@ -2,6 +2,7 @@
 let subCategorySelect = document.getElementById('subCategorySelect');
 let mainCategorySelect = document.getElementById('mainCategorySelect');
 
+
 document.addEventListener("DOMContentLoaded", function() {
     // 위의 JavaScript 코드를 여기에 래핑
     subCategorySelect.addEventListener('change', function() {
@@ -15,20 +16,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
 mainCategorySelect.addEventListener('change', () => {
     let selectedMainCategoryId = mainCategorySelect.value;
-    // 서버로부터 선택한 MainCategory에 대한 SubCategory 데이터를 가져오는 AJAX 요청을 보냅니다.
-    // 서버에서 JSON 형식의 SubCategory 데이터를 받은 후 SubCategory select box를 업데이트합니다.
-    // 예: jQuery AJAX를 사용한 AJAX 요청
-    $.get('/rental/getSubCategories?mainCategoryId=' + selectedMainCategoryId, (data) => {
-        // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
-        subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
-        data.forEach((subcategory) => {
-            let option = document.createElement('option');
-            option.value = subcategory.scId;
-            option.text = subcategory.scId;
-            subCategorySelect.appendChild(option);
-        });
-    });
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+
+    // XMLHttpRequest 객체 생성
+    const xhr = new XMLHttpRequest();
+
+    // 요청 메서드 및 URL 설정
+    xhr.open('GET', '/rentals/getSubCategories?mainCategoryId=' + selectedMainCategoryId, true);
+
+    // CSRF 토큰을 요청 헤더에 추가
+    xhr.setRequestHeader(csrfHeader, csrfToken);
+
+    // 요청 완료 핸들러 설정
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
+            subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
+            const data = JSON.parse(xhr.responseText);
+            data.forEach((subcategory) => {
+                let option = document.createElement('option');
+                option.value = subcategory.scId;
+                option.text = subcategory.scId;
+                subCategorySelect.appendChild(option);
+            });
+        }
+    };
+
+    // 요청 전송
+    xhr.send();
 });
+
 subCategorySelect.addEventListener('change', () => {
     // 선택한 옵션의 값을 firstName 필드에 추가
     let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];

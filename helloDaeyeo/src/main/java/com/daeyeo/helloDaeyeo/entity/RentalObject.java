@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,7 +29,7 @@ public class RentalObject {
     private Member member;
 
     @OneToMany(mappedBy = "rentalObject")
-    Set<RentalStatus> rentalStatuses = new HashSet<RentalStatus>();
+    List<RentalStatus> rentalStatuses = new ArrayList<>();
 
     // 빌릴 대상 이름
     private String objectName;

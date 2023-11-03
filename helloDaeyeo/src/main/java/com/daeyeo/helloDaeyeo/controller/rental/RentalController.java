@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +39,15 @@ public class RentalController {
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
     // TODO: rentalObject가 하나도 없을 때 '검색 결과가 없습니다.'라고 보여주고 html에 페이징도 안 보이게 해야함
     @GetMapping({"list", "list/{page}"})
-    public String rentalList(SearchSpecDto specDto, @PathVariable(required = false) Integer page, Model model) {
+    public String rentalList(SearchSpecDto specDto, @PathVariable(required = false) Integer page, Model model
+            , @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         if (page == null)
             page = 1;
 
@@ -52,7 +63,14 @@ public class RentalController {
     }
 
     @GetMapping("write/{objectId}")
-    public String rentalWrite(@PathVariable long objectId, Model model) {
+    public String rentalWrite(@PathVariable long objectId, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
         rentalStatusFormDto.setObjectId(objectId);
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
@@ -62,11 +80,18 @@ public class RentalController {
 
     @PostMapping("write/status.do")
     public String rentalStatusSend(@ModelAttribute("rentalStatus") RentalStatusFormDto rentalStatusFormDto,
-                                   Model model, RedirectAttributes redirectAttributes) {
+                                   Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+//        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
         try {
             // 현재 로그인한 유저의 아이디값을 받아서 넣어야함
-            String userEmail = "test@test.com";
+            String userEmail = authentication.getName();
             // 값을 넣은 후에 날짜가 올바른지 확인하고 insertStatus 하는과정
             System.out.println(rentalStatusFormDto.getObjectId() + "=========================================");
             RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto);
@@ -80,13 +105,13 @@ public class RentalController {
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
             redirectAttributes.addFlashAttribute("notPermitTimeError", errorMessage);
-            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         } catch (OverlapInTime o) {
             String errorMessage = o.getMessage();
             redirectAttributes.addFlashAttribute("overlapInTime", errorMessage);
-            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         }
-        return "redirect:rental/list";
+        return "redirect:/myPage/reservation";
     }
 
     @GetMapping("/getSubCategories")
@@ -98,7 +123,14 @@ public class RentalController {
     }
 
     @GetMapping("rentalRegistrationForm")
-    public String showRentalRegistrationForm(Model model) {
+    public String showRentalRegistrationForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
 //      memberService.validateMember(request);
         List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
         model.addAttribute("rentalRegister", new RentalRegisterFormDto());
@@ -108,19 +140,28 @@ public class RentalController {
 
 
     @PostMapping("rentalRegistrationForm")
-    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult, Model model) {
+    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult,
+                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         if (bindingResult.hasErrors()) {
-            return "rental/rentalRegistrationForm";
+            return "redirect:/rentals/rentalRegistrationForm";
         } else if (rentalRegisterFormDto.getScId() == null) {
             model.addAttribute("scIdChoice", "장소를 선택해주세요");
-            return "rental/rentalRegistrationForm";
+            return "redirect:/rentals/rentalRegistrationForm";
         }
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
-        rentalRegisterDto.setUserId("test@test.com");
+        String userId = authentication.getName();
+        rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto);
 //        memberService.validateMember(request);
-        return "rental/rentalRegistrationForm";
+        return "redirect:/rentals/list";
     }
     /*
     @RequestMapping("/rental.do")

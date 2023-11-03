@@ -11,12 +11,16 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <meta charset="UTF-8">
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>대여 등록 양식 | 대여대여</title>
 </head>
 <body>
 <div class="wrapper">
     <div th:include="/includes/header"></div>
-    <form th:action="@{/rental/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}">
+    <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
