@@ -90,6 +90,7 @@ public class RentalObjectService {
         return rentalObjectList;
     }
 
+    @Transactional
     public List<RentalObject> findAllMyRental(String memberId) {
         List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
         List<RentalObject> myRentalObjectList = new ArrayList<>();
@@ -103,6 +104,7 @@ public class RentalObjectService {
 
     public List<RentalObjectManageDto> rentalObjectManagePage(List<RentalObject> rentalObjectList) {
         List<RentalObjectManageDto> rentalObjectManageDtoList = new ArrayList<>();
+        // 걸러진 리스트들을 받아옴
         for (RentalObject rentalObject : rentalObjectList) {
             RentalObjectManageDto rentalObjectManageDto = new RentalObjectManageDto(rentalObject);
             rentalObjectManageDtoList.add(rentalObjectManageDto);

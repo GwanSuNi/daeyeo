@@ -3,6 +3,7 @@ package com.daeyeo.helloDaeyeo.controller.mypagecontroller;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberDeleteDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdatePwDto;
+import com.daeyeo.helloDaeyeo.dto.myPageDto.ModalStatusPendingDto;
 import com.daeyeo.helloDaeyeo.dto.myPageDto.RentalObjectManageDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
@@ -20,10 +21,7 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -175,14 +173,19 @@ public class MyPageController {
 
 
         String memberEmail = authentication.getName();
+        // 해당 유저가 올린 모든 게시물을 갖고옴
         List<RentalObject> rentalObjectList = rentalObjectService.findAllMyRental(memberEmail);
+        // 유저가 올린 모든 게시물을
         List<RentalObjectManageDto> rentalObjectManageDtoList = rentalObjectService.rentalObjectManagePage(rentalObjectList);
-        // Status 를 걸러야 하는
+        // Status를 나눔 사용하기 전에 게시물 신청인지 , 아니면 사용후의 게시물 신청인지
         List<RentalStatus> rentalStatusListBefore = rentalStatusService.beforeUse(rentalObjectList);
         List<RentalStatus> rentalStatusListAfter = rentalStatusService.afterUse(rentalObjectList);
+        List<RentalStatus> rentalStatusList = rentalStatusService.beforeUseModal(rentalObjectList);
+        List<RentalStatus> result = rentalStatusService.rentalStatusPendingList(rentalStatusList);
         model.addAttribute("rentalObjectManageDtoList", rentalObjectManageDtoList);
         model.addAttribute("rentalStatusListBefore", rentalStatusListBefore);
         model.addAttribute("rentalStatusListAfter", rentalStatusListAfter);
+        model.addAttribute("result", result);
         return "/myPage/rentalManage";
     }
 
@@ -224,4 +227,47 @@ public class MyPageController {
         return "/myPage/memberManage";
     }
 
+    @GetMapping("getModalRentalStatusList")
+    @ResponseBody
+    public List<ModalStatusPendingDto> getPendingRentalStatusList(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
+        String memberEmail = authentication.getName();
+        List<RentalObject> rentalObjectList = rentalObjectService.findAllMyRental(memberEmail);
+        List<RentalStatus> rentalStatusList = rentalStatusService.beforeUseModal(rentalObjectList);
+        List<RentalStatus> rentalStatusList1 = rentalStatusService.rentalStatusPendingList(rentalStatusList);
+        List<ModalStatusPendingDto> result = rentalStatusService.modalStatusPending(rentalStatusList1);
+        return result;
+    }
+
+    @GetMapping("ModalRentalStatus/{objectIndex}")
+    @ResponseBody
+    public List<ModalStatusPendingDto> getRentalStatusList(@PathVariable("objectIndex") long objectIndex,
+                                                           @CurrentSecurityContext(expression = "authentication")
+                                                           Authentication authentication, Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
+        // 일단 리스트만 내보냄
+
+        RentalObject rentalObject = rentalObjectService.getOneRentalObject(objectIndex);
+        List<RentalStatus> rentalStatusList = rentalObject.getRentalStatuses();
+//        for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
+//            if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
+//                rentalStatusList.add(rentalStatus);
+//            }
+//        }
+        List<ModalStatusPendingDto> result = rentalStatusService.modalStatusPending(rentalStatusList);
+
+        return result;
+    }
 }

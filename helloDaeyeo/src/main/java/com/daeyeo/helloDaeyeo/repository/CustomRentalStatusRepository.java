@@ -7,7 +7,8 @@ import java.util.List;
 
 @Repository
 public interface CustomRentalStatusRepository {
-    List<RentalStatus> statusSort(List<RentalStatus> rentalStatuses);
 
-    List<RentalStatus> statusSortPending(List<RentalStatus> rentalStatuses);
+    List<RentalStatus> statusSortDate(List<RentalStatus> rentalStatuses);
+
+    List<RentalStatus> statusModalSortPending(List<RentalStatus> rentalStatuses);
 }

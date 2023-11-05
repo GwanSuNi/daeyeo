@@ -12,6 +12,7 @@
     <!-- Custom fonts for this template-->
     <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
 
+
     <!-- Custom styles for this template-->
     <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
 
@@ -70,8 +71,6 @@
                 </table>
             </div>
             <!-- End Sidebar-->
-
-
             <div class="pagetitle">
                 <h1>나의 대여 관리</h1>
                 <nav>
@@ -91,6 +90,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">작성한 대여 게시글</h5>
+
+                            <button id="openModalButton" data-bs-target="#modalContainer">대여 대기</button>
+
+
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -109,7 +112,11 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="rentalObjectDto : ${rentalObjectManageDtoList}">
-                                    <td th:text="${rentalObjectDto.objectName}"></td>
+                                    <td>
+                                        <a class="btn btn-danger"
+                                           th:href="'javascript:showRentalStatusModal(' + ${rentalObjectDto.objectIndex} + ')'"
+                                           th:text="${rentalObjectDto.objectName}"></a>
+                                    </td>
                                     <td th:text="${rentalObjectDto.address}"></td>
                                     <td th:text="${rentalObjectDto.detailAddress}"></td>
                                     <td th:text="${rentalObjectDto.statusCount}"></td>
@@ -205,72 +212,70 @@
         </div>
     </div>
 </div>
-<script>
-    // Ajax 요청을 보낼 때 CSRF 토큰과 인증 정보를 포함
-    const csrfToken = document.querySelector("meta[name='_csrf']").content;
-    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
-    function refreshPage() {
-        location.reload();
-    }
+<div class="modal-container" id="modalContainer" th:fragment="modal">
+    <!-- 모달 내용 -->
+    <div class="modal-content">
+        <span class="close" id="closeModalButton" data-bs-target="#modalContainer">&times;</span>
 
-    function permit(id) {
-        // XMLHttpRequest 객체 생성
-        var xhr = new XMLHttpRequest();
+        <h2 style="color: #000000;">대여 대기 목록</h2>
+        <table class="table datatable" id="rentalStatusTable">
+            <thead>
+            <tr>
+                <th>대여한게시물제목</th>
+                <th>빌리고싶은사람</th>
+                <th>빌리고싶은날짜</th>
+                <th>빌리고싶은시간</th>
+                <th>반납시간</th>
+                <th>상태선택</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rentalStatus : ${result}">
+                <td th:text="${rentalStatus.getRentalObject().getObjectName()}"></td>
+                <td th:text="${rentalStatus.getMember().getNickname()}"></td>
+                <td th:text="${rentalStatus.getRentalDate()}"></td>
+                <td th:text="${rentalStatus.getStartTime()}"></td>
+                <td th:text="${rentalStatus.getEndTime()}"></td>
+                <td><a th:if="${rentalStatus.getStatus().getLabel() == '대기'}" href="#"
+                       th:href="'javascript:permit('+${rentalStatus.getRentalStatusId()}+')'"
+                       class="btn btn-danger">수락하기</a></td>
+                <td><a th:if="${rentalStatus.getStatus().getLabel() == '대기'}" href="#"
+                       th:href="'javascript:cancel('+${rentalStatus.getRentalStatusId()}+')'"
+                       class="btn btn-danger">거절하기</a></td>
+            </tr>
+            </tbody>
+        </table>
 
-        // POST 요청 설정
-        xhr.open("POST", "/myPage/rentalManage/" + id + "/permit", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader(csrfHeader, csrfToken);
-        // 이벤트 핸들러 등록
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // 요청이 성공했을 때 실행할 코드
-                    console.log("POST 요청 성공");
-                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
-                } else {
-                    // 요청이 실패했을 때 실행할 코드
-                    console.error("POST 요청 실패");
-                }
-            }
-        };
-        // 실제 요청 보내기
-        xhr.send();
+    </div>
+</div>
 
-        setTimeout(refreshPage, 200);
-    }
+<div class="modal-container" id="rentalObjectModal" th:fragment="modal">
+    <div class="modal-content">
+        <span class="close" id="closeRentalModalButton" data-bs-target="#rentalObjectModal">&times;</span>
 
-    function cancel(id) {
-        // XMLHttpRequest 객체 생성
-        var xhr = new XMLHttpRequest();
-
-        // POST 요청 설정
-        xhr.open("POST", "/myPage/rentalManage/" + id + "/cancel", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader(csrfHeader, csrfToken);
-        // 이벤트 핸들러 등록
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // 요청이 성공했을 때 실행할 코드
-                    console.log("POST 요청 성공");
-                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
-                } else {
-                    // 요청이 실패했을 때 실행할 코드
-                    console.error("POST 요청 실패");
-                }
-            }
-        };
-        // 실제 요청 보내기
-        xhr.send();
-
-        setTimeout(refreshPage, 200);
-    }
-</script>
+        <h2 style="color: #000000;">대여 목록</h2>
+        <table class="table datatable">
+            <thead>
+            <tr>
+                <th>대여한게시물제목</th>
+                <th>빌리고싶은사람</th>
+                <th>빌리고싶은날짜</th>
+                <!--                        <th>빌리고싶은시간</th>-->
+                <!--                        <th>반납시간</th>-->
+                <!--                        <th>상태선택</th>-->
+            </tr>
+            </thead>
+            <tbody id="rentalStatusTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 <!-- Vendor JS Files -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
 <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/css/assets/vendor/chart.js/chart.umd.js}"></script>
@@ -281,6 +286,8 @@
 <script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
 <!-- Template Main JS File -->
 <script th:src="@{/css/assets/js/main.js}"></script>
+<script defer src="/js/rental/rentalManage.js"></script>
+
 <div th:include="/includes/footer"></div>
 </body>
 </html>

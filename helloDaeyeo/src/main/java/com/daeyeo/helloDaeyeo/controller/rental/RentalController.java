@@ -77,7 +77,16 @@ public class RentalController {
         model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
     }
+    //TODO 날짜가 겹치는지 안겹치는지에대한
 
+    /***
+     *
+     * @param rentalStatusFormDto
+     * @param model
+     * @param redirectAttributes
+     * @param authentication
+     * @return
+     */
     @PostMapping("write/status.do")
     public String rentalStatusSend(@ModelAttribute("rentalStatus") RentalStatusFormDto rentalStatusFormDto,
                                    Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
@@ -90,11 +99,12 @@ public class RentalController {
 //        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         try {
-            // 현재 로그인한 유저의 아이디값을 받아서 넣어야함
+            // 현재 로그인한 유저의 아이디값을 받아옴
             String userEmail = authentication.getName();
             // 값을 넣은 후에 날짜가 올바른지 확인하고 insertStatus 하는과정
-            System.out.println(rentalStatusFormDto.getObjectId() + "=========================================");
+            // new 하는 생성자를 통해서 값이 올바른지 확인하고 입력받은 날짜값에 대해 타입을 맞추기위해 날짜값을 형변환함
             RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto);
+            // 로그인한 유저의 아이디값을 넣음
             rentalStatusDto.setUserEmail(userEmail);
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
                     rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
@@ -105,6 +115,7 @@ public class RentalController {
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
             redirectAttributes.addFlashAttribute("notPermitTimeError", errorMessage);
+            System.out.println("====================================");
             return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         } catch (OverlapInTime o) {
             String errorMessage = o.getMessage();
@@ -114,6 +125,12 @@ public class RentalController {
         return "redirect:/myPage/reservation";
     }
 
+    /***
+     *
+     * @param mainCategoryId
+     * @return
+     */
+
     @GetMapping("/getSubCategories")
     @ResponseBody
     public List<SubCategoryDto> getSubCategories(@RequestParam("mainCategoryId") String mainCategoryId) {
@@ -121,6 +138,13 @@ public class RentalController {
         List<SubCategoryDto> subCategoryList = subCategoryService.getSubCategories(mainCategoryId);
         return subCategoryList;
     }
+
+    /***
+     *
+     * @param model
+     * @param authentication
+     * @return
+     */
 
     @GetMapping("rentalRegistrationForm")
     public String showRentalRegistrationForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
@@ -131,23 +155,29 @@ public class RentalController {
                 .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
         model.addAttribute("isAdmin", isAdmin);
 
-//      memberService.validateMember(request);
         List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
         model.addAttribute("rentalRegister", new RentalRegisterFormDto());
         model.addAttribute("mainCategoryList", mainCategoryList);
         return "rental/rentalRegistrationForm";
     }
 
-
+    /***
+     *
+     * @param rentalRegisterFormDto
+     * @param bindingResult
+     * @param model
+     * @param authentication
+     * @return
+     */
     @PostMapping("rentalRegistrationForm")
     public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult,
                            Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
         model.addAttribute("isAdmin", isAdmin);
+
 
         if (bindingResult.hasErrors()) {
             return "redirect:/rentals/rentalRegistrationForm";
@@ -160,22 +190,6 @@ public class RentalController {
         rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto);
-//        memberService.validateMember(request);
         return "redirect:/rentals/list";
     }
-    /*
-    @RequestMapping("/rental.do")
-    public String rental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        String send = "redirect:/rental/list";
-
-        if (loginUser == null)
-            send = "redirect:/login";
-        else
-            rentalLogService.insertRentalLog(objectId, loginUser.getUserEmail(), LocalDate.parse(startDuration), LocalDate.parse(endDuration), price);
-
-        return send;
-    }
-     */
 }

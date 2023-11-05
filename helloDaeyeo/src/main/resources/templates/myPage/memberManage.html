@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>마이페이지</title>
     <link th:href="@{/css/footer_bottom.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/mypage/myPage.css}" rel="stylesheet" type="text/css">

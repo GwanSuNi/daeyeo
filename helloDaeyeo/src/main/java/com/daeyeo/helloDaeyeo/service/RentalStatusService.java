@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.service;
 
+import com.daeyeo.helloDaeyeo.dto.myPageDto.ModalStatusPendingDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalStatusDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
@@ -9,7 +10,12 @@ import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalStatusMapper;
 import com.daeyeo.helloDaeyeo.repository.RentalStatusRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,12 +26,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RentalStatusService {
     final private RentalStatusRepository rentalStatusRepository;
-
     final private RentalObjectService rentalObjectService;
     final private MemberService memberService;
-
     final private RentalStatusMapper rentalStatusMapper;
     final private MemberMapper memberMapper;
+    private final Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().modulesToInstall(new JavaTimeModule());
+    private final ObjectMapper objectMapper = builder.build();
 
     public void insertRentalStatus(RentalStatusDto rentalStatusDto) {
         Member member = memberMapper.toEntity(memberService.getMember(rentalStatusDto.getUserEmail()));
@@ -77,7 +83,7 @@ public class RentalStatusService {
      * 값 검증을 위해 메서드를 따로만듬 현재시간보다 endDate가 앞서있으면 rentalStatus로 등록
      * @return
      */
-    public List<RentalStatus> beforeUse(List<RentalObject> rentalObjectList) {
+    public List<RentalStatus> beforeUse(@NotNull List<RentalObject> rentalObjectList) {
         List<RentalStatus> rentalStatuses = new ArrayList<>();
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
@@ -86,7 +92,24 @@ public class RentalStatusService {
                 }
             }
         }
-        return rentalStatusRepository.statusSortPending(rentalStatuses);
+        return rentalStatusRepository.statusSortDate(rentalStatuses);
+    }
+
+    public List<RentalStatus> beforeUseModal(@NotNull List<RentalObject> rentalObjectList) {
+        List<RentalStatus> rentalStatuses = new ArrayList<>();
+        for (RentalObject rentalObject : rentalObjectList) {
+            for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
+                if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
+                    rentalStatuses.add(rentalStatus);
+                }
+            }
+        }
+        return rentalStatuses;
+    }
+
+    public List<RentalStatus> rentalStatusPendingList(List<RentalStatus> rentalStatusList) {
+        List<RentalStatus> result = rentalStatusRepository.statusModalSortPending(rentalStatusList);
+        return result;
     }
 
     /***
@@ -98,6 +121,7 @@ public class RentalStatusService {
     public List<RentalStatus> afterUse(List<RentalObject> rentalObjectList) {
         List<RentalStatus> rentalStatuses = new ArrayList<>();
         for (RentalObject rentalObject : rentalObjectList) {
+            // TODO 메서드화 하기 (ModalRentalStatus 에서도 사용)
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
                     if (rentalStatus.getStatus() == Status.PENDING) {
@@ -131,7 +155,6 @@ public class RentalStatusService {
         // rentalLog 생성로직 작성해야함
     }
 
-
     public List<RentalStatus> rentalStatusBefore(Member member) {
         List<RentalStatus> rentalStatuses = member.getRentalStatuses();
         List<RentalStatus> rentalStatusSet = new ArrayList<>();
@@ -154,5 +177,20 @@ public class RentalStatusService {
         return rentalStatusSet;
     }
 
+    public List<ModalStatusPendingDto> modalStatusPending(List<RentalStatus> rentalStatusList) {
+        List<ModalStatusPendingDto> modalStatusPendingDtoList = new ArrayList<>();
+        for (int i = 0; i < rentalStatusList.size(); i++) {
+            ModalStatusPendingDto modalStatusPendingDto = new ModalStatusPendingDto(rentalStatusList.get(i));
+            modalStatusPendingDtoList.add(modalStatusPendingDto);
+        }
+        return modalStatusPendingDtoList;
+    }
 
+    public String rentalStatusDtoToJson(ModalStatusPendingDto modalStatusPendingDto) {
+        try {
+            return objectMapper.writeValueAsString(modalStatusPendingDto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
