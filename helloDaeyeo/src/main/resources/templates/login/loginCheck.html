@@ -6,11 +6,11 @@
     <title>Title</title>
 </head>
 <body>
-<!--<p th:with="auth=${#authentication.getPrincipal()}"></p>-->
+<p th:with="auth=${#authentication.getPrincipal()}"></p>
 <p>principal: <span sec:authentication="principal.username" ></span></p>
-<!--<p th:text="${#authentication.name}"></p>-->
-<!--<p th:text="${#authentication.authrorities}"></p>-->
-<!--<p th:text="${#authentication.authenticated}"></p>-->
+<p th:text="${#authentication.name}"></p>
+<p th:text="${#authentication.authorities}"></p>
+<p th:text="${#authentication.authenticated}"></p>
 <hr>
 <!--ROLE_USER 권한을 갖는다면 이 글이 보임-->
 <h1 sec:authorize="hasRole('ADMIN')">Has admin Role</h1>
@@ -33,7 +33,7 @@
 
 <!--객체의 권한-->
 <b>Authenticated user role:</b>
-<!--<div sec:authentication="principal.authorities"></div>-->
+<div sec:authentication="principal.authorities"></div>
 <p> 로그인 : <span th:text="${isLogined}"></span></p>
 <p> 이메일 : <span th:text="${name}"></span></p>
 <p> 어드민 : <span th:text="${isAdmin}"></span></p>
