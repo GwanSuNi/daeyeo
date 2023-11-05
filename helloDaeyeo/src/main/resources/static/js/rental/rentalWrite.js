@@ -126,7 +126,18 @@ navIndicator.addEventListener('click', (e) => {
 /* FullCalendar */
 document.addEventListener('DOMContentLoaded', function () {
     const rentalDate = document.getElementById('rentalDate');
-    const receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
+
+    let currentDate = new Date(); // 현재 날짜를 가져옵니다
+    let year = currentDate.getFullYear();
+    let month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 만듭니다
+    let day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 2자리로 만듭니다
+    let formattedDate = year + '-' + month + '-' + day;
+
+    let receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
+    if(receiptStartDuration < formattedDate){
+        receiptStartDuration = formattedDate;
+    }
+
     const receiptEndDuration = document.querySelector('#usage-period > span:last-child').innerText;
     let calendarEl = document.getElementById('calendar');
     let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -175,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 }); /* End FullCalendar */
-
 /* Kakao Maps */
 const container = document.getElementById('map');
 const address = container.dataset.address;
