@@ -3,6 +3,7 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.Status;
 import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
@@ -24,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -88,8 +90,9 @@ public class RentalController {
      * @return
      */
     @PostMapping("write/status.do")
-    public String rentalStatusSend(@ModelAttribute("rentalStatus") RentalStatusFormDto rentalStatusFormDto,
+    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult,
                                    Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        System.out.println("컨트롤러에 들어왔습니다.");
         // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
@@ -99,11 +102,29 @@ public class RentalController {
 //        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         try {
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("startTime", "시작시간을 입력해주세요");
+                redirectAttributes.addFlashAttribute("endTime", "끝나는 시간을 입력해주세요");
+                redirectAttributes.addFlashAttribute("rentalDate", "등록 날짜를 입력해주세요");
+                return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            }
             // 현재 로그인한 유저의 아이디값을 받아옴
             String userEmail = authentication.getName();
             // 값을 넣은 후에 날짜가 올바른지 확인하고 insertStatus 하는과정
             // new 하는 생성자를 통해서 값이 올바른지 확인하고 입력받은 날짜값에 대해 타입을 맞추기위해 날짜값을 형변환함
-            RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto);
+
+            // 내가 넣으려고 하는 시간이 이용시간안에 들어가는지 검증하는 로직
+            // boolean 으로 판단해서 값을 생성자에 넣어줌
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalStatusFormDto.getObjectId());
+            LocalTime rentalObjectStartTime = rentalObject.getUsagePeriod().getStartTime();
+            LocalTime rentalObjectEndTime = rentalObject.getUsagePeriod().getEndTime();
+            LocalTime rentalStatusStartTime = LocalTime.parse(rentalStatusFormDto.getStartTime());
+            LocalTime rentalStatusEndTime = LocalTime.parse(rentalStatusFormDto.getEndTime());
+
+            boolean isInside = rentalStatusStartTime.compareTo(rentalObjectStartTime) >= 0 &&
+                    rentalStatusEndTime.compareTo(rentalObjectEndTime) <= 0;
+
+            RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto, isInside);
             // 로그인한 유저의 아이디값을 넣음
             rentalStatusDto.setUserEmail(userEmail);
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
@@ -115,13 +136,13 @@ public class RentalController {
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
             redirectAttributes.addFlashAttribute("notPermitTimeError", errorMessage);
-            System.out.println("====================================");
             return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         } catch (OverlapInTime o) {
             String errorMessage = o.getMessage();
             redirectAttributes.addFlashAttribute("overlapInTime", errorMessage);
             return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         }
+
         return "redirect:/myPage/reservation";
     }
 
@@ -147,7 +168,8 @@ public class RentalController {
      */
 
     @GetMapping("rentalRegistrationForm")
-    public String showRentalRegistrationForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String showRentalRegistrationForm(Model
+                                                     model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
 
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
@@ -170,7 +192,8 @@ public class RentalController {
      * @return
      */
     @PostMapping("rentalRegistrationForm")
-    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult,
+    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
+                                   rentalRegisterFormDto, BindingResult bindingResult,
                            Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인

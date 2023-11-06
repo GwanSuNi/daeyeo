@@ -132,9 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 만듭니다
     let day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 2자리로 만듭니다
     let formattedDate = year + '-' + month + '-' + day;
-
     let receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
-    if(receiptStartDuration < formattedDate){
+    if (receiptStartDuration < formattedDate) {
         receiptStartDuration = formattedDate;
     }
 

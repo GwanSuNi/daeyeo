@@ -211,6 +211,10 @@
                                 <div th:if="${notPermitTimeError}" th:text="${notPermitTimeError}"
                                      style="color: red;"></div>
                                 <div th:if="${overlapInTime}" th:text="${overlapInTime}" style="color: red;"></div>
+
+                                <div th:if="${startTime}" th:text="${startTime}" style="color: red;"></div>
+                                <div th:if="${endTime}" th:text="${endTime}" style="color: red;"></div>
+                                <div th:if="${rentalDate}" th:text="${rentalDate}" style="color: red;"></div>
                             </div>
                         </form>
                     </div>

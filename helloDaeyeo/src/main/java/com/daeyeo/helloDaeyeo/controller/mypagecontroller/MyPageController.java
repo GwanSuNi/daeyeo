@@ -114,7 +114,7 @@ public class MyPageController {
             memberService.deleteMember(memberEmail, memberDeleteDto);
             return "redirect:/myPage"; // 로그아웃되는 로직을 짜야함
         } else if (bindingResult.hasErrors()) {
-            return "/myPage/myPage";
+            return "/myPage/m러yPage";
         } else {
             model.addAttribute("idpwError", "아이디 혹은 비밀번호가 틀립니다.");
             return "redirect:/myPage";
@@ -223,7 +223,15 @@ public class MyPageController {
      */
 
     @RequestMapping("memberManage")
-    public String memberManage() {
+    public String memberManage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+
+
         return "/myPage/memberManage";
     }
 
