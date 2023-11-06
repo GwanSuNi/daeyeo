@@ -9,6 +9,7 @@ import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.RentalStatus;
 import com.daeyeo.helloDaeyeo.service.MemberService;
+import com.daeyeo.helloDaeyeo.service.RentalLogService;
 import com.daeyeo.helloDaeyeo.service.RentalObjectService;
 import com.daeyeo.helloDaeyeo.service.RentalStatusService;
 import jakarta.validation.Valid;
@@ -35,6 +36,7 @@ public class MyPageController {
     private final MemberService memberService;
     private final RentalObjectService rentalObjectService;
     private final RentalStatusService rentalStatusService;
+    private final RentalLogService rentalLogService;
 
 
     /***
@@ -199,7 +201,8 @@ public class MyPageController {
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         rentalStatusService.cancelStatus(statusId);
-
+        RentalStatus rentalStatus = rentalStatusService.findOne(statusId);
+        rentalLogService.insertRentalLog(rentalStatus);
         return "redirect:/myPage/rentalManage";
     }
 
@@ -213,6 +216,8 @@ public class MyPageController {
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         rentalStatusService.permitStatus(statusId);
+        RentalStatus rentalStatus = rentalStatusService.findOne(statusId);
+        rentalLogService.insertRentalLog(rentalStatus);
         return "redirect:/myPage/rentalManage";
     }
 

@@ -32,7 +32,7 @@ public class RentalStatus {
     private Review review;
 
     @OneToMany(mappedBy = "rentalStatus")
-    List<RentalLog> rentalLogs = new ArrayList<RentalLog>();
+    List<RentalLog> rentalLogs = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Status status;

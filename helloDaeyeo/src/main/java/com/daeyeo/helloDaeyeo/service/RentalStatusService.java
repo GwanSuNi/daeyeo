@@ -27,6 +27,7 @@ import java.util.List;
 public class RentalStatusService {
     final private RentalStatusRepository rentalStatusRepository;
     final private RentalObjectService rentalObjectService;
+    final private RentalLogService rentalLogService;
     final private MemberService memberService;
     final private RentalStatusMapper rentalStatusMapper;
     final private MemberMapper memberMapper;
@@ -37,8 +38,9 @@ public class RentalStatusService {
         Member member = memberMapper.toEntity(memberService.getMember(rentalStatusDto.getUserEmail()));
         RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalStatusDto.getObjectIndex());
         RentalStatus rentalStatus = rentalStatusMapper.toEntity(rentalStatusDto, member, rentalObject);
-
         rentalStatusRepository.save(rentalStatus);
+        // rentalLog 생성
+        rentalLogService.insertRentalLog(rentalStatus);
     }
 
     public List<RentalStatusDto> getRentalStatuses(String userEmail) {
