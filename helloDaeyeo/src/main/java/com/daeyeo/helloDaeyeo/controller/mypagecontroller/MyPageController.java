@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
@@ -49,14 +48,6 @@ public class MyPageController {
     @GetMapping("/")
     public String myPageGetForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         Member member = memberService.findMember(authentication.getName()).orElse(null);
-        log.info("인증 정보 {}", authentication.getName());
-        // TODO: 코드 중복
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-
         model.addAttribute("member", member);
         model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
         model.addAttribute("memberUpdateForm", new MemberUpdateDto());

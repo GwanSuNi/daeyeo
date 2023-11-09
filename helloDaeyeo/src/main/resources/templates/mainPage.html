@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
+    <div th:replace="~{/includes/header :: header}"></div>
     <div class="container">
         <div class="search-container">
             <div class="search-content">
@@ -93,7 +93,7 @@
                     <div class="slider" th:if="${rentalStatuses.size() > 0}"
                          th:each="i : ${#numbers.sequence(0, rentalStatuses.size()-1)}">
                         <a th:href="@{'/rentals/write/' + ${rentalStatuses.get(i).objectIndex}}" class="card">
-                        <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
+                            <img th:src="@{/img/rental/image_icon.png}" class="card-img-top"
                                  onerror="this.onerror=null; this.src='/img/rental/image_icon.png';">
                             <div class="card-body">
                                 <ol class="breadcrumb">

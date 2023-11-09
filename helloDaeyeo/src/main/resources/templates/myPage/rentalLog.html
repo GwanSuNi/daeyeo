@@ -25,7 +25,7 @@
 
 <div class="body_container">
     <!-- include 문도 Thymeleaf에서 사용 가능하며, 태그의 th:include 속성을 사용하면 됩니다. -->
-    <div th:include="/includes/header"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <div class="main_content">
 
         <!-- ======= Sidebar ======= -->
