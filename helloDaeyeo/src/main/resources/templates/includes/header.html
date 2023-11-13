@@ -81,7 +81,7 @@
         </li>
         <li sec:authorize="!isAnonymous()"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>
-        <div sec:authorize="!isAnonymous() and hasAnyRole('ROLE_MEMBER')" th:onclick="|location.href='/myPage/'|">
+        <div sec:authorize="!isAnonymous() and hasAnyRole('ROLE_MEMBER')" th:onclick="|location.href='/myPage'|">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
         <div sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="|location.href='/adminpage/'|">

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member,String> {
+public interface MemberRepository extends JpaRepository<Member, String> {
     /***
      * 회원의 이름을 검색하면 RentalObject를 알수있음 :userId가 매개변수로 들어가는 구조(어드민페이지)
      * @param member
@@ -19,6 +19,7 @@ public interface MemberRepository extends JpaRepository<Member,String> {
      */
     @Query("SELECT ro FROM RentalObject ro WHERE ro.member.userEmail = :userId")
     List<RentalObject> findRentalObjectsByMember(@Param("userId") String userId);
+
     // 모든 유저를 한꺼번에 가져오는데, JPA 페이징 레파지토리를 쓰지 않으면 추후에 부하가 많이 걸리지 않을까?
     List<Member> findAll();
 // 망가짐
@@ -26,5 +27,8 @@ public interface MemberRepository extends JpaRepository<Member,String> {
 //    List<Member> findByReviewsCount();
 
     Optional<Member> findByUserEmail(String userEmail);
+
     List<Member> findByUserEmailLike(String email);
+    
+    void deleteByUserEmail(String userEmail);
 }

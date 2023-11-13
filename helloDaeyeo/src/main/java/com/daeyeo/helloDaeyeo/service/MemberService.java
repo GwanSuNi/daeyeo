@@ -1,7 +1,10 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
-import com.daeyeo.helloDaeyeo.dto.memberDto.*;
+import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdatePwDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
@@ -80,17 +83,6 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    @Transactional
-    public String deleteMember(String memberId, MemberDeleteDto memberDeleteDto) {
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.get().getUserPw() == memberDeleteDto.getMemberPw() &&
-                member.get().getUserEmail() == memberDeleteDto.getMemberId()) {
-            memberRepository.delete(member.get());
-            return "Success";
-        } else {
-            return "Fail";
-        }
-    }
 
     /***
      * myPage의 wishList 에서 유저의 리뷰에 대한 리스트를 반환하는 메서드
