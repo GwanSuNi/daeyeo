@@ -27,7 +27,7 @@
 <body>
 
 <div class="body_container">
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
+    <div th:replace="~{/includes/header :: header}"></div>
     <div class="main_content">
 
         <div class="my_content">
@@ -98,7 +98,7 @@
 
                         <div class="card">
                             <div class="card-body pt-3">
-                                <ul class="nav nav-tabs nav-tabs-bordered">
+                                <ul class="nav nav-tabs nav-tabs-bordered" id="tabs">
 
                                     <li class="nav-item">
                                         <button class="nav-link active" data-bs-toggle="tab"
@@ -251,22 +251,28 @@
                                         <form id="myForm" th:action="@{/myPage/updatePw}" th:object="${memberUpdatePw}"
                                               method="post">
                                             <div class="row mb-4">
+                                                <div th:if="${result}" th:text="${result}"
+                                                     style="color: green"></div>
                                                 <label class="col-md-4 col-lg-4 col-form-label">현재
                                                     비밀번호 입력</label>
                                                 <div class="col-md-8 col-lg-9">
                                                     <input type="password" class="form-control" th:field="*{pw}">
-                                                    <!--                                                    <div th:if="${notSamePw}" th:text="${notSamePw}"-->
-                                                    <!--                                                         style="color: red;"></div>-->
+                                                    <p th:if="${#fields.hasErrors('pw')}" th:errors="*{pw}">
+                                                        Incorrect date</p>
+                                                    <div th:if="${notSamePw}" th:text="${notSamePw}"
+                                                         style="color: red;"></div>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-4">
                                                 <label class="col-md-4 col-lg-4 col-form-label">새로운
-                                                    비밀변호 입력</label>
+                                                    비밀번호 입력</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input type="password" class="form-control" th:field="*{newPw1}">
-                                                    <!--                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}"-->
-                                                    <!--                                                         style="color: red;"></div>-->
+                                                    <input type="password" class="form-control" th:field="*{newPw}">
+                                                    <p th:if="${#fields.hasErrors('newPw')}" th:errors="*{newPw}">
+                                                        Incorrect date</p>
+                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}"
+                                                         style="color: red;"></div>
                                                 </div>
                                             </div>
 
@@ -274,9 +280,13 @@
                                                 <label class="col-md-4 col-lg-4 col-form-label">비밀번호
                                                     재입력</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input type="password" class="form-control" th:field="*{newPw}">
-                                                    <!--                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}"-->
-                                                    <!--                                                         style="color: red;"></div>-->
+                                                    <input type="password" class="form-control"
+                                                           th:field="*{newPwRepeat}">
+                                                    <p th:if="${#fields.hasErrors('newPwRepeat')}"
+                                                       th:errors="*{newPwRepeat}">
+                                                        Incorrect date</p>
+                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}"
+                                                         style="color: red;"></div>
                                                 </div>
                                             </div>
 
@@ -288,31 +298,31 @@
                                     <div class="tab-pane fade pt-4" id="Delete-Account">
                                         <div class="row mb-4">
                                             <div class="col-md-8 col-lg-9">
-
-                                                <form th:action="@{/myPage/delete}" th:object="${memberDelete}">
+                                                <form th:action="@{/myPage/delete}" th:object="${memberDelete}"
+                                                      method="post">
                                                     <div class="row mb-4">
                                                         <label
-                                                                class="col-md-4 col-lg-4 col-form-label">아이디 입력</label>
+                                                                class="col-md-4 col-lg-4 col-form-label">이메일 입력</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input type="password" class="form-control"
+                                                            <input type="text" class="form-control"
                                                                    th:field="*{memberId}">
                                                             <p th:if="${#fields.hasErrors('memberId')}"
                                                                th:errors="*{memberId}">Incorrect date</p>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-4">
-                                                        <label class="col-md-4 col-lg-4 col-form-label">비밀변호
+                                                        <label class="col-md-4 col-lg-4 col-form-label">비밀번호
                                                             입력</label>
                                                         <div class="col-md-8 col-lg-9">
                                                             <input type="password" class="form-control"
                                                                    th:field="*{memberPw}">
                                                             <p th:if="${#fields.hasErrors('memberPw')}"
                                                                th:errors="*{memberPw}">Incorrect date</p>
-                                                            <div th:if="${idpwerror}" th:text="${idpwerror}"
+                                                            <div th:if="${idpwError}" th:text="${idpwError}"
                                                                  style="color: red;"></div>
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger">회원 탈퇴하기</button>
+                                                    <button type="submit" class="btn btn-danger">회원 탈퇴하기</button>
                                                 </form>
 
 
@@ -329,39 +339,14 @@
             </section>
         </div>
 
-        <script>
-            document.getElementById("myForm").addEventListener("submit", function (event) {
-                event.preventDefault();  // 폼 제출을 막습니다.
-                // 폼 데이터를 가져옵니다.
-                var formData = new FormData(this);
-
-                // AJAX 요청을 생성합니다.
-                var xhr = new XMLHttpRequest();
-
-                // POST 요청을 설정합니다.
-                xhr.open("POST", "/myPage/updatePw", true);
-
-                // 요청이 완료되었을 때 처리할 콜백 함수를 정의합니다.
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        // 성공적으로 처리된 경우
-                        // 여기에서 필요한 작업을 수행합니다.
-
-                        // 성공적으로 처리된 경우 리다이렉트
-                        window.location.href = "/myPage"; // 리다이렉트할 URL로 변경
-                    }
-                };
-                // 요청을 보냅니다.
-                xhr.send(formData);
-            });
-        </script>
-
         <script th:src="@{/css/assets/vendor/apexcharts/apexcharts.min.js}"></script>
         <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/css/assets/js/main.js}"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:src="@{/js/myPage/myPage.js}"></script>
-        <script th:src="@{/js/login/memberRegister.js}"></script>
+        <script th:src="@{/js/login/registerDaumPostCode.js}"></script>
+        <script defer th:src="@{/js/mypage/rememberTabActive.js}"></script>
+
     </div>
     <div th:replace="~{/includes/footer}"></div>
 </div>

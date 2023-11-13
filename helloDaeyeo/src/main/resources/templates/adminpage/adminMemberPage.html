@@ -200,7 +200,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
+                        <button th:id="registByAdminBtn">사용자 추가</button>
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -307,6 +307,25 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    <!--TODO: AJAX 만들기-->
+                                    <tr>
+                                        <th scope="row" class="modal-th">회원 탈퇴</th>
+                                        <td>
+                                            <div class="form-check form-switch"
+                                                 style="display: flex; justify-content: space-evenly">
+                                                <input type="checkbox" class="form-check-input" style="margin-left: 0;"
+                                                       id="quitMemberCheckbox">
+                                                <button type="button" id="quitMemberButton"
+                                                        style="color: crimson">회원 탈퇴
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <th scope="row" class="modal-th">임시 비밀번호 설정</th>
+                                        <td class="modal-td">
+                                            <input type="text" placeholder="임시 비밀번호">
+                                            <button type="button" id="updatePwButton">변경</button>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
 
@@ -331,7 +350,6 @@
     </section>
 </main><!-- End #main -->
 </body>
-
 <!-- Vendor JS Files -->
 <script src="/css/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -351,6 +369,11 @@
 <script defer src="/js/adminpage/banUser.js"></script>
 <!--권한 변경 ajax-->
 <script defer src="/js/adminpage/updateRoles.js"></script>
+<!--사용자 탈퇴 ajax-->
+<script defer src="/js/adminpage/quitMemberByAdmin.js"></script>
+<!--임시 비밀번호 설정 ajax-->
+<script defer src="/js/adminpage/tempPwByAdmin.js"></script>
 <!--modal-->
 <script defer src="/js/adminpage/memberModal.js"></script>
+<script defer src="/js/adminpage/registByAdmin.js"></script>
 </html>

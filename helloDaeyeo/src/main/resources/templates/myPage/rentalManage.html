@@ -11,11 +11,8 @@
 
     <!-- Custom fonts for this template-->
     <link th:href="@{/css/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-
-
     <!-- Custom styles for this template-->
     <link th:href="@{/css/assets/css/sb-admin-2.min.css}" rel="stylesheet">
-
     <!-- Vendor CSS Files -->
     <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
@@ -23,7 +20,6 @@
 
     <!-- Template Main CSS File -->
     <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
-
 
 </head>
 <style>
@@ -41,7 +37,7 @@
 
 <div class="body_container">
     <!-- include 문도 Thymeleaf에서 사용 가능하며, 태그의 th:include 속성을 사용하면 됩니다. -->
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <div class="main_content">
 
 
@@ -103,8 +99,6 @@
                             <h5 class="card-title">작성한 대여 게시글</h5>
 
                             <button id="openModalButton" data-bs-target="#modalContainer">대여 대기</button>
-
-
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -147,7 +141,6 @@
 
             <section class="section">
                 <div class="row">
-
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
@@ -215,7 +208,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
         </div>

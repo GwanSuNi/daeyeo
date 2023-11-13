@@ -81,17 +81,6 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    @Transactional
-    public String deleteMember(String memberId, MemberDeleteDto memberDeleteDto) {
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.get().getUserPw() == memberDeleteDto.getMemberPw() &&
-                member.get().getUserEmail() == memberDeleteDto.getMemberId()) {
-            memberRepository.delete(member.get());
-            return "Success";
-        } else {
-            return "Fail";
-        }
-    }
 
     /***
      * myPage의 wishList 에서 유저의 리뷰에 대한 리스트를 반환하는 메서드

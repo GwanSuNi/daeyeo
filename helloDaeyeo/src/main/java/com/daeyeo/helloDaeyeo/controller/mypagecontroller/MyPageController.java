@@ -12,6 +12,7 @@ import com.daeyeo.helloDaeyeo.entity.RentalStatus;
 import com.daeyeo.helloDaeyeo.entity.WishList;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.service.*;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +44,8 @@ public class MyPageController {
     private final RentalStatusService rentalStatusService;
     private final RentalLogService rentalLogService;
     private final WishListService wishListService;
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /***
      * id 값만 받아오면
@@ -64,14 +68,6 @@ public class MyPageController {
     @GetMapping("")
     public String myPageGetForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         Member member = memberService.findMember(authentication.getName()).orElse(null);
-        log.info("인증 정보 {}", authentication.getName());
-        // TODO: 코드 중복
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-
         model.addAttribute("member", member);
         model.addAttribute("memberUpdatePw", new MemberUpdatePwDto());
         model.addAttribute("memberUpdateForm", new MemberUpdateDto());
@@ -88,43 +84,53 @@ public class MyPageController {
         return "redirect:/myPage";
     }
 
-    // TODO: Gwan이 할게
+    // TODO: 결과 속성 출력 안됨, 성공 시 alert()
     @PostMapping("/updatePw")
-    public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult,
-                                 Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String myPageUpdatePw(@Valid MemberUpdatePwDto memberUpdatePwDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
-        Member member = memberService.findMember(memberEmail).orElse(null);
-        if (!member.getUserPw().equals(memberUpdatePwDto.getPw())) {
-            redirectAttributes.addFlashAttribute("member", member);
-            redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다 다시 입력해주세요");
-            return "redirect:/myPage";
-        } else if (!memberUpdatePwDto.getNewPw1().equals(memberUpdatePwDto.getNewPw())) {
-            redirectAttributes.addFlashAttribute("member", member);
-            redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호 확인이 둘다 다릅니다. 다시 입력해주세요");
-            return "redirect:/myPage";
-        } else {
-            memberService.updateMemberPw(memberEmail, memberUpdatePwDto);
-            model.addAttribute("member", member);
+        Member member = userService.findByUserEmail(memberEmail); // 무조건 null이 아님
+        if (bindingResult.hasErrors()) {
+            log.warn("bindingResult에서 문제 발생");
             return "redirect:/myPage";
         }
+        if (!userService.comparePassword(memberEmail, memberUpdatePwDto.getPw())) { // 원래 비밀번호와 맞지 않으면
+            log.warn("비번 다름");
+            redirectAttributes.addFlashAttribute("member", member);
+            redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다. 다시 입력해주세요");
+            return "redirect:/myPage";
+        }
+        if (bCryptPasswordEncoder.matches(memberUpdatePwDto.getNewPw(), member.getPassword())) {
+            log.warn("기존 비번과 같음");
+            redirectAttributes.addFlashAttribute("notSamePw", "새로운 비밀번호는 기존 비밀번호와 다르게 설정해주세요");
+            return "redirect:/myPage";
+        }
+        if (!memberUpdatePwDto.getNewPw().equals(memberUpdatePwDto.getNewPwRepeat())) { // 재확인 다르면
+            log.warn("재확인 다름");
+            redirectAttributes.addFlashAttribute("member", member);
+            redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호가 일치하지 않습니다. 다시 입력해주세요");
+            return "redirect:/myPage";
+        }
+        // 모두 문제 없을 시
+        // 비밀번호 변경
+        Member updatedMember = userService.updateMemberPassword(memberEmail, memberUpdatePwDto.getNewPw());
+        log.warn("비번 바꾼 결과: {}", updatedMember);
+        redirectAttributes.addFlashAttribute("member", updatedMember);
+        redirectAttributes.addFlashAttribute("result", "비밀번호 변경 완료");
+        return "redirect:/myPage";
     }
 
-    // TODO: 얘도 시큐리티로 해야함
     @PostMapping("/delete")
-    public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult,
-                               Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        String memberEmail = authentication.getName();
-        Member member = memberService.findMember(memberEmail).orElse(null);
-        if (member.getUserPw().equals(memberDeleteDto.getMemberPw()) &&
-                memberEmail.equals(memberDeleteDto.getMemberId())) {
-            memberService.deleteMember(memberEmail, memberDeleteDto);
-            return "redirect:/myPage"; // 로그아웃되는 로직을 짜야함
-        } else if (bindingResult.hasErrors()) {
-            return "/myPage/m러yPage";
-        } else {
-            model.addAttribute("idpwError", "아이디 혹은 비밀번호가 틀립니다.");
+    public String myPageDelete(@Valid MemberDeleteDto memberDeleteDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        String userEmail = authentication.getName();
+        if (bindingResult.hasErrors()) {
             return "redirect:/myPage";
         }
+        if (!userService.comparePassword(memberDeleteDto.getMemberId(), memberDeleteDto.getMemberPw())) { // 비밀번호가 맞는지 확인
+            redirectAttributes.addFlashAttribute("idpwError", "아이디 혹은 비밀번호가 틀립니다.");
+            return "redirect:/myPage";
+        }
+        userService.deleteMember(userEmail, memberDeleteDto);
+        return "redirect:/memberApi/logout";
     }
 
     @RequestMapping("myWishList")

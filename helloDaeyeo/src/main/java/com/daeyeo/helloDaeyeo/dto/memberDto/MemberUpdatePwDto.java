@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.dto.memberDto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberUpdatePwDto {
-
+    @NotNull(message = "입력해주세요")
     private String pw;
-    private String newPw1;
+    @NotNull(message = "입력해주세요")
     private String newPw;
-
+    @NotNull(message = "입력해주세요")
+    private String newPwRepeat;
 }

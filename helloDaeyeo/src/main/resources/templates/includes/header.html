@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      th:fragment="header(isLogined, isAdmin)">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="header">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -56,7 +57,7 @@
         <!--        <li th:if="${isLogined}">-->
         <!--            <p th:text="${name}">님</p>-->
         <!--        </li>-->
-        <li th:if="${isLogined}">
+        <li sec:authorize="!isAnonymous()">
             <div>
                 <!-- 사용자가 로그인한 경우에 표시할 내용 -->
                 <div th:onclick="|location.href='/memberApi/logout'|" class="header_a"><i
@@ -65,12 +66,12 @@
             </div>
         </li>
         <!--        TODO: 호버시 효과 없애기 :not 속성으로 해도 p태그에 대한 호버 속성이 어디서 들어가는지랑, 다른 li 태그까지 영향먹음-->
-        <li th:unless="${isLogined}">
+        <li sec:authorize="isAnonymous()">
             <div>
                 <p>로그인 필요</p>
             </div>
         </li>
-        <li th:unless="${isLogined}">
+        <li sec:authorize="isAnonymous()">
             <div>
                 <!-- 사용자가 로그아웃한 경우에 표시할 내용 -->
                 <div th:onclick="|location.href='/login'|" class="header_a"><i
@@ -78,15 +79,15 @@
                         style="color: #ffffff; padding-top: 2px"></i></div>
             </div>
         </li>
-        <li th:if="${isLogined}"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
+        <li sec:authorize="!isAnonymous()"><i class="fas fa-bell" style="color: #ffffff;"></i></li>
         <i class="fa-solid fa-bell-on" style="color: #ffffff;"></i>
-        <div th:if="${isLogined} and ${!isAdmin}" th:onclick="|location.href='/myPage'|">
+        <div sec:authorize="!isAnonymous() and hasAnyRole('ROLE_MEMBER')" th:onclick="|location.href='/myPage'|">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
-        <div th:if="${isAdmin}" th:onclick="|location.href='/adminpage/'|">
+        <div sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="|location.href='/adminpage/'|">
             <li><i class="fas fa-user" style="color: #ffffff;"></i></li>
         </div>
-        <li th:if="${isLogined}" id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
+        <li sec:authorize="!isAnonymous()" id="bar_li"><i class="fas fa-bars" style="color: #ffffff;"></i></li>
     </ul>
 
     <!--    TODO: sec: 태그 안됨..-->

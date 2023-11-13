@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
+import com.daeyeo.helloDaeyeo.dto.adminDto.QuitUserRequestDto;
 import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
@@ -168,6 +169,28 @@ public class AdminController {
             return new ResponseEntity<>(jsonData, HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 변경에 실패했습니다. 다시 시도해 주세요.");
+        }
+    }
+
+    // 어드민이 유저를 탈퇴하는 메서드
+    @PostMapping("/quitUser")
+    public ResponseEntity<String> quitUser(@RequestBody QuitUserRequestDto request) {
+        boolean result = userService.deleteMemberByAdmin(request.getUserEmail());
+        if (result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴 요청이 실패했습니다. 다시 시도해 주세요.");
+        }
+    }
+
+    // 어드민이 임시 비밀번호를 부여하는 메서드
+    @PostMapping("/tempPassword")
+    public ResponseEntity<String> tempPwUser() {
+
+        if (result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임시 비밀번호 설정에 실패했습니다. 다시 시도해 주세요.");
         }
     }
 
