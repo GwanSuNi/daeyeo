@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
         tab.addEventListener('click', function () {
             // 현재 활성화된 탭의 인덱스를 로컬 스토리지에 저장
             var activeTabIndex = Array.from(this.parentNode.parentNode.children).indexOf(this.parentNode);
-            console.log("저장된 탭" + activeTabIndex);
             localStorage.setItem("activeTabIndex", activeTabIndex);
         });
     });
