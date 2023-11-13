@@ -112,7 +112,8 @@ public class MyPageController {
         }
         // 모두 문제 없을 시
         // 비밀번호 변경
-        Member updatedMember = userService.updateMemberPassword(memberEmail, memberUpdatePwDto.getNewPw());
+        userService.updateMemberPassword(memberEmail, memberUpdatePwDto.getNewPw());
+        Member updatedMember = userService.findByUserEmail(memberEmail);
         log.warn("비번 바꾼 결과: {}", updatedMember);
         redirectAttributes.addFlashAttribute("member", updatedMember);
         redirectAttributes.addFlashAttribute("result", "비밀번호 변경 완료");

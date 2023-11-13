@@ -2,6 +2,7 @@ package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
 import com.daeyeo.helloDaeyeo.dto.adminDto.QuitUserRequestDto;
 import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
+import com.daeyeo.helloDaeyeo.dto.adminDto.TempPwDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
@@ -185,8 +186,8 @@ public class AdminController {
 
     // 어드민이 임시 비밀번호를 부여하는 메서드
     @PostMapping("/tempPassword")
-    public ResponseEntity<String> tempPwUser() {
-
+    public ResponseEntity<String> tempPwUser(@RequestBody TempPwDto request) {
+        boolean result = userService.updateMemberPassword(request.getUserEmail(), request.getTempPw());
         if (result) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
