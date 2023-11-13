@@ -6,6 +6,7 @@
     <link th:href="@{/css/assets/css/style.css}" rel="stylesheet" type="text/css">
     <!-- Dropzone CSS File -->
     <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
     <!-- CSS File -->
     <link th:href="@{/css/rental/rental_registration_form.css}" rel="stylesheet" type="text/css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -20,7 +21,7 @@
 <body>
 <div class="wrapper">
     <div th:include="/includes/header"></div>
-    <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}">
+    <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}" enctype="multipart/form-data">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
@@ -70,15 +71,12 @@
                     </div>
                 </li>
 
-                <!-- 구현안됨 -->
-                <!--
                 <li class="item">
                     <div class="item-title">사진</div>
                     <div class="item-content">
                         <div class="dropzone" id="myDropzone"></div>
                     </div>
                 </li>
-                -->
 
                 <li class="item">
                     <div class="item-title">주소</div>

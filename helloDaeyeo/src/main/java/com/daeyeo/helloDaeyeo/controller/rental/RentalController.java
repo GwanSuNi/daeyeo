@@ -3,19 +3,20 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.Status;
+import com.daeyeo.helloDaeyeo.entity.WishList;
 import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
-import com.daeyeo.helloDaeyeo.service.MainCategoryService;
-import com.daeyeo.helloDaeyeo.service.RentalObjectService;
-import com.daeyeo.helloDaeyeo.service.RentalStatusService;
-import com.daeyeo.helloDaeyeo.service.SubCategoryService;
+import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalTime;
@@ -36,6 +38,9 @@ public class RentalController {
     private final RentalObjectService rentalObjectService;
     private final MainCategoryService mainCategoryService;
     private final RentalStatusService rentalStatusService;
+    private final RentalObjectRepository rentalObjectRepository;
+    private final MemberService memberService;
+    private final WishListService wishListService;
 
 
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
@@ -72,9 +77,16 @@ public class RentalController {
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
         model.addAttribute("isAdmin", isAdmin);
+        RentalObject rentalObject = rentalObjectService.getOneRentalObject(objectId);
+        rentalObject.setVisitCount(rentalObject.getVisitCount() + 1);
+        rentalObjectRepository.save(rentalObject);
+        String userEmail = authentication.getName();
+        Boolean hasWish = wishListService.hasWishList(objectId, userEmail);
 
         RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
         rentalStatusFormDto.setObjectId(objectId);
+        model.addAttribute("memberId", userEmail);
+        model.addAttribute("hasWish", hasWish);
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
         model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
@@ -132,6 +144,7 @@ public class RentalController {
                 // 시간이 겹치지 않으므로 validPeriod는 true를 반환
                 rentalStatusDto.setStatus(Status.PENDING);
                 rentalStatusService.insertRentalStatus(rentalStatusDto);
+                Member member = memberService.findMember(userEmail).get();
             }
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
@@ -168,9 +181,7 @@ public class RentalController {
      */
 
     @GetMapping("rentalRegistrationForm")
-    public String showRentalRegistrationForm(Model
-                                                     model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-
+    public String showRentalRegistrationForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -191,10 +202,11 @@ public class RentalController {
      * @param authentication
      * @return
      */
-    @PostMapping("rentalRegistrationForm")
+    @PostMapping(value = "rentalRegistrationForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
                                    rentalRegisterFormDto, BindingResult bindingResult,
-                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication
+            , @RequestParam("files") List<MultipartFile> files) {
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -208,11 +220,39 @@ public class RentalController {
             model.addAttribute("scIdChoice", "장소를 선택해주세요");
             return "redirect:/rentals/rentalRegistrationForm";
         }
+//        System.out.println(files.get(0) + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
         String userId = authentication.getName();
         rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto);
         return "redirect:/rentals/list";
+    }
+
+    @GetMapping("cancelWish/{rentalObjectId}/{memberId}")
+    @ResponseBody
+    public String cancelWish(@PathVariable("rentalObjectId") long rentalObjectId,
+                             @PathVariable("memberId") String memberId) {
+        try {
+            WishList wishList = wishListService.findWish(rentalObjectId, memberId);
+            wishListService.deleteWishList(wishList.getWishIndex());
+            return "redirect:/rentals/write/" + rentalObjectId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    @GetMapping("wish/{rentalObjectId}/{memberId}")
+    @ResponseBody
+    public String wish(@PathVariable("rentalObjectId") long rentalObjectId,
+                       @PathVariable("memberId") String memberId) {
+        try {
+            wishListService.insertWishList(rentalObjectId, memberId);
+            return "redirect:/rentals/write/" + rentalObjectId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
     }
 }

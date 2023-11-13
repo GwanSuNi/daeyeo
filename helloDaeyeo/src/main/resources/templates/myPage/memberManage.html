@@ -76,20 +76,22 @@
                                 <table class="table datatable">
                                     <thead>
                                     <tr>
-                                        <th scope="col">index</th>
-                                        <th scope="col">회원 유형</th>
-                                        <th scope="col">회원 이름</th>
-                                        <th scope="col">생년 월일</th>
-                                        <th scope="col">번호</th>
+                                        <th>index</th>
+                                        <th>회원 유형</th>
+                                        <th>회원 이름</th>
+                                        <th>전화 번호</th>
+                                        <th>예약 횟수</th>
+                                        <th>누절 결제 금액</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>일반 회원</td>
-                                        <td>홍길동</td>
-                                        <td>1990-01-01</td>
-                                        <td>010-1234-5678</td>
+                                    <tr th:each="memberManageDto,index : ${memberManageDtoList}">
+                                        <td th:text="${index.count}"></td>
+                                        <td th:text="${memberManageDto.role}"></td>
+                                        <td th:text="${memberManageDto.nickname}"></td>
+                                        <td th:text="${memberManageDto.phone}"></td>
+                                        <td th:text="${memberManageDto.statusCount}"></td>
+                                        <td th:text="${memberManageDto.paySum}"></td>
                                     </tr>
                                     <!-- Add more rows as needed -->
                                     </tbody>
@@ -100,69 +102,7 @@
                 </div>
             </section>
 
-            <section class="section">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">회원별 대여 기록</h5>
-                                <table class="table datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">회원 이름</th>
-                                        <th scope="col">예약 횟수</th>
-                                        <th scope="col">이용 후기</th>
-                                        <th scope="col">회원 별점</th>
-                                        <th scope="col">정지 여부</th>
-                                        <th scope="col">숫자</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>홍길동</td>
-                                        <td>5</td>
-                                        <td>좋았어요!</td>
-                                        <td>4.5</td>
-                                        <td>정지 안 함</td>
-                                        <td>1</td>
-                                    </tr>
-                                    <!-- Add more rows as needed -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">회원별 수익</h5>
-                                <table class="table datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">회원 이름</th>
-                                        <th scope="col">회원 유형</th>
-                                        <th scope="col">누적 결제금액</th>
-                                        <th scope="col">누적 수수료</th>
-                                        <th scope="col">메모</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>홍길동</td>
-                                        <td>일반 회원</td>
-                                        <td>500,000원</td>
-                                        <td>50,000원</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <!-- Add more rows as needed -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
 
         <!-- Vendor JS Files -->

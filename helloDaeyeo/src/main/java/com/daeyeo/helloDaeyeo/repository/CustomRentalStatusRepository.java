@@ -10,5 +10,9 @@ public interface CustomRentalStatusRepository {
 
     List<RentalStatus> statusSortDate(List<RentalStatus> rentalStatuses);
 
+    List<RentalStatus> sortDate(List<RentalStatus> rentalStatuses);
+
     List<RentalStatus> statusModalSortPending(List<RentalStatus> rentalStatuses);
+
+    List<RentalStatus> sortDateAndRentalObject(List<RentalStatus> rentalStatuses);
 }

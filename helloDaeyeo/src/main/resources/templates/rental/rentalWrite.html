@@ -12,6 +12,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <title>대여글 작성 | 대여대여</title>
+
 </head>
 <body>
 <div class="wrapper">
@@ -125,11 +126,13 @@
                                 -->
                             </div>
                             <div class="icon_btn_box">
-                                <input type="button" class="want icon btn">
-                                <!--
-                                <input type="button" class="share icon btn">
+                                <input type="button" id="toggle"
+                                       th:src="${hasWish} ? '/img/rental/heart_icon.png': '/img/rental/empty_heart_icon.png'"
+                                       th:class="${hasWish} ? 'want icon btn' : 'unWant icon btn'" alt="Heart Icon"
+                                       th:onclick="'javascript:toggleWish(' + ${rentalObject.objectIndex} + ')'">
                                 <input type="button" class="report icon btn">
-                                -->
+                                <input type="hidden" th:id="memberId" th:value="${memberId}">
+                                <!--                                <input type="button" class="share icon btn">-->
                             </div>
                         </div>
                         <form th:action="@{/rentals/write/status.do}" method="post" th:object="${rentalStatus}"
@@ -307,7 +310,7 @@
 </body>
 <!-- BootStrap JS File -->
 <script th:src="@{/css/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<!-- Slider JS File -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
 <!-- FullCalendar JS File -->

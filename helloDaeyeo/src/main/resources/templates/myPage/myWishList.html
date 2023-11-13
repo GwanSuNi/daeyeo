@@ -81,21 +81,32 @@
                         <div class="card-body">
                             <h5 class="card-title">내가 찜한 목록</h5>
                             <!-- Table with stripped rows -->
-                            <table class="table table-striped table-hover">
+                            <table class="table datatable">
                                 <thead class="table-dark">
                                 <tr>
-                                    <th>wishListIndex</th>
-                                    <th>userEmail</th>
-                                    <th>objectIndex</th>
-                                    <th>wishedDate</th>
+                                    <th>index</th>
+                                    <th>찜한 게시물</th>
+                                    <th>게시물 주소</th>
+                                    <th>예약일</th>
+                                    <th>예약종료일</th>
+                                    <th>사용일</th>
+                                    <th>사용종료일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="review: ${reviewList}">
-                                    <td th:text="${review.}"></td>
-                                    <td th:text="${review.}"></td>
-                                    <td th:text="${review.}"></td>
-                                    <td th:text="${review.}"></td>
+                                <tr th:each="wish , index: ${wishList}">
+                                    <td th:text="${index.count}"></td>
+                                    <td>
+                                        <button class="row-button"
+                                                th:onclick="'javascript:redirectToUrl(\'/rentals/write/\' + ' + ${wish.getRentalObject().objectIndex} + ')'">
+                                            <span th:text="${wish.getRentalObject().objectName}"></span>
+                                        </button>
+                                    </td>
+                                    <td th:text="${wish.getRentalObject().address.address}"></td>
+                                    <td th:text="${wish.getRentalObject().applicationPeriod.startDate}"></td>
+                                    <td th:text="${wish.getRentalObject().applicationPeriod.endDate}"></td>
+                                    <td th:text="${wish.getRentalObject().usagePeriod.startTime}"></td>
+                                    <td th:text="${wish.getRentalObject().usagePeriod.endTime}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -115,7 +126,11 @@
         <script th:src="@{/css/assets/vendor/simple-datatables/simple-datatables.js}"></script>
         <script th:src="@{/css/assets/vendor/tinymce/tinymce.min.js}"></script>
         <script th:src="@{/css/assets/vendor/php-email-form/validate.js}"></script>
-
+        <script th:inline="javascript">
+            function redirectToUrl(url) {
+                window.location.href = url;
+            }
+        </script>
         <!-- Template Main JS File -->
         <script th:src="@{/css/assets/js/main.js}"></script>
     </div>

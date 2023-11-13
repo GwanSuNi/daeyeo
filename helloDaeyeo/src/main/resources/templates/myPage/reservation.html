@@ -96,11 +96,11 @@
                                     <th>index</th>
                                     <th>대여장소</th>
                                     <th>대여주소</th>
-                                    <th>사용비용</th>
-                                    <th>이용날짜</th>
-                                    <th>이용시작시간</th>
-                                    <th>이용종료시간</th>
-                                    <th>대여상태</th>
+                                    <th>가격</th>
+                                    <th>예약일</th>
+                                    <th>예약시간</th>
+                                    <th>반납시간</th>
+                                    <th>예약상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -108,10 +108,10 @@
                                     <td th:text="${index.count}"></td>
                                     <td th:text="${rentalStatus.getRentalObject().getObjectName()}"></td>
                                     <td th:text="${rentalStatus.getRentalObject().getAddress().address}"></td>
-                                    <td th:text="${rentalStatus.getRentalObject().getUsageFee()}"></td>
-                                    <td th:text="${rentalStatus.getRentalDate()}"></td>
-                                    <td th:text="${rentalStatus.getStartTime()}"></td>
-                                    <td th:text="${rentalStatus.getEndTime()}"></td>
+                                    <td th:text="${rentalStatus.getRentalObject().getUsageFee()+'원'}"></td>
+                                    <td th:text="${rentalStatus.getRentalDateString()}"></td>
+                                    <td th:text="${rentalStatus.getStartTimeString()}"></td>
+                                    <td th:text="${rentalStatus.getEndTimeString()}"></td>
                                     <td th:text="${rentalStatus.getStatus().getLabel()}"></td>
                                 </tr>
                                 </tbody>

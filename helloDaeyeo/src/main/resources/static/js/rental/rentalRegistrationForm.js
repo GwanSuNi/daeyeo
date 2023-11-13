@@ -1,6 +1,9 @@
 
 let subCategorySelect = document.getElementById('subCategorySelect');
 let mainCategorySelect = document.getElementById('mainCategorySelect');
+const csrfToken = document.querySelector("meta[name='_csrf']").content;
+const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -16,8 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 mainCategorySelect.addEventListener('change', () => {
     let selectedMainCategoryId = mainCategorySelect.value;
-    const csrfToken = document.querySelector("meta[name='_csrf']").content;
-    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
     // XMLHttpRequest 객체 생성
     const xhr = new XMLHttpRequest();
@@ -82,27 +83,82 @@ subCategorySelect.addEventListener('change', () => {
 // });
 
 
+// Dropzone.options.myDropzone = {
+//     url: "/rentals/rentalRegistrationForm",
+//     autoProcessQueue: false,
+//     paramName: "file",
+//     clickable: true,
+//     maxFilesize: 5, //in mb
+//     addRemoveLinks: true,
+//     acceptedFiles: '.png,.jpg',
+//     dictDefaultMessage: "Upload your file here",
+//     init: function () {
+//         this.on("sending", function (file, xhr, formData) {
+//             console.log("sending file");
+//         });
+//         this.on("success", function (file, responseText) {
+//             console.log('great success');
+//         });
+//         this.on("addedfile", function (file) {
+//             console.log('file added');
+//         });
+//     }
+// };
+
 Dropzone.options.myDropzone = {
-    url: "/fake/location",
+    paramName: "files",
+    url: "/rentals/rentalRegistrationForm",
     autoProcessQueue: false,
-    paramName: "file",
-    clickable: true,
-    maxFilesize: 5, //in mb
+    uploadMultiple: true,
+    parallelUploads: 5,
+    maxFiles: 5,
     addRemoveLinks: true,
     acceptedFiles: '.png,.jpg',
-    dictDefaultMessage: "Upload your file here",
+    dictDefaultMessage: "Drop your files here or click to upload",
     init: function () {
-        this.on("sending", function (file, xhr, formData) {
-            console.log("sending file");
+        var myDropzone = this;
+
+        document.querySelector("button[type=submit]").addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // FormData 생성
+            var formData = new FormData(document.querySelector('form'));
+            formData.append(csrfHeader, csrfToken);
+            // 업로드한 파일들을 FormData에 추가
+            myDropzone.files.forEach(function (file, index) {
+                formData.append('files', file);  // 'files'로 변경
+            });
+
+            // Ajax를 사용하여 서버에 전송
+            $.ajax({
+                url: "/rentals/rentalRegistrationForm",
+                method: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            myDropzone.processQueue();
         });
-        this.on("success", function (file, responseText) {
-            console.log('great success');
-        });
-        this.on("addedfile", function (file) {
-            console.log('file added');
+
+        this.on("complete", function (file) {
+            myDropzone.removeFile(file);
         });
     }
 };
+
+
+
+
+
+
 
 
 const txtEditor = document.querySelectorAll('.txt-editor');

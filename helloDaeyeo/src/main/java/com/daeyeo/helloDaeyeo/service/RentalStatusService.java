@@ -90,6 +90,8 @@ public class RentalStatusService {
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
+                    rentalStatus.formatRental();
+                    rentalStatusRepository.save(rentalStatus);
                     rentalStatuses.add(rentalStatus);
                 }
             }
@@ -102,11 +104,13 @@ public class RentalStatusService {
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
+                    rentalStatus.formatRental();
+                    rentalStatusRepository.save(rentalStatus);
                     rentalStatuses.add(rentalStatus);
                 }
             }
         }
-        return rentalStatuses;
+        return rentalStatusRepository.sortDateAndRentalObject(rentalStatuses);
     }
 
     public List<RentalStatus> rentalStatusPendingList(List<RentalStatus> rentalStatusList) {
@@ -128,19 +132,23 @@ public class RentalStatusService {
                 if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
                     if (rentalStatus.getStatus() == Status.PENDING) {
                         rentalStatus.setStatus(Status.HOLD);
+                        rentalStatus.formatRental();
                         rentalStatusRepository.save(rentalStatus);
                         rentalStatuses.add(rentalStatus);
                     } else if (rentalStatus.getStatus() == Status.ACCEPTED) {
                         rentalStatus.setStatus(Status.COMPLETED);
+                        rentalStatus.formatRental();
                         rentalStatusRepository.save(rentalStatus);
                         rentalStatuses.add(rentalStatus);
                     } else {
+                        rentalStatus.formatRental();
+                        rentalStatusRepository.save(rentalStatus);
                         rentalStatuses.add(rentalStatus);
                     }
                 }
             }
         }
-        return rentalStatuses;
+        return rentalStatusRepository.sortDateAndRentalObject(rentalStatuses);
     }
 
     public void cancelStatus(int statusId) {
@@ -159,24 +167,40 @@ public class RentalStatusService {
 
     public List<RentalStatus> rentalStatusBefore(Member member) {
         List<RentalStatus> rentalStatuses = member.getRentalStatuses();
-        List<RentalStatus> rentalStatusSet = new ArrayList<>();
+        List<RentalStatus> rentalStatusList = new ArrayList<>();
         for (RentalStatus rentalStatus : rentalStatuses) {
             if (LocalDateTime.now().isBefore(rentalStatus.getEndTime())) {
-                rentalStatusSet.add(rentalStatus);
+                rentalStatus.formatRental();
+                rentalStatusRepository.save(rentalStatus);
+                rentalStatusList.add(rentalStatus);
             }
         }
-        return rentalStatusSet;
+        return rentalStatusRepository.sortDate(rentalStatusList);
     }
 
     public List<RentalStatus> rentalStatusAfter(Member member) {
         List<RentalStatus> rentalStatuses = member.getRentalStatuses();
-        List<RentalStatus> rentalStatusSet = new ArrayList<>();
+        List<RentalStatus> rentalStatusList = new ArrayList<>();
         for (RentalStatus rentalStatus : rentalStatuses) {
             if (LocalDateTime.now().isAfter(rentalStatus.getEndTime())) {
-                rentalStatusSet.add(rentalStatus);
+                if (rentalStatus.getStatus() == Status.PENDING) {
+                    rentalStatus.setStatus(Status.HOLD);
+                    rentalStatus.formatRental();
+                    rentalStatusRepository.save(rentalStatus);
+                    rentalStatuses.add(rentalStatus);
+                } else if (rentalStatus.getStatus() == Status.ACCEPTED) {
+                    rentalStatus.setStatus(Status.COMPLETED);
+                    rentalStatus.formatRental();
+                    rentalStatusRepository.save(rentalStatus);
+                    rentalStatuses.add(rentalStatus);
+                } else {
+                    rentalStatus.formatRental();
+                    rentalStatusRepository.save(rentalStatus);
+                    rentalStatusList.add(rentalStatus);
+                }
             }
         }
-        return rentalStatusSet;
+        return rentalStatusRepository.sortDate(rentalStatusList);
     }
 
     public List<ModalStatusPendingDto> modalStatusPending(List<RentalStatus> rentalStatusList) {

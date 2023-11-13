@@ -30,7 +30,8 @@ public class RentalObject {
 
     @OneToMany(mappedBy = "rentalObject")
     List<RentalStatus> rentalStatuses = new ArrayList<>();
-
+    @OneToMany(mappedBy = "rentalObject")
+    List<WishList> wishListList = new ArrayList<>();
     // 빌릴 대상 이름
     private String objectName;
 
@@ -61,6 +62,11 @@ public class RentalObject {
     // 문의 전화
     private String inquiryPhone;
     private int visitCount;
+
+    @ElementCollection
+    @CollectionTable(name = "rental_object_images", joinColumns = @JoinColumn(name = "objectIndex"))
+    @Lob
+    private List<byte[]> images;
 
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;

@@ -11,10 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +37,7 @@ public class RentalRegisterFormDto {
     private UsagePeriodDto usagePeriodDto;
     private int cancellation;
     private int maxPerson;
+    private List<MultipartFile> files;
     private String webSite;
     @NotEmpty(message = "핸드폰 번호를 입력해주세요")
     private String inquiryPhone;

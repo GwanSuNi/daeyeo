@@ -12,6 +12,7 @@ import com.daeyeo.helloDaeyeo.exception.NotFoundRentalObjectException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ import java.util.List;
 //@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
+    private final MemberRepository memberRepository;
 
     private final MemberService memberService;
     private final SubCategoryService subCategoryService;
@@ -107,6 +109,7 @@ public class RentalObjectService {
         // 걸러진 리스트들을 받아옴
         for (RentalObject rentalObject : rentalObjectList) {
             RentalObjectManageDto rentalObjectManageDto = new RentalObjectManageDto(rentalObject);
+            // 얼마 벌었는지
             rentalObjectManageDtoList.add(rentalObjectManageDto);
         }
         return rentalObjectManageDtoList;

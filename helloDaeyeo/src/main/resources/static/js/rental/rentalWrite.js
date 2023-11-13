@@ -1,4 +1,8 @@
 // obj의 클래스에 active 추가하고 형제 element의 클래스에 active 제거
+// Ajax 요청을 보낼 때 CSRF 토큰과 인증 정보를 포함
+const csrfToken = document.querySelector("meta[name='_csrf']").content;
+const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+
 function changeTab(obj) {
     if (!obj.classList.contains('active')) { // obj의 클래스에 active가 없다면
         let title = obj.parentElement.children;
@@ -133,9 +137,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 2자리로 만듭니다
     let formattedDate = year + '-' + month + '-' + day;
     let receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
-    if (receiptStartDuration < formattedDate) {
-        receiptStartDuration = formattedDate;
-    }
+    // if (receiptStartDuration < formattedDate) {
+    //     receiptStartDuration = formattedDate;
+    // }
 
     const receiptEndDuration = document.querySelector('#usage-period > span:last-child').innerText;
     let calendarEl = document.getElementById('calendar');
@@ -263,3 +267,76 @@ reservationBtn.addEventListener('click', (event) => {
     event.preventDefault();
     reservationForm.submit();
 });
+function refreshPage() {
+    location.reload();
+}
+var memberId = document.querySelector('#memberId').value;
+function toggleWish(rentalObjectId) {
+    // console.log("Rental Object Index:", rentalObjectId);
+    var xhr = new XMLHttpRequest();  // 이 부분 추가
+    var toggleButton = document.getElementById('toggle');
+    var currentSrc = toggleButton.getAttribute('src');
+    if(currentSrc === "/img/rental/heart_icon.png"){ // 현재 좋아요 버튼을 누른상태임
+
+        xhr.open("GET", "/rentals/cancelWish/"+ rentalObjectId+"/"+memberId, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+        // 이벤트 핸들러 등록
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // 요청이 성공했을 때 실행할 코드
+                    // toggleButton.setAttribute('src', '/img/rental/empty_heart_icon.png');
+                    console.log("POST 요청 성공");
+                    currentSrc = toggleButton.getAttribute('src'); // 변경된 src 값을 다시 읽어옴
+                    console.log(currentSrc);
+                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
+                } else {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("POST 요청 실패");
+                }
+            }
+        };
+        // 실제 요청 보내기
+        xhr.send();
+        toggleButton.onload = function() {
+            console.log("이미지가 성공적으로 로드되었습니다.");
+        };
+        setTimeout(refreshPage, 200);
+
+    }else{
+        // 현재 좋아요 버튼을 안누른 상태임
+        xhr.open("GET", "/rentals/wish/"+ rentalObjectId +"/"+memberId, true);
+
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+        // 이벤트 핸들러 등록
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // toggleButton.setAttribute('src', '/img/rental/heart_icon.png');
+                    toggleButton.onload = function() {
+                        console.log("이미지가 성공적으로 로드되었습니다.");
+                    };
+                    // 요청이 성공했을 때 실행할 코드
+                    console.log("POST 요청 성공");
+                    currentSrc = toggleButton.getAttribute('src'); // 변경된 src 값을 다시 읽어옴
+                    console.log(currentSrc);
+                    // 이곳에서 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
+                } else {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("POST 요청 실패");
+                }
+            }
+        };
+        // 실제 요청 보내기
+        xhr.send();
+        toggleButton.onload = function() {
+            console.log("이미지가 성공적으로 로드되었습니다.");
+        };
+        setTimeout(refreshPage, 200);
+    }
+}
+
+// 나머지 작업을 수행하거나 필요한 동작을 추가할 수 있습니다.

@@ -26,6 +26,17 @@
 
 
 </head>
+<style>
+    /* 홀수 번째 행에 회색 배경 적용 */
+    .datatable tbody tr:nth-child(even) {
+        background-color: #CCCCCC; /* 연한 회색 배경색 */
+    }
+
+    /* 짝수 번째 행에 기본 배경 적용 */
+    .datatable tbody tr:nth-child(odd) {
+        background-color: white; /* 기본 배경색 */
+    }
+</style>
 <body>
 
 <div class="body_container">
@@ -101,10 +112,11 @@
                                     <th>장소명</th>     <!-- rentalObjectname -->
                                     <th>주소</th>       <!-- address -->
                                     <th>세부주소</th>
+                                    <th>수익</th>
                                     <th>총 예약 수</th>  <!-- rentalStatus 의 갯수 -->
                                     <th>성사 수</th>  <!-- rentalStatus 의 Status 의 상태가 대여 완료 인 갯수  -->
                                     <th>예약 대기 수</th> <!-- rentalStatus 의 Status 의 상태가 대기 인 갯수 -->
-                                    <th>받지못한 예약 수(보류)</th> <!-- rentalStatus 의 예약대기인데 예약을 무시한경우 -->
+                                    <th>보류 수</th> <!-- rentalStatus 의 예약대기인데 예약을 무시한경우 -->
                                     <th>거절한 예약 수</th>
                                     <th>수정</th>
                                     <th>삭제</th>
@@ -112,18 +124,15 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="rentalObjectDto : ${rentalObjectManageDtoList}">
-                                    <td>
-                                        <a class="btn btn-danger"
-                                           th:href="'javascript:showRentalStatusModal(' + ${rentalObjectDto.objectIndex} + ')'"
-                                           th:text="${rentalObjectDto.objectName}"></a>
-                                    </td>
+                                    <td th:text="${rentalObjectDto.objectName}"></td>
                                     <td th:text="${rentalObjectDto.address}"></td>
                                     <td th:text="${rentalObjectDto.detailAddress}"></td>
-                                    <td th:text="${rentalObjectDto.statusCount}"></td>
-                                    <td th:text="${rentalObjectDto.statusCompleted}"></td>
-                                    <td th:text="${rentalObjectDto.statusPending}"></td>
-                                    <td th:text="${rentalObjectDto.statusHold}"></td>
-                                    <td th:text="${rentalObjectDto.statusCancel}"></td>
+                                    <td th:text="${rentalObjectDto.earnedMoney+'원'}"></td>
+                                    <td th:text="${rentalObjectDto.statusCount+'회'}"></td>
+                                    <td th:text="${rentalObjectDto.statusCompleted+'회'}"></td>
+                                    <td th:text="${rentalObjectDto.statusPending+'회'}"></td>
+                                    <td th:text="${rentalObjectDto.statusHold+'개'}"></td>
+                                    <td th:text="${rentalObjectDto.statusCancel+'개'}"></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -146,30 +155,26 @@
                                 <table class="table datatable">
                                     <thead>
                                     <tr>
-                                        <th>대여한게시물제목</th>
-                                        <th>빌리고싶은사람</th>
-                                        <th>빌리고싶은날짜</th>
-                                        <th>빌리고싶은시간</th>
-                                        <th>반납시간</th>
-                                        <th>현재상태</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>게시물</th>
+                                        <th>예약자</th>
+                                        <th>전화번호</th>
+                                        <th>가격</th>
+                                        <th>예약일</th>
+                                        <th>예약 시간</th>
+                                        <th>반납 시간</th>
+                                        <th>예약 상태</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="rentalStatus : ${rentalStatusListBefore}">
                                         <td th:text="${rentalStatus.getRentalObject().objectName}"></td>
                                         <td th:text="${rentalStatus.getMember().getNickname()}"></td>
-                                        <td th:text="${rentalStatus.rentalDate}"></td>
-                                        <td th:text="${rentalStatus.startTime}"></td>
-                                        <td th:text="${rentalStatus.endTime}"></td>
+                                        <td th:text="${rentalStatus.getMember().getPhone()}"></td>
+                                        <td th:text="${rentalStatus.getRentalObject().usageFee+'원'}"></td>
+                                        <td th:text="${rentalStatus.rentalDateString}"></td>
+                                        <td th:text="${rentalStatus.startTimeString}"></td>
+                                        <td th:text="${rentalStatus.endTimeString}"></td>
                                         <td th:text="${rentalStatus.getStatus().getLabel()}"></td>
-                                        <td><a th:if="${rentalStatus.getStatus().getLabel() == '대기'}" href="#"
-                                               th:href="'javascript:permit('+${rentalStatus.getRentalStatusId()}+')'"
-                                               class="btn btn-danger">수락하기</a></td>
-                                        <td><a th:if="${rentalStatus.getStatus().getLabel() == '대기'}" href="#"
-                                               th:href="'javascript:cancel('+${rentalStatus.getRentalStatusId()}+')'"
-                                               class="btn btn-danger">거절하기</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -184,21 +189,25 @@
                                 <table class="table datatable">
                                     <thead>
                                     <tr>
-                                        <th>대여한게시물제목</th>
-                                        <th>빌리고싶은사람</th>
-                                        <th>빌리고싶은날짜</th>
-                                        <th>빌리고싶은시간</th>
-                                        <th>반납시간</th>
-                                        <th>결과상태</th>
+                                        <th>게시물</th>
+                                        <th>예약자</th>
+                                        <th>전화번호</th>
+                                        <th>가격</th>
+                                        <th>예약일</th>
+                                        <th>예약 시간</th>
+                                        <th>반납 시간</th>
+                                        <th>예약 상태</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="rentalStatus : ${rentalStatusListAfter}">
-                                        <td th:text="${rentalStatus.getRentalObject().objectName}"></td>
+                                        <td th:text="${rentalStatus.getRentalObject().objectName} "></td>
                                         <td th:text="${rentalStatus.getMember().getNickname()}"></td>
-                                        <td th:text="${rentalStatus.rentalDate}"></td>
-                                        <td th:text="${rentalStatus.startTime}"></td>
-                                        <td th:text="${rentalStatus.endTime}"></td>
+                                        <td th:text="${rentalStatus.getMember().getPhone()}"></td>
+                                        <td th:text="${rentalStatus.getRentalObject().usageFee+'원'}"></td>
+                                        <td th:text="${rentalStatus.rentalDateString}"></td>
+                                        <td th:text="${rentalStatus.startTimeString}"></td>
+                                        <td th:text="${rentalStatus.endTimeString}"></td>
                                         <td th:text="${rentalStatus.getStatus().getLabel()}"></td>
                                     </tr>
                                     </tbody>
@@ -222,12 +231,14 @@
         <table class="table datatable" id="rentalStatusTable">
             <thead>
             <tr>
-                <th>대여한게시물제목</th>
-                <th>빌리고싶은사람</th>
-                <th>빌리고싶은날짜</th>
-                <th>빌리고싶은시간</th>
+                <th>게시물</th>
+                <th>예약자</th>
+                <th>전화번호</th>
+                <th>가격</th>
+                <th>예약일</th>
+                <th>예약시간</th>
                 <th>반납시간</th>
-                <th>상태선택</th>
+                <th>예약상태</th>
                 <th></th>
             </tr>
             </thead>
@@ -235,9 +246,11 @@
             <tr th:each="rentalStatus : ${result}">
                 <td th:text="${rentalStatus.getRentalObject().getObjectName()}"></td>
                 <td th:text="${rentalStatus.getMember().getNickname()}"></td>
-                <td th:text="${rentalStatus.getRentalDate()}"></td>
-                <td th:text="${rentalStatus.getStartTime()}"></td>
-                <td th:text="${rentalStatus.getEndTime()}"></td>
+                <td th:text="${rentalStatus.getMember().getPhone()}"></td>
+                <td th:text="${rentalStatus.getRentalObject().usageFee+'원'}"></td>
+                <td th:text="${rentalStatus.rentalDateString}"></td>
+                <td th:text="${rentalStatus.startTimeString}"></td>
+                <td th:text="${rentalStatus.endTimeString}"></td>
                 <td><a th:if="${rentalStatus.getStatus().getLabel() == '대기'}" href="#"
                        th:href="'javascript:permit('+${rentalStatus.getRentalStatusId()}+')'"
                        class="btn btn-danger">수락하기</a></td>
@@ -247,31 +260,30 @@
             </tr>
             </tbody>
         </table>
-
     </div>
 </div>
 
-<div class="modal-container" id="rentalObjectModal" th:fragment="modal">
-    <div class="modal-content">
-        <span class="close" id="closeRentalModalButton" data-bs-target="#rentalObjectModal">&times;</span>
+<!--<div class="modal-container" id="rentalObjectModal" th:fragment="modal">-->
+<!--    <div class="modal-content">-->
+<!--        <span class="close" id="closeRentalModalButton" data-bs-target="#rentalObjectModal">&times;</span>-->
 
-        <h2 style="color: #000000;">대여 목록</h2>
-        <table class="table datatable">
-            <thead>
-            <tr>
-                <th>대여한게시물제목</th>
-                <th>빌리고싶은사람</th>
-                <th>빌리고싶은날짜</th>
-                <!--                        <th>빌리고싶은시간</th>-->
-                <!--                        <th>반납시간</th>-->
-                <!--                        <th>상태선택</th>-->
-            </tr>
-            </thead>
-            <tbody id="rentalStatusTableBody">
-            </tbody>
-        </table>
-    </div>
-</div>
+<!--        <h2 style="color: #000000;">대여 목록</h2>-->
+<!--        <table class="table datatable">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>대여한게시물제목</th>-->
+<!--                <th>빌리고싶은사람</th>-->
+<!--                <th>예약일</th>-->
+<!--                &lt;!&ndash;                        <th>예약시간</th>&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <th>반납시간</th>&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <th>상태선택</th>&ndash;&gt;-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody id="rentalStatusTableBody">-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 <!-- Vendor JS Files -->

@@ -4,6 +4,7 @@ import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
@@ -206,5 +207,14 @@ public class MemberService {
     public void verifyMember(String userId) {
         if (userId.isBlank() || !memberRepository.existsById(userId))
             throw new NotFoundMemberException("존재하지 않는 회원입니다.");
+    }
+
+    public List<MemberManageDto> memberManageList(List<Member> memberList, List<RentalObject> rentalObjectList) {
+        List<MemberManageDto> memberManageDtoList = new ArrayList<>();
+        for (Member member : memberList) {
+            MemberManageDto memberManageDto = new MemberManageDto(member, rentalObjectList);
+            memberManageDtoList.add(memberManageDto);
+        }
+        return memberManageDtoList;
     }
 }

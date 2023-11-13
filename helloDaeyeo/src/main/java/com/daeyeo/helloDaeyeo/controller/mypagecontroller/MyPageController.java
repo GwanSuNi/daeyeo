@@ -1,6 +1,7 @@
 package com.daeyeo.helloDaeyeo.controller.mypagecontroller;
 
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberDeleteDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberManageDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdatePwDto;
 import com.daeyeo.helloDaeyeo.dto.myPageDto.ModalStatusPendingDto;
@@ -8,10 +9,9 @@ import com.daeyeo.helloDaeyeo.dto.myPageDto.RentalObjectManageDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.RentalStatus;
-import com.daeyeo.helloDaeyeo.service.MemberService;
-import com.daeyeo.helloDaeyeo.service.RentalLogService;
-import com.daeyeo.helloDaeyeo.service.RentalObjectService;
-import com.daeyeo.helloDaeyeo.service.RentalStatusService;
+import com.daeyeo.helloDaeyeo.entity.WishList;
+import com.daeyeo.helloDaeyeo.repository.MemberRepository;
+import com.daeyeo.helloDaeyeo.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,11 +36,12 @@ import java.util.List;
 @Secured({"ROLE_ADMIN", "ROLE_OWNER", "ROLE_VIP_MEMBER", "ROLE_MEMBER"})
 @RequestMapping("/myPage")
 public class MyPageController {
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final RentalObjectService rentalObjectService;
     private final RentalStatusService rentalStatusService;
     private final RentalLogService rentalLogService;
-
+    private final WishListService wishListService;
 
     /***
      * id 값만 받아오면
@@ -133,8 +137,8 @@ public class MyPageController {
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
 
         String memberEmail = authentication.getName();
-//        List<Review> reviewList = memberService.reviewList(memberEmail);
-//        model.addAttribute("reviewList", reviewList);
+        List<WishList> wishList = wishListService.findAll(memberEmail);
+        model.addAttribute("wishList", wishList);
         return "/myPage/myWishList";
     }
 
@@ -159,8 +163,16 @@ public class MyPageController {
     public String rentalLog(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         String memberEmail = authentication.getName();
         Member member = memberService.findMember(memberEmail).get();
-        List<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusAfter(member);
-        model.addAttribute("rentalStatuses", rentalStatuses);
+        try {
+            List<RentalStatus> rentalStatuses = rentalStatusService.rentalStatusAfter(member);
+            model.addAttribute("rentalStatuses", rentalStatuses);
+        } catch (RuntimeException runtimeException) {
+//             서버가 계산하는데 시간걸려서 오류나가지구
+//             ConcurrentModificationException : null 이란 오류 발생
+//             주로 컬렉션을 동시에 수정하려는 상황에서 발생한다 해당 부분을 확인하고 동시성 문제를 수정하자
+//             스레드 간 동기화를 고려하거나 컬렉션 변경을 안전하게 수행해야 한다
+            return "redirect:/myPage/rentalLog";
+        }
         return "/myPage/rentalLog";
     }
 
@@ -177,13 +189,24 @@ public class MyPageController {
         String memberEmail = authentication.getName();
         // 해당 유저가 올린 모든 게시물을 갖고옴
         List<RentalObject> rentalObjectList = rentalObjectService.findAllMyRental(memberEmail);
-        // 유저가 올린 모든 게시물을
+        // 유저가 올린 모든 게시물을 파악하기위한것
         List<RentalObjectManageDto> rentalObjectManageDtoList = rentalObjectService.rentalObjectManagePage(rentalObjectList);
+        int sum = 0;
+        // 회원수익 값 넣는것
+        for (RentalObjectManageDto rentalObjectManageDto : rentalObjectManageDtoList) {
+            sum += rentalObjectManageDto.getEarnedMoney();
+            Member member = memberService.findMember(memberEmail).get();
+            member.setMoneyEarned(sum);
+            memberRepository.save(member);
+        }
         // Status를 나눔 사용하기 전에 게시물 신청인지 , 아니면 사용후의 게시물 신청인지
         List<RentalStatus> rentalStatusListBefore = rentalStatusService.beforeUse(rentalObjectList);
+
         List<RentalStatus> rentalStatusListAfter = rentalStatusService.afterUse(rentalObjectList);
+
         List<RentalStatus> rentalStatusList = rentalStatusService.beforeUseModal(rentalObjectList);
         List<RentalStatus> result = rentalStatusService.rentalStatusPendingList(rentalStatusList);
+
         model.addAttribute("rentalObjectManageDtoList", rentalObjectManageDtoList);
         model.addAttribute("rentalStatusListBefore", rentalStatusListBefore);
         model.addAttribute("rentalStatusListAfter", rentalStatusListAfter);
@@ -235,7 +258,26 @@ public class MyPageController {
                 .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
         model.addAttribute("isAdmin", isAdmin);
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
+        String memberEmail = authentication.getName();
+        List<RentalObject> rentalObjectList = rentalObjectService.findAllMyRental(memberEmail);
+        List<Member> memberList = new ArrayList<>();
+        List<String> memberIdList = new ArrayList<>();
+        for (RentalObject rentalObject : rentalObjectList) {
+            for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
+                memberIdList.add(rentalStatus.getMember().getUserEmail());
+            }
+        }
+//        List<String> memberIdList = new ArrayList<>();
+//        id 에 추가된 갯수가 사용횟수 memberList 뒤져서 예약횟수 넣음
+        Set<String> memberIdSet = new HashSet<>(memberIdList);
 
+        for (String memberId : memberIdSet) {
+            Member member = memberService.findMember(memberId).get();
+            memberList.add(member);
+        }
+
+        List<MemberManageDto> memberManageDtoList = memberService.memberManageList(memberList, rentalObjectList);
+        model.addAttribute("memberManageDtoList", memberManageDtoList);
 
         return "/myPage/memberManage";
     }

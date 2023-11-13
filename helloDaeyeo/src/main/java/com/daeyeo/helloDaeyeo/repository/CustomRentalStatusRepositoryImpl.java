@@ -38,6 +38,27 @@ public class CustomRentalStatusRepositoryImpl implements CustomRentalStatusRepos
         return sortedRentalStatuses;
     }
 
+    public List<RentalStatus> sortDate(List<RentalStatus> rentalStatusList) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        List<RentalStatus> sortedRentalStatuses = queryFactory.
+                selectFrom(rentalStatus)
+                .where(rentalStatus.in(rentalStatusList))
+                .orderBy(rentalStatus.rentalDate.asc())
+                .fetch();
+        return sortedRentalStatuses;
+    }
+
+    public List<RentalStatus> sortDateAndRentalObject(List<RentalStatus> rentalStatusList) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        List<RentalStatus> sortedRentalStatuses = queryFactory.
+                selectFrom(rentalStatus)
+                .where(rentalStatus.in(rentalStatusList))
+                .orderBy(rentalStatus.rentalDate.asc(), rentalStatus.rentalObject.objectName.asc())
+                .fetch();
+        return sortedRentalStatuses;
+    }
+
+
     private OrderSpecifier<?> getStatusPending(String sort) {
         Order order = Order.DESC;
         if (Status.PENDING.getLabel().equals(sort)) {

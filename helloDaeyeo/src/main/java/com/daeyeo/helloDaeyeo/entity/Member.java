@@ -25,7 +25,9 @@ public class Member implements UserDetails {
     List<RentalObject> rentalObjects = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     List<RentalStatus> rentalStatuses = new ArrayList<>();
-
+    @OneToMany(mappedBy = "member")
+    List<WishList> wishListList = new ArrayList<>();
+    
     @Embedded
     private Address memberAddress;
     private String phone;

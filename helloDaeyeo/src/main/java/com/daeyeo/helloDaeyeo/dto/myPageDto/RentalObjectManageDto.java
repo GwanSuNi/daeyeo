@@ -15,6 +15,7 @@ public class RentalObjectManageDto {
     private String objectName;
     private String address;
     private String detailAddress;
+    private int earnedMoney;
     private int statusCount;
     private int statusCompleted;
     private int statusPending;
@@ -26,6 +27,11 @@ public class RentalObjectManageDto {
         this.objectName = rentalobject.getObjectName();
         this.address = rentalobject.getAddress().getAddress();
         this.detailAddress = rentalobject.getAddress().getDetailAddress();
+        for (RentalStatus rentalStatus : rentalobject.getRentalStatuses()) {
+            if (rentalStatus.getStatus().getLabel().equals("완료")) {
+                this.earnedMoney += rentalobject.getUsageFee();
+            }
+        }
         this.statusCount = rentalobject.getRentalStatuses().size();
         List<RentalStatus> rentalStatusList = rentalobject.getRentalStatuses();
         for (RentalStatus rentalStatus : rentalStatusList) {

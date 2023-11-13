@@ -73,163 +73,60 @@ closeModalButton.addEventListener('click', () => {
 });
 
 
-    // 여기에서 JavaScript 코드를 실행
-    function showRentalStatusModal(objectIndex) {
-        var modal = document.getElementById('rentalStatusModal');
-        var statusList = document.getElementById('rentalStatusTableBody');
-        statusList.innerHTML = ""; // Clear the existing table rows
-
-        // Send an AJAX request to retrieve RentalStatus values for the selected RentalObject
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', "/myPage/ModalRentalStatus/" + objectIndex, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader(csrfHeader, csrfToken);
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var rentalStatusList = JSON.parse(xhr.responseText);
-                rentalStatusList.forEach(function (rentalStatus) {
-                    // Add rows to the table
-                    var row = document.createElement('tr');
-                    var cell1 = document.createElement('td');
-                    var cell2 = document.createElement('td');
-                    // var cell3 = document.createElement('td');
-                    // var cell4 = document.createElement('td');
-                    // var cell5 = document.createElement('td');
-                    var cell6 = document.createElement('td');
-
-                    cell1.textContent = rentalStatus.objectName;
-                    cell2.textContent = rentalStatus.userName;
-                    var dateString = rentalStatus.rentalDate;
-                    var date = new Date(dateString);
-                    var year = date.getFullYear();
-                    var month = String(date.getMonth() + 1).padStart(2, '0');
-                    var day = String(date.getDate()).padStart(2, '0');
-                    var formattedDate = year + "-" + month + "-" + day;
-
-                    // cell3.textContent = formattedDate;
-
-                    var startTime = new Date(rentalStatus.startTime);
-                    var dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][startTime.getDay()]; // 요일 구하기
-
-                    var formattedStartTime = startTime.getFullYear() + "년 " +
-                        (startTime.getMonth() + 1) + "월 " + startTime.getDate() + "일 " +
-                        dayOfWeek + " " + startTime.getHours() + "시 " + startTime.getMinutes() + "분";
-
-                    // cell4.textContent = formattedStartTime;
-
-                    var endTime = new Date(rentalStatus.endTime);
-                    var dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][endTime.getDay()]; // 요일 구하기
-
-                    var formattedEndTime = endTime.getFullYear() + "년 " +
-                        (endTime.getMonth() + 1) + "월 " + endTime.getDate() + "일 " +
-                        dayOfWeek + " " + endTime.getHours() + "시 " + endTime.getMinutes() + "분";
-
-                    // cell5.textContent = formattedEndTime;
-
-                    cell6.textContent = rentalStatus.status;
-
-                    row.appendChild(cell1);
-                    row.appendChild(cell2);
-                    // row.appendChild(cell3);
-                    // row.appendChild(cell4);
-                    // row.appendChild(cell5);
-                    row.appendChild(cell6);
-
-                    statusList.appendChild(row);
-                });
-
-                // Show the modal using Bootstrap's modal function
-                $('#rentalObjectModal').modal('show');
-            }
-        };
-
-        xhr.send();
-    }
-closeRentalModalButton.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-// const csrfToken = document.querySelector("meta[name='_csrf']").content;
-// const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+console.log('시간변환 코드가 실행되었습니다1.');
+var tdElements = document.getElementsByClassName('rentalDate'); // 클래스 이름으로 선택
+console.log(tdElements);
+// var executed = false;
+// window.addEventListener('DOMContentLoaded', function () {
+//     if (!executed) {
+//         executed = true;
+//         var tdElements = document.getElementsByClassName('rentalDate'); // 클래스 이름으로 선택
+//         console.log(tdElements);
+//         for (var i = 0; i < tdElements.length; i++) {
+//             var originalText = tdElements[i].textContent;
+//             var formattedDate = formatDateToLocalDate(originalText);
+//             tdElements[i].textContent = formattedDate;
+//         }
 //
-// fetch('/myPage/getModalRentalStatusList', {
-//     method: 'GET',
-//     headers: {
-//         [csrfHeader]: csrfToken
+//         // startTime와 endTime에 대한 변환도 동일한 방식으로 수행
+//         var startTimeElements = document.getElementsByClassName('startTime');
+//         console.log(startTimeElements);
+//         for (var i = 0; i < startTimeElements.length; i++) {
+//             var originalText = startTimeElements[i].textContent;
+//             var formattedTime = formatLocalTimeToHoursMinutes(originalText);
+//             startTimeElements[i].textContent = formattedTime;
+//         }
+//         var endTimeElements = document.getElementsByClassName('endTime');
+//         console.log(endTimeElements);
+//         for (var i = 0; i < endTimeElements.length; i++) {
+//             var originalText = endTimeElements[i].textContent;
+//             var formattedTime = formatLocalTimeToHoursMinutes(originalText);
+//             endTimeElements[i].textContent = formattedTime;
+//         }
 //     }
-// })
-//     .then(response => response.json())
-//     .then(data => {
-//         let modalContainer = document.getElementById('modalContainer');
-//         modalContainer.innerHTML = data;
-//
-//     })
-//     .catch(error => {
-//         console.error('데이터 가져오기 중 오류 발생: ' + error);
-//     });
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     openModalButton.addEventListener('click', function () {
-//         modal.style.display = 'flex';
-//         const csrfToken = document.querySelector("meta[name='_csrf']").content;
-//         const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
-//
-//         fetch('/myPage/getModalRentalStatusList', {
-//             method: 'GET',
-//             headers: {
-//                 [csrfHeader]: csrfToken
-//             }
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 // 데이터를 받아와서 모달 내의 요소에 할당
-//                 let rentalStatusTableBody = document.getElementById('rentalStatusTableBody');
-//                 rentalStatusTableBody.innerHTML = '';
-//                 // for (let i = 0; i < data.length; i++) {
-//                 //     let rentalStatus = data[i]
-//                 //     // 새로운 <tr> 요소를 생성하고 데이터를 각 <td> 요소에 추가
-//                 //     let rentalStatusRow = document.createElement('tr');
-//                 //     rentalStatusRow.innerHTML = `
-//                 //     <td th:text="${rentalStatus.objectName}"></td>
-//                 //     <td th:text="${rentalStatus.nickname}"></td>
-//                 //     <td th:text="${rentalStatus.rentalDate}"></td>
-//                 //     <td th:text="${rentalStatus.startTime}"></td>
-//                 //     <td th:text="${rentalStatus.endTime}"></td>
-//                 //     <td th:text="${rentalStatus.label}"></td>
-//                 //     `
-//
-//                 data.forEach((status) => {
-//                     let objectName = document.createElement('td');
-//                     objectName.value = status.objectName;
-//                     objectName.text = status.objectName;
-//                     let nickname = document.createElement('td');
-//                     nickname.value = status.nickname;
-//                     nickname.text = status.nickname;
-//                     let rentalDate = document.createElement('td');
-//                     rentalDate.value = status.rentalDate;
-//                     rentalDate.text = status.rentalDate;
-//                     let startTime = document.createElement('td');
-//                     startTime.value = status.startTime;
-//                     startTime.text = status.startTime;
-//                     let endTime = document.createElement('td');
-//                     endTime.value = status.endTime;
-//                     endTime.text = status.endTime;
-//                     let label = document.createElement('td');
-//                     label.value = status.status;
-//                     label.text = status.status;
-//                     rentalStatusTableBody.appendChild(objectName);
-//                     rentalStatusTableBody.appendChild(nickname);
-//                     rentalStatusTableBody.appendChild(rentalDate);
-//                     rentalStatusTableBody.appendChild(startTime);
-//                     rentalStatusTableBody.appendChild(endTime);
-//                     rentalStatusTableBody.appendChild(label);
-//                 });
-//             })
-//             .catch(error => {
-//                 console.error('데이터 가져오기 중 오류 발생: ' + error);
-//             });
-//     });
-//     closeModalButton.addEventListener('click', () => {
-//         modal.style.display = 'none';
-//     });
 // });
+//
+//
+// // isValidDate 함수는 이전과 동일하게 사용
+//
+// // isValidDate, formatDateToYearMonthDay, formatTimeToHoursMinutes 함수는 이전 코드와 동일하게 작성합니다.
+// function isValidDate(dateString) {
+//     var pattern = /^\d{4}-\d{2}-\d{2}$/;
+//     return pattern.test(dateString);
+// }
+//
+// function formatDateToLocalDate(localDate) {
+//     console.log('시간변환 코드가 실행되었습니다.rentalDate');
+//     var year = localDate.year();
+//     var month = localDate.monthValue();
+//     var day = localDate.dayOfMonth();
+//     return year + '년 ' + month + '월 ' + day + '일';
+// }
+//
+// function formatLocalTimeToHoursMinutes(localTime) {
+//     console.log('시간변환 코드가 실행되었습니다.localDate');
+//     var localDateTime = LocalDateTime.parse(localTime);
+//     var formattedTime = localDateTime.getHours() + '시 ' + localDateTime.getMinutes() + '분';
+//     return formattedTime
+// }
+
