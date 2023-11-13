@@ -86,6 +86,16 @@ public class UserService {
         return false;
     }
 
+    @Transactional
+    public boolean deleteMemberByAdmin(String userEmail) {
+        Member member = findByUserEmail(userEmail);
+        if (member != null) {
+            memberRepository.delete(member);
+            return true;
+        }
+        return false;
+    }
+
     public boolean comparePassword(String userEmail, String password) {
         Member member = findByUserEmail(userEmail);
         if (member != null) {
