@@ -18,7 +18,7 @@ public enum Role {
         int minRankDiff = Integer.MAX_VALUE;
 
         for (Role role : roles) {
-            int rankDiff = Math.abs(role.getRank() - 0); // 현재 역할의 랭크와 0과의 차이 계산
+            int rankDiff = Math.abs(role.getRank()); // 현재 역할의 랭크와 0과의 차이 계산
             if (rankDiff < minRankDiff) {
                 minRankDiff = rankDiff;
                 closestRole = role;

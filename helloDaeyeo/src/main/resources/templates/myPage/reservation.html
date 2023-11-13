@@ -25,7 +25,7 @@
 
 <div class="body_container">
     <!-- Thymeleaf에서 include 문은 th:include 속성을 사용하여 처리합니다. -->
-    <div th:include="/includes/header"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <div class="main_content">
 
 
