@@ -59,14 +59,15 @@ public class UserService {
 
     // TODO: 어드민 페이지 모달에서 유저 비밀번호를 변경할 수 있게, 어드민 본인 비밀번호도 변경할 수 있게 화면 만들기
     @Transactional
-    public Member updateMemberPassword(String userEmail, String newPw) {
+    public boolean updateMemberPassword(String userEmail, String newPw) {
         Member member = memberRepository.findByUserEmail(userEmail).orElse(null);
         if (member != null) {
             member.setUserPw(bCryptPasswordEncoder.encode(newPw));
             memberRepository.save(member);
             log.info("{}에 대해 비밀번호 변경 성공", member);
+            return true;
         }
-        return member;
+        return false;
     }
 
     public Member findByUserEmail(String userEmail) {
