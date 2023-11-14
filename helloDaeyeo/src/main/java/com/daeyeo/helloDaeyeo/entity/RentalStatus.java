@@ -20,7 +20,7 @@ public class RentalStatus {
     // review 키의 주인
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rentalStatusId;
+    private Long rentalStatusId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Member member;
@@ -44,6 +44,9 @@ public class RentalStatus {
     // 대여하는 날짜
     private LocalDate rentalDate;
 
+    // 결제금액
+    private int payment;
+
     public void setMember(Member member) {
         this.member = member;
         member.getRentalStatuses().add(this);
@@ -58,5 +61,4 @@ public class RentalStatus {
         this.review = review;
         review.getRentalStatus().setReivew(review);
     }
-
 }
