@@ -136,14 +136,18 @@
                                 <tr>
                                     <th>접수기간</th>
                                     <td>
-                                        <span class="receipt-start-duration" th:text="${rentalObject.applicationPeriod.startDate}"></span>
+                                        <span th:text="${rentalObject.applicationPeriod.startDate}"></span>
                                         ~
-                                        <span class="receipt-end-duration" th:text="${rentalObject.applicationPeriod.endDate}"></span>
+                                        <span th:text="${rentalObject.applicationPeriod.endDate}"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용기간</th>
-                                    <td id="usage-period" th:text="${rentalObject.usagePeriod.startDate} + ' ~ ' + ${rentalObject.usagePeriod.endDate}"></td>
+                                    <td id="usage-period">
+                                        <span th:text="${rentalObject.usagePeriod.startDate}"></span>
+                                        ~
+                                        <span th:text="${rentalObject.usagePeriod.endDate}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>이용시간</th>
@@ -289,7 +293,7 @@
 <!-- FullCalendar JS File -->
 <script th:src="@{/js/rental/index.global.js}"></script>
 <!-- Kakao Maps API -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb2580abb9ad006dfbbb928129fffcd9&libraries=services,clusterer,drawing">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb2580abb9ad006dfbbb928129fffcd9&libraries=services,clusterer,drawing"></script>
 <!-- JS File -->
 <script th:src="@{/js/rental/rentalWrite.js}"></script>
 </html>

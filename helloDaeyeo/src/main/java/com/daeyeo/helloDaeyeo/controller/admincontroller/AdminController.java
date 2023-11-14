@@ -1,13 +1,12 @@
 package com.daeyeo.helloDaeyeo.controller.admincontroller;
 
-import com.daeyeo.helloDaeyeo.dto.adminDto.QuitUserRequestDto;
-import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
-import com.daeyeo.helloDaeyeo.dto.adminDto.TempPwDto;
+import com.daeyeo.helloDaeyeo.dto.adminDto.*;
 import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
 import com.daeyeo.helloDaeyeo.dto.memberDto.RentalForm;
 import com.daeyeo.helloDaeyeo.embedded.Address;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.Role;
+import com.daeyeo.helloDaeyeo.service.AdminService;
 import com.daeyeo.helloDaeyeo.service.MemberService;
 import com.daeyeo.helloDaeyeo.service.PeriodTestService;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
@@ -40,6 +39,7 @@ public class AdminController {
     private final MemberService memberService;
     private final UserService userService;
     private final PeriodTestService periodTestService;
+    private final AdminService adminService;
 
     @GetMapping("/")
     public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
@@ -195,4 +195,50 @@ public class AdminController {
         }
     }
 
+    /**
+     * 회원이 대여한 내역을 조회하는 컨트롤러 메서드
+     *
+     * @param userEmail pathVariable로 받은 회원
+     * @return 조회한 대여 내역과 상태 코드 200 ok를 반환. 조회된 내역이 없어도 빈 리스트 반환
+     */
+    @GetMapping("/memberRentals/{userEmail}")
+    public ResponseEntity<List<MemberRentalsResponseDto>> getMemberRentals(@PathVariable String userEmail) {
+        List<MemberRentalsResponseDto> responseDtos = adminService.findMemberRentals(userEmail);
+
+        return ResponseEntity.ok(responseDtos);
+    }
+
+    /**
+     * 회원이 등록한 대여 항목을 조회하는 컨트롤러 메서드
+     *
+     * @param userEmail pathVariable로 받은 회원
+     * @return 조회한 대여 항목과 상태 코드 200 ok를 반환. 조회된 대여 항목이 없어도 빈 리스트 반환
+     */
+    @GetMapping("/memberRegistrations/{userEmail}")
+    public ResponseEntity<List<MemberRegistrationsResponseDto>> getMemberRegistrations(@PathVariable String userEmail) {
+        List<MemberRegistrationsResponseDto> responseDtos = adminService.findMemberRegistrations(userEmail);
+
+        return ResponseEntity.ok(responseDtos);
+    }
+
+    /**
+     * 모든 회원의 대여 게시글을 조회하여 모델에 추가하고 adminPostPage를 반환하는 메서드
+     *
+     * @param model 뷰에 데이터를 제공하는 Model 객체
+     * @return adminPostPage 뷰
+     */
+    @GetMapping("/rentalWrites")
+    public String AllMembersRentalWrites(Model model) {
+        List<AllMembersRentalWritesResponseDto> responseDtos = adminService.findAllMembersRentalWrites();
+        model.addAttribute("rentalWrites", responseDtos);
+
+        return "adminpage/adminPostPage";
+    }
+
+    @GetMapping("/rentalWriteDetail/{objectIndex}")
+    public ResponseEntity<RentalWriteDetailResponseDto> getRentalWriteDetail(@PathVariable Long objectIndex) {
+        RentalWriteDetailResponseDto responseDto = adminService.getRentalWriteDetail(objectIndex);
+
+        return ResponseEntity.ok(responseDto);
+    }
 }
