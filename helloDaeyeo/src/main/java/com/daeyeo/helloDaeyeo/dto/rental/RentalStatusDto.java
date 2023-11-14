@@ -14,14 +14,14 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @Builder
 public class RentalStatusDto {
-
-    private int rentalStatusId;
+    private Long rentalStatusId;
     private String userEmail;
     private Long objectIndex;
     private Status status;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDate rentalDate;
+    private int payment;
 
     /***
      * 폼에서 입력받아온 시간값을 검증하고 RentalDto에 넣어줌

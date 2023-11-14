@@ -16,4 +16,8 @@ public interface RentalStatusRepository extends JpaRepository<RentalStatus, Inte
             "WHERE r.status = 'PENDING' " +
             "ORDER BY r.rentalDate ASC")
     List<RentalStatus> findPendingRentalStatus();
+
+    List<RentalStatus> findByMember_UserEmail(String userEmail);
+
+    List<RentalStatus> findByRentalObject_ObjectIndex(Long objectIndex);
 }

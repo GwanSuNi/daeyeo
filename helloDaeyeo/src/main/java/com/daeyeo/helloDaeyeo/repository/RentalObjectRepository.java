@@ -10,4 +10,5 @@ import java.util.List;
 public interface RentalObjectRepository extends JpaRepository<RentalObject, Long>, CustomRentalObjectRepository {
     //    List<RentalObject> findRentalObjectsByDto(SearchSpecDto dto);
     List<RentalObject> findAll();
+    List<RentalObject> findByMember_UserEmail(String userEmail);
 }
