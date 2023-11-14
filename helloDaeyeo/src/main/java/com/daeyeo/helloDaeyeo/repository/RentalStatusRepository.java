@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentalStatusRepository extends JpaRepository<RentalStatus,Integer> {
-    List<RentalStatus> findByMember(Member member);
+    List<RentalStatus> findByMember_UserEmail(String userEmail);
+    List<RentalStatus> findByRentalObject_ObjectIndex(Long objectIndex);
 }
