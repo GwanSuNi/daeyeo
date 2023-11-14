@@ -137,9 +137,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 2자리로 만듭니다
     let formattedDate = year + '-' + month + '-' + day;
     let receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
-    // if (receiptStartDuration < formattedDate) {
-    //     receiptStartDuration = formattedDate;
-    // }
+    if (receiptStartDuration < formattedDate) {
+        receiptStartDuration = formattedDate;
+    }
 
     const receiptEndDuration = document.querySelector('#usage-period > span:last-child').innerText;
     let calendarEl = document.getElementById('calendar');

@@ -89,7 +89,7 @@
                         <input type="text" class="txt" th:field="*{address.detailAddress}">
                         <p th:if="${#fields.hasErrors('address.detailAddress')}" th:errors="*{address.detailAddress}">Incorrect date</p>
                         <a class="a-btn find-address-btn" data-bs-toggle="modal"
-                           data-bs-target="#modalDialogScrollable">주소 찾기</a>
+                           data-bs-target="#modalDialogScrollable">주소</a>
                     </div>
                 </li>
                 <!-- Modal Dialog Scrollable -->
@@ -194,6 +194,8 @@
             <div class="btn-box">
                 <input type="submit" class="btn btn-primary btn-user btn-block"
                        value="등록하기">
+                <input type="button" id="test" class="btn btn-primary btn-user btn-block"
+                       value="test">
             </div>
         </div>
     </form>

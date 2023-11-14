@@ -1,14 +1,12 @@
-
 let subCategorySelect = document.getElementById('subCategorySelect');
 let mainCategorySelect = document.getElementById('mainCategorySelect');
 const csrfToken = document.querySelector("meta[name='_csrf']").content;
 const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
 
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // 위의 JavaScript 코드를 여기에 래핑
-    subCategorySelect.addEventListener('change', function() {
+    subCategorySelect.addEventListener('change', function () {
 // html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
         let selectedValue = subCategorySelect.value;
         document.getElementById("scId").value = selectedValue;
@@ -48,12 +46,12 @@ mainCategorySelect.addEventListener('change', () => {
     xhr.send();
 });
 
-subCategorySelect.addEventListener('change', () => {
-    // 선택한 옵션의 값을 firstName 필드에 추가
-    let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];
-    let selectedValue = selectedOption.value;
-    document.getElementById('firstName').value = dynamicData[selectedValue];
-});
+// subCategorySelect.addEventListener('change', () => {
+//     // 선택한 옵션의 값을 firstName 필드에 추가
+//     let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];
+//     let selectedValue = selectedOption.value;
+//     document.getElementById('firstName').value = dynamicData[selectedValue];
+// });
 
 
 // const category0 = ['공간시설', '개인대여'];
@@ -105,61 +103,71 @@ subCategorySelect.addEventListener('change', () => {
 //     }
 // };
 
-Dropzone.options.myDropzone = {
-    paramName: "files",
-    url: "/rentals/rentalRegistrationForm",
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 5,
-    maxFiles: 5,
-    addRemoveLinks: true,
-    acceptedFiles: '.png,.jpg',
-    dictDefaultMessage: "Drop your files here or click to upload",
-    init: function () {
-        var myDropzone = this;
 
-        document.querySelector("button[type=submit]").addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // FormData 생성
-            var formData = new FormData(document.querySelector('form'));
-            formData.append(csrfHeader, csrfToken);
-            // 업로드한 파일들을 FormData에 추가
-            myDropzone.files.forEach(function (file, index) {
-                formData.append('files', file);  // 'files'로 변경
-            });
-
-            // Ajax를 사용하여 서버에 전송
-            $.ajax({
-                url: "/rentals/rentalRegistrationForm",
-                method: "POST",
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-
-            myDropzone.processQueue();
-        });
-
-        this.on("complete", function (file) {
-            myDropzone.removeFile(file);
-        });
-    }
-};
-
-
-
-
-
-
-
+console.log(document.querySelector("#myDropzone"))
+    Dropzone.options.myDropzone = {
+        paramName: "files",
+        url: "/rentals/rentalRegistrationForm1",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 5,
+        maxFiles: 5,
+        addRemoveLinks: true,
+        acceptedFiles: '.png,.jpg',
+        dictDefaultMessage: "Drop your files here or click to upload",
+        init: function () {
+            var myDropzone = this;
+            var submitButton = document.getElementById('test');
+            if (submitButton) {
+                submitButton.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // FormData 생성
+                    var formData = new FormData(document.querySelector('form'));
+                    formData.enctype = 'multipart/form-data';
+                    formData.append(csrfHeader, csrfToken);
+                    // 업로드한 파일들을 FormData에 추가
+                    console.log(myDropzone.files)
+                    console.log("step1")
+                    myDropzone.files.forEach(function (file, index) {
+                        console.log("step2 파일 넣기")
+                        formData.append('files', file);
+                    });
+                    console.log("서버전송")
+                    // Ajax를 사용하여 서버에 전송
+                    var xhr = new XMLHttpRequest();
+                    console.log("서버전송1")
+                    xhr.open("POST", "/rentals/rentalRegistrationForm1", true);
+                    console.log("서버전송 헤더추가")
+                    xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                    xhr.setRequestHeader("Content-Type", "multipart/form-data"); // 변경된 부분
+                    console.log("보내기시작")
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                // 성공했을 때 실행할 코드
+                                console.log("POST 요청 성공");
+                                var response = JSON.parse(xhr.responseText);
+                                console.log(response);
+                            } else {
+                                // 실패했을 때 실행할 코드
+                                console.error("POST 요청 실패");
+                            }
+                        }
+                    };
+                    console.log("보냄")
+                    xhr.send(formData);
+                    console.log("processQueue")
+                    myDropzone.processQueue();
+                });
+                console.log("성공")
+                this.on("complete", function (file) {
+                    myDropzone.removeFile(file);
+                });
+            }
+        }
+    };
 
 const txtEditor = document.querySelectorAll('.txt-editor');
 
@@ -258,30 +266,30 @@ findAddressBtn.addEventListener('click', (event) => {
 
 
 // 등록하기
-const registration = document.querySelector('.registration');
-const registrationForm = document.querySelector('.container');
-
-registration.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    const phone = document.querySelector('.phone').children;
-    const representNum = document.querySelector("input[name='representNum']")
-    let str = '';
-
-    for (let element of phone) {
-        if (element.tagName === "INPUT")
-            str += element.value;
-        else
-            str += element.innerText;
-    }
-
-    representNum.value = str;
-
-    txtEditor.forEach((element) => {
-        const editor = element.contentWindow.document.querySelector('.ql-editor');
-        const input = element.nextElementSibling;
-
-        input.value = editor.innerHTML;
-    });
-    registrationForm.submit();
-})
+// const registration = document.querySelector('.registration');
+// const registrationForm = document.querySelector('.container');
+//
+// registration.addEventListener('click', (event) => {
+//     event.preventDefault();
+//
+//     const phone = document.querySelector('.phone').children;
+//     const representNum = document.querySelector("input[name='representNum']")
+//     let str = '';
+//
+//     for (let element of phone) {
+//         if (element.tagName === "INPUT")
+//             str += element.value;
+//         else
+//             str += element.innerText;
+//     }
+//
+//     representNum.value = str;
+//
+//     txtEditor.forEach((element) => {
+//         const editor = element.contentWindow.document.querySelector('.ql-editor');
+//         const input = element.nextElementSibling;
+//
+//         input.value = editor.innerHTML;
+//     });
+//     registrationForm.submit();
+// })

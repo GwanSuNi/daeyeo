@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/db/H2/data;
+    url: jdbc:h2:tcp://localhost/~/daeyeo;
     #    Mode는 MYSQL 호환모드 # Auto_Server true 시 다중접속 허용
     #    url: jdbc:h2:file:./db/H2/data;MODE=MySQL;AUTO_SERVER=true
     #    url: jdbc:h2:mem:demo

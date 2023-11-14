@@ -26,8 +26,11 @@ public class MemberManageDto {
         for (RentalObject rentalObject : rentalObjectList) {
             for (RentalStatus rentalStatus : rentalObject.getRentalStatuses()) {
                 if (rentalStatus.getMember().getUserEmail().equals(member.getUserEmail())) {
-                    this.paySum += rentalObject.getUsageFee();
                     this.statusCount += 1;
+                    if (rentalStatus.getStatus().getLabel().equals("완료") ||
+                            rentalStatus.getStatus().getLabel().equals("수락")) {
+                        this.paySum += rentalObject.getUsageFee();
+                    }
                 }
             }
         }

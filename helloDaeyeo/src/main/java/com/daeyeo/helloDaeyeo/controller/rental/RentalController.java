@@ -203,16 +203,16 @@ public class RentalController {
      * @return
      */
     @PostMapping(value = "rentalRegistrationForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
-                                   rentalRegisterFormDto, BindingResult bindingResult,
-                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication
-            , @RequestParam("files") List<MultipartFile> files) {
+    public String register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
+            rentalRegisterFormDto, BindingResult bindingResult,
+                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
         // 권한을 컬렉션에서 확인
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
         model.addAttribute("isAdmin", isAdmin);
 
+//        System.out.println(files + "===========files입니다!!!!");
 
         if (bindingResult.hasErrors()) {
             return "redirect:/rentals/rentalRegistrationForm";
@@ -226,7 +226,22 @@ public class RentalController {
         rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto);
-        return "redirect:/rentals/list";
+//        return "redirect:/rentals/list";
+        return null;
+    }
+
+    @PostMapping(value = "rentalRegistrationForm1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String register123(@RequestParam(value = "files", required = false) List<MultipartFile> files, @CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                              Model model) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
+        System.out.println(files + "===========files입니다!!!!");
+
+        return null;
     }
 
     @GetMapping("cancelWish/{rentalObjectId}/{memberId}")
@@ -234,6 +249,8 @@ public class RentalController {
     public String cancelWish(@PathVariable("rentalObjectId") long rentalObjectId,
                              @PathVariable("memberId") String memberId) {
         try {
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalObjectId);
+            rentalObject.setVisitCount(rentalObject.getVisitCount() - 1);
             WishList wishList = wishListService.findWish(rentalObjectId, memberId);
             wishListService.deleteWishList(wishList.getWishIndex());
             return "redirect:/rentals/write/" + rentalObjectId;
@@ -248,6 +265,8 @@ public class RentalController {
     public String wish(@PathVariable("rentalObjectId") long rentalObjectId,
                        @PathVariable("memberId") String memberId) {
         try {
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalObjectId);
+            rentalObject.setVisitCount(rentalObject.getVisitCount() - 1);
             wishListService.insertWishList(rentalObjectId, memberId);
             return "redirect:/rentals/write/" + rentalObjectId;
         } catch (Exception e) {
