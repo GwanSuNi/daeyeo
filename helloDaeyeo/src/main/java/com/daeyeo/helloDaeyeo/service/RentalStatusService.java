@@ -36,9 +36,25 @@ public class RentalStatusService {
         rentalStatusRepository.save(rentalStatus);
     }
 
-    public List<RentalStatusDto> getRentalStatuses(String userEmail) {
-        Member member = memberMapper.toEntity(memberService.getMember(userEmail));
-        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByMember(member);
+    /**
+     * userEmail로 rentalStatus를 조회하는 메서드
+     * @param userEmail 회원
+     * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
+     */
+    public List<RentalStatusDto> findRentalStatuses(String userEmail) {
+        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByMember_UserEmail(userEmail);
+        // 조회된 rentalStatus가 없을 경우 빈 리스트를 반환하기 때문에 따로 예외 처리 안 함
+
+        return rentalStatusMapper.toDtoList(rentalStatuses);
+    }
+
+    /**
+     * objectIndex로 rentalStatus를 조회하는 메서드
+     * @param objectIndex rentalObject의 objectIndex
+     * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
+     */
+    public List<RentalStatusDto> findRentalStatuses(Long objectIndex) {
+        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByRentalObject_ObjectIndex(objectIndex);
 
         return rentalStatusMapper.toDtoList(rentalStatuses);
     }

@@ -10,6 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface RentalObjectMapper {
     @Mapping(source = "subCategory.mainCategory.mcId", target = "mcId")
@@ -18,6 +20,8 @@ public interface RentalObjectMapper {
     RentalObjectDto toDto(RentalObject rentalObject);
 
     RentalObject toEntity(RentalRegisterDto rentalRegisterDto, SubCategory subCategory, Member member);
+
+    List<RentalObjectDto> toDtoList(List<RentalObject> rentalObjects);
 
     @AfterMapping
     default void setSubCategory(SubCategory subCategory, @MappingTarget RentalObject rentalObject) {

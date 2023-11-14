@@ -61,6 +61,19 @@ public class RentalObjectService {
         return rentalObjectMapper.toDto(rentalObject);
     }
 
+    /**
+     * userEmail로 rentalObject를 조회하는 메서드
+     *
+     * @param userEmail 회원
+     * @return rentalObject 리스트를 rentalObjectDto 리스트로 변환하여 반환
+     */
+    public List<RentalObjectDto> getRentalObjects(String userEmail) {
+        List<RentalObject> rentalObjects = rentalObjectRepository.findByMember_UserEmail(userEmail);
+        // 조회된 rentalObject가 없을 경우 빈 리스트를 반환하기 때문에 따로 예외 처리 안 함
+
+        return rentalObjectMapper.toDtoList(rentalObjects);
+    }
+
     public List<RentalObjectDto> getRentalObjects(List<RentalStatusDto> rentalStatusDtos) {
         List<RentalObjectDto> rentalObjectDtos = new ArrayList<>();
 
@@ -84,8 +97,9 @@ public class RentalObjectService {
         return pagedRentalObjects.map(rentalObjectMapper::toDto);
     }
 
-    public List<RentalObject> findAll() {
-        List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
-        return rentalObjectList;
+    public List<RentalObjectDto> findAll() {
+        List<RentalObject> rentalObjects = rentalObjectRepository.findAll();
+
+        return rentalObjectMapper.toDtoList(rentalObjects);
     }
 }
