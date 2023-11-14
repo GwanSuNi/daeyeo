@@ -64,7 +64,7 @@ public class UserViewController {
             categories.put(mainCategory.getMcId(), subCategories.stream().map(SubCategoryDto::getScId).collect(Collectors.toList()));
         }
 
-        List<RentalStatusDto> rentalStatusDtos = rentalStatusService.getRentalStatuses(authentication.getName());
+        List<RentalStatusDto> rentalStatusDtos = rentalStatusService.findRentalStatuses(authentication.getName());
         List<RentalObjectDto> rentalObjectDtos = rentalObjectService.getRentalObjects(rentalStatusDtos);
 
         model.addAttribute("categories", categories);
