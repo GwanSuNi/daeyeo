@@ -28,7 +28,7 @@
     <!-- Template Main CSS File -->
     <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/css/adminpage/modal.css}">
+    <link th:href="@{/css/adminpage/modal.css}" rel="stylesheet" >
     <meta charset="UTF-8">
     <title>어드민 메인페이지</title>
 </head>
@@ -120,7 +120,7 @@
             <ul id="content-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
                 <li>
-                    <a th:href="@{/adminpage/adminPost}">
+                    <a th:href="@{/adminpage/rentalWrites}">
                         <i class="bi bi-circle"></i><span>전체 게시물</span>
                     </a>
                 </li>
@@ -322,6 +322,49 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="rental-tab" data-bs-toggle="tab" data-bs-target="#bordered-rental" type="button" role="tab" aria-controls="rental" aria-selected="true">대여 내역</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="registration-tab" data-bs-toggle="tab" data-bs-target="#bordered-registration" type="button" role="tab" aria-controls="registration" aria-selected="false">대여 등록 내역</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content pt-2" id="borderedTabContent">
+                                    <div class="tab-pane fade show active" id="bordered-rental" role="tabpanel" aria-labelledby="rental-tab">
+                                        <table class="table datatable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">대여 번호</th>
+                                                <th scope="col">대여글 번호</th>
+                                                <th scope="col">대여 항목</th>
+                                                <th scope="col">대여 제공자</th>
+                                                <th scope="col">대여 상태</th>
+                                                <th scope="col">결제금액</th>
+                                                <th scope="col">대여 시작일</th>
+                                                <th scope="col">대여 종료일</th>
+                                                <th scope="col">예약일</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="bordered-registration" role="tabpanel" aria-labelledby="registration-tab">
+                                        <table class="table datatable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">대여글 번호</th>
+                                                <th scope="col">대여 항목</th>
+                                                <th scope="col">주소</th>
+                                                <th scope="col">대여 수입</th>
+                                                <th scope="col">대여 신청 횟수</th>
+                                                <th scope="col">대여 성사 횟수</th>
+                                                <th scope="col">방문자 수</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div><!-- End Bordered Tabs -->
                             </div>
                         </div>
                     </div>
@@ -353,4 +396,6 @@
 <script defer src="/js/adminpage/updateRoles.js"></script>
 <!--modal-->
 <script defer src="/js/adminpage/memberModal.js"></script>
+<!-- JS File -->
+<script defer th:src="@{/js/adminpage/adminMemberPage.js}" type="text/javascript"></script>
 </html>

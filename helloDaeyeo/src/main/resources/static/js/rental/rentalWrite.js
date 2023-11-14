@@ -126,8 +126,8 @@ navIndicator.addEventListener('click', (e) => {
 /* FullCalendar */
 document.addEventListener('DOMContentLoaded', function () {
     const rentalDate = document.getElementById('rentalDate');
-    const receiptStartDuration = document.querySelector('.receipt-start-duration').innerText;
-    const receiptEndDuration = document.querySelector('.receipt-end-duration').innerText;
+    const receiptStartDuration = document.querySelector('#usage-period > span:first-child').innerText;
+    const receiptEndDuration = document.querySelector('#usage-period > span:last-child').innerText;
     let calendarEl = document.getElementById('calendar');
     let calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
