@@ -230,16 +230,9 @@ public class RentalController {
         return null;
     }
 
-    @PostMapping(value = "rentalRegistrationForm1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String register123(@RequestParam(value = "files", required = false) List<MultipartFile> files, @CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                              Model model) {
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-
-        System.out.println(files + "===========files입니다!!!!");
+    @PostMapping(value = "rentalRegistrationForm1")
+    public String register123(@RequestParam(value = "files", required = false) List<MultipartFile> files) {
+        System.out.println(files.get(0) + "===========files입니다!!!!");
 
         return null;
     }

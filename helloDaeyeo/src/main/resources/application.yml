@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/daeyeo;
+    url: jdbc:h2:tcp://localhost/~/db/H2/data;
     #    Mode는 MYSQL 호환모드 # Auto_Server true 시 다중접속 허용
     #    url: jdbc:h2:file:./db/H2/data;MODE=MySQL;AUTO_SERVER=true
     #    url: jdbc:h2:mem:demo
@@ -24,12 +24,16 @@ spring:
   #    init:
   #      mode: always
   #  JSON 바인딩 라이브러리에서 LocalDateTime 바인딩 에러 해결을 위한 설정 (Jackson2ObjectMapperBuilder로 JavaTimeModule을 세팅해주니 ㄱㅊ음)
-#  jackson:
-#    serialization:
-#      write-dates-as-timestamps: false
-#    deserialization:
-#      adjust-dates-to-context-time-zone: false
-# TODO: 중요한 것은 아니지만 인스펙션 안뜨게 처리하기 https://namocom.tistory.com/599
+  #  jackson:
+  #    serialization:
+  #      write-dates-as-timestamps: false
+  #    deserialization:
+  #      adjust-dates-to-context-time-zone: false
+  # TODO: 중요한 것은 아니지만 인스펙션 안뜨게 처리하기 https://namocom.tistory.com/599.max-file-size=10MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 jwt:
   issuer: tony2yoo@gmail.com
   secret_key: study_springboot
