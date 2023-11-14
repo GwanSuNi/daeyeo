@@ -11,8 +11,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -89,7 +87,7 @@ public class MemberApiController {
     // TODO: DTO가 없어도 동작함, View 컨트롤러에 있는 /login만으로 통일하고 싶으나, redirect: 시 다른 클래스로 못가는 것이 현 문제
     @Operation(summary = "로그인 화면")
     @GetMapping("/memberLogin")
-    public String loginPage(@RequestParam(value = "error", required = false) String error, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
         // 로그인 실패 시 원인에 따른 분기
         if ("idpw".equals(error)) {
             // 아이디/비밀번호 불일치 에러 처리
@@ -101,8 +99,6 @@ public class MemberApiController {
             // 기타 에러 처리
             model.addAttribute("errorMessage", "알 수 없는 이유로 로그인에 실패했습니다. 관리자에게 문의하세요.");
         }
-        model.addAttribute("isLogined", !authentication.getName().equals("anonymousUser"));
-        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
         return "/login/memberLogin";
     }
 

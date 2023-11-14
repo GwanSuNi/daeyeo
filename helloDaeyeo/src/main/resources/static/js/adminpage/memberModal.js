@@ -33,9 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const closeBtn = document.querySelector('.close');
+    const modal = document.querySelector('.modal');
 
     closeBtn.addEventListener('click', function () {
-        const modal = document.querySelector('.modal');
         modal.style.display = 'none';
+    });
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
     });
 });

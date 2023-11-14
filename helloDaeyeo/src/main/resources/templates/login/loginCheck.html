@@ -7,20 +7,21 @@
 </head>
 <body>
 <p th:with="auth=${#authentication.getPrincipal()}"></p>
-<p>principal: <span sec:authentication="principal.username" ></span></p>
+
 <p th:text="${#authentication.name}"></p>
 <p th:text="${#authentication.authorities}"></p>
 <p th:text="${#authentication.authenticated}"></p>
 <hr>
 <!--ROLE_USER 권한을 갖는다면 이 글이 보임-->
-<h1 sec:authorize="hasRole('ADMIN')">Has admin Role</h1>
+<h1 sec:authorize="hasRole('ROLE_ADMIN')">Has admin Role</h1>
 
 <!--ROLE_ADMIN 권한을 갖는다면 이 글이 보임-->
-<h1 sec:authorize="hasRole('MEMBER')">Has member Role</h1>
+<h1 sec:authorize="hasRole('ROLE_MEMBER')">Has member Role</h1>
 
 <!--어떤 권한이건 상관없이 인증이 되었다면 이 글이 보임-->
 <div sec:authorize="isAuthenticated()">
     Only Authenticated user can see this Text
+    <p>principal: <span sec:authentication="principal.username"></span></p>
 </div>
 
 <!--인증시 사용된 객체에 대한 정보-->
@@ -33,7 +34,7 @@
 
 <!--객체의 권한-->
 <b>Authenticated user role:</b>
-<div sec:authentication="principal.authorities"></div>
+<div sec:authorize="isAuthenticated()" sec:authentication="principal.authorities"></div>
 <p> 로그인 : <span th:text="${isLogined}"></span></p>
 <p> 이메일 : <span th:text="${name}"></span></p>
 <p> 어드민 : <span th:text="${isAdmin}"></span></p>
