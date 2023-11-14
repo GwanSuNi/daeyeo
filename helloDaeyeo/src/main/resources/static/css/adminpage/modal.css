@@ -74,3 +74,7 @@
         height: 100%;
     }
 }
+
+#banDuration {
+    width: 80px;
+}
