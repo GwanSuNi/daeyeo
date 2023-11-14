@@ -271,8 +271,6 @@
                                                     <input type="password" class="form-control" th:field="*{newPw}">
                                                     <p th:if="${#fields.hasErrors('newPw')}" th:errors="*{newPw}">
                                                         Incorrect date</p>
-                                                    <div th:if="${notSamePwConfirm}" th:text="${notSamePwConfirm}"
-                                                         style="color: red;"></div>
                                                 </div>
                                             </div>
 

@@ -40,7 +40,7 @@ document.getElementById('suspendForm').addEventListener('submit', function (e) {
             document.getElementById('userName').textContent = updatedData.nickname;
             document.getElementById('userEmail').textContent = updatedData.userEmail;
             document.getElementById('userPhone').textContent = updatedData.phone;
-            document.getElementById('topRole').textContent = updatedData.topRole;
+            document.getElementById('roles').textContent = updatedData.roles;
             document.getElementById('registdate').textContent = updatedData.formattedRegistDate;
             document.getElementById('address').textContent = updatedData.formattedAddress;
 
