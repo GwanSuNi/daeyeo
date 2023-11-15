@@ -3,7 +3,6 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
-import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.Status;
 import com.daeyeo.helloDaeyeo.entity.WishList;
@@ -108,19 +107,12 @@ public class RentalController {
      * @return
      */
     @PostMapping("write/status.do")
-    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult,
-                                   Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         System.out.println("컨트롤러에 들어왔습니다.");
-        // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-//        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
-
         try {
+
             if (bindingResult.hasErrors()) {
+
                 redirectAttributes.addFlashAttribute("startTime", "시작시간을 입력해주세요");
                 redirectAttributes.addFlashAttribute("endTime", "끝나는 시간을 입력해주세요");
                 redirectAttributes.addFlashAttribute("rentalDate", "등록 날짜를 입력해주세요");
@@ -142,15 +134,16 @@ public class RentalController {
             boolean isInside = rentalStatusStartTime.compareTo(rentalObjectStartTime) >= 0 &&
                     rentalStatusEndTime.compareTo(rentalObjectEndTime) <= 0;
 
+            // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
             RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto, isInside);
             // 로그인한 유저의 아이디값을 넣음
             rentalStatusDto.setUserEmail(userEmail);
+            rentalStatusDto.setUserId(userService.findUserIdByUserEmail(userEmail));
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
                     rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
                 // 시간이 겹치지 않으므로 validPeriod는 true를 반환
                 rentalStatusDto.setStatus(Status.PENDING);
                 rentalStatusService.insertRentalStatus(rentalStatusDto);
-                Member member = memberService.findMember(userEmail).get();
             }
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();

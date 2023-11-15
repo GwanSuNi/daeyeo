@@ -19,6 +19,7 @@ public interface RentalObjectMapper {
     @Mapping(source = "member.id", target = "userId")
     RentalObjectDto toDto(RentalObject rentalObject);
 
+    @Mapping(source = "member.userEmail", target = "userEmail")
     RentalObject toEntity(RentalRegisterDto rentalRegisterDto, SubCategory subCategory, Member member);
 
     List<RentalObjectDto> toDtoList(List<RentalObject> rentalObjects);

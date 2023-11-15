@@ -10,6 +10,7 @@ import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalStatusMapper;
 import com.daeyeo.helloDaeyeo.repository.RentalStatusRepository;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -29,15 +30,18 @@ public class RentalStatusService {
     final private RentalObjectService rentalObjectService;
     final private RentalLogService rentalLogService;
     final private MemberService memberService;
+    final private UserService userService;
     final private RentalStatusMapper rentalStatusMapper;
     final private MemberMapper memberMapper;
     private final Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().modulesToInstall(new JavaTimeModule());
     private final ObjectMapper objectMapper = builder.build();
 
     public void insertRentalStatus(RentalStatusDto rentalStatusDto) {
-        Member member = memberMapper.toEntity(memberService.getMember(rentalStatusDto.getUserEmail()));
+//        Member member = memberMapper.toEntity(memberService.getMember(rentalStatusDto.getUserEmail()));
+        Member member = userService.findByUserId(rentalStatusDto.getUserId());
         RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalStatusDto.getObjectIndex());
         RentalStatus rentalStatus = rentalStatusMapper.toEntity(rentalStatusDto, member, rentalObject);
+        rentalStatus.setUserEmail(member.getUserEmail());
         rentalStatusRepository.save(rentalStatus);
         // rentalLog 생성
         rentalLogService.insertRentalLog(rentalStatus);
@@ -45,6 +49,7 @@ public class RentalStatusService {
 
     /**
      * userEmail로 rentalStatus를 조회하는 메서드
+     *
      * @param userEmail 회원
      * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
      */
@@ -57,6 +62,7 @@ public class RentalStatusService {
 
     /**
      * objectIndex로 rentalStatus를 조회하는 메서드
+     *
      * @param objectIndex rentalObject의 objectIndex
      * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
      */
