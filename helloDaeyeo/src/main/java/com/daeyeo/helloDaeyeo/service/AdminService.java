@@ -34,7 +34,7 @@ public class AdminService {
 
         for (RentalStatusDto statusDto : statusDtos) {
             // 조회한 rentalStatus의 objectIndex로 rentalObject를 조회
-            RentalObjectDto objectDto = rentalObjectService.getRentalObject(statusDto.getObjectIndex());
+            RentalObjectDto objectDto = rentalObjectService.getRentalObjectDto(statusDto.getObjectIndex());
             // 조회한 rentalStatus와 rentalObject를 mapper를 통해 memberRentalsResponse에 매핑
             responseDtos.add(adminMapper.toMemberRentalsResponseDto(objectDto, statusDto));
         }
@@ -99,7 +99,7 @@ public class AdminService {
     }
 
     public RentalWriteDetailResponseDto getRentalWriteDetail(Long objectIndex) {
-        RentalObjectDto objectDto = rentalObjectService.getRentalObject(objectIndex);
+        RentalObjectDto objectDto = rentalObjectService.getRentalObjectDto(objectIndex);
         List<RentalStatusDto> statusDtos = rentalStatusService.findRentalStatuses(objectIndex);
         List<RentalUsersDetailDto> usersDetailDtos = new ArrayList<>();
         int income = 0;

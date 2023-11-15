@@ -42,7 +42,7 @@ public class RentalObjectService {
         Member member = userService.findByUserId(dto.getUserId());
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
-
+        rentalObject.setUserEmail(member.getUserEmail()); // 임시
         rentalObjectRepository.save(rentalObject);
     }
 
@@ -57,7 +57,7 @@ public class RentalObjectService {
                 .orElseThrow(() -> new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
     }
 
-    public RentalObjectDto getRentalObject(long objectIndex) {
+    public RentalObjectDto getRentalObjectDto(long objectIndex) {
         RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
                 .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
 
@@ -81,7 +81,7 @@ public class RentalObjectService {
         List<RentalObjectDto> rentalObjectDtos = new ArrayList<>();
 
         for (RentalStatusDto rentalStatusDto : rentalStatusDtos)
-            rentalObjectDtos.add(getRentalObject(rentalStatusDto.getObjectIndex()));
+            rentalObjectDtos.add(getRentalObjectDto(rentalStatusDto.getObjectIndex()));
 
         return rentalObjectDtos;
     }

@@ -82,6 +82,10 @@ public class RentalController {
         RentalObject rentalObject = rentalObjectService.getOneRentalObject(objectId);
         rentalObject.setVisitCount(rentalObject.getVisitCount() + 1);
         rentalObjectRepository.save(rentalObject);
+
+        RentalObjectDto resultRentalObjectDto = rentalObjectService.getRentalObjectDto(objectId);
+        resultRentalObjectDto.setUserEmail(rentalObject.getUserEmail());
+
         String userEmail = authentication.getName();
         Boolean hasWish = wishListService.hasWishList(objectId, userEmail);
 
@@ -89,7 +93,7 @@ public class RentalController {
         rentalStatusFormDto.setObjectId(objectId);
         model.addAttribute("memberId", userEmail);
         model.addAttribute("hasWish", hasWish);
-        model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
+        model.addAttribute("rentalObject", resultRentalObjectDto);
         model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
     }
