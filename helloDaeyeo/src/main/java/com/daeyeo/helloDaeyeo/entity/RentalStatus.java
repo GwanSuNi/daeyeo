@@ -74,7 +74,6 @@ public class RentalStatus {
         this.endTimeString = formattedEndHour + "시 " + formattedEndMinute + "분";
     }
 
-
     public void setMember(Member member) {
         this.member = member;
         member.getRentalStatuses().add(this);

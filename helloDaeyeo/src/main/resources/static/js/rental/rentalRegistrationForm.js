@@ -104,70 +104,71 @@ mainCategorySelect.addEventListener('change', () => {
 // };
 
 
-console.log(document.querySelector("#myDropzone"))
-    Dropzone.options.myDropzone = {
-        paramName: "files",
-        url: "/rentals/rentalRegistrationForm1",
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 5,
-        maxFiles: 5,
-        addRemoveLinks: true,
-        acceptedFiles: '.png,.jpg',
-        dictDefaultMessage: "Drop your files here or click to upload",
-        init: function () {
-            var myDropzone = this;
-            var submitButton = document.getElementById('test');
-            if (submitButton) {
-                submitButton.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // FormData 생성
-                    var formData = new FormData(document.querySelector('form'));
-                    formData.enctype = 'multipart/form-data';
-                    formData.append(csrfHeader, csrfToken);
-                    // 업로드한 파일들을 FormData에 추가
-                    console.log(myDropzone.files)
-                    console.log("step1")
-                    myDropzone.files.forEach(function (file, index) {
-                        console.log("step2 파일 넣기")
-                        formData.append('files', file);
-                    });
-                    console.log("서버전송")
-                    // Ajax를 사용하여 서버에 전송
-                    var xhr = new XMLHttpRequest();
-                    console.log("서버전송1")
-                    xhr.open("POST", "/rentals/rentalRegistrationForm1", true);
-                    console.log("서버전송 헤더추가")
-                    xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                    xhr.setRequestHeader("Content-Type", "multipart/form-data"); // 변경된 부분
-                    console.log("보내기시작")
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                // 성공했을 때 실행할 코드
-                                console.log("POST 요청 성공");
-                                var response = JSON.parse(xhr.responseText);
-                                console.log(response);
-                            } else {
-                                // 실패했을 때 실행할 코드
-                                console.error("POST 요청 실패");
-                            }
-                        }
-                    };
-                    console.log("보냄")
-                    xhr.send(formData);
-                    console.log("processQueue")
+console.log(document.querySelector("#myDropzone"));
+Dropzone.options.myDropzone = {
+    paramName: "files",
+    url: "/rentals/rentalRegistrationForm1",
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 5,
+    maxFiles: 5,
+    maxFilesize: 10, // 10MB까지만
+    addRemoveLinks: true,
+    acceptedFiles: '.png,.jpg',
+    dictDefaultMessage: "Drop your files here or click to upload",
+    init: function () {
+        var myDropzone = this;
+        var submitButton = document.getElementById('test');
+
+        submitButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // FormData 생성
+            var formData = new FormData(document.getElementById('rentalRegisterForm'));
+
+            // 업로드한 파일들을 FormData에 추가
+            myDropzone.files.forEach((file, index) => {
+                formData.append('files', file);
+            });
+
+            // Ajax를 사용하여 서버에 전송
+            fetch("/rentals/rentalRegistrationForm1", {
+                method: "POST",
+                headers: {
+                    [csrfHeader]: csrfToken // CSRF 토큰을 요청 헤더에 포함
+                },
+                body: formData,
+            })
+                .then(handleErrors)
+                .then(function (response) {
+                    console.log("POST 요청 성공");
+                    var data = JSON.parse(response);
+                    console.log(data);
+                })
+                .catch(function (error) {
+                    console.error("POST 요청 실패");
+                    console.error(error);
+                })
+                .finally(function () {
+                    console.log("processQueue");
                     myDropzone.processQueue();
                 });
-                console.log("성공")
-                this.on("complete", function (file) {
-                    myDropzone.removeFile(file);
-                });
-            }
-        }
-    };
+        });
+
+        this.on("complete", function (file) {
+            myDropzone.removeFile(file);
+        });
+    },
+};
+
+function handleErrors(response) {
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+    return response.text();
+}
+
 
 const txtEditor = document.querySelectorAll('.txt-editor');
 

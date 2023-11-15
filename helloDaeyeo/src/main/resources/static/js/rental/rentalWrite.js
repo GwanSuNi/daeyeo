@@ -130,7 +130,6 @@ navIndicator.addEventListener('click', (e) => {
 /* FullCalendar */
 document.addEventListener('DOMContentLoaded', function () {
     const rentalDate = document.getElementById('rentalDate');
-
     let currentDate = new Date(); // 현재 날짜를 가져옵니다
     let year = currentDate.getFullYear();
     let month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 만듭니다
@@ -140,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (receiptStartDuration < formattedDate) {
         receiptStartDuration = formattedDate;
     }
-
     const receiptEndDuration = document.querySelector('#usage-period > span:last-child').innerText;
     let calendarEl = document.getElementById('calendar');
     let calendar = new FullCalendar.Calendar(calendarEl, {

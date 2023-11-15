@@ -21,7 +21,7 @@
 <body>
 <div class="wrapper">
     <div th:include="/includes/header"></div>
-    <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}" enctype="multipart/form-data">
+    <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}" enctype="multipart/form-data" id="rentalRegisterForm">
         <div class="content-title">대여 등록</div>
         <div class="content">
             <ul class="card">
@@ -211,5 +211,5 @@
 <!-- jquery library load-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- JS File -->
-<script th:src="@{/js/rental/rentalRegistrationForm.js}"></script>
+<script defer th:src="@{/js/rental/rentalRegistrationForm.js}"></script>
 </html>
