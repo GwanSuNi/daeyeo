@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
@@ -203,31 +204,27 @@ public class RentalController {
      * @return
      */
     @PostMapping(value = "rentalRegistrationForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
+    @ResponseBody
+    public ResponseEntity<String> register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
             rentalRegisterFormDto, BindingResult bindingResult,
-                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
+                                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
 
-//        System.out.println(files + "===========files입니다!!!!");
+        System.out.println(files + "===========files입니다!!!!");
 
-        if (bindingResult.hasErrors()) {
-            return "redirect:/rentals/rentalRegistrationForm";
-        } else if (rentalRegisterFormDto.getScId() == null) {
-            model.addAttribute("scIdChoice", "장소를 선택해주세요");
-            return "redirect:/rentals/rentalRegistrationForm";
-        }
-//        System.out.println(files.get(0) + "파일이다!!!!!!!=========================");
+//        if (bindingResult.hasErrors()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("날짜 설정을 다시해주세요");
+//        } else if (rentalRegisterFormDto.getScId() == null) {
+//            model.addAttribute("scIdChoice", "장소를 선택해주세요");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("장소를 선택해주세요");
+//        }
+        System.out.println(files + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
         String userId = authentication.getName();
         rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         rentalObjectService.insertRentalObject(rentalRegisterDto);
-//        return "redirect:/rentals/list";
-        return null;
+        System.out.println("성공적으로 값이 들어갔습니다.!!!!!!!=========================");
+        return ResponseEntity.ok("Registration successful");
     }
 
     @PostMapping(value = "rentalRegistrationForm1")
