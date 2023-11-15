@@ -12,8 +12,8 @@ import com.daeyeo.helloDaeyeo.exception.NotFoundRentalObjectException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
-import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +28,18 @@ import java.util.List;
 //@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
-    private final MemberRepository memberRepository;
 
     private final MemberService memberService;
+    private final UserService userService;
     private final SubCategoryService subCategoryService;
 
     private final RentalObjectMapper rentalObjectMapper;
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-    //    @Transactional
+    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
-        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
+        Member member = userService.findByUserId(dto.getUserId());
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
 

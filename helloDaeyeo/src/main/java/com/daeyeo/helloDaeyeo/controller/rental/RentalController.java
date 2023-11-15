@@ -11,6 +11,7 @@ import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import com.daeyeo.helloDaeyeo.service.*;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,7 @@ public class RentalController {
     private final RentalStatusService rentalStatusService;
     private final RentalObjectRepository rentalObjectRepository;
     private final MemberService memberService;
+    private final UserService userService;
     private final WishListService wishListService;
 
 
@@ -206,12 +208,6 @@ public class RentalController {
     public String register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
             rentalRegisterFormDto, BindingResult bindingResult,
                            Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-
 //        System.out.println(files + "===========files입니다!!!!");
 
         if (bindingResult.hasErrors()) {
@@ -222,12 +218,14 @@ public class RentalController {
         }
 //        System.out.println(files.get(0) + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
-        String userId = authentication.getName();
-        rentalRegisterDto.setUserId(userId);
-        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+
+        String userEmail = authentication.getName();
+        rentalRegisterDto.setUserEmail(userEmail);
+        rentalRegisterDto.setUserId(userService.findUserIdByUserEmail(userEmail));
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto); // 코드 진짜 냄새난다..
+
         rentalObjectService.insertRentalObject(rentalRegisterDto);
-//        return "redirect:/rentals/list";
-        return null;
+        return "redirect:/rentals/list";
     }
 
     @PostMapping(value = "rentalRegistrationForm1")

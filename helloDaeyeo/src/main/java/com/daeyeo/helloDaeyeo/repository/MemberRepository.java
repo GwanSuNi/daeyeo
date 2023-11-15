@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
     /***
      * 회원의 이름을 검색하면 RentalObject를 알수있음 :userId가 매개변수로 들어가는 구조(어드민페이지)
      * @param member
@@ -29,6 +29,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByUserEmail(String userEmail);
 
     List<Member> findByUserEmailLike(String email);
-    
+
     void deleteByUserEmail(String userEmail);
+
+    @Query("SELECT m.id FROM Member m WHERE m.userEmail = :userEmail")
+    long findUserIdByUserEmail(@Param("userEmail") String userEmail);
 }

@@ -20,6 +20,10 @@ import java.util.*;
 @Table(name = "Member")
 public class Member implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    // 중복 비허용 어노테이션??
+    @Column(unique = true)
     private String userEmail;
     @OneToMany(mappedBy = "member")
     List<RentalObject> rentalObjects = new ArrayList<>();
@@ -27,7 +31,7 @@ public class Member implements UserDetails {
     List<RentalStatus> rentalStatuses = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     List<WishList> wishListList = new ArrayList<>();
-    
+
     @Embedded
     private Address memberAddress;
     private String phone;

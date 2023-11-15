@@ -25,7 +25,7 @@ import java.util.List;
 
 public class RentalRegisterFormDto {
     private String scId;
-    private String userId;
+    private String userEmail;
     @NotEmpty(message = "장소명을 적어주세요")
     private String objectName;
     @Valid

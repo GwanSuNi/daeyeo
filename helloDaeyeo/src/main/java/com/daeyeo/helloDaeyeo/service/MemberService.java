@@ -1,7 +1,10 @@
 package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.adminDto.SuspendRequestDto;
-import com.daeyeo.helloDaeyeo.dto.memberDto.*;
+import com.daeyeo.helloDaeyeo.dto.memberDto.AdminMemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberManageDto;
+import com.daeyeo.helloDaeyeo.dto.memberDto.MemberUpdateDto;
 import com.daeyeo.helloDaeyeo.dto.memberRegistDto.MemberRegisterDto;
 import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
@@ -9,11 +12,9 @@ import com.daeyeo.helloDaeyeo.exception.IdAlreadyExistsException;
 import com.daeyeo.helloDaeyeo.exception.NotFoundMemberException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.repository.MemberRepository;
-import com.daeyeo.helloDaeyeo.session.SessionUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -44,7 +45,7 @@ public class MemberService {
 
     @Transactional
     public void insertMember(MemberRegisterDto memberRegisterDto) {
-        Optional<Member> member = memberRepository.findById(memberRegisterDto.getUserEmail());
+        Optional<Member> member = memberRepository.findByUserEmail(memberRegisterDto.getUserEmail());
         // 멤버의 갯수를 세서 멤버의 갯수가 0이면 허용 1이면 허용 x 해서 최적화하기 ?
         if (member.isPresent()) {
             throw new IdAlreadyExistsException("이미 아이디가 존재합니다.");
@@ -58,37 +59,23 @@ public class MemberService {
     /***
      * myPage 에서 유저의 정보를 변환하는 메서드 MemberUpdateDto 로 값을 다 받아오고 클라이언트가 빈칸으로 정보를 보내면 원래 있던 정보로 저장하고
      * 그렇지 않으면 바꾸려는 정보로 저장해서 유저의 값을 변경함
-     * @param memberId 멤버의 정보를 변환하려는 멤버의 아이디를 받음
+     * @param userEmail 멤버의 정보를 변환하려는 멤버의 아이디를 받음
      * @param memberUpdateDto null 값이 생기는걸 방지하기위해(사용자가 값을 입력하지 않았을경우)
      *                        Dto 를 사용해서 rest하게 바꾸었을때 코드변환을 자유롭게 하기위해
      */
     @Transactional
-    public void updateMember(String memberId, MemberUpdateDto memberUpdateDto) {
-        Optional<Member> member = memberRepository.findById(memberId);
+    public void updateMember(String userEmail, MemberUpdateDto memberUpdateDto) {
+        Optional<Member> member = memberRepository.findByUserEmail(userEmail);
         memberRepository.save(memberUpdateDto.memberUpdate(member.get()));
     }
 
     /***
-     * 위와 로직이 같다고 보면 됨 이거는 패스워드 검증을 해야돼서 오류코드를 내보내기위해 String 으로 처리함
-     * @param memberId
-     * @param memberUpdatePwDto
-     * @return
-     */
-    @Transactional
-    public void updateMemberPw(String memberId, MemberUpdatePwDto memberUpdatePwDto) {
-        Member member = findMember(memberId).get();
-        member.setUserPw(memberUpdatePwDto.getNewPw());
-        memberRepository.save(member);
-    }
-
-
-    /***
      * myPage의 wishList 에서 유저의 리뷰에 대한 리스트를 반환하는 메서드
-     * @param memberId
+     * @param userEmail
      * @return
      */
-    public Optional<Member> findMember(String memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
+    public Optional<Member> findMember(String userEmail) {
+        Optional<Member> member = memberRepository.findByUserEmail(userEmail);
         return member;
     }
 
@@ -153,7 +140,7 @@ public class MemberService {
         LocalDateTime endDate = calculateEndDate(duration, timeUnit);
 
         // 사용자 정지 처리 (예를 들어, DB 업데이트)
-        Optional<Member> optionalMember = memberRepository.findById(userEmail);
+        Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
         if (optionalMember.isPresent()) {
             // 사용자 정지 일자 및 사유를 저장하고 정지 상태를 업데이트
             Member member = optionalMember.get();
@@ -182,20 +169,10 @@ public class MemberService {
         }
     }
 
-    public MemberDto getMember(String userId) {
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));
+    public MemberDto getMember(String userEmail) {
+        Member member = memberRepository.findByUserEmail(userEmail).orElseThrow(() -> new NotFoundMemberException("존재하지 않는 회원입니다."));
 
         return mapper.toDto(member);
-    }
-
-    public void validateMember(HttpServletRequest request) {
-        String userId = SessionUtils.getUserIdFromSession(request);
-        verifyMember(userId);
-    }
-
-    public void verifyMember(String userId) {
-        if (userId.isBlank() || !memberRepository.existsById(userId))
-            throw new NotFoundMemberException("존재하지 않는 회원입니다.");
     }
 
     public List<MemberManageDto> memberManageList(List<Member> memberList, List<RentalObject> rentalObjectList) {
