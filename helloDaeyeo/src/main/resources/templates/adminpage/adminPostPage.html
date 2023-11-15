@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <!-- Favicons -->
     <link th:href="@{/css/assets/img/favicon.png}" rel="icon">
@@ -88,7 +88,7 @@
             </a>
             <ul id="content-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{/adminpage/adminPost}" class="active">
+                    <a th:href="@{/adminpage/rentalWrites}" class="active">
                         <i class="bi bi-circle"></i><span>전체 게시물</span>
                     </a>
                 </li>
@@ -160,30 +160,120 @@
                         <table class="table datatable">
                             <thead>
                             <tr>
-                                <th scope="col">index</th>
-                                <th scope="col">삭제하기</th>
-                                <th scope="col">공간시설</th>
-                                <th scope="col">작성자 이름</th>
-                                <th scope="col">강의실</th>
-                                <th scope="col">작성시각</th>
-                                <th scope="col">위치정보</th>
-                                <th scope="col">작성자 정보</th>
+                                <th scope="col">대여 게시글 번호</th>
+                                <th scope="col">대여 항목</th>
+                                <th scope="col">대여 제공자</th>
+                                <th scope="col">주소</th>
+                                <th scope="col">대여 수입</th>
+                                <th scope="col">대여 신청 횟수</th>
+                                <th scope="col">대여 성사 횟수</th>
+                                <th scope="col">방문자 수</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <!--                            <tr th:each="rental, index : ${rentalObject}">-->
-                            <!--                                <td th:text="${index.count}"></td>-->
-                            <!--                                <td><input type="checkbox" class="custom-control-input" id="customCheck1" unchecked></td>-->
-                            <!--                                <td th:text="${rental.subCategory.scId}"></td>-->
-                            <!--                                <td th:text="${rental.userEntity.userName}"></td>-->
-                            <!--                                <td th:text="${rental.objectName}"></td>-->
-                            <!--                                <td th:text="${rental.createDate}"></td>-->
-                            <!--                                <td th:text="${rental.locationInfo}"></td>-->
-                            <!--                                <td th:text="${rental.userInfo}"></td>-->
-                            <!--                            </tr>-->
+                            <tr th:each="rentalWrite :${rentalWrites}">
+                                <td th:text="${rentalWrite.objectIndex}"/>
+                                <td>
+                                    <button type="button" class="btn btn-primary modal-trigger"
+                                            th:text="${rentalWrite.objectName}" th:data-object-index="${rentalWrite.objectIndex}"
+                                            data-bs-toggle="modal" data-bs-target="#rentalWriteModal"/>
+                                </td>
+                                <td th:text="${rentalWrite.offerer}"/>
+                                <td th:text="${rentalWrite.address.address + ' (' + rentalWrite.address.extraAddress + ') ' + rentalWrite.address.detailAddress}"></td>
+                                <td th:text="${rentalWrite.income}"/>
+                                <td th:text="${rentalWrite.rentalStatusCount}"/>
+                                <td th:text="${rentalWrite.successCount}"/>
+                                <td th:text="${rentalWrite.visitCount}"/>
+                            </tr>
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="rentalWriteModal" tabindex="-1">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">게시물 상세 정보</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th scope="row" class="table-info">대여 게시글 번호</th>
+                                                <td id="objectIndex"></td>
+                                                <th scope="row" class="table-info">대여 항목</th>
+                                                <td id="objectName"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">메인 카테고리</th>
+                                                <td id="mcId"></td>
+                                                <th scope="row" class="table-info">서브 카테고리</th>
+                                                <td id="scId"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">대여 제공자</th>
+                                                <td id="userEmail"></td>
+                                                <th scope="row" class="table-info">주소</th>
+                                                <td id="address"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">이용요금</th>
+                                                <td id="usageFee"></td>
+                                                <th scope="row" class="table-info">접수기간</th>
+                                                <td id="applicationPeriod"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">이용기간</th>
+                                                <td id="usagePeriodDate"></td>
+                                                <th scope="row" class="table-info">이용시간</th>
+                                                <td id="usagePeriodTime"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">취소기간</th>
+                                                <td id="cancellation"></td>
+                                                <th scope="row" class="table-info">최대 인원</th>
+                                                <td id="maxPerson"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="table-info">웹 사이트</th>
+                                                <td id="webSite"></td>
+                                                <th scope="row" class="table-info">문의전화</th>
+                                                <td id="inquiryPhone"></td>
+                                            </tr>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="table-primary">대여 수입</th>
+                                                <th scope="col" class="table-primary">대여 신청 횟수</th>
+                                                <th scope="col" class="table-primary">대여 성사 횟수</th>
+                                                <th scope="col" class="table-primary">방문자 수</th>
+                                            </tr>
+                                            <tr>
+                                                <th id="income"></th>
+                                                <th id="rental-total"></th>
+                                                <th id="success-count"></th>
+                                                <th id="visitCount"></th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table datatable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">회원 유형</th>
+                                                <th scope="col">이메일</th>
+                                                <th scope="col">닉네임</th>
+                                                <th scope="col">대여 상태</th>
+                                                <th scope="col">결제금액</th>
+                                                <th scope="col">대여 시작일</th>
+                                                <th scope="col">대여 종료일</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -206,4 +296,7 @@
 <script src="/css/assets/js/main.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+<!-- JS File -->
+<script defer th:src="@{/js/adminpage/adminPostPage.js}" type="text/javascript"></script>
 </html>

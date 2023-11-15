@@ -78,7 +78,6 @@ public class Member implements UserDetails {
     // 권한 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: SimpleGrantedAuthority를 여기서 만들어야되나...?
         //현재 코드에서는 "user" 권한을 하드 코딩하여 사용자가 기본적으로 "user" 권한을 가지도록 구현되어 있습니다.
         // 이 부분을 데이터베이스 또는 사용자 엔티티에서 권한 정보를 동적으로 가져오도록 수정할 수 있습니다.
 //        return List.of(new SimpleGrantedAuthority("user"));
