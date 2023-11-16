@@ -1,67 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Favicons -->
-    <link th:href="@{/css/assets/img/favicon.png}" rel="icon">
-    <link th:href="@{/css/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
-
-    <!-- Font Awesome CSS Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/d0b3f12e44.js" crossorigin="anonymous"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    <link th:href="@{/css/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
-    <link th:href="@{/css/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
-
     <meta charset="UTF-8">
     <title>어드민 메인페이지</title>
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-        <a th:href="@{/adminpage/adminMain}" class="logo d-flex align-items-center">
-            <img src="/css/assets/img/favicon.png" alt="아이콘">       <!-- 이미지 바꾸기 -->
-            <span class="d-none d-lg-block">NoobGPT</span>
-        </a>
-        <i class="bi bi-list toggle-sidebar-btn"></i>  <!-- 메뉴 열고닫는 버튼-->
-    </div>
-    <!-- End Logo -->
-
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
-
-    <!--  &lt;!&ndash; End Search Bar &ndash;&gt;-->
-    <!--  <div th:if="${#session.getAttribute('loginUser') != null}">-->
-    <!--    <div onclick="/logout">-->
-    <!--      <i class="fa-solid fa-right-from-bracket logout_btn"-->
-    <!--         style="color: var(&#45;&#45;accecnt-color);font-size: 1.5em; padding-top: 2px"></i>-->
-    <!--    </div>-->
-    <!--  </div>-->
-    <!--  <div th:unless="${#session.getAttribute('loginUser') != null}">-->
-    <!--    <div onclick="/login">-->
-    <!--      <i class="fa-solid fa-right-to-bracket logout_btn"-->
-    <!--         style="color: var(&#45;&#45;accecnt-color); font-size: 1.5em; padding-top: 2px"></i>-->
-    <!--    </div>-->
-    <!--  </div>-->
-</header>
+<div th:replace="~{/adminpage/adminHeader.html :: adminHeader}"></div>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->

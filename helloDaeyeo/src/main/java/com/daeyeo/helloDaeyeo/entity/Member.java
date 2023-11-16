@@ -10,9 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -22,11 +20,17 @@ import java.util.Set;
 @Table(name = "Member")
 public class Member implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    // 중복 비허용 어노테이션??
+    @Column(unique = true)
     private String userEmail;
     @OneToMany(mappedBy = "member")
-    Set<RentalObject> rentalObjects = new HashSet<>();
+    List<RentalObject> rentalObjects = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    Set<RentalStatus> rentalStatuses = new HashSet<>();
+    List<RentalStatus> rentalStatuses = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    List<WishList> wishListList = new ArrayList<>();
 
     @Embedded
     private Address memberAddress;

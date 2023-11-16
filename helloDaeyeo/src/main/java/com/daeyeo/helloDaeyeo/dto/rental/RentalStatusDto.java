@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class RentalStatusDto {
     private Long rentalStatusId;
+    private long userId;
     private String userEmail;
     private Long objectIndex;
     private Status status;
@@ -29,8 +30,7 @@ public class RentalStatusDto {
      * @param rentalStatusFormDto
      */
 
-    public RentalStatusDto(RentalStatusFormDto rentalStatusFormDto) {
-
+    public RentalStatusDto(RentalStatusFormDto rentalStatusFormDto, Boolean isInside) {
         String dataString = rentalStatusFormDto.getRentalDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -40,7 +40,7 @@ public class RentalStatusDto {
         LocalDateTime endTime = rentalStatusFormDto.castTime(dataString, rentalStatusFormDto.getEndTime());
 
         // 여기서 형변환 후에 값 검증
-        if (startTime.isBefore(endTime)) { // startTime 이 endTime 보다 이전이냐
+        if (startTime.isBefore(endTime) && isInside) { // startTime 이 endTime 보다 이전이냐
             // start = 9 시 end 가 2 시면 끝나는 시간보다 이전이냐? 물어보는뜻
             this.startTime = startTime;
             this.endTime = endTime;

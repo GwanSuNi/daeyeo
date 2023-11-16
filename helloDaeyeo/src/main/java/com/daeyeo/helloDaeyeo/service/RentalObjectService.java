@@ -1,5 +1,6 @@
 package com.daeyeo.helloDaeyeo.service;
 
+import com.daeyeo.helloDaeyeo.dto.myPageDto.RentalObjectManageDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalObjectDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalRegisterDto;
 import com.daeyeo.helloDaeyeo.dto.rental.RentalStatusDto;
@@ -12,6 +13,7 @@ import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +30,19 @@ public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
 
     private final MemberService memberService;
+    private final UserService userService;
     private final SubCategoryService subCategoryService;
 
     private final RentalObjectMapper rentalObjectMapper;
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-    //    @Transactional
+    @Transactional
     public void insertRentalObject(RentalRegisterDto dto) {
-        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
+        Member member = userService.findByUserId(dto.getUserId());
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
-
+        rentalObject.setUserEmail(member.getUserEmail()); // 임시
         rentalObjectRepository.save(rentalObject);
     }
 
@@ -54,7 +57,7 @@ public class RentalObjectService {
                 .orElseThrow(() -> new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
     }
 
-    public RentalObjectDto getRentalObject(long objectIndex) {
+    public RentalObjectDto getRentalObjectDto(long objectIndex) {
         RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
                 .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
 
@@ -78,7 +81,7 @@ public class RentalObjectService {
         List<RentalObjectDto> rentalObjectDtos = new ArrayList<>();
 
         for (RentalStatusDto rentalStatusDto : rentalStatusDtos)
-            rentalObjectDtos.add(getRentalObject(rentalStatusDto.getObjectIndex()));
+            rentalObjectDtos.add(getRentalObjectDto(rentalStatusDto.getObjectIndex()));
 
         return rentalObjectDtos;
     }
@@ -101,5 +104,28 @@ public class RentalObjectService {
         List<RentalObject> rentalObjects = rentalObjectRepository.findAll();
 
         return rentalObjectMapper.toDtoList(rentalObjects);
+    }
+
+    @Transactional
+    public List<RentalObject> findAllMyRental(String memberId) {
+        List<RentalObject> rentalObjectList = rentalObjectRepository.findAll();
+        List<RentalObject> myRentalObjectList = new ArrayList<>();
+        for (RentalObject rentalObject : rentalObjectList) {
+            if (rentalObject.getMember().getUserEmail().equals(memberId)) {
+                myRentalObjectList.add(rentalObject);
+            }
+        }
+        return myRentalObjectList;
+    }
+
+    public List<RentalObjectManageDto> rentalObjectManagePage(List<RentalObject> rentalObjectList) {
+        List<RentalObjectManageDto> rentalObjectManageDtoList = new ArrayList<>();
+        // 걸러진 리스트들을 받아옴
+        for (RentalObject rentalObject : rentalObjectList) {
+            RentalObjectManageDto rentalObjectManageDto = new RentalObjectManageDto(rentalObject);
+            // 얼마 벌었는지
+            rentalObjectManageDtoList.add(rentalObjectManageDto);
+        }
+        return rentalObjectManageDtoList;
     }
 }

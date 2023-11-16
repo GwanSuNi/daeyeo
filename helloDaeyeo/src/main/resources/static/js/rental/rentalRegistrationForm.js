@@ -1,10 +1,12 @@
-
 let subCategorySelect = document.getElementById('subCategorySelect');
 let mainCategorySelect = document.getElementById('mainCategorySelect');
+const csrfToken = document.querySelector("meta[name='_csrf']").content;
+const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
-document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", function () {
     // 위의 JavaScript 코드를 여기에 래핑
-    subCategorySelect.addEventListener('change', function() {
+    subCategorySelect.addEventListener('change', function () {
 // html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
         let selectedValue = subCategorySelect.value;
         document.getElementById("scId").value = selectedValue;
@@ -15,26 +17,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
 mainCategorySelect.addEventListener('change', () => {
     let selectedMainCategoryId = mainCategorySelect.value;
-    // 서버로부터 선택한 MainCategory에 대한 SubCategory 데이터를 가져오는 AJAX 요청을 보냅니다.
-    // 서버에서 JSON 형식의 SubCategory 데이터를 받은 후 SubCategory select box를 업데이트합니다.
-    // 예: jQuery AJAX를 사용한 AJAX 요청
-    $.get('/rental/getSubCategories?mainCategoryId=' + selectedMainCategoryId, (data) => {
-        // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
-        subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
-        data.forEach((subcategory) => {
-            let option = document.createElement('option');
-            option.value = subcategory.scId;
-            option.text = subcategory.scId;
-            subCategorySelect.appendChild(option);
-        });
-    });
+
+    // XMLHttpRequest 객체 생성
+    const xhr = new XMLHttpRequest();
+
+    // 요청 메서드 및 URL 설정
+    xhr.open('GET', '/rentals/getSubCategories?mainCategoryId=' + selectedMainCategoryId, true);
+
+    // CSRF 토큰을 요청 헤더에 추가
+    xhr.setRequestHeader(csrfHeader, csrfToken);
+
+    // 요청 완료 핸들러 설정
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
+            subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
+            const data = JSON.parse(xhr.responseText);
+            data.forEach((subcategory) => {
+                let option = document.createElement('option');
+                option.value = subcategory.scId;
+                option.text = subcategory.scId;
+                subCategorySelect.appendChild(option);
+            });
+        }
+    };
+
+    // 요청 전송
+    xhr.send();
 });
-subCategorySelect.addEventListener('change', () => {
-    // 선택한 옵션의 값을 firstName 필드에 추가
-    let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];
-    let selectedValue = selectedOption.value;
-    document.getElementById('firstName').value = dynamicData[selectedValue];
-});
+
+// subCategorySelect.addEventListener('change', () => {
+//     // 선택한 옵션의 값을 firstName 필드에 추가
+//     let selectedOption = subCategorySelect.options[subCategorySelect.selectedIndex];
+//     let selectedValue = selectedOption.value;
+//     document.getElementById('firstName').value = dynamicData[selectedValue];
+// });
 
 
 // const category0 = ['공간시설', '개인대여'];
@@ -64,27 +81,93 @@ subCategorySelect.addEventListener('change', () => {
 // });
 
 
+// Dropzone.options.myDropzone = {
+//     url: "/rentals/rentalRegistrationForm",
+//     autoProcessQueue: false,
+//     paramName: "file",
+//     clickable: true,
+//     maxFilesize: 5, //in mb
+//     addRemoveLinks: true,
+//     acceptedFiles: '.png,.jpg',
+//     dictDefaultMessage: "Upload your file here",
+//     init: function () {
+//         this.on("sending", function (file, xhr, formData) {
+//             console.log("sending file");
+//         });
+//         this.on("success", function (file, responseText) {
+//             console.log('great success');
+//         });
+//         this.on("addedfile", function (file) {
+//             console.log('file added');
+//         });
+//     }
+// };
+
+
+console.log(document.querySelector("#myDropzone"));
 Dropzone.options.myDropzone = {
-    url: "/fake/location",
+    paramName: "files",
+    url: "/rentals/rentalRegistrationForm1",
     autoProcessQueue: false,
-    paramName: "file",
-    clickable: true,
-    maxFilesize: 5, //in mb
+    uploadMultiple: true,
+    parallelUploads: 5,
+    maxFiles: 5,
+    maxFilesize: 10, // 10MB까지만
     addRemoveLinks: true,
     acceptedFiles: '.png,.jpg',
-    dictDefaultMessage: "Upload your file here",
+    dictDefaultMessage: "Drop your files here or click to upload",
     init: function () {
-        this.on("sending", function (file, xhr, formData) {
-            console.log("sending file");
+        var myDropzone = this;
+        var submitButton = document.getElementById('test');
+
+        submitButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // FormData 생성
+            var formData = new FormData(document.getElementById('rentalRegisterForm'));
+
+            // 업로드한 파일들을 FormData에 추가
+            myDropzone.files.forEach((file, index) => {
+                formData.append('files', file);
+            });
+
+            // Ajax를 사용하여 서버에 전송
+            fetch("/rentals/rentalRegistrationForm1", {
+                method: "POST",
+                headers: {
+                    [csrfHeader]: csrfToken // CSRF 토큰을 요청 헤더에 포함
+                },
+                body: formData,
+            })
+                .then(handleErrors)
+                .then(function (response) {
+                    console.log("POST 요청 성공");
+                    var data = JSON.parse(response);
+                    console.log(data);
+                })
+                .catch(function (error) {
+                    console.error("POST 요청 실패");
+                    console.error(error);
+                })
+                .finally(function () {
+                    console.log("processQueue");
+                    myDropzone.processQueue();
+                });
         });
-        this.on("success", function (file, responseText) {
-            console.log('great success');
+
+        this.on("complete", function (file) {
+            myDropzone.removeFile(file);
         });
-        this.on("addedfile", function (file) {
-            console.log('file added');
-        });
-    }
+    },
 };
+
+function handleErrors(response) {
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+    return response.text();
+}
 
 
 const txtEditor = document.querySelectorAll('.txt-editor');
@@ -184,30 +267,30 @@ findAddressBtn.addEventListener('click', (event) => {
 
 
 // 등록하기
-const registration = document.querySelector('.registration');
-const registrationForm = document.querySelector('.container');
-
-registration.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    const phone = document.querySelector('.phone').children;
-    const representNum = document.querySelector("input[name='representNum']")
-    let str = '';
-
-    for (let element of phone) {
-        if (element.tagName === "INPUT")
-            str += element.value;
-        else
-            str += element.innerText;
-    }
-
-    representNum.value = str;
-
-    txtEditor.forEach((element) => {
-        const editor = element.contentWindow.document.querySelector('.ql-editor');
-        const input = element.nextElementSibling;
-
-        input.value = editor.innerHTML;
-    });
-    registrationForm.submit();
-})
+// const registration = document.querySelector('.registration');
+// const registrationForm = document.querySelector('.container');
+//
+// registration.addEventListener('click', (event) => {
+//     event.preventDefault();
+//
+//     const phone = document.querySelector('.phone').children;
+//     const representNum = document.querySelector("input[name='representNum']")
+//     let str = '';
+//
+//     for (let element of phone) {
+//         if (element.tagName === "INPUT")
+//             str += element.value;
+//         else
+//             str += element.innerText;
+//     }
+//
+//     representNum.value = str;
+//
+//     txtEditor.forEach((element) => {
+//         const editor = element.contentWindow.document.querySelector('.ql-editor');
+//         const input = element.nextElementSibling;
+//
+//         input.value = editor.innerHTML;
+//     });
+//     registrationForm.submit();
+// })

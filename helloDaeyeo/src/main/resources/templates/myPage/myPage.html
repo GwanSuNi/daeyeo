@@ -5,6 +5,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/mypage/myPage.css}">
 
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>마이페이지</title>
 
     <!-- Custom fonts for this template-->
@@ -128,38 +131,47 @@
 
                                         <h5 class="card-title">상세 정보</h5>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.nickname}">이름</div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.nickname}"></td></div>-->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.department}">소속</div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.department}"></td></div>-->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.statusMsg}">상태 메시지
+                                            <div class="col-lg-3 col-md-4 label">이름</div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <td th:text="${member.nickname}"></td>
                                             </div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.statusMsg}"></td></div>-->
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.memberAddress}">주소
+                                            <div class="col-lg-3 col-md-4 label">소속</div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <td th:text="${member.department}"></td>
                                             </div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.getMemberAddress().address}"></td></div>-->
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.phone}">전화</div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.phone}"></td></div>-->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label" th:text="${member.userEmail}">Email
+                                            <div class="col-lg-3 col-md-4 label">상태 메시지
                                             </div>
-                                            <!--                                            <div class="col-lg-9 col-md-8"><td th:text="${member.userEmail}"></td></div>-->
+                                            <!--                                                                                        <div class="col-lg-9 col-md-8"><td th:text="${member.statusMsg}"></td></div>-->
                                         </div>
-                                        <!--                                        </tr>-->
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">주소
+                                            </div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <td th:text="${member.getMemberAddress().address}"></td>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">전화</div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <td th:text="${member.phone}"></td>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Email
+                                            </div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <td th:text="${member.userEmail}"></td>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="tab-pane fade profile-edit pt-3" id="profile-edit">

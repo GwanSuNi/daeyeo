@@ -24,8 +24,8 @@ public class ReviewService {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public void insertReview(ReviewDto reviewDto, String userId, long rentalId) {
-        Optional<Member> member = memberRepository.findById(userId);
+    public void insertReview(ReviewDto reviewDto, String userEmail, long rentalId) {
+        Optional<Member> member = memberRepository.findByUserEmail(userEmail);
         Optional<RentalObject> rentalObject = rentalObjectRepository.findById(rentalId);
         Review review = new Review(reviewDto);
 //        review.setMember(member.get());

@@ -1,7 +1,12 @@
 package com.daeyeo.helloDaeyeo.dto.rental;
 
-import com.daeyeo.helloDaeyeo.embedded.*;
+import com.daeyeo.helloDaeyeo.embedded.Address;
+import com.daeyeo.helloDaeyeo.embedded.ApplicationPeriod;
+import com.daeyeo.helloDaeyeo.embedded.UsagePeriod;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,7 +15,8 @@ import lombok.*;
 @Builder
 public class RentalRegisterDto {
     private String scId;
-    private String userId;
+    private long userId;
+    private String userEmail;
     private String objectName;
     private Address address;
     private int usageFee;
@@ -19,12 +25,13 @@ public class RentalRegisterDto {
     private int cancellation;
     private int maxPerson;
     private String webSite;
+    private List<MultipartFile> files;
     private String inquiryPhone;
     private int visitCount;
 
-    public RentalRegisterDto(String scId , String userEmail , String objectName , Address address){
+    public RentalRegisterDto(String scId, String userEmail, String objectName, Address address) {
         this.scId = scId;
-        this.userId = userEmail;
+        this.userEmail = userEmail;
         this.objectName = objectName;
         this.address = address;
     }
@@ -34,13 +41,13 @@ public class RentalRegisterDto {
      * 엔티티화 해줌
      * @param rentalRegisterFormDto
      */
-    public RentalRegisterDto(RentalRegisterFormDto rentalRegisterFormDto){
+    public RentalRegisterDto(RentalRegisterFormDto rentalRegisterFormDto) {
         this.scId = rentalRegisterFormDto.getScId();
-        this.userId=rentalRegisterFormDto.getUserId();
+        this.userEmail = rentalRegisterFormDto.getUserEmail();
         this.objectName = rentalRegisterFormDto.getObjectName();
         this.address = rentalRegisterFormDto.getAddress();
         this.cancellation = rentalRegisterFormDto.getCancellation();
-        this.usageFee =rentalRegisterFormDto.getUsageFee();
+        this.usageFee = rentalRegisterFormDto.getUsageFee();
         this.maxPerson = rentalRegisterFormDto.getMaxPerson();
         this.webSite = rentalRegisterFormDto.getWebSite();
         this.inquiryPhone = rentalRegisterFormDto.getInquiryPhone();

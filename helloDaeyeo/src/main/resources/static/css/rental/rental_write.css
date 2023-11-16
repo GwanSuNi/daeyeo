@@ -391,9 +391,15 @@ th, td {
     transition: color .15s ease-in-out;
 }
 
-.want {
+.unWant {
     background-image: url("../../img/rental/empty_heart_icon.png");
 }
+
+
+.want {
+    background-image: url("../../img/rental/heart_icon.png");
+}
+
 
 .share {
     background-image: url("../../img/rental/share_icon.png");

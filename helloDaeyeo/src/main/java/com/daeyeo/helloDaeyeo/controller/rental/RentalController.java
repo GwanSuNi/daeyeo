@@ -3,23 +3,31 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
+import com.daeyeo.helloDaeyeo.entity.RentalObject;
+import com.daeyeo.helloDaeyeo.entity.Status;
+import com.daeyeo.helloDaeyeo.entity.WishList;
 import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
-import com.daeyeo.helloDaeyeo.service.MainCategoryService;
-import com.daeyeo.helloDaeyeo.service.RentalObjectService;
-import com.daeyeo.helloDaeyeo.service.RentalStatusService;
-import com.daeyeo.helloDaeyeo.service.SubCategoryService;
+import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.service.*;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -30,12 +38,24 @@ public class RentalController {
     private final RentalObjectService rentalObjectService;
     private final MainCategoryService mainCategoryService;
     private final RentalStatusService rentalStatusService;
+    private final RentalObjectRepository rentalObjectRepository;
+    private final MemberService memberService;
+    private final UserService userService;
+    private final WishListService wishListService;
 
 
     // TODO: 지금은 db에서 데이터들을 다 가져온다음 페이징을 하는 데 db에서 페이징을 한 데이터들을 가져오는 걸로 바꿔야 함
     // TODO: rentalObject가 하나도 없을 때 '검색 결과가 없습니다.'라고 보여주고 html에 페이징도 안 보이게 해야함
     @GetMapping({"list", "list/{page}"})
-    public String rentalList(SearchSpecDto specDto, @PathVariable(required = false) Integer page, Model model) {
+    public String rentalList(SearchSpecDto specDto, @PathVariable(required = false) Integer page, Model model
+            , @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         if (page == null)
             page = 1;
 
@@ -51,41 +71,98 @@ public class RentalController {
     }
 
     @GetMapping("write/{objectId}")
-    public String rentalWrite(@PathVariable long objectId, Model model) {
+    public String rentalWrite(@PathVariable long objectId, Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+        RentalObject rentalObject = rentalObjectService.getOneRentalObject(objectId);
+        rentalObject.setVisitCount(rentalObject.getVisitCount() + 1);
+        rentalObjectRepository.save(rentalObject);
+
+        RentalObjectDto resultRentalObjectDto = rentalObjectService.getRentalObjectDto(objectId);
+        resultRentalObjectDto.setUserEmail(rentalObject.getUserEmail());
+
+        String userEmail = authentication.getName();
+        Boolean hasWish = wishListService.hasWishList(objectId, userEmail);
+
         RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
         rentalStatusFormDto.setObjectId(objectId);
-        model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
+        model.addAttribute("memberId", userEmail);
+        model.addAttribute("hasWish", hasWish);
+        model.addAttribute("rentalObject", resultRentalObjectDto);
         model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
     }
+    //TODO 날짜가 겹치는지 안겹치는지에대한
 
+    /***
+     *
+     * @param rentalStatusFormDto
+     * @param model
+     * @param redirectAttributes
+     * @param authentication
+     * @return
+     */
     @PostMapping("write/status.do")
-    public String rentalStatusSend(@ModelAttribute("rentalStatus") RentalStatusFormDto rentalStatusFormDto,
-                                   Model model, RedirectAttributes redirectAttributes) {
-        // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
+    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        System.out.println("컨트롤러에 들어왔습니다.");
         try {
-            // 현재 로그인한 유저의 아이디값을 받아서 넣어야함
-            String userEmail = "test@test.com";
+
+            if (bindingResult.hasErrors()) {
+
+                redirectAttributes.addFlashAttribute("startTime", "시작시간을 입력해주세요");
+                redirectAttributes.addFlashAttribute("endTime", "끝나는 시간을 입력해주세요");
+                redirectAttributes.addFlashAttribute("rentalDate", "등록 날짜를 입력해주세요");
+                return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            }
+            // 현재 로그인한 유저의 아이디값을 받아옴
+            String userEmail = authentication.getName();
             // 값을 넣은 후에 날짜가 올바른지 확인하고 insertStatus 하는과정
-            System.out.println(rentalStatusFormDto.getObjectId() + "=========================================");
-            RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto);
+            // new 하는 생성자를 통해서 값이 올바른지 확인하고 입력받은 날짜값에 대해 타입을 맞추기위해 날짜값을 형변환함
+
+            // 내가 넣으려고 하는 시간이 이용시간안에 들어가는지 검증하는 로직
+            // boolean 으로 판단해서 값을 생성자에 넣어줌
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalStatusFormDto.getObjectId());
+            LocalTime rentalObjectStartTime = rentalObject.getUsagePeriod().getStartTime();
+            LocalTime rentalObjectEndTime = rentalObject.getUsagePeriod().getEndTime();
+            LocalTime rentalStatusStartTime = LocalTime.parse(rentalStatusFormDto.getStartTime());
+            LocalTime rentalStatusEndTime = LocalTime.parse(rentalStatusFormDto.getEndTime());
+
+            boolean isInside = rentalStatusStartTime.compareTo(rentalObjectStartTime) >= 0 &&
+                    rentalStatusEndTime.compareTo(rentalObjectEndTime) <= 0;
+
+            // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
+            RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto, isInside);
+            // 로그인한 유저의 아이디값을 넣음
             rentalStatusDto.setUserEmail(userEmail);
+            rentalStatusDto.setUserId(userService.findUserIdByUserEmail(userEmail));
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
                     rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
                 // 시간이 겹치지 않으므로 validPeriod는 true를 반환
+                rentalStatusDto.setStatus(Status.PENDING);
                 rentalStatusService.insertRentalStatus(rentalStatusDto);
             }
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
             redirectAttributes.addFlashAttribute("notPermitTimeError", errorMessage);
-            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         } catch (OverlapInTime o) {
             String errorMessage = o.getMessage();
             redirectAttributes.addFlashAttribute("overlapInTime", errorMessage);
-            return "redirect:/rental/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
+            return "redirect:/rentals/write/" + rentalStatusFormDto.getObjectId(); // 이전 페이지로 리다이렉트
         }
-        return "redirect:rental/list";
+
+        return "redirect:/myPage/reservation";
     }
+
+    /***
+     *
+     * @param mainCategoryId
+     * @return
+     */
 
     @GetMapping("/getSubCategories")
     @ResponseBody
@@ -95,44 +172,94 @@ public class RentalController {
         return subCategoryList;
     }
 
+    /***
+     *
+     * @param model
+     * @param authentication
+     * @return
+     */
+
     @GetMapping("rentalRegistrationForm")
-    public String showRentalRegistrationForm(Model model) {
-//      memberService.validateMember(request);
+    public String showRentalRegistrationForm(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
+        // 권한을 컬렉션에서 확인
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        model.addAttribute("isAdmin", isAdmin);
+
         List<MainCategoryDto> mainCategoryList = mainCategoryService.getAllCategories();
         model.addAttribute("rentalRegister", new RentalRegisterFormDto());
         model.addAttribute("mainCategoryList", mainCategoryList);
         return "rental/rentalRegistrationForm";
     }
 
+    /***
+     *
+     * @param rentalRegisterFormDto
+     * @param bindingResult
+     * @param model
+     * @param authentication
+     * @return
+     */
+    @PostMapping(value = "rentalRegistrationForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
+            rentalRegisterFormDto, BindingResult bindingResult,
+                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+//        System.out.println(files + "===========files입니다!!!!");
 
-    @PostMapping("rentalRegistrationForm")
-    public String register(@Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto rentalRegisterFormDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "rental/rentalRegistrationForm";
+            return "redirect:/rentals/rentalRegistrationForm";
         } else if (rentalRegisterFormDto.getScId() == null) {
             model.addAttribute("scIdChoice", "장소를 선택해주세요");
-            return "rental/rentalRegistrationForm";
+            return "redirect:/rentals/rentalRegistrationForm";
         }
+//        System.out.println(files.get(0) + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
-        rentalRegisterDto.setUserId("test@test.com");
-        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+
+        String userEmail = authentication.getName();
+        rentalRegisterDto.setUserEmail(userEmail);
+        rentalRegisterDto.setUserId(userService.findUserIdByUserEmail(userEmail));
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto); // 코드 진짜 냄새난다..
+
         rentalObjectService.insertRentalObject(rentalRegisterDto);
-//        memberService.validateMember(request);
-        return "rental/rentalRegistrationForm";
+        return "redirect:/rentals/list";
     }
-    /*
-    @RequestMapping("/rental.do")
-    public String rental(@RequestParam int objectId, @RequestParam String startDuration, @RequestParam String endDuration, @RequestParam int price, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        String send = "redirect:/rental/list";
 
-        if (loginUser == null)
-            send = "redirect:/login";
-        else
-            rentalLogService.insertRentalLog(objectId, loginUser.getUserEmail(), LocalDate.parse(startDuration), LocalDate.parse(endDuration), price);
+    @PostMapping(value = "rentalRegistrationForm1")
+    public String register123(@RequestParam(value = "files", required = false) List<MultipartFile> files) {
+        System.out.println(files.get(0) + "===========files입니다!!!!");
 
-        return send;
+        return null;
     }
-     */
+
+    @GetMapping("cancelWish/{rentalObjectId}/{memberId}")
+    @ResponseBody
+    public String cancelWish(@PathVariable("rentalObjectId") long rentalObjectId,
+                             @PathVariable("memberId") String memberId) {
+        try {
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalObjectId);
+            rentalObject.setVisitCount(rentalObject.getVisitCount() - 1);
+            WishList wishList = wishListService.findWish(rentalObjectId, memberId);
+            wishListService.deleteWishList(wishList.getWishIndex());
+            return "redirect:/rentals/write/" + rentalObjectId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    @GetMapping("wish/{rentalObjectId}/{memberId}")
+    @ResponseBody
+    public String wish(@PathVariable("rentalObjectId") long rentalObjectId,
+                       @PathVariable("memberId") String memberId) {
+        try {
+            RentalObject rentalObject = rentalObjectService.getOneRentalObject(rentalObjectId);
+            rentalObject.setVisitCount(rentalObject.getVisitCount() - 1);
+            wishListService.insertWishList(rentalObjectId, memberId);
+            return "redirect:/rentals/write/" + rentalObjectId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 }

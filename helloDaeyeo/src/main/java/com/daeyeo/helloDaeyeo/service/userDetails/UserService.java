@@ -74,6 +74,13 @@ public class UserService {
         return memberRepository.findByUserEmail(userEmail).orElseThrow(() -> new NotFoundMemberException("없는 사용자"));
     }
 
+    public long findUserIdByUserEmail(String userEmail) {
+        return memberRepository.findUserIdByUserEmail(userEmail);
+    }
+
+    public Member findByUserId(long userId) {
+        return memberRepository.getReferenceById(userId);
+    }
 
     @Transactional
     public boolean deleteMember(String userEmail, MemberDeleteDto memberDeleteDto) {
