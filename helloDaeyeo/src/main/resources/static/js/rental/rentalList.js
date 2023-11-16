@@ -41,6 +41,12 @@ search.addEventListener('click', (e) => {
     e.preventDefault();
     validateSubmit();
 });
+document.getElementById('search-word').addEventListener('keydown', (e) => {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        validateSubmit();
+    }
+});
 
 // 목록형, 보드형 클릭 시 typeActive 호출
 listType.addEventListener('click', (e) => typeActive(e.currentTarget));
