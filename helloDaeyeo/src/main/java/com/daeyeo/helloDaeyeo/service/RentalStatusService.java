@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +63,18 @@ public class RentalStatusService {
     }
 
     /**
+     * userEmail로 rentalStatus를 내림차순으로 조회하는 메서드
+     *
+     * @param userEmail 회원
+     * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
+     */
+    public List<RentalStatusDto> findRentalStatusesDesc(String userEmail) {
+        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByMember_UserEmailOrderByRentalStatusIdDesc(userEmail);
+
+        return rentalStatusMapper.toDtoList(rentalStatuses);
+    }
+
+    /**
      * objectIndex로 rentalStatus를 조회하는 메서드
      *
      * @param objectIndex rentalObject의 objectIndex
@@ -94,7 +108,6 @@ public class RentalStatusService {
     public boolean isOverlap(LocalDateTime startTime1, LocalDateTime endTime1, LocalDateTime startTime2, LocalDateTime endTime2) {
         return (startTime1.isBefore(endTime2) && endTime1.isAfter(startTime2));
     }
-
     public RentalStatus findOne(int statusId) {
         RentalStatus rentalStatus = rentalStatusRepository.findById(statusId).get();
         return rentalStatus;
