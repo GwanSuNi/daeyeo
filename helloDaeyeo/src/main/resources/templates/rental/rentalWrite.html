@@ -30,14 +30,13 @@
                             <!-- Slides only carousel -->
                             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img th:src="@{/img/rental/image_icon.png}" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img th:src="@{/img/rental/sea.jpg}" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img th:src="@{/img/rental/airplane.jfif}" class="d-block w-100" alt="...">
+                                    <!--                                    <div class="carousel-item active">-->
+                                    <!--                                        <img th:src="@{/img/rental/image_icon.png}" class="d-block w-100" alt="...">-->
+                                    <!--                                    </div>-->
+                                    <div th:each="encodedImage : ${encodedImageList}" class="carousel-item">
+
+                                        <img th:src="'data:image/png;base64,' + ${encodedImage}" alt="Image"
+                                             class="d-block w-100">
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
@@ -57,49 +56,47 @@
                                                 </div>
                                                 <div class="viewbox">
                                                     <div class="track">
-                                                        <div class="slide active">
-                                                            <img class="images" th:src="@{/img/rental/airplane.jfif}">
+                                                        <div th:each="encodedImage : ${encodedImageList}"
+                                                             class="slide active">
+                                                            <img th:src="'data:image/png;base64,' + ${encodedImage}"
+                                                                 alt="Image"
+                                                                 class="images">
                                                         </div>
-                                                        <div class="slide">
-                                                            <img class="images" th:src="@{/img/rental/sea.jpg}">
-                                                        </div>
-                                                        <div class="slide">
-                                                            <img class="images" th:src="@{/img/rental/image_icon.png}">
-                                                        </div>
-                                                        <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x803">
-                                                        </div>
-                                                        <div class="slide active">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x804">
-                                                        </div>
-                                                        <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/eADQs40WywY/800x805">
-                                                        </div>
-                                                        <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/random/800x806">
-                                                        </div>
-                                                        <div class="slide">
-                                                            <img class="images"
-                                                                 src="https://source.unsplash.com/ArYjvKHVByg/800x807">
-                                                        </div>
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images" th:src="@{/img/rental/sea.jpg}">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images" th:src="@{/img/rental/image_icon.png}">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images"-->
+                                                        <!--                                                                 src="https://source.unsplash.com/random/800x803">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide active">-->
+                                                        <!--                                                            <img class="images"-->
+                                                        <!--                                                                 src="https://source.unsplash.com/random/800x804">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images"-->
+                                                        <!--                                                                 src="https://source.unsplash.com/eADQs40WywY/800x805">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images"-->
+                                                        <!--                                                                 src="https://source.unsplash.com/random/800x806">-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        <div class="slide">-->
+                                                        <!--                                                            <img class="images"-->
+                                                        <!--                                                                 src="https://source.unsplash.com/ArYjvKHVByg/800x807">-->
+                                                        <!--                                                        </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="btn btn-next">
                                                     <i class="fas right-arrow"></i>
                                                 </div>
                                                 <div class="nav-indicator">
-                                                    <div class="dot active"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
-                                                    <div class="dot"></div>
+                                                    <div th:each="encodedImage, status : ${encodedImageList}"
+                                                         class="dot"
+                                                         th:class="${status.index == 0} ? 'active' : ''"></div>
                                                 </div>
                                             </div>
                                         </div> <!-- End Slider-->

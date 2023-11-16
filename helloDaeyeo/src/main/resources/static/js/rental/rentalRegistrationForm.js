@@ -172,6 +172,21 @@ function validateCategory(main,sub){
 }
 
 
+            // if (!validateCategory('mainCategorySelect','subCategorySelect')) {
+            //     return;
+            // }
+            //
+            // if (!validateDates('applicationStartDate', 'applicationEndDate')) {
+            //     return;
+            // }
+            //
+            // if (!validateDates('usageStartDate','usageEndDate')) {
+            //     return;
+            // }
+            //
+            // if (!validateTimes('startTime','endTime')) {
+            //     return;
+            // }
 Dropzone.options.myDropzone = {
     paramName: "files",
     url: "/rentals/rentalRegistrationForm", // 서버의 주소(엔드포인트)를 의미
@@ -191,21 +206,6 @@ Dropzone.options.myDropzone = {
             e.preventDefault();
             e.stopPropagation();
 
-            if (!validateCategory('mainCategorySelect','subCategorySelect')) {
-                return;
-            }
-
-            if (!validateDates('applicationStartDate', 'applicationEndDate')) {
-                return;
-            }
-
-            if (!validateDates('usageStartDate','usageEndDate')) {
-                return;
-            }
-
-            if (!validateTimes('startTime','endTime')) {
-                return;
-            }
             // FormData 생성
             let formData = new FormData(document.getElementById('rentalRegisterForm'));
 

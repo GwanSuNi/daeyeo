@@ -3,6 +3,8 @@
 const csrfToken = document.querySelector("meta[name='_csrf']").content;
 const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
+document.querySelector('#carouselExampleSlidesOnly > div > div:nth-child(1)').classList.add('active');
+
 function changeTab(obj) {
     if (!obj.classList.contains('active')) { // obj의 클래스에 active가 없다면
         let title = obj.parentElement.children;
@@ -313,9 +315,7 @@ function toggleWish(rentalObjectId) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    // toggleButton.setAttribute('src', '/img/rental/heart_icon.png');
                     toggleButton.onload = function() {
-                        console.log("이미지가 성공적으로 로드되었습니다.");
                     };
                     // 요청이 성공했을 때 실행할 코드
                     console.log("POST 요청 성공");

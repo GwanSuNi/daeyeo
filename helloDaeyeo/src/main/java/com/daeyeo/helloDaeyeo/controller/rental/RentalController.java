@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -86,6 +87,8 @@ public class RentalController {
 
         RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
         rentalStatusFormDto.setObjectId(objectId);
+        rentalObjectService.encodeImage(rentalObject.getImages());
+        model.addAttribute("encodedImageList", rentalObjectService.encodeImage(rentalObject.getImages()));
         model.addAttribute("memberId", userEmail);
         model.addAttribute("hasWish", hasWish);
         model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
@@ -207,7 +210,7 @@ public class RentalController {
     @ResponseBody
     public ResponseEntity<String> register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
             rentalRegisterFormDto, BindingResult bindingResult,
-                                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+                                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) throws IOException {
 
         System.out.println(files + "===========files입니다!!!!");
 
@@ -219,11 +222,16 @@ public class RentalController {
 //        }
         System.out.println(files + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
+        rentalRegisterDto.setFiles(files);
         String userId = authentication.getName();
         rentalRegisterDto.setUserId(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
-        rentalObjectService.insertRentalObject(rentalRegisterDto);
-        System.out.println("성공적으로 값이 들어갔습니다.!!!!!!!=========================");
+        RentalObject rentalObject = rentalObjectService.insertRentalObject(rentalRegisterDto);
+        for (MultipartFile file : files) {
+            byte[] imageBytes = file.getBytes();
+            rentalObjectService.addImageToRentalObject(rentalObject.getObjectIndex(), imageBytes);
+        }
+
         return ResponseEntity.ok("Registration successful");
     }
 

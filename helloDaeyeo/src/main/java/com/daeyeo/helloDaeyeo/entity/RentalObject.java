@@ -66,7 +66,7 @@ public class RentalObject {
     @ElementCollection
     @CollectionTable(name = "rental_object_images", joinColumns = @JoinColumn(name = "objectIndex"))
     @Lob
-    private List<byte[]> images;
+    private List<byte[]> images = new ArrayList<>();
 
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
