@@ -36,7 +36,6 @@ public class RentalStatusService {
 
     /**
      * userEmail로 rentalStatus를 조회하는 메서드
-     *
      * @param userEmail 회원
      * @return rentalStatus 리스트를 rentalStatusDto 리스트로 변환하여 반환
      */

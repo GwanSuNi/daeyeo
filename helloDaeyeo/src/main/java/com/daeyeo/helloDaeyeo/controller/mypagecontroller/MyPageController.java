@@ -81,18 +81,18 @@ public class MyPageController {
         if (!userService.comparePassword(memberEmail, memberUpdatePwDto.getPw())) { // 원래 비밀번호와 맞지 않으면
             log.warn("비번 다름");
             redirectAttributes.addFlashAttribute("member", member);
-            redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다. 다시 입력해주세요");
+            redirectAttributes.addFlashAttribute("notSamePw", "로그인한 유저의 패스워드와 일치하지 않습니다. 다시 입력해주세요.");
             return "redirect:/myPage";
         }
         if (bCryptPasswordEncoder.matches(memberUpdatePwDto.getNewPw(), member.getPassword())) {
             log.warn("기존 비번과 같음");
-            redirectAttributes.addFlashAttribute("notSamePw", "새로운 비밀번호는 기존 비밀번호와 다르게 설정해주세요");
+            redirectAttributes.addFlashAttribute("notSamePw", "새로운 비밀번호는 기존 비밀번호와 다르게 설정해주세요.");
             return "redirect:/myPage";
         }
         if (!memberUpdatePwDto.getNewPw().equals(memberUpdatePwDto.getNewPwRepeat())) { // 재확인 다르면
             log.warn("재확인 다름");
             redirectAttributes.addFlashAttribute("member", member);
-            redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호가 일치하지 않습니다. 다시 입력해주세요");
+            redirectAttributes.addFlashAttribute("notSamePwConfirm", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
             return "redirect:/myPage";
         }
         // 모두 문제 없을 시

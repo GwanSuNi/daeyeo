@@ -40,10 +40,8 @@ public class UserViewController {
     @GetMapping("/")
     public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
-
         MainPageResponseDto mainPageResponseDto = mainPageService.prepareMainPage(authentication.getName());
         model.addAttribute("mainPage", mainPageResponseDto);
-
         return "/mainPage";
     }
 

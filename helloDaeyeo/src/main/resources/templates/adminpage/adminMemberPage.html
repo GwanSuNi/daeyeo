@@ -281,10 +281,11 @@
                                     </tr>
                                     <!--이용정지와 등급 변경 항목을 묶은 테이블-->
                                     <tr>
-                                        <td colspan="2" class="modal-td">
+                                        <th scope="row" class="modal-th">정지 설정</th>
+                                        <td class="modal-td">
                                             <form id="suspendForm">
                                                 <input type="number" id="banDuration" name="banDuration"
-                                                       placeholder="숫자 입력" required>
+                                                       placeholder="숫자 입력" max="9999" required>
                                                 <select id="banUnit" name="banUnit" required>
                                                     <option value="hour">시간</option>
                                                     <option value="day">일</option>
@@ -293,9 +294,9 @@
                                                 <button type="submit">이용 정지</button>
                                             </form>
                                         </td>
-                                        <td colspan="2" class="modal-td">
+                                        <th scope="row" class="modal-th">등급 선택</th>
+                                        <td class="modal-td">
                                             <form id="updateRolesForm">
-                                                <label>등급 선택:</label>
                                                 <span th:each="role : ${roles}">
                                                     <input th:id="${role.toString()}" id="${role.toString()}"
                                                            type="checkbox" name="roles"
@@ -418,6 +419,8 @@
 <script defer src="/js/adminpage/tempPwByAdmin.js"></script>
 <!--modal-->
 <script defer src="/js/adminpage/memberModal.js"></script>
+<!-- JS File -->
+<script defer th:src="@{/js/adminpage/adminMemberPage.js}" type="text/javascript"></script>
 <script defer src="/js/adminpage/registByAdmin.js"></script>
 <!-- JS File -->
 <script defer th:src="@{/js/adminpage/adminMemberPage.js}" type="text/javascript"></script>
