@@ -2,7 +2,6 @@ package com.daeyeo.helloDaeyeo.service;
 
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
-import com.daeyeo.helloDaeyeo.dto.rental.SearchSpecDto;
 import com.daeyeo.helloDaeyeo.entity.MainCategory;
 import com.daeyeo.helloDaeyeo.entity.SubCategory;
 import com.daeyeo.helloDaeyeo.exception.NotFoundSubCategoryException;
@@ -14,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -61,5 +62,17 @@ public class SubCategoryService {
             return mainCategoryService.getAllCategories().stream().map(MainCategoryDto::getMcId).collect(Collectors.toList());
         else
             return getSubCategories(mainCategory).stream().map(SubCategoryDto::getScId).collect(Collectors.toList());
+    }
+
+    public Map<String, List<String>> getAllCategories() {
+        List<MainCategoryDto> mainCategories = mainCategoryService.getAllCategories();
+        Map<String, List<String>> categories = new LinkedHashMap<>();
+
+        for (MainCategoryDto mainCategory : mainCategories) {
+            List<SubCategoryDto> subCategories = getSubCategories(mainCategory.getMcId());
+            categories.put(mainCategory.getMcId(), subCategories.stream().map(SubCategoryDto::getScId).collect(Collectors.toList()));
+        }
+
+        return categories;
     }
 }
