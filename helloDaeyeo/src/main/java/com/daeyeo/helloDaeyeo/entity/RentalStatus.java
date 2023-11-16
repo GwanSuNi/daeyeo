@@ -23,16 +23,17 @@ public class RentalStatus {
     private Long rentalStatusId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Member member;
+    private Member member;
+    private String userEmail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    RentalObject rentalObject;
+    private RentalObject rentalObject;
 
     @OneToOne(mappedBy = "rentalStatus")
     private Review review;
 
     @OneToMany(mappedBy = "rentalStatus")
-    List<RentalLog> rentalLogs = new ArrayList<>();
+    private List<RentalLog> rentalLogs = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Status status;

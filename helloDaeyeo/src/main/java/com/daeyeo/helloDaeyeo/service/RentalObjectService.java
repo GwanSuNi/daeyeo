@@ -12,8 +12,8 @@ import com.daeyeo.helloDaeyeo.exception.NotFoundRentalObjectException;
 import com.daeyeo.helloDaeyeo.mapper.MemberMapper;
 import com.daeyeo.helloDaeyeo.mapper.RentalObjectMapper;
 import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
-import com.daeyeo.helloDaeyeo.repository.MemberRepository;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,9 +29,9 @@ import java.util.List;
 //@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
-    private final MemberRepository memberRepository;
 
     private final MemberService memberService;
+    private final UserService userService;
     private final SubCategoryService subCategoryService;
 
     private final RentalObjectMapper rentalObjectMapper;
@@ -40,7 +40,7 @@ public class RentalObjectService {
 
     @Transactional
     public RentalObject insertRentalObject(RentalRegisterDto dto) {
-        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserId()));
+        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserEmail()));
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
         rentalObjectRepository.save(rentalObject);
@@ -76,7 +76,7 @@ public class RentalObjectService {
                 .orElseThrow(() -> new NotFoundRentalObjectException("삭제하려고 하시는 대여 장소가 없습니다"));
     }
 
-    public RentalObjectDto getRentalObject(long objectIndex) {
+    public RentalObjectDto getRentalObjectDto(long objectIndex) {
         RentalObject rentalObject = rentalObjectRepository.findById(objectIndex)
                 .orElseThrow(() -> new NotFoundRentalObjectException("해당 게시글을 찾을 수 없습니다."));
 
@@ -100,7 +100,7 @@ public class RentalObjectService {
         List<RentalObjectDto> rentalObjectDtos = new ArrayList<>();
 
         for (RentalStatusDto rentalStatusDto : rentalStatusDtos)
-            rentalObjectDtos.add(getRentalObject(rentalStatusDto.getObjectIndex()));
+            rentalObjectDtos.add(getRentalObjectDto(rentalStatusDto.getObjectIndex()));
 
         return rentalObjectDtos;
     }

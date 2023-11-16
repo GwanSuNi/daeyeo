@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class RentalStatusDto {
     private Long rentalStatusId;
+    private long userId;
     private String userEmail;
     private Long objectIndex;
     private Status status;

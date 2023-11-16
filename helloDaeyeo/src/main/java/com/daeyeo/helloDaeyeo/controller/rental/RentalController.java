@@ -3,7 +3,6 @@ package com.daeyeo.helloDaeyeo.controller.rental;
 import com.daeyeo.helloDaeyeo.dto.category.MainCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.category.SubCategoryDto;
 import com.daeyeo.helloDaeyeo.dto.rental.*;
-import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalObject;
 import com.daeyeo.helloDaeyeo.entity.Status;
 import com.daeyeo.helloDaeyeo.entity.WishList;
@@ -11,6 +10,7 @@ import com.daeyeo.helloDaeyeo.exception.NotPermitTime;
 import com.daeyeo.helloDaeyeo.exception.OverlapInTime;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import com.daeyeo.helloDaeyeo.service.*;
+import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +42,7 @@ public class RentalController {
     private final RentalStatusService rentalStatusService;
     private final RentalObjectRepository rentalObjectRepository;
     private final MemberService memberService;
+    private final UserService userService;
     private final WishListService wishListService;
 
 
@@ -82,6 +83,10 @@ public class RentalController {
         RentalObject rentalObject = rentalObjectService.getOneRentalObject(objectId);
         rentalObject.setVisitCount(rentalObject.getVisitCount() + 1);
         rentalObjectRepository.save(rentalObject);
+
+        RentalObjectDto resultRentalObjectDto = rentalObjectService.getRentalObjectDto(objectId);
+        resultRentalObjectDto.setUserEmail(rentalObject.getUserEmail());
+
         String userEmail = authentication.getName();
         Boolean hasWish = wishListService.hasWishList(objectId, userEmail);
 
@@ -91,7 +96,7 @@ public class RentalController {
         model.addAttribute("encodedImageList", rentalObjectService.encodeImage(rentalObject.getImages()));
         model.addAttribute("memberId", userEmail);
         model.addAttribute("hasWish", hasWish);
-        model.addAttribute("rentalObject", rentalObjectService.getRentalObject(objectId));
+        model.addAttribute("rentalObject", resultRentalObjectDto);
         model.addAttribute("rentalStatus", rentalStatusFormDto);
         return "rental/rentalWrite";
     }
@@ -100,25 +105,18 @@ public class RentalController {
     /***
      *
      * @param rentalStatusFormDto
-     * @param model
+     * @param
      * @param redirectAttributes
      * @param authentication
      * @return
      */
     @PostMapping("write/status.do")
-    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult,
-                                   Model model, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+    public String rentalStatusSend(@ModelAttribute("rentalStatus") @Valid RentalStatusFormDto rentalStatusFormDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         System.out.println("컨트롤러에 들어왔습니다.");
-        // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
-        model.addAttribute("isLogined", !(authentication instanceof AnonymousAuthenticationToken));
-        // 권한을 컬렉션에서 확인
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
-        model.addAttribute("isAdmin", isAdmin);
-//        log.info("principal : {}, name: {}, authorities: {}, details : {}", authentication.getPrincipal(), authentication.getName(), authentication.getAuthorities(), authentication.getDetails());
-
         try {
+
             if (bindingResult.hasErrors()) {
+
                 redirectAttributes.addFlashAttribute("startTime", "시작시간을 입력해주세요");
                 redirectAttributes.addFlashAttribute("endTime", "끝나는 시간을 입력해주세요");
                 redirectAttributes.addFlashAttribute("rentalDate", "등록 날짜를 입력해주세요");
@@ -140,15 +138,16 @@ public class RentalController {
             boolean isInside = rentalStatusStartTime.compareTo(rentalObjectStartTime) >= 0 &&
                     rentalStatusEndTime.compareTo(rentalObjectEndTime) <= 0;
 
+            // rentalStatusFormDto 로 일단 값을 받고 rentalStatus로 넣어서 형변환 시도
             RentalStatusDto rentalStatusDto = new RentalStatusDto(rentalStatusFormDto, isInside);
             // 로그인한 유저의 아이디값을 넣음
             rentalStatusDto.setUserEmail(userEmail);
+            rentalStatusDto.setUserId(userService.findUserIdByUserEmail(userEmail));
             if (rentalStatusService.validPeriod(rentalStatusDto.getObjectIndex(),
                     rentalStatusDto.getStartTime(), rentalStatusDto.getEndTime())) {
                 // 시간이 겹치지 않으므로 validPeriod는 true를 반환
                 rentalStatusDto.setStatus(Status.PENDING);
                 rentalStatusService.insertRentalStatus(rentalStatusDto);
-                Member member = memberService.findMember(userEmail).get();
             }
         } catch (NotPermitTime e) {
             String errorMessage = e.getMessage();
@@ -211,7 +210,6 @@ public class RentalController {
     public ResponseEntity<String> register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
             rentalRegisterFormDto, BindingResult bindingResult,
                                            Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) throws IOException {
-
         System.out.println(files + "===========files입니다!!!!");
 
 //        if (bindingResult.hasErrors()) {
@@ -224,7 +222,7 @@ public class RentalController {
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
         rentalRegisterDto.setFiles(files);
         String userId = authentication.getName();
-        rentalRegisterDto.setUserId(userId);
+        rentalRegisterDto.setUserEmail(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         RentalObject rentalObject = rentalObjectService.insertRentalObject(rentalRegisterDto);
         for (MultipartFile file : files) {

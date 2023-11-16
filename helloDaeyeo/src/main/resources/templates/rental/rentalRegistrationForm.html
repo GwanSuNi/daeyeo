@@ -20,7 +20,11 @@
 </head>
 <body>
 <div class="wrapper">
+<<<<<<< HEAD
     <div th:include="/includes/header"></div>
+=======
+    <div th:include="~{/includes/header :: header}"></div>
+>>>>>>> d39b79f22e3a247ecde566b52ef09db560cfe021
     <form th:action="@{/rentals/rentalRegistrationForm}" method="post" class="container" th:object="${rentalRegister}"
           enctype="multipart/form-data" id="rentalRegisterForm">
         <div class="content-title">대여 등록</div>
@@ -33,7 +37,7 @@
                         <div class="category">
                             <select id="mainCategorySelect" class="main-cate form-select">
                                 <option th:each="mainCategory : ${mainCategoryList}" th:value="${mainCategory.mcId}"
-                                        th:text="${mainCategory.mcId}"></option>
+                                        th:text="${mainCategory.mcId}" th:selected></option>
                             </select>
                             <select id="subCategorySelect" class="sub-cate form-select"
                                     aria-label="Default select example">
@@ -150,25 +154,28 @@
                     <div class="item-content">
                         <div class="use">
                             <div class="row mb-3">
-                                <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                                <label for="inputTime1" class="col-sm-2 col-form-label">Time</label>
                                 <div class="col-sm-10">
-                                    <input type="time" id="startTime" class="form-control" th:field="*{usagePeriodDto.startTime}">
-<!--                                    <p th:if="${#fields.hasErrors('usagePeriodDto.startTime')}"-->
-<!--                                       th:errors="*{usagePeriodDto.startTime}">Incorrect date</p>-->
+                                    <input id="inputTime1" type="time" class="form-control"
+                                           th:field="*{usagePeriodDto.startTime}">
+                                    <p th:if="${#fields.hasErrors('usagePeriodDto.startTime')}"
+                                       th:errors="*{usagePeriodDto.startTime}">Incorrect date</p>
                                 </div>
                                 <span>~</span>
                                 <div class="row mb-3">
-                                    <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                                    <label for="inputTime2" class="col-sm-2 col-form-label">Time</label>
                                     <div class="col-sm-10">
-                                        <input type="time" id="endTime" class="form-control" th:field="*{usagePeriodDto.endTime}">
-<!--                                        <p th:if="${#fields.hasErrors('usagePeriodDto.endTime')}"-->
-<!--                                           th:errors="*{usagePeriodDto.endTime}">Incorrect date</p>-->
+                                        <input id="inputTime2" type="time" class="form-control"
+                                               th:field="*{usagePeriodDto.endTime}">
+                                        <p th:if="${#fields.hasErrors('usagePeriodDto.endTime')}"
+                                           th:errors="*{usagePeriodDto.endTime}">Incorrect date</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </li>
+<<<<<<< HEAD
             </ul>
 
             <li class="item">
@@ -192,7 +199,6 @@
                     </div>
                 </div>
             </li>
-
             <li class="item">
                 <div class="item-title">이용안내</div>
                 <div class="item-content">
@@ -211,7 +217,7 @@
             </div>
         </div>
     </form>
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->

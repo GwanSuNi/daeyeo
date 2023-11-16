@@ -27,7 +27,7 @@ public class RentalObject {
     // userId
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
-
+    private String userEmail;
     @OneToMany(mappedBy = "rentalObject")
     List<RentalStatus> rentalStatuses = new ArrayList<>();
     @OneToMany(mappedBy = "rentalObject")

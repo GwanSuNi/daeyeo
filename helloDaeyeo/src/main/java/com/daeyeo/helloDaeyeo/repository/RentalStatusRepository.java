@@ -19,5 +19,7 @@ public interface RentalStatusRepository extends JpaRepository<RentalStatus, Inte
 
     List<RentalStatus> findByMember_UserEmail(String userEmail);
 
+    List<RentalStatus> findByMember_UserEmailOrderByRentalStatusIdDesc(String userEmail);
+
     List<RentalStatus> findByRentalObject_ObjectIndex(Long objectIndex);
 }

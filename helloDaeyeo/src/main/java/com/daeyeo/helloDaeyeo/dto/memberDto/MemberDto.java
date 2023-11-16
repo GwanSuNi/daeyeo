@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class MemberDto {
+    private long userId;
     private String userEmail;
     private Address memberAddress;
     private String phone;

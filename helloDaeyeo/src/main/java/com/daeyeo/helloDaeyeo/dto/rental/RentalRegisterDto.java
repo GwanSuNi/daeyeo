@@ -15,7 +15,8 @@ import java.util.List;
 @Builder
 public class RentalRegisterDto {
     private String scId;
-    private String userId;
+    private long userId;
+    private String userEmail;
     private String objectName;
     private Address address;
     private int usageFee;
@@ -30,7 +31,7 @@ public class RentalRegisterDto {
 
     public RentalRegisterDto(String scId, String userEmail, String objectName, Address address) {
         this.scId = scId;
-        this.userId = userEmail;
+        this.userEmail = userEmail;
         this.objectName = objectName;
         this.address = address;
     }
@@ -42,7 +43,7 @@ public class RentalRegisterDto {
      */
     public RentalRegisterDto(RentalRegisterFormDto rentalRegisterFormDto) {
         this.scId = rentalRegisterFormDto.getScId();
-        this.userId = rentalRegisterFormDto.getUserId();
+        this.userEmail = rentalRegisterFormDto.getUserEmail();
         this.objectName = rentalRegisterFormDto.getObjectName();
         this.address = rentalRegisterFormDto.getAddress();
         this.cancellation = rentalRegisterFormDto.getCancellation();

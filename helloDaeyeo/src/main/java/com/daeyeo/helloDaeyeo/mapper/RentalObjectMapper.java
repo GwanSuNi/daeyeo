@@ -16,9 +16,10 @@ import java.util.List;
 public interface RentalObjectMapper {
     @Mapping(source = "subCategory.mainCategory.mcId", target = "mcId")
     @Mapping(source = "subCategory.scId", target = "scId")
-    @Mapping(source = "member.userEmail", target = "userEmail")
+    @Mapping(source = "member.id", target = "userId")
     RentalObjectDto toDto(RentalObject rentalObject);
 
+    @Mapping(source = "member.userEmail", target = "userEmail")
     RentalObject toEntity(RentalRegisterDto rentalRegisterDto, SubCategory subCategory, Member member);
 
     List<RentalObjectDto> toDtoList(List<RentalObject> rentalObjects);
