@@ -36,7 +36,7 @@ public class MainPageService {
         Set<MainPageRentalItemDto> recentlyUsedService = new LinkedHashSet<>(10);
 
         for (RentalStatusDto rentalStatusDto : rentalStatusDtos) {
-            RentalObjectDto objectDto = rentalObjectService.getRentalObject(rentalStatusDto.getObjectIndex());
+            RentalObjectDto objectDto = rentalObjectService.getRentalObjectDto(rentalStatusDto.getObjectIndex());
             MainPageRentalItemDto responseDto = mainPageMapper.toMainPageRentalItemDto(objectDto);
 
             recentlyUsedService.add(responseDto);
@@ -53,7 +53,7 @@ public class MainPageService {
 
         for (RentalStatusDto rentalStatusDto : rentalStatusDtos) {
             if (rentalStatusDto.getStatus() == Status.PENDING || rentalStatusDto.getStatus() == Status.ACCEPTED) {
-                RentalObjectDto objectDto = rentalObjectService.getRentalObject(rentalStatusDto.getObjectIndex());
+                RentalObjectDto objectDto = rentalObjectService.getRentalObjectDto(rentalStatusDto.getObjectIndex());
                 MainPageRentalItemDto responseDto = mainPageMapper.toMainPageRentalItemDto(objectDto);
 
                 myReservationInfo.add(responseDto);
