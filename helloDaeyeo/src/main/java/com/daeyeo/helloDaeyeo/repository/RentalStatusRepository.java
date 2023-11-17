@@ -4,6 +4,7 @@ import com.daeyeo.helloDaeyeo.entity.Member;
 import com.daeyeo.helloDaeyeo.entity.RentalStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 @Repository
 public interface RentalStatusRepository extends JpaRepository<RentalStatus, Integer>, CustomRentalStatusRepository {
     List<RentalStatus> findByMember(Member member);
+
+    @Query("FROM RentalStatus rs WHERE rs.member.id = :userId")
+    List<RentalStatus> findByUserId(@Param("userId") long userId);
 
     @Query("SELECT r FROM RentalStatus r " +
             "WHERE r.status = 'PENDING' " +

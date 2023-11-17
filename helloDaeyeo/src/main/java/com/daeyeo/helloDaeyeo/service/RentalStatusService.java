@@ -15,9 +15,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RentalStatusService {
     final private RentalStatusRepository rentalStatusRepository;
     final private RentalObjectService rentalObjectService;
@@ -252,5 +255,21 @@ public class RentalStatusService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    public boolean updateQuitUserInfo(long userId, String formattedUserEmail) {
+        List<RentalStatus> rentalStatuses = rentalStatusRepository.findByUserId(userId);
+        log.info("rss : {}", rentalStatuses);
+        for (RentalStatus status : rentalStatuses) {
+            status.setUserEmail(formattedUserEmail);
+            updateRentalStatus(status);
+        }
+        return true;
+    }
+
+    @Transactional
+    public void updateRentalStatus(RentalStatus rentalStatus) {
+        rentalStatusRepository.save(rentalStatus);
     }
 }
