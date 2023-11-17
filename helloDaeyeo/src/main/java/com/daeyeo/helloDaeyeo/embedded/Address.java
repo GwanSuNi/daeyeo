@@ -19,4 +19,8 @@ public class Address {
     private String detailAddress;
     private String sido;
     private String sigungu;
+
+    public Address(String address) {
+        this.address = address;
+    }
 }

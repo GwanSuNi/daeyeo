@@ -15,6 +15,7 @@ import com.daeyeo.helloDaeyeo.mapper.SubCategoryMapper;
 import com.daeyeo.helloDaeyeo.repository.RentalObjectRepository;
 import com.daeyeo.helloDaeyeo.service.userDetails.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 //@Transactional(readOnly = true)
 public class RentalObjectService {
     private final RentalObjectRepository rentalObjectRepository;
@@ -128,4 +130,22 @@ public class RentalObjectService {
         }
         return rentalObjectManageDtoList;
     }
+
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    public boolean updateQuitUserInfo(long userId, String formattedUserEmail) {
+        List<RentalObject> rentalObjects = rentalObjectRepository.findByUserId(userId);
+        log.info("ros:{}", rentalObjects);
+        for (RentalObject object : rentalObjects) {
+            object.setUserEmail(formattedUserEmail);
+            updateRentalObject(object); // 다른 트랜잭션에서 처리
+        }
+        return true;
+    }
+
+    @Transactional
+    public void updateRentalObject(RentalObject rentalObject) {
+        rentalObjectRepository.save(rentalObject);
+    }
+
 }

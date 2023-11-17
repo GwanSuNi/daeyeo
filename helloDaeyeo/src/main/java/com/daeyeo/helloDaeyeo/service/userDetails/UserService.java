@@ -94,6 +94,7 @@ public class UserService {
         return false;
     }
 
+    // 아예 삭제하는 서비스이기 때문에 사용 안할 것임 (연관관계 때문에)
     @Transactional
     public boolean deleteMemberByAdmin(String userEmail) {
         Member member = findByUserEmail(userEmail);
@@ -102,6 +103,17 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public String quitUser(String userEmail) {
+        Member member = findByUserEmail(userEmail);
+        if (member != null) {
+            member.quitUser();
+            memberRepository.save(member);
+            return member.getUserEmail().split("\\)")[0] + ")";
+        }
+        return null;
     }
 
     public boolean comparePassword(String userEmail, String password) {

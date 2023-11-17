@@ -38,6 +38,8 @@ public class AdminController {
     private final UserService userService;
     private final PeriodTestService periodTestService;
     private final AdminService adminService;
+    private final RentalObjectService rentalObjectService;
+    private final RentalStatusService rentalStatusService;
 
     @GetMapping("/")
     public String mainPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
@@ -48,7 +50,7 @@ public class AdminController {
     @GetMapping("adminMember")
     public String memberPage(Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         model.addAttribute("name", authentication.getName());
-        List<Member> memberList = memberService.findAll();
+        List<Member> memberList = memberService.findAllWithOutQuitedUser();
         List<AdminMemberDto> adminMemberDtos = memberService.adminMemberPage(memberList);
         model.addAttribute("adminMemberDtos", adminMemberDtos);
         // JSON 타입으로 전달하기 위한 속성
@@ -221,12 +223,22 @@ public class AdminController {
     // 어드민이 유저를 탈퇴하는 메서드
     @PostMapping("/quitUser")
     public ResponseEntity<String> quitUser(@RequestBody QuitUserRequestDto request) {
-        boolean result = userService.deleteMemberByAdmin(request.getUserEmail());
-        if (result) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴 요청이 실패했습니다. 다시 시도해 주세요.");
+        Member member = userService.findByUserEmail(request.getUserEmail());
+//        TODO: 아래 진행상황에서 false가 발생했을 때 롤백 어떻게?
+        String formattedUserEmail = userService.quitUser(request.getUserEmail());
+        log.info("formattedUserEmail: {}", formattedUserEmail);
+        boolean result = true;
+        if (!member.getRentalObjects().isEmpty()) {
+            result = rentalObjectService.updateQuitUserInfo(member.getId(), formattedUserEmail);
+            log.info("ROResult: {}", result);
         }
+        if (!member.getRentalStatuses().isEmpty()) {
+            result = rentalStatusService.updateQuitUserInfo(member.getId(), formattedUserEmail);
+            log.info("RsResult: {}", result);
+        }
+        if (result)
+            return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴 요청이 실패했습니다. 다시 시도해 주세요.");
     }
 
     // 어드민이 임시 비밀번호를 부여하는 메서드
