@@ -22,6 +22,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 모든 유저를 한꺼번에 가져오는데, JPA 페이징 레파지토리를 쓰지 않으면 추후에 부하가 많이 걸리지 않을까?
     List<Member> findAll();
+
+    @Query("FROM Member m WHERE m.isQuited = false")
+    List<Member> findAllWithOutQuitedUser();
 // 망가짐
 //    @Query("SELECT m, COUNT(r) FROM Member m LEFT JOIN m.reviews r GROUP BY m")
 //    List<Member> findByReviewsCount();

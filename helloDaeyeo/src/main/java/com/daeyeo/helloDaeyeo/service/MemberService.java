@@ -83,9 +83,8 @@ public class MemberService {
      * 멤버를 모두 보여주는 메서드
      * @return
      */
-    public List<Member> findAll() {
-        List<Member> memberList = memberRepository.findAll();
-        return memberList;
+    public List<Member> findAllWithOutQuitedUser() {
+        return memberRepository.findAllWithOutQuitedUser();
     }
 
     public List<AdminMemberDto> adminMemberPage(List<Member> member) {

@@ -25,11 +25,11 @@ public class Member implements UserDetails {
     // 중복 비허용 어노테이션??
     @Column(unique = true)
     private String userEmail;
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<RentalObject> rentalObjects = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<RentalStatus> rentalStatuses = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<WishList> wishListList = new ArrayList<>();
 
     @Embedded
@@ -51,6 +51,7 @@ public class Member implements UserDetails {
 //    private LocalDateTime lockEndDate = null;
     // 계정 밴
     private LocalDateTime banEndDate = LocalDateTime.of(1990, 1, 1, 0, 0);
+    private boolean isQuited = false;
 
     // 사용자 역할 정보
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -79,6 +80,18 @@ public class Member implements UserDetails {
         this.roles = roles;
     }
 
+    public void quitUser() {
+        this.userEmail = "탈퇴한사용자(" + userEmail + ")" + UUID.randomUUID();
+        this.memberAddress = new Address(" ");
+        this.phone = "";
+        this.userPw = "";
+        this.nickname = "";
+        this.department = "";
+        this.roles = new HashSet<>();
+        this.isQuited = true;
+        // 연관관계에서 userEmail 초기화 해줘야함
+    }
+
     // 권한 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -105,7 +118,8 @@ public class Member implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         // TODO: 만료되었는 지 확인하는 로직
-        return true;
+        // 밴을 isEnabled()에서 처리해버려서 탈퇴는 이 메서드에서 처리하겠음
+        return !isQuited;
     }
 
     @Override
