@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <div th:replace="/includes/header"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <div class="container">
         <div class="top_container">
             <div class="contents">
@@ -34,9 +34,11 @@
                                     <!--                                        <img th:src="@{/img/rental/image_icon.png}" class="d-block w-100" alt="...">-->
                                     <!--                                    </div>-->
                                     <div th:each="encodedImage : ${encodedImageList}" class="carousel-item">
-
                                         <img th:src="'data:image/png;base64,' + ${encodedImage}" alt="Image"
                                              class="d-block w-100">
+                                    </div>
+                                    <div th:if="${#lists.isEmpty(encodedImageList)}" class="carousel-item active">
+                                        <img th:src="@{/img/rental/image_icon.png}" class="d-block w-100" alt="...">
                                     </div>
                                 </div>
                             </div> <!-- End Slides only carousel-->
@@ -302,7 +304,7 @@
             </div> <!-- End Bordered Tabs Justified -->
         </div>
     </div>
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 <!-- BootStrap JS File -->

@@ -38,9 +38,11 @@ public class RentalObjectService {
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-    @Transactional
     public RentalObject insertRentalObject(RentalRegisterDto dto) {
-        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserEmail()));
+        System.out.println(dto.getUserEmail() + "유저이메일입니다!!!!!");
+//        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserEmail()));
+        Member member = userService.findByUserEmail(dto.getUserEmail());
+        System.out.println(member + "멤버를 찾았습니다");
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
         rentalObjectRepository.save(rentalObject);

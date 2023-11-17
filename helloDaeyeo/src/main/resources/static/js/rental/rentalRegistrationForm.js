@@ -8,17 +8,19 @@ const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 document.addEventListener("DOMContentLoaded", function () {
     // 위의 JavaScript 코드를 여기에 래핑
     subCategorySelect.addEventListener('change', function () {
-// html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
+    // html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
         let selectedValue = subCategorySelect.value;
         document.getElementById("scId").value = selectedValue;
-
+        console.log("mainCategory",mainCategorySelect.selectedIndex);
+        console.log("subCategory",subCategorySelect.selectedIndex);
 
     })
 });
+console.log("mainCategory",mainCategorySelect.selectedIndex);
+console.log("subCategory",subCategorySelect.selectedIndex);
 
 mainCategorySelect.addEventListener('change', () => {
     let selectedMainCategoryId = mainCategorySelect.value;
-
     // XMLHttpRequest 객체 생성
     const xhr = new XMLHttpRequest();
 
@@ -34,11 +36,19 @@ mainCategorySelect.addEventListener('change', () => {
             // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
             subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
             const data = JSON.parse(xhr.responseText);
-            data.forEach((subcategory) => {
+            data.forEach((subcategory,index) => {
                 let option = document.createElement('option');
                 option.value = subcategory.scId;
                 option.text = subcategory.scId;
                 subCategorySelect.appendChild(option);
+
+                // if (index === 0) {
+                //     option.selected = true;
+                //     let selectedValue = subCategorySelect.value;
+                //     document.getElementById("scId").value = selectedValue;
+                //     console.log("mainCategory",mainCategorySelect.selectedIndex);
+                //     console.log("subCategory",subCategorySelect.selectedIndex);
+                // }
             });
         }
     };
@@ -354,6 +364,34 @@ findAddressBtn.addEventListener('click', (event) => {
     }).embed(findAddress);
 });
 
+document.getElementById('inquiryPhone').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formattedValue = '';
+
+    if (value.startsWith('02')) { // 지역번호가 '02'로 시작하는 경우
+        if (value.length >= 1) {
+            formattedValue = value.substring(0, 2); // 앞에 2자리 (지역번호)
+        }
+        if (value.length >= 3) {
+            formattedValue = formattedValue + '-' + value.substring(2, 6); // 가운데 4자리
+        }
+        if (value.length >= 7) {
+            formattedValue = formattedValue + '-' + value.substring(6, 10); // 뒤에 4자리
+        }
+    } else { // 그 외의 경우
+        if (value.length >= 1) {
+            formattedValue = value.substring(0, 3); // 앞에 3자리
+        }
+        if (value.length >= 4) {
+            formattedValue = formattedValue + '-' + value.substring(3, 7); // 가운데 4자리
+        }
+        if (value.length >= 8) {
+            formattedValue = formattedValue + '-' + value.substring(7, 11); // 뒤에 4자리
+        }
+    }
+
+    e.target.value = formattedValue.substring(0, 14);
+});
 
 // 등록하기
 // const registration = document.querySelector('.registration');

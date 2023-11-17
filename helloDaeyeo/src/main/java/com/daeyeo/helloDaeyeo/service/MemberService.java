@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 @Slf4j
 /*
   readOnly 속성은 값에대한 변화가 없을때 true 설정
@@ -43,7 +43,7 @@ public class MemberService {
     private final Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().modulesToInstall(new JavaTimeModule());
     private final ObjectMapper objectMapper = builder.build();
 
-    @Transactional
+    //    @Transactional
     public void insertMember(MemberRegisterDto memberRegisterDto) {
         Optional<Member> member = memberRepository.findByUserEmail(memberRegisterDto.getUserEmail());
         // 멤버의 갯수를 세서 멤버의 갯수가 0이면 허용 1이면 허용 x 해서 최적화하기 ?

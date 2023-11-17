@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <form id="rentalListFrm" class="contents" action="/rentals/list" method="get" th:object="${searchSpec}">
         <input type="hidden" th:field="*{sido}">
         <input type="hidden" th:field="*{sigungu}">

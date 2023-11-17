@@ -27,7 +27,7 @@
 <body>
 
 <div class="body_container">
-    <div th:replace="~{/includes/header :: header(isLogined = ${isLogined}, isAdmin = ${isAdmin})}"></div>
+    <div th:include="~{/includes/header :: header}"></div>
     <div class="main_content">
         <!-- ======= Sidebar ======= -->
         <div class="my_content">
@@ -134,7 +134,7 @@
         <!-- Template Main JS File -->
         <script th:src="@{/css/assets/js/main.js}"></script>
     </div>
-    <div th:replace="/includes/footer"></div>
+    <div th:replace="~{/includes/footer}"></div>
 </div>
 </body>
 </html>

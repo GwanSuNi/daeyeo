@@ -22,10 +22,12 @@ public class RentalObject {
 
     // scId
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scId")
     private SubCategory subCategory;
 
     // userId
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
     private Member member;
     private String userEmail;
     @OneToMany(mappedBy = "rentalObject")

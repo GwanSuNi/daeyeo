@@ -222,14 +222,16 @@ public class RentalController {
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
         rentalRegisterDto.setFiles(files);
         String userId = authentication.getName();
+        System.out.println(userId);
         rentalRegisterDto.setUserEmail(userId);
         rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
         RentalObject rentalObject = rentalObjectService.insertRentalObject(rentalRegisterDto);
-        for (MultipartFile file : files) {
-            byte[] imageBytes = file.getBytes();
-            rentalObjectService.addImageToRentalObject(rentalObject.getObjectIndex(), imageBytes);
+        if (files != null) {
+            for (MultipartFile file : files) {
+                byte[] imageBytes = file.getBytes();
+                rentalObjectService.addImageToRentalObject(rentalObject.getObjectIndex(), imageBytes);
+            }
         }
-
         return ResponseEntity.ok("Registration successful");
     }
 
