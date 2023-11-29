@@ -1,5 +1,6 @@
 let subCategorySelect = document.getElementById('subCategorySelect');
 let mainCategorySelect = document.getElementById('mainCategorySelect');
+
 const csrfToken = document.querySelector("meta[name='_csrf']").content;
 const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 
@@ -7,17 +8,19 @@ const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 document.addEventListener("DOMContentLoaded", function () {
     // 위의 JavaScript 코드를 여기에 래핑
     subCategorySelect.addEventListener('change', function () {
-// html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
+    // html 페이지에서 동적으로 생서된 옵션들중 선택된 옵션의 값을 가져옴
         let selectedValue = subCategorySelect.value;
         document.getElementById("scId").value = selectedValue;
-
+        console.log("mainCategory",mainCategorySelect.selectedIndex);
+        console.log("subCategory",subCategorySelect.selectedIndex);
 
     })
 });
+console.log("mainCategory",mainCategorySelect.selectedIndex);
+console.log("subCategory",subCategorySelect.selectedIndex);
 
 mainCategorySelect.addEventListener('change', () => {
     let selectedMainCategoryId = mainCategorySelect.value;
-
     // XMLHttpRequest 객체 생성
     const xhr = new XMLHttpRequest();
 
@@ -33,11 +36,19 @@ mainCategorySelect.addEventListener('change', () => {
             // 서버로부터 받은 데이터를 사용하여 SubCategory select box를 업데이트
             subCategorySelect.innerHTML = ''; // 기존 옵션을 지웁니다.
             const data = JSON.parse(xhr.responseText);
-            data.forEach((subcategory) => {
+            data.forEach((subcategory,index) => {
                 let option = document.createElement('option');
                 option.value = subcategory.scId;
                 option.text = subcategory.scId;
                 subCategorySelect.appendChild(option);
+
+                // if (index === 0) {
+                //     option.selected = true;
+                //     let selectedValue = subCategorySelect.value;
+                //     document.getElementById("scId").value = selectedValue;
+                //     console.log("mainCategory",mainCategorySelect.selectedIndex);
+                //     console.log("subCategory",subCategorySelect.selectedIndex);
+                // }
             });
         }
     };
@@ -102,12 +113,93 @@ mainCategorySelect.addEventListener('change', () => {
 //         });
 //     }
 // };
+    // 날짜 입력 필드에서 값을 가져올 때, 값이 비어있는지 체크
+    // let startDateValue = startDateElement ? startDateElement.value : null;
+    // let endDateValue = endDateElement ? endDateElement.value : null;
+
+    // 날짜 포맷이 유효한지 확인
+    // let startDate = isValidDate(startDateValue) ? new Date(startDateValue) : null;
+    // let endDate = isValidDate(endDateValue) ? new Date(endDateValue) : null;
 
 
-console.log(document.querySelector("#myDropzone"));
+let scIdChoiceDiv = document.querySelector('.scIdChoice');
+let errorMessageContainer = document.getElementById('errorMessageContainer');
+function displayErrorMessage(message) {
+    let errorMessageContainer = document.getElementById('errorMessageContainer');
+    errorMessageContainer.innerHTML = '<p style="color: red;">' + message + '</p>';
+}
+function validateDates(startId, endId) {
+    let startDateElement = document.getElementById(startId).value;
+    let endDateElement = document.getElementById(endId).value;
+    let currentDate = new Date();
+    let endDate = new Date(endDateElement);
+
+    if (!startDateElement || !endDateElement) {
+        let errorMessage = '날짜를 입력해주세요';
+        displayErrorMessage(errorMessage)
+        return false;
+    }
+
+    if (startDateElement > endDateElement) {
+        let errorMessage = '시작 날짜는 종료 날짜보다 이전이어야 합니다.';
+        displayErrorMessage(errorMessage)
+        return false;
+    }
+    if (endDate < currentDate) {
+        let errorMessage = '입력 하신 날짜가 잘못되었습니다.';
+        displayErrorMessage(errorMessage);
+        return false;
+    }
+}
+function validateTimes(startId, endId) {
+    let startTime = new Date('1970-01-01T' + document.getElementById(startId).value);
+    let endTime = new Date('1970-01-01T' + document.getElementById(endId).value);
+    let startTime1 = document.getElementById(startId).value;
+    let endTime1 = document.getElementById(endId).value;
+
+    // if (startTime.getTime() === new Date('1970-01-01T').getTime() || endTime.getTime() === new Date('1970-01-01T').getTime()) {
+    if (!startTime1 || !endTime1) {
+        let errorMessage = '시간을 입력해주세요.';
+        displayErrorMessage(errorMessage);
+        return false;
+    }
+
+    if (startTime > endTime) {
+        let errorMessage = '입력 하신 시간이 잘못되었습니다.';
+        displayErrorMessage(errorMessage);
+        return false;
+    }
+}
+function validateCategory(main,sub){
+    let mainCategorySelectValue = document.getElementById(main);
+    let subCategorySelectValue = document.getElementById(sub);
+
+    if (!mainCategorySelectValue.value || !subCategorySelectValue.value) {
+        let errorMessage = '장소를 선택해주세요';
+        displayErrorMessage(errorMessage);
+        return false;
+    }
+}
+
+
+            // if (!validateCategory('mainCategorySelect','subCategorySelect')) {
+            //     return;
+            // }
+            //
+            // if (!validateDates('applicationStartDate', 'applicationEndDate')) {
+            //     return;
+            // }
+            //
+            // if (!validateDates('usageStartDate','usageEndDate')) {
+            //     return;
+            // }
+            //
+            // if (!validateTimes('startTime','endTime')) {
+            //     return;
+            // }
 Dropzone.options.myDropzone = {
     paramName: "files",
-    url: "/rentals/rentalRegistrationForm1",
+    url: "/rentals/rentalRegistrationForm", // 서버의 주소(엔드포인트)를 의미
     autoProcessQueue: false,
     uploadMultiple: true,
     parallelUploads: 5,
@@ -117,15 +209,15 @@ Dropzone.options.myDropzone = {
     acceptedFiles: '.png,.jpg',
     dictDefaultMessage: "Drop your files here or click to upload",
     init: function () {
-        var myDropzone = this;
-        var submitButton = document.getElementById('test');
+        let myDropzone = this;
+        let submitButton = document.getElementById('test');
 
         submitButton.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
 
             // FormData 생성
-            var formData = new FormData(document.getElementById('rentalRegisterForm'));
+            let formData = new FormData(document.getElementById('rentalRegisterForm'));
 
             // 업로드한 파일들을 FormData에 추가
             myDropzone.files.forEach((file, index) => {
@@ -133,29 +225,36 @@ Dropzone.options.myDropzone = {
             });
 
             // Ajax를 사용하여 서버에 전송
-            fetch("/rentals/rentalRegistrationForm1", {
+            fetch("/rentals/rentalRegistrationForm", {
                 method: "POST",
                 headers: {
                     [csrfHeader]: csrfToken // CSRF 토큰을 요청 헤더에 포함
                 },
                 body: formData,
             })
-                .then(handleErrors)
-                .then(function (response) {
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text(); // 텍스트로 변환하여 반환
+                })
+                .then(function (result) {
                     console.log("POST 요청 성공");
-                    var data = JSON.parse(response);
-                    console.log(data);
+                    window.location.href = '/rentals/list';
+                    // 에러가 아닌 경우에 처리
                 })
                 .catch(function (error) {
                     console.error("POST 요청 실패");
                     console.error(error);
+                    // 에러 처리 및 메시지를 사용자에게 표시할 수 있습니다.
+                    // const errorMessageElement = document.getElementById('error-message');
+                    // errorMessageElement.textContent = error.message;
                 })
                 .finally(function () {
                     console.log("processQueue");
                     myDropzone.processQueue();
                 });
         });
-
         this.on("complete", function (file) {
             myDropzone.removeFile(file);
         });
@@ -208,7 +307,7 @@ txtEditor.forEach((element) => {
         const ancestor = element.parentElement.parentElement;
 
         wrapper.addEventListener('focusin', () => {
-            ancestor.style.backgroundColor = 'var(--faint-blue)';
+            ancestor.style.backgroundColor = 'let(--faint-blue)';
         });
         wrapper.addEventListener('focusout', () => {
             ancestor.style.backgroundColor = '#FFFFFF';
@@ -265,6 +364,34 @@ findAddressBtn.addEventListener('click', (event) => {
     }).embed(findAddress);
 });
 
+document.getElementById('inquiryPhone').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formattedValue = '';
+
+    if (value.startsWith('02')) { // 지역번호가 '02'로 시작하는 경우
+        if (value.length >= 1) {
+            formattedValue = value.substring(0, 2); // 앞에 2자리 (지역번호)
+        }
+        if (value.length >= 3) {
+            formattedValue = formattedValue + '-' + value.substring(2, 6); // 가운데 4자리
+        }
+        if (value.length >= 7) {
+            formattedValue = formattedValue + '-' + value.substring(6, 10); // 뒤에 4자리
+        }
+    } else { // 그 외의 경우
+        if (value.length >= 1) {
+            formattedValue = value.substring(0, 3); // 앞에 3자리
+        }
+        if (value.length >= 4) {
+            formattedValue = formattedValue + '-' + value.substring(3, 7); // 가운데 4자리
+        }
+        if (value.length >= 8) {
+            formattedValue = formattedValue + '-' + value.substring(7, 11); // 뒤에 4자리
+        }
+    }
+
+    e.target.value = formattedValue.substring(0, 14);
+});
 
 // 등록하기
 // const registration = document.querySelector('.registration');

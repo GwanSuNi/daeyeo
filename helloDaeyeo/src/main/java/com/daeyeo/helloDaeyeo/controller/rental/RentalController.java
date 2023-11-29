@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -90,6 +92,8 @@ public class RentalController {
 
         RentalStatusFormDto rentalStatusFormDto = new RentalStatusFormDto();
         rentalStatusFormDto.setObjectId(objectId);
+        rentalObjectService.encodeImage(rentalObject.getImages());
+        model.addAttribute("encodedImageList", rentalObjectService.encodeImage(rentalObject.getImages()));
         model.addAttribute("memberId", userEmail);
         model.addAttribute("hasWish", hasWish);
         model.addAttribute("rentalObject", resultRentalObjectDto);
@@ -101,7 +105,7 @@ public class RentalController {
     /***
      *
      * @param rentalStatusFormDto
-     * @param model
+     * @param
      * @param redirectAttributes
      * @param authentication
      * @return
@@ -202,27 +206,33 @@ public class RentalController {
      * @return
      */
     @PostMapping(value = "rentalRegistrationForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
+    @ResponseBody
+    public ResponseEntity<String> register(@RequestParam(value = "files", required = false) List<MultipartFile> files, @Valid @ModelAttribute("rentalRegister") RentalRegisterFormDto
             rentalRegisterFormDto, BindingResult bindingResult,
-                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-//        System.out.println(files + "===========files입니다!!!!");
+                                           Model model, @CurrentSecurityContext(expression = "authentication") Authentication authentication) throws IOException {
+        System.out.println(files + "===========files입니다!!!!");
 
-        if (bindingResult.hasErrors()) {
-            return "redirect:/rentals/rentalRegistrationForm";
-        } else if (rentalRegisterFormDto.getScId() == null) {
-            model.addAttribute("scIdChoice", "장소를 선택해주세요");
-            return "redirect:/rentals/rentalRegistrationForm";
-        }
-//        System.out.println(files.get(0) + "파일이다!!!!!!!=========================");
+//        if (bindingResult.hasErrors()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("날짜 설정을 다시해주세요");
+//        } else if (rentalRegisterFormDto.getScId() == null) {
+//            model.addAttribute("scIdChoice", "장소를 선택해주세요");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("장소를 선택해주세요");
+//        }
+        System.out.println(files + "파일이다!!!!!!!=========================");
         RentalRegisterDto rentalRegisterDto = new RentalRegisterDto(rentalRegisterFormDto);
-
-        String userEmail = authentication.getName();
-        rentalRegisterDto.setUserEmail(userEmail);
-        rentalRegisterDto.setUserId(userService.findUserIdByUserEmail(userEmail));
-        rentalRegisterFormDto.castLocalDate(rentalRegisterDto); // 코드 진짜 냄새난다..
-
-        rentalObjectService.insertRentalObject(rentalRegisterDto);
-        return "redirect:/rentals/list";
+        rentalRegisterDto.setFiles(files);
+        String userId = authentication.getName();
+        System.out.println(userId);
+        rentalRegisterDto.setUserEmail(userId);
+        rentalRegisterFormDto.castLocalDate(rentalRegisterDto);
+        RentalObject rentalObject = rentalObjectService.insertRentalObject(rentalRegisterDto);
+        if (files != null) {
+            for (MultipartFile file : files) {
+                byte[] imageBytes = file.getBytes();
+                rentalObjectService.addImageToRentalObject(rentalObject.getObjectIndex(), imageBytes);
+            }
+        }
+        return ResponseEntity.ok("Registration successful");
     }
 
     @PostMapping(value = "rentalRegistrationForm1")

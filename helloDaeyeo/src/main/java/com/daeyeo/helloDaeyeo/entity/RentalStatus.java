@@ -23,10 +23,12 @@ public class RentalStatus {
     private Long rentalStatusId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
     private Member member;
     private String userEmail;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objectIndex")
     private RentalObject rentalObject;
 
     @OneToOne(mappedBy = "rentalStatus")

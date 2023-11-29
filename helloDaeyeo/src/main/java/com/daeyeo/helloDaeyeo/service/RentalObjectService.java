@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -39,14 +40,34 @@ public class RentalObjectService {
     private final MemberMapper memberMapper;
     private final SubCategoryMapper subCategoryMapper;
 
-    @Transactional
-    public void insertRentalObject(RentalRegisterDto dto) {
-        Member member = userService.findByUserId(dto.getUserId());
+    public RentalObject insertRentalObject(RentalRegisterDto dto) {
+        System.out.println(dto.getUserEmail() + "유저이메일입니다!!!!!");
+//        Member member = memberMapper.toEntity(memberService.getMember(dto.getUserEmail()));
+        Member member = userService.findByUserEmail(dto.getUserEmail());
+        System.out.println(member + "멤버를 찾았습니다");
         SubCategory subCategory = subCategoryMapper.toEntity(subCategoryService.getSubCategory(dto.getScId()));
         RentalObject rentalObject = rentalObjectMapper.toEntity(dto, subCategory, member);
-        rentalObject.setUserEmail(member.getUserEmail()); // 임시
+        rentalObjectRepository.save(rentalObject);
+        return rentalObject;
+    }
+
+    public List<String> encodeImage(List<byte[]> imageBytes) {
+        List<String> imgList = new ArrayList<>();
+        for (byte[] image : imageBytes) {
+            String img = Base64.getEncoder().encodeToString(image);
+            imgList.add(img);
+        }
+        return imgList;
+    }
+
+    @Transactional
+    public void addImageToRentalObject(Long objectId, byte[] imageBytes) {
+        RentalObject rentalObject = rentalObjectRepository.findById(objectId)
+                .orElseThrow(() -> new RuntimeException("해당 ID의 대상물건이 없습니다."));
+        rentalObject.getImages().add(imageBytes);
         rentalObjectRepository.save(rentalObject);
     }
+
 
     @Transactional
     public void updateRental() {

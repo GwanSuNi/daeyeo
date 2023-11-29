@@ -20,6 +20,7 @@ public class RentalLog {
     private int rentalLogIndex;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rentalStatusId")
     RentalStatus rentalStatus;
 
     @Enumerated(EnumType.STRING)

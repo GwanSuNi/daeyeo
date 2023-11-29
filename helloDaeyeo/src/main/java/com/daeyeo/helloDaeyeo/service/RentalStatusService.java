@@ -92,9 +92,8 @@ public class RentalStatusService {
         // 해당 rentalObject 의 id를 갖고 와서 rentalObject의 Set<RentalStatus>를 갖고와서
         // 현재 고객이 고른시간이랑 rentalStatus 랑 비교하기 ( 시간이 안겹치는지 비교하기 )
         List<RentalStatus> rentalStatusList = rentalObjectService.getOneRentalObject(rentalObjectId).getRentalStatuses();
-        for (RentalStatus rentalStatus : rentalStatusList) { // rentalStatus 의 시작시간과 끝나는시간을 다 갖고오는거지
+        for (RentalStatus rentalStatus : rentalStatusList) { // rentalStatus 의 시작시간과 끝나는시간을 다 갖고오는거
             System.out.println(rentalStatusList.size());
-            System.out.println("시간검증횟수");
             LocalDateTime statusStartTime = rentalStatus.getStartTime();
             LocalDateTime statusEndTime = rentalStatus.getEndTime();
             // 두 기간이 겹치는지 확인
@@ -193,14 +192,14 @@ public class RentalStatusService {
         RentalStatus rentalStatus = rentalStatusRepository.findById(statusId).get();
         rentalStatus.setStatus(Status.CANCELED);
         rentalStatusRepository.save(rentalStatus);
-        // rentalLog 생성로직 작성해야함
+        rentalLogService.insertRentalLog(rentalStatus);
     }
 
     public void permitStatus(int statusId) {
         RentalStatus rentalStatus = rentalStatusRepository.findById(statusId).get();
         rentalStatus.setStatus(Status.ACCEPTED);
         rentalStatusRepository.save(rentalStatus);
-        // rentalLog 생성로직 작성해야함
+        rentalLogService.insertRentalLog(rentalStatus);
     }
 
     public List<RentalStatus> rentalStatusBefore(Member member) {
